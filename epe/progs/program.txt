@@ -1,5 +1,9 @@
 
+//see v = null; v = v;
+v1 = "true";
+print_to_console(v1);
 v1 = "hw\"";
+print(v1);
 echo(v1);
 //println(v1);
 

@@ -7,71 +7,73 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
+import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
 
-	@Override
-	public EpeExecContent doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent)
-			throws EpeAppException {
-		EpeAppUtils.checkNull("execParams", execParams);
-		EpeAppUtils.checkNull("listExecContent", listExecContent);
+    @Override
+    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
+        EpeAppUtils.checkNull("execParams", execParams);
+        EpeAppUtils.checkNull("listExecContent", listExecContent);
 
-		if (listExecContent.size() < 2 || listExecContent.size() > 4) {
-			throw new EpeAppException(
-					"fwrite params should be 2 to 4: the file name, the content, optionally the encoding and optionally the append option");
-		}
+        if (listExecContent.size() < 2 || listExecContent.size() > 4) {
+            throw new EpeAppException(
+                    "fwrite params should be 2 to 4: the file name, the content, optionally the encoding and optionally the append option");
+        }
 
-		// FILE
+        // FILE
 
-		EpeExecContent filename = listExecContent.get(0);
-		EpeAppUtils.checkNull("filename", filename);
-		String filenameStr = filename.getStr();
-		EpeAppUtils.checkNull("filenameStr", filenameStr);
-		filenameStr = EpeAppUtils.cleanFilename(filenameStr);
-		File file = new File(filenameStr);
+        EpeExecContent filename = listExecContent.get(0);
+        EpeAppUtils.checkNull("filename", filename);
+        String filenameStr = filename.getStr();
+        EpeAppUtils.checkNull("filenameStr", filenameStr);
+        filenameStr = EpeAppUtils.cleanFilename(filenameStr);
+        File file = new File(filenameStr);
 
-		if (file.exists() && !file.isFile()) {
-			throw new EpeAppException("fwrite, file \"" + filenameStr + "\" is not a file");
-		}
+        if (file.exists() && !file.isFile()) {
+            throw new EpeAppException("fwrite, file \"" + filenameStr + "\" is not a file");
+        }
 
-		// CONTENT
+        // CONTENT
 
-		EpeExecContent content = listExecContent.get(1);
-		EpeAppUtils.checkNull("content", content);
-		String contentStr = content.getStr();
-		EpeAppUtils.checkNull("contentStr", contentStr);
+        EpeExecContent content = listExecContent.get(1);
+        EpeAppUtils.checkNull("content", content);
+        String contentStr = content.getStr();
+        EpeAppUtils.checkNull("contentStr", contentStr);
 
-		// ENCODING
+        // ENCODING
 
-		String encodingStr = null;
-		if (listExecContent.size() > 2) {
-			EpeExecContent encoding = listExecContent.get(2);
-			EpeAppUtils.checkNull("encoding", encoding);
-			encodingStr = encoding.getStr();
-			// EpeAppUtils.checkNull("encodingStr", encodingStr);
-		}
+        String encodingStr = null;
+        if (listExecContent.size() > 2) {
+            EpeExecContent encoding = listExecContent.get(2);
+            EpeAppUtils.checkNull("encoding", encoding);
+            encodingStr = encoding.getStr();
+            // EpeAppUtils.checkNull("encodingStr", encodingStr);
+        }
 
-		// APPEND
+        // APPEND
 
-		String appendStr = null;
-		boolean appendBool = false;
-		if (listExecContent.size() > 3) {
-			EpeExecContent append = listExecContent.get(3);
-			EpeAppUtils.checkNull("append", append);
-			appendStr = append.getStr();
-			// EpeAppUtils.checkNull("appendStr", appendStr);
-			appendBool = appendStr != null && appendStr.equals("append");
-		}
+        String appendStr = null;
+        boolean appendBool = false;
+        if (listExecContent.size() > 3) {
+            EpeExecContent append = listExecContent.get(3);
+            EpeAppUtils.checkNull("append", append);
+            appendStr = append.getStr();
+            // EpeAppUtils.checkNull("appendStr", appendStr);
+            appendBool = appendStr != null && appendStr.equals("append");
+        }
 
-		// WRITING
+        // WRITING
 
-		try {
-			EpeAppUtils.writeFile(contentStr, filenameStr, encodingStr, appendBool);
-		} catch (Exception e) {
-			throw new EpeAppException("fwrite, file \"" + filenameStr + "\" is not valid for writing", e);
-		}
+        try {
+            EpeAppUtils.writeFile(contentStr, filenameStr, encodingStr, appendBool);
+        } catch (Exception e) {
+            throw new EpeAppException("fwrite, file \"" + filenameStr + "\" is not valid for writing", e);
+        }
 
-		return new EpeExecContent(null);
-	}
+        EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
+        execResult.setExecContent(new EpeExecContent(null));
+        return execResult;
+    }
 
 }

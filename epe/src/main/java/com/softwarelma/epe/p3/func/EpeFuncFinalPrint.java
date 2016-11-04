@@ -10,7 +10,7 @@ import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeFuncFinalEcho extends EpeFuncAbstract {
+public final class EpeFuncFinalPrint extends EpeFuncAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
@@ -19,19 +19,6 @@ public final class EpeFuncFinalEcho extends EpeFuncAbstract {
         StringBuilder sb = new StringBuilder();
 
         for (EpeExecContent content : listExecContent) {
-            if (content.getContentInternal() != null) {
-                String s = content.getContentInternal().getStr();
-
-                // FIXME remove
-                System.out.println("str before echo: " + s);
-
-                if (s != null && s.startsWith("\"") && s.endsWith("\"") && s.length() > 1) {
-                    s = this.getReplacedSting(s);
-                    sb.append(s);
-                    continue;
-                }
-            }
-
             sb.append(content.getContentInternal() == null ? null : content.getContentInternal().getStr());
         }
 
@@ -44,18 +31,6 @@ public final class EpeFuncFinalEcho extends EpeFuncAbstract {
         EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(ret)));
         return execResult;
-    }
-
-    private String getReplacedSting(String s) throws EpeAppException {
-        s = s.substring(1, s.length() - 1);
-        String sDoubleBackSlash = EpeAppUtils.getNotContainedString(s);
-        s = s.replace("\\\\", sDoubleBackSlash);
-        s = s.replace("\\\"", "\"");
-        s = s.replace("\\n", "\n");
-        s = s.replace("\\r", "\r");
-        s = s.replace("\\t", "\t");
-        s = s.replace(sDoubleBackSlash, "\\");
-        return s;
     }
 
 }

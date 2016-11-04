@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.softwarelma.epe.p2.exec.EpeExec;
 import com.softwarelma.epe.p2.exec.EpeExecDefaultSent;
+import com.softwarelma.epe.p2.exec.EpeExecResult;
 import com.softwarelma.epe.p2.exec.EpeExecSentInterface;
 import com.softwarelma.epe.p2.prog.EpeProgFactory;
 import com.softwarelma.epe.p2.prog.EpeProgInterface;
@@ -18,9 +19,7 @@ public final class EpeApp {
     }
 
     public void start(String arg) {
-        // FIXME fake program
-        arg = "progs/program.txt";
-
+        arg = EpeAppConstants.PROGRAM_DEFAULT_PATH;
         String step = "retrieving the PROG " + arg + "";
 
         try {
@@ -30,13 +29,15 @@ public final class EpeApp {
             String step0 = "executing from prog " + arg + " the SENTENCE ";
             EpeProgSentInterface progSent;
             EpeExec exec = new EpeExec();
+            boolean printToConsole = false;
 
             for (int i = 0; i < prog.size(); i++) {
                 progSent = prog.get(i);
                 step = step0 + (i + 1) + "/" + prog.size() + " 1-based: " + progSent.toString();
                 // DbpAppLogger.log(step);
                 EpeExecSentInterface execSent = this.getExecSent(progSent);
-                exec.execute(execSent);
+                EpeExecResult execResult = exec.execute(execSent, printToConsole);
+                printToConsole = execResult.isPrintToConsole();
             }
         } catch (Exception e) {
             if (!(e instanceof EpeAppException)) {

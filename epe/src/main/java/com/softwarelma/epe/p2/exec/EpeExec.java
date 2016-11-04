@@ -15,112 +15,118 @@ import com.softwarelma.epe.p3.mem.EpeMem;
 
 public final class EpeExec {
 
-	private final EpeDbFactory dbFactory = EpeDbFactory.getInstance();
-	private final EpeDiskFactory diskFactory = EpeDiskFactory.getInstance();
-	private final EpeFuncFactory funcFactory = EpeFuncFactory.getInstance();
-	private final EpeMem mem = new EpeMem();
+    private final EpeDbFactory dbFactory = EpeDbFactory.getInstance();
+    private final EpeDiskFactory diskFactory = EpeDiskFactory.getInstance();
+    private final EpeFuncFactory funcFactory = EpeFuncFactory.getInstance();
+    private final EpeMem mem = new EpeMem();
 
-	public void execute(EpeExecSentInterface execSent) throws EpeAppException {
-		EpeAppUtils.checkNull("execSent", execSent);
-		String varName = execSent.getVarName();
-		EpeExecContent execContent;
+    public EpeExecResult execute(EpeExecSentInterface execSent, boolean printToConsole) throws EpeAppException {
+        EpeAppUtils.checkNull("execSent", execSent);
+        String varName = execSent.getVarName();
+        EpeExecResult execResult;
 
-		/*
-		 * right term could be: null, "string", var or func; the first 3 are
-		 * literals
-		 */
-		if (execSent.getLiteral() != null) {
-			execContent = this.getExecContentFromLiteral(execSent);
-		} else {
-			execContent = this.getExecContentFromFunc(execSent);
-		}
+        /*
+         * right term could be: null, "string", var or func; the first 3 are literals
+         */
+        if (execSent.getLiteral() != null) {
+            EpeExecResult execResultTemp = this.getExecContentFromLiteral(execSent);
+            execResult = new EpeExecResult(printToConsole);
+            execResult.setExecContent(execResultTemp.getExecContent());
+        } else {
+            execResult = this.getExecContentFromFunc(execSent, printToConsole);
+        }
 
-		if (varName == null) {
-			return;
-		}
+        if (varName == null) {
+            return execResult;
+        }
 
-		this.mem.putAlsoNull(varName, execContent);
-	}
+        this.mem.putAlsoNull(varName, execResult.getExecContent());
+        return execResult;
+    }
 
-	/*
-	 * literal could be a string with the content: null, "string" or varName
-	 */
-	private EpeExecContent getExecContentFromLiteral(EpeExecSentInterface execSent) throws EpeAppException {
-		EpeAppUtils.checkNull("execSent", execSent);
-		String literal = execSent.getLiteral();
-		EpeAppUtils.checkNull("literal", literal);
-		EpeExecContent execContent = null;
+    /**
+     * literal could be a string with the content: null, "string" or varName, in all cases printing to console is not
+     * allowed
+     */
+    private EpeExecResult getExecContentFromLiteral(EpeExecSentInterface execSent) throws EpeAppException {
+        EpeAppUtils.checkNull("execSent", execSent);
+        String literal = execSent.getLiteral();
+        EpeAppUtils.checkNull("literal", literal);
+        EpeExecResult execResult;
 
-		if (literal.equals("null")) {
-			execContent = new EpeExecContent(null);
-		} else if (literal.startsWith("\"") && literal.endsWith("\"")) {
-			EpeFuncInterface funcEcho = this.funcFactory.getNewInstance("echo");
-			List<EpeExecContent> listExecContent = new ArrayList<>();
-			EpeExecContent execContent2 = new EpeExecContent(new EpeExecContentInternal(literal));
-			listExecContent.add(execContent2);
-			EpeExecParams execParams = new EpeExecParams();
-			execParams.setPrintToConsole(false);
-			execContent = funcEcho.doFunc(execParams, listExecContent);
-		} else {
-			// varName
-			execContent = this.mem.getAlsoNull(literal);
-		}
+        if (literal.equals("null")) {
+            execResult = new EpeExecResult(false);
+            execResult.setExecContent(new EpeExecContent(null));
+        } else if (literal.startsWith("\"") && literal.endsWith("\"")) {
+            EpeFuncInterface funcEcho = this.funcFactory.getNewInstance("echo");
+            List<EpeExecContent> listExecContent = new ArrayList<>();
+            EpeExecContent execContent2 = new EpeExecContent(new EpeExecContentInternal(literal));
+            listExecContent.add(execContent2);
+            EpeExecParams execParams = new EpeExecParams(false);
+            execResult = funcEcho.doFunc(execParams, listExecContent);
+        } else {
+            // varName
+            EpeExecContent execContent = this.mem.getAlsoNull(literal);
+            execResult = new EpeExecResult(false);
+            execResult.setExecContent(execContent);
+        }
 
-		return execContent;
-	}
+        return execResult;
+    }
 
-	private EpeExecContent getExecContentFromFunc(EpeExecSentInterface execSent) throws EpeAppException {
-		EpeAppUtils.checkNull("execSent", execSent);
-		String funcName = execSent.getFuncName();
-		EpeAppUtils.checkNull("funcName", funcName);
-		EpeExecContent execContent = null;
-		List<EpeExecContent> listExecContent;
-		EpeExecParams execParams;
+    private EpeExecResult getExecContentFromFunc(EpeExecSentInterface execSent, boolean printToConsole)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("execSent", execSent);
+        String funcName = execSent.getFuncName();
+        EpeAppUtils.checkNull("funcName", funcName);
+        EpeExecResult execResult = null;
+        List<EpeExecContent> listExecContent;
+        EpeExecParams execParams;
 
-		if (this.dbFactory.isDb(funcName)) {
-			EpeDbInterface db = this.dbFactory.getNewInstance(funcName);
-			listExecContent = this.getExecContentList(execSent);
-			execParams = new EpeExecParams();
-			execContent = db.doFunc(execParams, listExecContent);
-		}
+        if (this.dbFactory.isDb(funcName)) {
+            EpeDbInterface db = this.dbFactory.getNewInstance(funcName);
+            listExecContent = this.getExecContentList(execSent);
+            execParams = new EpeExecParams(printToConsole);
+            execResult = db.doFunc(execParams, listExecContent);
+        }
 
-		if (this.diskFactory.isDisk(funcName)) {
-			if (execContent != null) {
-				throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
-			}
+        if (this.diskFactory.isDisk(funcName)) {
+            if (execResult != null) {
+                throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
+            }
 
-			EpeDiskInterface disk = this.diskFactory.getNewInstance(funcName);
-			listExecContent = this.getExecContentList(execSent);
-			execParams = new EpeExecParams();
-			execContent = disk.doFunc(execParams, listExecContent);
-		}
+            EpeDiskInterface disk = this.diskFactory.getNewInstance(funcName);
+            listExecContent = this.getExecContentList(execSent);
+            execParams = new EpeExecParams(printToConsole);
+            execResult = disk.doFunc(execParams, listExecContent);
+        }
 
-		if (this.funcFactory.isFunc(funcName)) {
-			if (execContent != null) {
-				throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
-			}
+        if (this.funcFactory.isFunc(funcName)) {
+            if (execResult != null) {
+                throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
+            }
 
-			EpeFuncInterface func = this.funcFactory.getNewInstance(funcName);
-			listExecContent = this.getExecContentList(execSent);
-			execParams = new EpeExecParams();
-			execParams.setPrintToConsole(true);
-			execContent = func.doFunc(execParams, listExecContent);
-		}
+            EpeFuncInterface func = this.funcFactory.getNewInstance(funcName);
+            listExecContent = this.getExecContentList(execSent);
+            execParams = new EpeExecParams(printToConsole);
+            execResult = func.doFunc(execParams, listExecContent);
+        }
 
-		EpeAppUtils.checkNull("execContent for funcName " + funcName, execContent);
-		return execContent;
-	}
+        EpeAppUtils.checkNull("execResult for funcName " + funcName, execResult);
+        EpeAppUtils.checkNull("execContent for funcName " + funcName, execResult.getExecContent());
+        return execResult;
+    }
 
-	private List<EpeExecContent> getExecContentList(EpeExecSentInterface execSent) throws EpeAppException {
-		List<EpeExecContent> listExecContent = new ArrayList<>();
+    private List<EpeExecContent> getExecContentList(EpeExecSentInterface execSent) throws EpeAppException {
+        List<EpeExecContent> listExecContent = new ArrayList<>();
 
-		for (int i = 0; i < execSent.size(); i++) {
-			String param = execSent.get(i);
-			EpeExecContent execContent = this.mem.getAlsoNull(param);
-			listExecContent.add(execContent);
-		}
+        for (int i = 0; i < execSent.size(); i++) {
+            String param = execSent.get(i);
+            EpeExecContent execContent = this.mem.getAlsoNull(param);
+            listExecContent.add(execContent);
+        }
 
-		return listExecContent;
-	}
+        return listExecContent;
+    }
 
 }

@@ -2,14 +2,14 @@ package com.softwarelma.epe.p2.exec;
 
 public final class EpeExecParams {
 
-	private boolean printToConsole;
+    private final boolean printToConsole;
 
-	public boolean isPrintToConsole() {
-		return printToConsole;
-	}
+    public EpeExecParams(boolean printToConsole) {
+        this.printToConsole = printToConsole;
+    }
 
-	public void setPrintToConsole(boolean printToConsole) {
-		this.printToConsole = printToConsole;
-	}
+    public boolean isPrintToConsole() {
+        return printToConsole;
+    }
 
 }

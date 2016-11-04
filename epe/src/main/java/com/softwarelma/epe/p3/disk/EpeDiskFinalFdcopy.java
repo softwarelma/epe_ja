@@ -10,82 +10,84 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
+import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
 
-	@Override
-	public EpeExecContent doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent)
-			throws EpeAppException {
-		EpeAppUtils.checkNull("execParams", execParams);
-		EpeAppUtils.checkNull("listExecContent", listExecContent);
+    @Override
+    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
+        EpeAppUtils.checkNull("execParams", execParams);
+        EpeAppUtils.checkNull("listExecContent", listExecContent);
 
-		if (listExecContent.size() != 2) {
-			throw new EpeAppException("fcopy params should be 2, file name and destination");
-		}
+        if (listExecContent.size() != 2) {
+            throw new EpeAppException("fcopy params should be 2, file name and destination");
+        }
 
-		EpeExecContent filenameOrigin = listExecContent.get(0);
-		EpeAppUtils.checkNull("filenameOrigin", filenameOrigin);
-		EpeExecContent filenameDestination = listExecContent.get(1);
-		EpeAppUtils.checkNull("filenameDestination", filenameDestination);
+        EpeExecContent filenameOrigin = listExecContent.get(0);
+        EpeAppUtils.checkNull("filenameOrigin", filenameOrigin);
+        EpeExecContent filenameDestination = listExecContent.get(1);
+        EpeAppUtils.checkNull("filenameDestination", filenameDestination);
 
-		String filenameOriginStr = filenameOrigin.getContentInternal().getStr();
-		EpeAppUtils.checkNull("filenameOriginStr", filenameOriginStr);
-		filenameOriginStr = EpeAppUtils.cleanFilename(filenameOriginStr);
-		File fileOrigin = new File(filenameOriginStr);
+        String filenameOriginStr = filenameOrigin.getContentInternal().getStr();
+        EpeAppUtils.checkNull("filenameOriginStr", filenameOriginStr);
+        filenameOriginStr = EpeAppUtils.cleanFilename(filenameOriginStr);
+        File fileOrigin = new File(filenameOriginStr);
 
-		if (!fileOrigin.exists()) {
-			throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" does not exist");
-		}
+        if (!fileOrigin.exists()) {
+            throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" does not exist");
+        }
 
-		String filenameDestinationStr = filenameDestination.getStr();
-		EpeAppUtils.checkNull("filenameDestinationStr", filenameDestinationStr);
-		filenameDestinationStr = EpeAppUtils.cleanFilename(filenameDestinationStr);
-		File fileDestination = new File(filenameDestinationStr);
+        String filenameDestinationStr = filenameDestination.getStr();
+        EpeAppUtils.checkNull("filenameDestinationStr", filenameDestinationStr);
+        filenameDestinationStr = EpeAppUtils.cleanFilename(filenameDestinationStr);
+        File fileDestination = new File(filenameDestinationStr);
 
-		this.doFdopy(filenameOriginStr, fileOrigin, filenameDestinationStr, fileDestination);
+        this.doFdopy(filenameOriginStr, fileOrigin, filenameDestinationStr, fileDestination);
 
-		return new EpeExecContent(null);
-	}
+        EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
+        execResult.setExecContent(new EpeExecContent(null));
+        return execResult;
+    }
 
-	protected void doFdopy(String filenameOriginStr, File fileOrigin, String filenameDestinationStr,
-			File fileDestination) throws EpeAppException {
-		try {
-			if (fileOrigin.isDirectory()) {
-				if (fileDestination.isDirectory()) {
-					// existing dir
-					FileUtils.copyDirectory(fileOrigin, fileDestination, true);
-				} else if (fileDestination.isFile()) {
-					// existing file
-					throw new EpeAppException("fcopy to \"" + filenameDestinationStr + "\" is not a directory");
-				} else if (filenameDestinationStr.endsWith("/")) {
-					// new dir
-					FileUtils.copyDirectory(fileOrigin, fileDestination, true);
-				} else {
-					// new file
-					throw new EpeAppException("fcopy to \"" + filenameDestinationStr + "\" is not a directory");
-				}
-			} else if (fileOrigin.isFile()) {
-				if (fileDestination.isDirectory()) {
-					// existing dir
-					FileUtils.copyFileToDirectory(fileOrigin, fileDestination, true);
-				} else if (fileDestination.isFile()) {
-					// existing file
-					FileUtils.copyFile(fileOrigin, fileDestination);
-				} else if (filenameDestinationStr.endsWith("/")) {
-					// new dir
-					FileUtils.copyFileToDirectory(fileOrigin, fileDestination, true);
-				} else {
-					// new file
-					FileUtils.copyFile(fileOrigin, fileDestination);
-				}
-			} else {
-				throw new EpeAppException(
-						"fcopy from \"" + filenameOriginStr + "\" is neither a directory nor a normal file");
-			}
-		} catch (IOException e) {
-			throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"",
-					e);
-		}
-	}
+    protected void doFdopy(String filenameOriginStr, File fileOrigin, String filenameDestinationStr,
+            File fileDestination) throws EpeAppException {
+        try {
+            if (fileOrigin.isDirectory()) {
+                if (fileDestination.isDirectory()) {
+                    // existing dir
+                    FileUtils.copyDirectory(fileOrigin, fileDestination, true);
+                } else if (fileDestination.isFile()) {
+                    // existing file
+                    throw new EpeAppException("fcopy to \"" + filenameDestinationStr + "\" is not a directory");
+                } else if (filenameDestinationStr.endsWith("/")) {
+                    // new dir
+                    FileUtils.copyDirectory(fileOrigin, fileDestination, true);
+                } else {
+                    // new file
+                    throw new EpeAppException("fcopy to \"" + filenameDestinationStr + "\" is not a directory");
+                }
+            } else if (fileOrigin.isFile()) {
+                if (fileDestination.isDirectory()) {
+                    // existing dir
+                    FileUtils.copyFileToDirectory(fileOrigin, fileDestination, true);
+                } else if (fileDestination.isFile()) {
+                    // existing file
+                    FileUtils.copyFile(fileOrigin, fileDestination);
+                } else if (filenameDestinationStr.endsWith("/")) {
+                    // new dir
+                    FileUtils.copyFileToDirectory(fileOrigin, fileDestination, true);
+                } else {
+                    // new file
+                    FileUtils.copyFile(fileOrigin, fileDestination);
+                }
+            } else {
+                throw new EpeAppException("fcopy from \"" + filenameOriginStr
+                        + "\" is neither a directory nor a normal file");
+            }
+        } catch (IOException e) {
+            throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"",
+                    e);
+        }
+    }
 
 }
