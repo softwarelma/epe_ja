@@ -1,0 +1,13 @@
+
+v1 = "hw\"";
+echo(v1);
+//println(v1);
+
+/*
+d1 = "/org/company/workspaces/mars2/tcm/FileIn/ENC/.camel";
+d2 = "/org/company/workspaces/mars2/tcm/FileIn/ENC/.camel (copy)";
+dest = "/org/company/workspaces/mars2/tcm/FileIn/ENC/.camelDest";
+mode = "content";
+
+dminus(d1, d2, dest, mode);
+*/
