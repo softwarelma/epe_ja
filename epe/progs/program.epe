@@ -1,19 +1,16 @@
-
-//see v = null; v = v;
-v1 = "true";
-print_to_console(v1);
+print_to_console("true");
 
 
 
+//v = echo("baa");
+//echo(v);
 
-v1 = "h\tw\"";
-v1= echo_reverse(v1);
-print(v1);
+//a = "aa";
+//b = "b";
+//echo("b", a);
 
+echo(echo("a"), "b");
 
-
-
-//println(v1);
 
 /*
 d1 = "/org/company/workspaces/mars2/tcm/FileIn/ENC/.camel";

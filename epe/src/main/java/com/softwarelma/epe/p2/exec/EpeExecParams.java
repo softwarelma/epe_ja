@@ -4,6 +4,11 @@ public final class EpeExecParams {
 
     private final boolean printToConsole;
 
+    @Override
+    public String toString() {
+        return printToConsole + "";
+    }
+
     public EpeExecParams(boolean printToConsole) {
         this.printToConsole = printToConsole;
     }

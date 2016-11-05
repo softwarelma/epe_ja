@@ -3,91 +3,82 @@ package com.softwarelma.epe.p2.prog;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softwarelma.epe.p1.app.EpeAppConstants.SENT_TYPE;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public abstract class EpeProgAbstractSent implements EpeProgSentInterface {
 
-	private final String type;
-	private final String varName;
-	private final String literal;
-	private final String funcName;
-	private final List<String> listParam;
+    private final SENT_TYPE type;
+    private final String leftSideVarName;
+    private final String literalOrFuncName;
+    private final List<EpeProgSentInterface> listParam;
 
-	public EpeProgAbstractSent(String type, String varName, String literal, String funcName, List<String> listParam)
-			throws EpeAppException {
-		super();
-		EpeAppUtils.checkNull("type", type);
+    public EpeProgAbstractSent(SENT_TYPE type, String leftSideVarName, String literalOrFuncName,
+            List<EpeProgSentInterface> listParam) throws EpeAppException {
+        super();
+        EpeAppUtils.checkNull("type", type);
+        EpeAppUtils.checkNull("literalOrFuncName", literalOrFuncName);
 
-		if (literal == null && funcName == null) {
-			EpeAppUtils.checkNull("literal and funcName", null);
-		}
+        this.type = type;
+        this.leftSideVarName = leftSideVarName;
+        this.literalOrFuncName = literalOrFuncName;
 
-		this.type = type;
-		this.varName = varName;
-		this.literal = literal;
-		this.funcName = funcName;
+        if (listParam == null || listParam.isEmpty()) {
+            this.listParam = new ArrayList<>();
+        } else {
+            this.listParam = new ArrayList<>(listParam);
+        }
+    }
 
-		if (listParam == null || listParam.isEmpty()) {
-			this.listParam = new ArrayList<>();
-		} else {
-			this.listParam = new ArrayList<>(listParam);
-		}
-	}
+    @Override
+    public String toString() {
+        String ret = this.leftSideVarName == null ? "" : this.leftSideVarName + " = ";
 
-	@Override
-	public String toString() {
-		String ret = this.varName == null ? "" : this.varName + " = ";
+        if (!this.type.equals(SENT_TYPE.func)) {
+            ret += this.literalOrFuncName;
+            return ret;
+        }
 
-		if (this.literal != null) {
-			ret += this.literal;
-			return ret;
-		}
+        String params = "";
+        String sep = "";
 
-		String params = "";
-		String sep = "";
+        for (EpeProgSentInterface param : this.listParam) {
+            params += sep + param;
+            sep = ", ";
+        }
 
-		for (String param : this.listParam) {
-			params += sep + param;
-			sep = ", ";
-		}
+        ret += this.literalOrFuncName + "(" + params + ")";
+        return ret;
+    }
 
-		ret += this.funcName + "(" + params + ")";
-		return ret;
-	}
+    @Override
+    public SENT_TYPE getType() {
+        return type;
+    }
 
-	@Override
-	public String getType() {
-		return type;
-	}
+    @Override
+    public String getLeftSideVarName() {
+        return leftSideVarName;
+    }
 
-	@Override
-	public String getVarName() {
-		return varName;
-	}
+    @Override
+    public String getLiteralOrFuncName() {
+        return literalOrFuncName;
+    }
 
-	@Override
-	public String getLiteral() {
-		return literal;
-	}
+    @Override
+    public int size() {
+        return this.listParam.size();
+    }
 
-	@Override
-	public String getFuncName() {
-		return funcName;
-	}
-
-	@Override
-	public int size() {
-		return this.listParam.size();
-	}
-
-	@Override
-	public String get(int index) throws EpeAppException {
-		try {
-			return this.listParam.get(index);
-		} catch (Exception e) {
-			throw new EpeAppException("IndexOutOfBoundsException", e);
-		}
-	}
+    @Override
+    public EpeProgSentInterface get(int index) throws EpeAppException {
+        try {
+            return this.listParam.get(index);
+        } catch (Exception e) {
+            throw new EpeAppException("IndexOutOfBoundsException", e);
+        }
+    }
 
 }

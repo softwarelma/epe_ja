@@ -2,9 +2,12 @@ package com.softwarelma.epe.p2.exec;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.softwarelma.epe.p1.app.EpeAppConstants.SENT_TYPE;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
 import com.softwarelma.epe.p3.db.EpeDbFactory;
 import com.softwarelma.epe.p3.db.EpeDbInterface;
 import com.softwarelma.epe.p3.disk.EpeDiskFactory;
@@ -20,20 +23,21 @@ public final class EpeExec {
     private final EpeFuncFactory funcFactory = EpeFuncFactory.getInstance();
     private final EpeMem mem = new EpeMem();
 
-    public EpeExecResult execute(EpeExecSentInterface execSent, boolean printToConsole) throws EpeAppException {
-        EpeAppUtils.checkNull("execSent", execSent);
-        String varName = execSent.getVarName();
+    public EpeExecResult execute(EpeProgSentInterface progSent, boolean printToConsole,
+            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+        EpeAppUtils.checkNull("progSent", progSent);
+        String varName = progSent.getLeftSideVarName();
         EpeExecResult execResult;
 
         /*
-         * right term could be: null, "string", var or func; the first 3 are literals
+         * right term could be: "string", var or func; the first 2 are literals
          */
-        if (execSent.getLiteral() != null) {
-            EpeExecResult execResultTemp = this.getExecContentFromLiteral(execSent);
+        if (progSent.getType().equals(SENT_TYPE.func) || progSent.getType().equals(SENT_TYPE.left_func)) {
+            execResult = this.getExecContentFromFunc(progSent, printToConsole, mapNotContainedReplaced);
+        } else {
+            EpeExecResult execResultTemp = this.getExecContentFromLiteral(progSent);
             execResult = new EpeExecResult(printToConsole);
             execResult.setExecContent(execResultTemp.getExecContent());
-        } else {
-            execResult = this.getExecContentFromFunc(execSent, printToConsole);
         }
 
         if (varName == null) {
@@ -48,9 +52,9 @@ public final class EpeExec {
      * literal could be a string with the content: null, "string" or varName, in all cases printing to console is not
      * allowed
      */
-    private EpeExecResult getExecContentFromLiteral(EpeExecSentInterface execSent) throws EpeAppException {
-        EpeAppUtils.checkNull("execSent", execSent);
-        String literal = execSent.getLiteral();
+    private EpeExecResult getExecContentFromLiteral(EpeProgSentInterface progSent) throws EpeAppException {
+        EpeAppUtils.checkNull("progSent", progSent);
+        String literal = progSent.getLiteralOrFuncName();
         EpeAppUtils.checkNull("literal", literal);
         EpeExecResult execResult;
 
@@ -58,12 +62,7 @@ public final class EpeExec {
             execResult = new EpeExecResult(false);
             execResult.setExecContent(new EpeExecContent(null));
         } else if (literal.startsWith("\"") && literal.endsWith("\"")) {
-            EpeFuncInterface funcEcho = this.funcFactory.getNewInstance("echo");
-            List<EpeExecContent> listExecContent = new ArrayList<>();
-            EpeExecContent execContent2 = new EpeExecContent(new EpeExecContentInternal(literal));
-            listExecContent.add(execContent2);
-            EpeExecParams execParams = new EpeExecParams(false);
-            execResult = funcEcho.doFunc(execParams, listExecContent);
+            execResult = this.doEcho(literal);
         } else {
             // varName
             EpeExecContent execContent = this.mem.getAlsoNull(literal);
@@ -74,10 +73,20 @@ public final class EpeExec {
         return execResult;
     }
 
-    private EpeExecResult getExecContentFromFunc(EpeExecSentInterface execSent, boolean printToConsole)
-            throws EpeAppException {
-        EpeAppUtils.checkNull("execSent", execSent);
-        String funcName = execSent.getFuncName();
+    private EpeExecResult doEcho(String literal) throws EpeAppException {
+        EpeFuncInterface funcEcho = this.funcFactory.getNewInstance("echo");
+        List<EpeExecContent> listExecContent = new ArrayList<>();
+        EpeExecContent execContent = new EpeExecContent(new EpeExecContentInternal(literal));
+        listExecContent.add(execContent);
+        EpeExecParams execParams = new EpeExecParams(false);
+        EpeExecResult execResult = funcEcho.doFunc(execParams, listExecContent);
+        return execResult;
+    }
+
+    private EpeExecResult getExecContentFromFunc(EpeProgSentInterface progSent, boolean printToConsole,
+            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+        EpeAppUtils.checkNull("progSent", progSent);
+        String funcName = progSent.getLiteralOrFuncName();
         EpeAppUtils.checkNull("funcName", funcName);
         EpeExecResult execResult = null;
         List<EpeExecContent> listExecContent;
@@ -85,7 +94,7 @@ public final class EpeExec {
 
         if (this.dbFactory.isDb(funcName)) {
             EpeDbInterface db = this.dbFactory.getNewInstance(funcName);
-            listExecContent = this.getExecContentList(execSent);
+            listExecContent = this.getExecContentList(progSent, printToConsole, mapNotContainedReplaced);
             execParams = new EpeExecParams(printToConsole);
             execResult = db.doFunc(execParams, listExecContent);
         }
@@ -96,7 +105,7 @@ public final class EpeExec {
             }
 
             EpeDiskInterface disk = this.diskFactory.getNewInstance(funcName);
-            listExecContent = this.getExecContentList(execSent);
+            listExecContent = this.getExecContentList(progSent, printToConsole, mapNotContainedReplaced);
             execParams = new EpeExecParams(printToConsole);
             execResult = disk.doFunc(execParams, listExecContent);
         }
@@ -107,7 +116,7 @@ public final class EpeExec {
             }
 
             EpeFuncInterface func = this.funcFactory.getNewInstance(funcName);
-            listExecContent = this.getExecContentList(execSent);
+            listExecContent = this.getExecContentList(progSent, printToConsole, mapNotContainedReplaced);
             execParams = new EpeExecParams(printToConsole);
             execResult = func.doFunc(execParams, listExecContent);
         }
@@ -117,12 +126,27 @@ public final class EpeExec {
         return execResult;
     }
 
-    private List<EpeExecContent> getExecContentList(EpeExecSentInterface execSent) throws EpeAppException {
+    private List<EpeExecContent> getExecContentList(EpeProgSentInterface progSent, boolean printToConsole,
+            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
         List<EpeExecContent> listExecContent = new ArrayList<>();
 
-        for (int i = 0; i < execSent.size(); i++) {
-            String param = execSent.get(i);
-            EpeExecContent execContent = this.mem.getAlsoNull(param);
+        for (int i = 0; i < progSent.size(); i++) {
+            EpeProgSentInterface param = progSent.get(i);
+            EpeExecContent execContent;
+
+            if (param.getType().equals(SENT_TYPE.id)) {
+                execContent = this.mem.getAlsoNull(param.getLiteralOrFuncName());
+            } else if (param.getType().equals(SENT_TYPE.str)) {
+                EpeExecResult execResult = this.doEcho(param.getLiteralOrFuncName());
+                // EpeExecResult execResult = this.doEcho(mapNotContainedReplaced.get(param));
+                execContent = execResult.getExecContent();
+            } else if (param.getType().equals(SENT_TYPE.func)) {
+                EpeExecResult execResult = this.getExecContentFromFunc(param, printToConsole, mapNotContainedReplaced);
+                execContent = execResult.getExecContent();
+            } else {
+                throw new EpeAppException("Sent type not valid: " + param.getType());
+            }
+
             listExecContent.add(execContent);
         }
 

@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public abstract class EpeAppUtils {
 
@@ -103,7 +104,7 @@ public abstract class EpeAppUtils {
         return readFileAsStringCharFromPath(filePath, encoding);
     }
 
-    // TODO update from TCM
+    // TODO add ECE dependency
     public static String readFileAsStringAndGuessEncoding(String filePath) throws Exception {
         String content_UTF_8 = readFileAsStringCharFromPath(filePath, EpeAppConstants.ENCODING_UTF_8);
         String content_ISO_8859_15 = readFileAsStringCharFromPath(filePath, EpeAppConstants.ENCODING_ISO_8859_15);
@@ -146,7 +147,8 @@ public abstract class EpeAppUtils {
         return EpeAppConstants.ENCODING_UTF_8;
     }
 
-    public static void validateChars(String text, String specialCharsStr, String commonCharsStr) throws EpeAppException {
+    public static void validateChars(String text, String specialCharsStr, String commonCharsStr)
+            throws EpeAppException {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
 
@@ -213,7 +215,8 @@ public abstract class EpeAppUtils {
     }
 
     public static String getNotContainedString(String text) throws EpeAppException {
-        return getNotContainedString(text, "{", "}");
+        return getNotContainedString(text, EpeAppConstants.CONTAINED_STRING_OPEN,
+                EpeAppConstants.CONTAINED_STRING_CLOSE);
     }
 
     public static String getNotContainedString(String notContained, int iter, String close) throws EpeAppException {
@@ -223,7 +226,7 @@ public abstract class EpeAppUtils {
     }
 
     public static String getNotContainedString(String notContained, int iter) throws EpeAppException {
-        return getNotContainedString(notContained, iter, "}");
+        return getNotContainedString(notContained, iter, EpeAppConstants.CONTAINED_STRING_CLOSE);
     }
 
     public static String cleanFilename(String filename) {
@@ -243,6 +246,14 @@ public abstract class EpeAppUtils {
         ret[0] = fullPath.substring(0, fullPath.length() - ret[1].length());
 
         return ret;
+    }
+
+    public static String replaceNotContainedWithReplaced(String sentStr, Map<String, String> mapNotContainedReplaced) {
+        for (String notContained : mapNotContainedReplaced.keySet()) {
+            sentStr = sentStr.replace(notContained, mapNotContainedReplaced.get(notContained));
+        }
+
+        return sentStr;
     }
 
 }

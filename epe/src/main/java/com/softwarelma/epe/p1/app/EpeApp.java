@@ -1,12 +1,10 @@
 package com.softwarelma.epe.p1.app;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.softwarelma.epe.p2.exec.EpeExec;
-import com.softwarelma.epe.p2.exec.EpeExecDefaultSent;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
-import com.softwarelma.epe.p2.exec.EpeExecSentInterface;
 import com.softwarelma.epe.p2.prog.EpeProgFactory;
 import com.softwarelma.epe.p2.prog.EpeProgInterface;
 import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
@@ -19,14 +17,15 @@ public final class EpeApp {
     }
 
     public void start(String arg) {
-        arg = EpeAppConstants.PROGRAM_DEFAULT_PATH;
-        String step = "retrieving the PROG " + arg + "";
+        String programDefaultPath = EpeAppConstants.PROGRAM_DEFAULT_PATH;
+        String step = "retrieving the PROG " + programDefaultPath + "";
 
         try {
-            EpeAppUtils.checkNull("arg", arg);
+            EpeAppUtils.checkNull("programDefaultPath", programDefaultPath);
             // DbpAppLogger.log(step);
-            EpeProgInterface prog = EpeProgFactory.getInstance(arg);
-            String step0 = "executing from prog " + arg + " the SENTENCE ";
+            Map<String, String> mapNotContainedReplaced = new HashMap<>();
+            EpeProgInterface prog = EpeProgFactory.getInstance(programDefaultPath, mapNotContainedReplaced);
+            String step0 = "executing from prog " + programDefaultPath + " the SENTENCE ";
             EpeProgSentInterface progSent;
             EpeExec exec = new EpeExec();
             boolean printToConsole = false;
@@ -35,8 +34,7 @@ public final class EpeApp {
                 progSent = prog.get(i);
                 step = step0 + (i + 1) + "/" + prog.size() + " 1-based: " + progSent.toString();
                 // DbpAppLogger.log(step);
-                EpeExecSentInterface execSent = this.getExecSent(progSent);
-                EpeExecResult execResult = exec.execute(execSent, printToConsole);
+                EpeExecResult execResult = exec.execute(progSent, printToConsole, mapNotContainedReplaced);
                 printToConsole = execResult.isPrintToConsole();
             }
         } catch (Exception e) {
@@ -46,19 +44,6 @@ public final class EpeApp {
 
             System.exit(0);
         }
-    }
-
-    private EpeExecSentInterface getExecSent(EpeProgSentInterface progSent) throws EpeAppException {
-        EpeAppUtils.checkNull("progSent", progSent);
-        List<String> listParam = new ArrayList<>();
-
-        for (int i = 0; i < progSent.size(); i++) {
-            listParam.add(progSent.get(i));
-        }
-
-        EpeExecSentInterface execSent = new EpeExecDefaultSent(progSent.getVarName(), progSent.getLiteral(),
-                progSent.getFuncName(), listParam);
-        return execSent;
     }
 
 }

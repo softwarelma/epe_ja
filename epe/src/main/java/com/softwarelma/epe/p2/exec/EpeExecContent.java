@@ -5,18 +5,23 @@ package com.softwarelma.epe.p2.exec;
  */
 public final class EpeExecContent {
 
-	private final EpeExecContentInternal contentInternal;
+    private final EpeExecContentInternal contentInternal;
 
-	public EpeExecContent(EpeExecContentInternal contentInternal) {
-		this.contentInternal = contentInternal;
-	}
+    @Override
+    public String toString() {
+        return contentInternal == null ? null : contentInternal.toString();
+    }
 
-	public EpeExecContentInternal getContentInternal() {
-		return contentInternal;
-	}
+    public EpeExecContent(EpeExecContentInternal contentInternal) {
+        this.contentInternal = contentInternal;
+    }
 
-	public String getStr() {
-		return this.contentInternal == null ? null : this.contentInternal.getStr();
-	}
+    public EpeExecContentInternal getContentInternal() {
+        return contentInternal;
+    }
+
+    public String getStr() {
+        return this.contentInternal == null ? null : this.contentInternal.getStr();
+    }
 
 }

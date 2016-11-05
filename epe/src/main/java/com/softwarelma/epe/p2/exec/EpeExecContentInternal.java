@@ -4,25 +4,30 @@ import java.util.List;
 
 public final class EpeExecContentInternal {
 
-	private final String str;
-	private final List<String> listStr;
+    private final String str;
+    private final List<String> listStr;
 
-	public EpeExecContentInternal(String str) {
-		this.str = str;
-		this.listStr = null;
-	}
+    public EpeExecContentInternal(String str) {
+        this.str = str;
+        this.listStr = null;
+    }
 
-	public EpeExecContentInternal(List<String> listStr) {
-		this.str = null;
-		this.listStr = listStr;
-	}
+    public EpeExecContentInternal(List<String> listStr) {
+        this.str = null;
+        this.listStr = listStr;
+    }
 
-	public String getStr() {
-		return str;
-	}
+    @Override
+    public String toString() {
+        return listStr == null ? str : listStr.toString();
+    }
 
-	public List<String> getListStr() {
-		return listStr;
-	}
+    public String getStr() {
+        return str;
+    }
+
+    public List<String> getListStr() {
+        return listStr;
+    }
 
 }

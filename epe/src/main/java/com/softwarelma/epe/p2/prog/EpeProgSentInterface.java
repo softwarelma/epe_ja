@@ -1,19 +1,18 @@
 package com.softwarelma.epe.p2.prog;
 
+import com.softwarelma.epe.p1.app.EpeAppConstants.SENT_TYPE;
 import com.softwarelma.epe.p1.app.EpeAppException;
 
 public interface EpeProgSentInterface {
 
-	public String getType();
+    public SENT_TYPE getType();
 
-	public String getVarName();
+    public String getLeftSideVarName();
 
-	public String getLiteral();
+    public String getLiteralOrFuncName();
 
-	public String getFuncName();
+    public int size();
 
-	public int size();
-
-	public String get(int index) throws EpeAppException;
+    public EpeProgSentInterface get(int index) throws EpeAppException;
 
 }

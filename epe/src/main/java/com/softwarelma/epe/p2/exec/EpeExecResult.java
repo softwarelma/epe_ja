@@ -9,6 +9,11 @@ public class EpeExecResult {
         this.printToConsole = printToConsole;
     }
 
+    @Override
+    public String toString() {
+        return "EpeExecResult [printToConsole=" + printToConsole + ", execContent=" + execContent + "]";
+    }
+
     public boolean isPrintToConsole() {
         return printToConsole;
     }
