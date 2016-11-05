@@ -10,7 +10,7 @@ import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeFuncFinalEcho extends EpeFuncAbstract {
+public final class EpeFuncFinalEcho_reverse extends EpeFuncAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
@@ -21,12 +21,9 @@ public final class EpeFuncFinalEcho extends EpeFuncAbstract {
         for (EpeExecContent content : listExecContent) {
             if (content.getContentInternal() != null) {
                 String s = content.getContentInternal().getStr();
-
-                if (s != null && s.startsWith("\"") && s.endsWith("\"") && s.length() > 1) {
-                    s = getReplacedSting(s, false);
-                    sb.append(s);
-                    continue;
-                }
+                s = EpeFuncFinalEcho.getReplacedSting(s, true);
+                sb.append(s);
+                continue;
             }
 
             sb.append(content.getStr());
@@ -41,30 +38,6 @@ public final class EpeFuncFinalEcho extends EpeFuncAbstract {
         EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(ret)));
         return execResult;
-    }
-
-    public static String getReplacedSting(String s, boolean reverse) throws EpeAppException {
-        String sDoubleBackSlash = EpeAppUtils.getNotContainedString(s);
-
-        if (reverse) {
-            s = s.replace("\\", sDoubleBackSlash);
-            s = s.replace("\"", "\\\"");
-            s = s.replace("\n", "\\n");
-            s = s.replace("\r", "\\r");
-            s = s.replace("\t", "\\t");
-            s = s.replace(sDoubleBackSlash, "\\\\");
-            s = "\"" + s + "\"";
-        } else {
-            s = s.substring(1, s.length() - 1);
-            s = s.replace("\\\\", sDoubleBackSlash);
-            s = s.replace("\\\"", "\"");
-            s = s.replace("\\n", "\n");
-            s = s.replace("\\r", "\r");
-            s = s.replace("\\t", "\t");
-            s = s.replace(sDoubleBackSlash, "\\");
-        }
-
-        return s;
     }
 
 }
