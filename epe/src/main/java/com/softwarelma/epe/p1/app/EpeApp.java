@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.softwarelma.epe.p2.exec.EpeExec;
-import com.softwarelma.epe.p2.exec.EpeExecResult;
 import com.softwarelma.epe.p2.prog.EpeProgFactory;
 import com.softwarelma.epe.p2.prog.EpeProgInterface;
 import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
@@ -12,11 +11,12 @@ import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
 public final class EpeApp {
 
     public void start(String[] args) {
+        EpeAppGlobalParams globalParams = new EpeAppGlobalParams();
         String arg = args != null && args.length > 0 ? args[0] : null;
-        this.start(arg);
+        this.start(globalParams, arg);
     }
 
-    public void start(String arg) {
+    public void start(EpeAppGlobalParams globalParams, String arg) {
         String programDefaultPath = EpeAppConstants.PROGRAM_DEFAULT_PATH;
         String step = "retrieving the PROG " + programDefaultPath + "";
 
@@ -28,14 +28,13 @@ public final class EpeApp {
             String step0 = "executing from prog " + programDefaultPath + " the SENTENCE ";
             EpeProgSentInterface progSent;
             EpeExec exec = new EpeExec();
-            boolean printToConsole = false;
 
             for (int i = 0; i < prog.size(); i++) {
                 progSent = prog.get(i);
                 step = step0 + (i + 1) + "/" + prog.size() + " 1-based: " + progSent.toString();
                 // DbpAppLogger.log(step);
-                EpeExecResult execResult = exec.execute(progSent, printToConsole, mapNotContainedReplaced);
-                printToConsole = execResult.isPrintToConsole();
+                // EpeExecResult execResult =
+                exec.execute(globalParams, progSent, mapNotContainedReplaced);
             }
         } catch (Exception e) {
             if (!(e instanceof EpeAppException)) {

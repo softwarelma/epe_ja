@@ -1,5 +1,7 @@
 package com.softwarelma.epe.p3.db;
 
-public abstract class EpeDbAbstract implements EpeDbInterface {
+import com.softwarelma.epe.p2.exec.EpeExecInterface;
+
+public abstract class EpeDbAbstract implements EpeExecInterface {
 
 }

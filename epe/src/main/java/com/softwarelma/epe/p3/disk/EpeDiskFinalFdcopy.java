@@ -15,17 +15,22 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
 
     @Override
-    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
+    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecContent", listExecContent);
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
 
-        if (listExecContent.size() != 2) {
+        if (listExecResult.size() != 2) {
             throw new EpeAppException("fcopy params should be 2, file name and destination");
         }
 
-        EpeExecContent filenameOrigin = listExecContent.get(0);
+        EpeExecResult result = listExecResult.get(0);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent filenameOrigin = result.getExecContent();
         EpeAppUtils.checkNull("filenameOrigin", filenameOrigin);
-        EpeExecContent filenameDestination = listExecContent.get(1);
+
+        result = listExecResult.get(1);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent filenameDestination = result.getExecContent();
         EpeAppUtils.checkNull("filenameDestination", filenameDestination);
 
         String filenameOriginStr = filenameOrigin.getContentInternal().getStr();
@@ -44,7 +49,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
 
         this.doFdopy(filenameOriginStr, fileOrigin, filenameDestinationStr, fileDestination);
 
-        EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
+        EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(null));
         return execResult;
     }
@@ -81,8 +86,8 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
                     FileUtils.copyFile(fileOrigin, fileDestination);
                 }
             } else {
-                throw new EpeAppException("fcopy from \"" + filenameOriginStr
-                        + "\" is neither a directory nor a normal file");
+                throw new EpeAppException(
+                        "fcopy from \"" + filenameOriginStr + "\" is neither a directory nor a normal file");
             }
         } catch (IOException e) {
             throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"",

@@ -1,4 +1,4 @@
-package com.softwarelma.epe.p3.func;
+package com.softwarelma.epe.p3.generic;
 
 import java.util.List;
 
@@ -10,15 +10,18 @@ import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeFuncFinalEcho extends EpeFuncAbstract {
+public final class EpeGenericFinalEcho extends EpeGenericAbstract {
 
     @Override
-    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
+    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecContent", listExecContent);
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
         StringBuilder sb = new StringBuilder();
 
-        for (EpeExecContent content : listExecContent) {
+        for (EpeExecResult result : listExecResult) {
+            EpeAppUtils.checkNull("result", result);
+            EpeExecContent content = result.getExecContent();
+
             if (content.getContentInternal() != null) {
                 String s = content.getContentInternal().getStr();
 
@@ -34,11 +37,11 @@ public final class EpeFuncFinalEcho extends EpeFuncAbstract {
 
         String ret = sb.toString();
 
-        if (execParams.isPrintToConsole()) {
+        if (execParams.getGlobalParams().isPrintToConsole()) {
             EpeAppLogger.logSystemOutPrintln(ret);
         }
 
-        EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
+        EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(ret)));
         return execResult;
     }

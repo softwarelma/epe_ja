@@ -14,19 +14,21 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 public final class EpeDiskFinalFread extends EpeDiskAbstract {
 
     @Override
-    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
+    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecContent", listExecContent);
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
         List<String> ret = new ArrayList<>();
         EpeExecContentInternal contentInternal;
 
-        if (listExecContent.isEmpty()) {
+        if (listExecResult.isEmpty()) {
             throw new EpeAppException("fread params not found");
         }
 
-        for (EpeExecContent filename : listExecContent) {
-            EpeAppUtils.checkNull("filename", filename);
-            String filenameStr = filename.getStr();
+        for (EpeExecResult result : listExecResult) {
+            EpeAppUtils.checkNull("result", result);
+            EpeExecContent execContent = result.getExecContent();
+            EpeAppUtils.checkNull("execContent", execContent);
+            String filenameStr = execContent.getStr();
             EpeAppUtils.checkNull("filenameStr", filenameStr);
             filenameStr = EpeAppUtils.cleanFilename(filenameStr);
             File file = new File(filenameStr);
@@ -53,7 +55,7 @@ public final class EpeDiskFinalFread extends EpeDiskAbstract {
             contentInternal = new EpeExecContentInternal(ret);
         }
 
-        EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
+        EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(contentInternal));
         return execResult;
     }

@@ -1,33 +1,33 @@
-package com.softwarelma.epe.p3.disk;
+package com.softwarelma.epe.p3.generic;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecInterface;
 
-public final class EpeDiskFactory {
+public final class EpeGenericFactory {
 
-    private static EpeDiskFactory diskFactory;
+    private static EpeGenericFactory funcFactory;
 
-    public static EpeDiskFactory getInstance() {
-        if (diskFactory != null) {
-            return diskFactory;
+    public static EpeGenericFactory getInstance() {
+        if (funcFactory != null) {
+            return funcFactory;
         }
 
-        synchronized (EpeDiskFactory.class) {
-            if (diskFactory != null) {
-                return diskFactory;
+        synchronized (EpeGenericFactory.class) {
+            if (funcFactory != null) {
+                return funcFactory;
             }
 
-            EpeDiskFactory diskFactory2 = new EpeDiskFactory();
-            diskFactory = diskFactory2;
-            return diskFactory;
+            EpeGenericFactory funcFactory2 = new EpeGenericFactory();
+            funcFactory = funcFactory2;
+            return funcFactory;
         }
     }
 
-    private EpeDiskFactory() {
+    private EpeGenericFactory() {
     }
 
-    public boolean isDisk(String funcName) throws EpeAppException {
+    public boolean isFunc(String funcName) throws EpeAppException {
         String className = this.getClassName(funcName);
 
         try {
@@ -65,7 +65,7 @@ public final class EpeDiskFactory {
     }
 
     private String getClassNamPrefix() {
-        return "com.softwarelma.epe.p3.disk.EpeDiskFinal";
+        return "com.softwarelma.epe.p3.generic.EpeGenericFinal";
     }
 
 }

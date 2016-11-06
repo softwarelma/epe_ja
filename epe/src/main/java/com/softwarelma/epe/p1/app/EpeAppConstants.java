@@ -53,11 +53,11 @@ public abstract class EpeAppConstants {
      */
     // public static final String REGEX_NULL = "null";
     public static final String REGEX_STR_INTERNAL = "\\{.*\\}";// big
-    public static final String REGEX_ID = "[a-zA-Z_][a-zA-Z0-9_]*";
-    public static final String REGEX_PARAM_LEVEL_1 = REGEX_ID + "|" + REGEX_STR_INTERNAL;
+    public static final String REGEX_ID = "([a-zA-Z_][a-zA-Z0-9_]*)";
+    public static final String REGEX_PARAM_LEVEL_1 = REGEX_STR_INTERNAL + "|" + REGEX_ID;
     public static final String REGEX_FUNC_LEVEL_1 = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_1 + ")|("
             + REGEX_PARAM_LEVEL_1 + ")(\\,(" + REGEX_PARAM_LEVEL_1 + "))+)\\)";
-    public static final String REGEX_PARAM_LEVEL_2 = REGEX_PARAM_LEVEL_1 + "|" + REGEX_FUNC_LEVEL_1;
+    public static final String REGEX_PARAM_LEVEL_2 = REGEX_FUNC_LEVEL_1 + "|" + REGEX_PARAM_LEVEL_1;
     public static final String REGEX_FUNC = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_2 + ")|(" + REGEX_PARAM_LEVEL_2
             + ")(\\,(" + REGEX_PARAM_LEVEL_2 + "))+)\\)";
 

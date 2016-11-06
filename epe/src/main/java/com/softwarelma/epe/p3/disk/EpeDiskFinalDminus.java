@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
@@ -17,11 +18,11 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
     @Override
-    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecContent> listExecContent) throws EpeAppException {
+    public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecContent", listExecContent);
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
 
-        if (listExecContent.size() != 4) {
+        if (listExecResult.size() != 4) {
             throw new EpeAppException("dminus params should be 4: the first operand dir, the second "
                     + "operand dir, the destination dir and the operation mode (" + EpeAppConstants.OPERATION_MODE_NAME
                     + ", " + EpeAppConstants.OPERATION_MODE_CONTENT + ")");
@@ -29,7 +30,9 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // FIRST OPERAND DIR
 
-        EpeExecContent firstDir = listExecContent.get(0);
+        EpeExecResult result = listExecResult.get(0);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent firstDir = result.getExecContent();
         EpeAppUtils.checkNull("firstDir", firstDir);
         String firstDirStr = firstDir.getStr();
         EpeAppUtils.checkNull("firstDirStr", firstDirStr);
@@ -46,7 +49,9 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // SECOND OPERAND DIR
 
-        EpeExecContent secondDir = listExecContent.get(1);
+        result = listExecResult.get(1);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent secondDir = result.getExecContent();
         EpeAppUtils.checkNull("secondDir", secondDir);
         String secondDirStr = secondDir.getStr();
         EpeAppUtils.checkNull("secondDirStr", secondDirStr);
@@ -63,7 +68,9 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // DESTINATION DIR
 
-        EpeExecContent destinationDir = listExecContent.get(2);
+        result = listExecResult.get(2);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent destinationDir = result.getExecContent();
         EpeAppUtils.checkNull("destinationDir", destinationDir);
         String destinationDirStr = destinationDir.getStr();
         EpeAppUtils.checkNull("destinationDirStr", destinationDirStr);
@@ -80,25 +87,29 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // OPERATION MODE (NAME, CONTENT)
 
-        EpeExecContent operationMode = listExecContent.get(3);
+        result = listExecResult.get(3);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent operationMode = result.getExecContent();
         EpeAppUtils.checkNull("operationMode", operationMode);
         String operationModeStr = operationMode.getStr();
         EpeAppUtils.checkNull("operationModeStr", operationModeStr);
         EpeAppUtils.checkContains(
-                Arrays.asList(new String[] { EpeAppConstants.OPERATION_MODE_NAME,
-                        EpeAppConstants.OPERATION_MODE_CONTENT }), "operation mode", operationModeStr);
+                Arrays.asList(
+                        new String[] { EpeAppConstants.OPERATION_MODE_NAME, EpeAppConstants.OPERATION_MODE_CONTENT }),
+                "operation mode", operationModeStr);
 
         // DMINUS OPERATION
 
         EpeDiskModelDir modelDir = this.retrieveFilesToCopy(firstDirFile, secondDirFile, operationModeStr,
                 destinationDirStr);
 
-        // FIXME
-        System.out.println("Files to copy:\n" + modelDir);
+        if (execParams.getGlobalParams().isPrintToConsole()) {
+            EpeAppLogger.logSystemOutPrintln("Files to copy:\n" + modelDir);
+        }
 
         this.copyListFileToDestination(modelDir, destinationDirStr);
 
-        EpeExecResult execResult = new EpeExecResult(execParams.isPrintToConsole());
+        EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(null));
         return execResult;
     }
@@ -118,8 +129,8 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
                 }
             } else {
                 try {
-                    FileUtils.copyFile(new File(modelFileDir.getLocation() + modelFileDir.getName()), new File(
-                            destinationDirStr + modelFileDir.getName()));
+                    FileUtils.copyFile(new File(modelFileDir.getLocation() + modelFileDir.getName()),
+                            new File(destinationDirStr + modelFileDir.getName()));
                 } catch (IOException e) {
                     throw new EpeAppException("dminus copying from \"" + modelFileDir.getLocation()
                             + modelFileDir.getName() + "\" to \"" + destinationDirStr + modelFileDir.getName() + "\"",
@@ -143,8 +154,8 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
         return modelDir;
     }
 
-    private void retrieveFilesToCopy2(File firstFile, File secondFile, String operationModeStr, EpeDiskModelDir modelDir)
-            throws EpeAppException {
+    private void retrieveFilesToCopy2(File firstFile, File secondFile, String operationModeStr,
+            EpeDiskModelDir modelDir) throws EpeAppException {
         // SECOND FILE NOT FOUND
 
         if (secondFile == null) {
@@ -155,8 +166,8 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
         String step = null;
 
         if (!firstFile.getName().equals(secondFile.getName())) {
-            throw new EpeAppException("file names does not match: \"" + firstFile.getName() + "\", \""
-                    + secondFile.getName() + "\"");
+            throw new EpeAppException(
+                    "file names does not match: \"" + firstFile.getName() + "\", \"" + secondFile.getName() + "\"");
         }
 
         // NAMES ARE THE SAME

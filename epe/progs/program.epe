@@ -1,15 +1,11 @@
 print_to_console("true");
+//echo("print_to_console=", print_to_console("true"));
 
 
+//echo("aa ", echo("true"));//ko
+//echo("aa ", echo(true));//ok
+echo(echo("true"), " aa");//ok
 
-//v = echo("baa");
-//echo(v);
-
-//a = "aa";
-//b = "b";
-//echo("b", a);
-
-echo(echo("a"), "b");
 
 
 /*

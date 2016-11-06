@@ -53,27 +53,32 @@ public abstract class EpeAppUtils {
     }
 
     public static void checkRange(int i, int i0, int i1, boolean open0, boolean open1) throws EpeAppException {
+        checkRange(i, i0, i1, open0, open1, "");
+    }
+
+    public static void checkRange(int i, int i0, int i1, boolean open0, boolean open1, String postMessage)
+            throws EpeAppException {
         if (open0) {
             if (i < i0) {
-                throw new EpeAppException("value " + i + " < " + i0);
+                throw new EpeAppException("Value " + i + " < " + i0 + ". " + postMessage);
             } else if (i == i0) {
-                throw new EpeAppException("value " + i + " == " + i0);
+                throw new EpeAppException("Value " + i + " == " + i0 + ". " + postMessage);
             }
         } else {
             if (i < i0) {
-                throw new EpeAppException("value " + i + " < " + i0);
+                throw new EpeAppException("Value " + i + " < " + i0 + ". " + postMessage);
             }
         }
 
         if (open1) {
             if (i > i1) {
-                throw new EpeAppException("value " + i + " > " + i1);
+                throw new EpeAppException("Value " + i + " > " + i1 + ". " + postMessage);
             } else if (i == i1) {
-                throw new EpeAppException("value " + i + " == " + i1);
+                throw new EpeAppException("Value " + i + " == " + i1 + ". " + postMessage);
             }
         } else {
             if (i > i1) {
-                throw new EpeAppException("value " + i + " > " + i1);
+                throw new EpeAppException("Value " + i + " > " + i1 + ". " + postMessage);
             }
         }
     }
