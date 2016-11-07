@@ -1,2 +1,12 @@
 print_to_console("true");
-echo("hello world");
+//echo("hello world");
+
+
+dir = "/home/ellison/Downloads/camel/aa-prove/a/";
+list = list_files(dir);
+text = "skjskjfks lfs        [FILE_NAME]\n";
+list = replace(text, "[FILE_NAME]", list);
+fwrite("/home/ellison/Downloads/camel/aa-prove/result.txt", list, "UTF-8");
+
+dir = "/home/ellison/Downloads/camel/aa-prove/";
+list_dirs_recursive(dir);

@@ -23,7 +23,7 @@ public final class EpeGenericFinalEcho extends EpeGenericAbstract {
             EpeExecContent content = result.getExecContent();
 
             if (content.getContentInternal() != null) {
-                String s = content.getContentInternal().getStr();
+                String s = content.getContentInternal().toString();
 
                 if (s != null && s.startsWith("\"") && s.endsWith("\"") && s.length() > 1) {
                     s = getReplacedSting(s, false);

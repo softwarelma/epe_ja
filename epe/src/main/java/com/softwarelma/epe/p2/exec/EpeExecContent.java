@@ -1,5 +1,7 @@
 package com.softwarelma.epe.p2.exec;
 
+import java.util.List;
+
 /**
  * this class is intended to implement a NOP, so the contentInternal can be null
  */
@@ -22,6 +24,10 @@ public final class EpeExecContent {
 
     public String getStr() {
         return this.contentInternal == null ? null : this.contentInternal.getStr();
+    }
+
+    public List<String> getListStr() {
+        return this.contentInternal == null ? null : this.contentInternal.getListStr();
     }
 
 }

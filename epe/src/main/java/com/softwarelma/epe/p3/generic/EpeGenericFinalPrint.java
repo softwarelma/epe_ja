@@ -21,7 +21,7 @@ public final class EpeGenericFinalPrint extends EpeGenericAbstract {
         for (EpeExecResult result : listExecResult) {
             EpeAppUtils.checkNull("result", result);
             EpeExecContent content = result.getExecContent();
-            sb.append(content.getContentInternal() == null ? null : content.getContentInternal().getStr());
+            sb.append(content.getContentInternal() == null ? null : content.getContentInternal().toString());
         }
 
         String ret = sb.toString();

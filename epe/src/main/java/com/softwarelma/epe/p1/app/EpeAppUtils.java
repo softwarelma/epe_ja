@@ -1,5 +1,6 @@
 package com.softwarelma.epe.p1.app;
 
+import java.io.File;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.List;
@@ -126,6 +127,14 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static void checkDir(File dir) throws EpeAppException {
+        checkNull("dir", dir);
+
+        if (!dir.isDirectory()) {
+            throw new EpeAppException("The file \"" + dir.getName() + "\" is not a dir");
+        }
+    }
+
     public static String getNotContainedString(String text, String open, String close) throws EpeAppException {
         EpeAppUtils.checkNull("text", text);
         EpeAppUtils.checkNull("open", open);
@@ -154,13 +163,21 @@ public abstract class EpeAppUtils {
         return getNotContainedString(notContained, iter, EpeAppConstants.CONTAINED_STRING_CLOSE);
     }
 
-    public static String cleanFilename(String filename) {
+    public static String cleanFilename(String filename) throws EpeAppException {
+        checkNull("filename", filename);
         return filename.replace("\\", "/");
+    }
+
+    public static String cleanDirName(String dirName) throws EpeAppException {
+        checkNull("dirName", dirName);
+        dirName = cleanFilename(dirName);
+        dirName = dirName.endsWith("/") ? dirName : dirName + "/";
+        return dirName;
     }
 
     public static Map.Entry<String, String> retrieveFilePathAndName(String fullFileName) throws EpeAppException {
         checkEmpty("fullFileName", fullFileName);
-        fullFileName = fullFileName.replace("\\", "/");
+        fullFileName = cleanFilename(fullFileName);
         fullFileName = fullFileName.endsWith("/") ? fullFileName.substring(0, fullFileName.length() - 1) : fullFileName;
         String[] array = fullFileName.split("/");
 

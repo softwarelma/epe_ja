@@ -30,7 +30,7 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
 
         // CONTENT
 
-        String content = this.getStringAt(listExecResult, 1, postMessage);
+        String content = this.getStringAtForce(listExecResult, 1, postMessage);
 
         // ENCODING
 

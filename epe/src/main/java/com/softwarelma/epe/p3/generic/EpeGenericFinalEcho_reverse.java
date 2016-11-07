@@ -23,7 +23,7 @@ public final class EpeGenericFinalEcho_reverse extends EpeGenericAbstract {
             EpeExecContent content = result.getExecContent();
 
             if (content.getContentInternal() != null) {
-                String s = content.getContentInternal().getStr();
+                String s = content.getContentInternal().toString();
                 s = EpeGenericFinalEcho.getReplacedSting(s, true);
                 sb.append(s);
                 continue;
