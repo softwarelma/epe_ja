@@ -16,6 +16,7 @@ public final class EpeProgParser {
     public List<EpeProgSentInterface> retrieveProgSentList(String programContent,
             Map<String, String> mapNotContainedReplaced) throws EpeAppException {
         EpeAppUtils.checkNull("programContent", programContent);
+        EpeAppUtils.checkNull("mapNotContainedReplaced", mapNotContainedReplaced);
         List<EpeProgSentInterface> listProgSent = new ArrayList<>();
         String endOfProgram = "\n";
         programContent = programContent.endsWith(endOfProgram) ? programContent : programContent + endOfProgram;

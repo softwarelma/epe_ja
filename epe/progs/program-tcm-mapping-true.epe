@@ -1,0 +1,43 @@
+//program-tcm-mapping-true.epe
+
+//print_to_console("true");
+tcmDir = "/org/company/workspaces/luna-SR2/tcm/";
+
+mapDir = echo(tcmDir, "MappingFile/");
+
+file = echo(mapDir, "format-mapping-ENC-4-TXT-TO-ORI.xml");
+content = fread(file);
+content = replace(content, "show_sql=\"false\"", "show_sql=\"true\"");
+content = replace(content, "show_exceptions=\"false\"", "show_exceptions=\"true\"");
+fwrite(file, content, "UTF-8");
+
+file = echo(mapDir, "format-mapping-ENC-5-ORI-TO-GEST.xml");
+content = fread(file);
+content = replace(content, "show_sql=\"false\"", "show_sql=\"true\"");
+content = replace(content, "show_exceptions=\"false\"", "show_exceptions=\"true\"");
+fwrite(file, content, "UTF-8");
+
+file = echo(mapDir, "format-mapping-IMU.xml");
+content = fread(file);
+content = replace(content, "show_sql=\"false\"", "show_sql=\"true\"");
+content = replace(content, "show_exceptions=\"false\"", "show_exceptions=\"true\"");
+fwrite(file, content, "UTF-8");
+
+file = echo(mapDir, "format-mapping-TARES-1-XLS-TO-CF-ORI.xml");
+content = fread(file);
+content = replace(content, "show_sql=\"false\"", "show_sql=\"true\"");
+content = replace(content, "show_exceptions=\"false\"", "show_exceptions=\"true\"");
+fwrite(file, content, "UTF-8");
+
+file = echo(mapDir, "format-mapping-TARES-2-CF-ORI-TO-CF.xml");
+content = fread(file);
+content = replace(content, "show_sql=\"false\"", "show_sql=\"true\"");
+content = replace(content, "show_exceptions=\"false\"", "show_exceptions=\"true\"");
+fwrite(file, content, "UTF-8");
+
+file = echo(mapDir, "format-mapping-TARES-3-CF-TO-GEST.xml");
+content = fread(file);
+content = replace(content, "show_sql=\"false\"", "show_sql=\"true\"");
+content = replace(content, "show_exceptions=\"false\"", "show_exceptions=\"true\"");
+fwrite(file, content, "UTF-8");
+
