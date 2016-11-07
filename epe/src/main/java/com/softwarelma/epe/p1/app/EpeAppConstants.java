@@ -6,6 +6,7 @@ import java.util.List;
 public abstract class EpeAppConstants {
 
     public static final List<String> listReservedWords = new ArrayList<>();
+
     // static {
     // listReservedWords.add("null");
     // }
@@ -37,8 +38,8 @@ public abstract class EpeAppConstants {
     /*
      * ******************** REGULAR EXPRESSIONS - BEGIN ********************
      * 
-     * "big" regexs are those that can match a result bigger than desired, eg. "a", "b" will match the whole string and
-     * not only the first one
+     * "big" regexs are those that can match a result bigger than desired, eg. (see REGEX_STR) the case between
+     * bracketes ("a", "b") will be matched as one string and not only the first one, another example could be ("a\"b")
      */
 
     /*
@@ -52,7 +53,7 @@ public abstract class EpeAppConstants {
      * RIGHT SIDE
      */
     // public static final String REGEX_NULL = "null";
-    public static final String REGEX_STR_INTERNAL = "\\{.*\\}";// big
+    public static final String REGEX_STR_INTERNAL = "\\{[0-9]*\\-[0-9]*\\}";
     public static final String REGEX_ID = "([a-zA-Z_][a-zA-Z0-9_]*)";
     public static final String REGEX_PARAM_LEVEL_1 = REGEX_STR_INTERNAL + "|" + REGEX_ID;
     public static final String REGEX_FUNC_LEVEL_1 = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_1 + ")|("
@@ -70,7 +71,7 @@ public abstract class EpeAppConstants {
      * LEFT + RIGHT SIDE
      */
     // public static final String REGEX_LEFT_NULL = REGEX_LEFT + REGEX_NULL;
-    public static final String REGEX_LEFT_STR = REGEX_LEFT + REGEX_STR_INTERNAL;// big
+    public static final String REGEX_LEFT_STR = REGEX_LEFT + REGEX_STR_INTERNAL;
     public static final String REGEX_LEFT_FUNC = REGEX_LEFT + REGEX_FUNC;
     public static final String REGEX_LEFT_ID = REGEX_LEFT + REGEX_ID;
 
@@ -81,8 +82,6 @@ public abstract class EpeAppConstants {
     static {
         REGEX_LIST_BIG.add(REGEX_STR);
         REGEX_LIST_BIG.add(REGEX_COMMENT_BLOCK);
-        REGEX_LIST_BIG.add(REGEX_STR_INTERNAL);
-        REGEX_LIST_BIG.add(REGEX_LEFT_STR);
     }
 
     /*

@@ -80,7 +80,10 @@ public final class EpeExec {
         result.setExecContent(execContent);
         listExecResult.add(result);
         EpeExecParams execParams = new EpeExecParams(globalParams);
+        boolean printToConsole = globalParams.isPrintToConsole();
+        globalParams.setPrintToConsole(false);
         EpeExecResult execResult = funcEcho.doFunc(execParams, listExecResult);
+        globalParams.setPrintToConsole(printToConsole);
         return execResult;
     }
 

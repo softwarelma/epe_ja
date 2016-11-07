@@ -48,10 +48,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
         File fileDestination = new File(filenameDestinationStr);
 
         this.doFdopy(filenameOriginStr, fileOrigin, filenameDestinationStr, fileDestination);
-
-        EpeExecResult execResult = new EpeExecResult();
-        execResult.setExecContent(new EpeExecContent(null));
-        return execResult;
+        return this.createEmptyResult();
     }
 
     protected void doFdopy(String filenameOriginStr, File fileOrigin, String filenameDestinationStr,
@@ -86,8 +83,8 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
                     FileUtils.copyFile(fileOrigin, fileDestination);
                 }
             } else {
-                throw new EpeAppException(
-                        "fcopy from \"" + filenameOriginStr + "\" is neither a directory nor a normal file");
+                throw new EpeAppException("fcopy from \"" + filenameOriginStr
+                        + "\" is neither a directory nor a normal file");
             }
         } catch (IOException e) {
             throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"",

@@ -10,6 +10,7 @@ import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,50 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static void checkEmpty(String paramName, Object paramValue) throws EpeAppException {
+        checkNull("paramName", paramName);
+
+        if (paramValue == null || paramValue.toString().trim().isEmpty()) {
+            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+        }
+    }
+
+    public static void checkEmptyForceEmpty(String paramName, Object paramValue, boolean doLog) throws EpeAppException {
+        checkNull("paramName", paramName);
+
+        if (paramValue != null && !paramValue.toString().trim().isEmpty()) {
+            throw new EpeAppException("Il parametro " + paramName + " dev'essere vuoto, trovato: " + paramValue);
+        }
+    }
+
+    public static void checkEmptyNoTrim(String paramName, Object paramValue) throws EpeAppException {
+        checkNull("paramName", paramName);
+
+        if (paramValue == null || paramValue.toString().isEmpty()) {
+            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+        }
+    }
+
+    public static void checkEmptyForceEmpty(String paramName, Object paramValue) throws EpeAppException {
+        checkEmptyForceEmpty(paramName, paramValue, true);
+    }
+
+    public static <T> void checkEmptyArray(String paramName, T[] paramValue) throws EpeAppException {
+        checkEmpty("paramName", paramName);
+
+        if (paramValue == null || paramValue.length == 0) {
+            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+        }
+    }
+
+    public static <T> void checkEmptyList(String paramName, List<T> paramValue) throws EpeAppException {
+        checkNull("paramName", paramName);
+
+        if (paramValue == null || paramValue.isEmpty()) {
+            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+        }
+    }
+
     public static void writeFile(String content, String filePath, String encoding, boolean append) throws Exception {
         encoding = encoding == null ? EpeAppConstants.ENCODING_UTF_8 : encoding;
         Charset charset = Charset.forName(encoding);
@@ -152,8 +197,7 @@ public abstract class EpeAppUtils {
         return EpeAppConstants.ENCODING_UTF_8;
     }
 
-    public static void validateChars(String text, String specialCharsStr, String commonCharsStr)
-            throws EpeAppException {
+    public static void validateChars(String text, String specialCharsStr, String commonCharsStr) throws EpeAppException {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
 
@@ -238,19 +282,17 @@ public abstract class EpeAppUtils {
         return filename.replace("\\", "/");
     }
 
-    public static String[] retrieveLocationAndName(String fullPath) throws EpeAppException {
-        EpeAppUtils.checkNull("fullPath", fullPath);
+    public static Map.Entry<String, String> retrieveFilePathAndName(String fullFileName) throws EpeAppException {
+        checkEmpty("fullFileName", fullFileName);
+        fullFileName = fullFileName.replace("\\", "/");
+        fullFileName = fullFileName.endsWith("/") ? fullFileName.substring(0, fullFileName.length() - 1) : fullFileName;
+        String[] array = fullFileName.split("/");
 
-        if (!fullPath.contains("/")) {
-            throw new EpeAppException("Full path " + fullPath + " does not have a /");
-        }
+        String name = array[array.length - 1];
+        String path = fullFileName.substring(0, fullFileName.length() - name.length());
 
-        String[] ret = { null, null };
-        String[] split = fullPath.split("/");
-        ret[1] = split[split.length - 1];
-        ret[0] = fullPath.substring(0, fullPath.length() - ret[1].length());
-
-        return ret;
+        Map.Entry<String, String> filePathAndName = new AbstractMap.SimpleEntry<>(path, name);
+        return filePathAndName;
     }
 
     public static String replaceNotContainedWithReplaced(String sentStr, Map<String, String> mapNotContainedReplaced) {

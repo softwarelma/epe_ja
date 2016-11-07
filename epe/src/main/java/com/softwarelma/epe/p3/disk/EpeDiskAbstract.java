@@ -1,7 +1,7 @@
 package com.softwarelma.epe.p3.disk;
 
-import com.softwarelma.epe.p2.exec.EpeExecInterface;
+import com.softwarelma.epe.p2.exec.EpeExecAbstract;
 
-public abstract class EpeDiskAbstract implements EpeExecInterface {
+public abstract class EpeDiskAbstract extends EpeExecAbstract {
 
 }

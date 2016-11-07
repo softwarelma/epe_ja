@@ -1,7 +1,7 @@
 package com.softwarelma.epe.p3.generic;
 
-import com.softwarelma.epe.p2.exec.EpeExecInterface;
+import com.softwarelma.epe.p2.exec.EpeExecAbstract;
 
-public abstract class EpeGenericAbstract implements EpeExecInterface {
+public abstract class EpeGenericAbstract extends EpeExecAbstract {
 
 }
