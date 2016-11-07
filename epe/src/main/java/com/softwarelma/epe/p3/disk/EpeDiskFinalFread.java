@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.encodings.EpeEncodings;
+import com.softwarelma.epe.p2.encodings.EpeEncodingsResponse;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
@@ -42,8 +44,9 @@ public final class EpeDiskFinalFread extends EpeDiskAbstract {
             }
 
             try {
-                String content = EpeAppUtils.readFileAsStringGuessingEncoding(filenameStr);
-                ret.add(content);
+                EpeEncodings enc = new EpeEncodings();
+                EpeEncodingsResponse response = enc.readGuessing(filenameStr);
+                ret.add(response.getFileContent());
             } catch (Exception e) {
                 throw new EpeAppException("fread, file \"" + filenameStr + "\" is not valid for reading", e);
             }

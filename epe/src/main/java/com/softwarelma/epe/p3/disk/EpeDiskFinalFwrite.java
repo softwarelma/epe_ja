@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.exec.EpeExecContent;
+import com.softwarelma.epe.p2.encodings.EpeEncodings;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -15,44 +15,28 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
-        EpeAppUtils
-                .checkRange(listExecResult.size(), 2, 4, false, false,
-                        "fwrite params should be 2 to 4: the file name, the content, optionally the encoding and optionally the append option");
+        String postMessage = "fwrite params should be 2 to 4: the file name, the content, optionally the encoding and optionally the append option";
+        EpeAppUtils.checkRange(listExecResult.size(), 2, 4, false, false, postMessage);
 
         // FILE
 
-        EpeExecResult result = listExecResult.get(0);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent filename = result.getExecContent();
-        EpeAppUtils.checkNull("filename", filename);
-        String filenameStr = filename.getStr();
-        EpeAppUtils.checkNull("filenameStr", filenameStr);
-        filenameStr = EpeAppUtils.cleanFilename(filenameStr);
-        File file = new File(filenameStr);
+        String filename = this.getStringAt(listExecResult, 0, postMessage);
+        filename = EpeAppUtils.cleanFilename(filename);
+        File file = new File(filename);
 
         if (file.exists() && !file.isFile()) {
-            throw new EpeAppException("fwrite, file \"" + filenameStr + "\" is not a file");
+            throw new EpeAppException("fwrite, file \"" + filename + "\" is not a file");
         }
 
         // CONTENT
 
-        result = listExecResult.get(1);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent content = result.getExecContent();
-        EpeAppUtils.checkNull("content", content);
-        String contentStr = content.getStr();
-        EpeAppUtils.checkNull("contentStr", contentStr);
+        String content = this.getStringAt(listExecResult, 1, postMessage);
 
         // ENCODING
 
-        String encodingStr = null;
+        String encoding = null;
         if (listExecResult.size() > 2) {
-            result = listExecResult.get(2);
-            EpeAppUtils.checkNull("result", result);
-            EpeExecContent encoding = result.getExecContent();
-            EpeAppUtils.checkNull("encoding", encoding);
-            encodingStr = encoding.getStr();
-            // EpeAppUtils.checkNull("encodingStr", encodingStr);
+            encoding = this.getStringAt(listExecResult, 2, postMessage);
         }
 
         // APPEND
@@ -60,21 +44,17 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         String appendStr = null;
         boolean appendBool = false;
         if (listExecResult.size() > 3) {
-            result = listExecResult.get(3);
-            EpeAppUtils.checkNull("result", result);
-            EpeExecContent append = result.getExecContent();
-            EpeAppUtils.checkNull("append", append);
-            appendStr = append.getStr();
-            // EpeAppUtils.checkNull("appendStr", appendStr);
-            appendBool = appendStr != null && appendStr.equals("append");
+            appendStr = this.getStringAt(listExecResult, 3, postMessage);
+            appendBool = "append".equals(appendStr);
         }
 
         // WRITING
 
         try {
-            EpeAppUtils.writeFile(contentStr, filenameStr, encodingStr, appendBool);
+            EpeEncodings enc = new EpeEncodings();
+            enc.write(content, filename, encoding, appendBool);
         } catch (Exception e) {
-            throw new EpeAppException("fwrite, file \"" + filenameStr + "\" is not valid for writing", e);
+            throw new EpeAppException("fwrite, file \"" + filename + "\" is not valid for writing", e);
         }
 
         return this.createEmptyResult();

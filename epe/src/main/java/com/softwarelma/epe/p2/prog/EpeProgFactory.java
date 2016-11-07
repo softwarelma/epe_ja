@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.encodings.EpeEncodings;
+import com.softwarelma.epe.p2.encodings.EpeEncodingsResponse;
 
 public final class EpeProgFactory {
 
@@ -45,16 +47,16 @@ public final class EpeProgFactory {
             throws EpeAppException {
         EpeAppUtils.checkNull("filePath", filePath);
         EpeAppUtils.checkNull("mapNotContainedReplaced", mapNotContainedReplaced);
-        String programContent;
+        EpeEncodingsResponse response;
 
         try {
-            String encoding = EpeAppUtils.readFileAsStringAndGuessEncoding(filePath);
-            programContent = EpeAppUtils.readFileAsStringCharFromPath(filePath, encoding);
+            EpeEncodings enc = new EpeEncodings();
+            response = enc.readGuessing(filePath);
         } catch (Exception e) {
             throw new EpeAppException("Wrong file " + filePath, e);
         }
 
-        return this.initFromProgramContent(programContent, mapNotContainedReplaced);
+        return this.initFromProgramContent(response.getFileContent(), mapNotContainedReplaced);
     }
 
     private EpeProgInterface initFromProgramContent(String programContent, Map<String, String> mapNotContainedReplaced)

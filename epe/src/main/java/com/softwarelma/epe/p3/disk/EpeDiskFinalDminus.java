@@ -12,7 +12,8 @@ import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.exec.EpeExecContent;
+import com.softwarelma.epe.p2.encodings.EpeEncodings;
+import com.softwarelma.epe.p2.encodings.EpeEncodingsResponse;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -22,21 +23,17 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
+        String postMessage = "dminus params should be 4: the first operand dir, the second "
+                + "operand dir, the destination dir and the operation mode (" + EpeAppConstants.OPERATION_MODE_NAME
+                + ", " + EpeAppConstants.OPERATION_MODE_CONTENT + ")";
 
         if (listExecResult.size() != 4) {
-            throw new EpeAppException("dminus params should be 4: the first operand dir, the second "
-                    + "operand dir, the destination dir and the operation mode (" + EpeAppConstants.OPERATION_MODE_NAME
-                    + ", " + EpeAppConstants.OPERATION_MODE_CONTENT + ")");
+            throw new EpeAppException(postMessage);
         }
 
         // FIRST OPERAND DIR
 
-        EpeExecResult result = listExecResult.get(0);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent firstDir = result.getExecContent();
-        EpeAppUtils.checkNull("firstDir", firstDir);
-        String firstDirStr = firstDir.getStr();
-        EpeAppUtils.checkNull("firstDirStr", firstDirStr);
+        String firstDirStr = this.getStringAt(listExecResult, 0, postMessage);
         firstDirStr = EpeAppUtils.cleanFilename(firstDirStr);
         File firstDirFile = new File(firstDirStr);
 
@@ -50,12 +47,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // SECOND OPERAND DIR
 
-        result = listExecResult.get(1);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent secondDir = result.getExecContent();
-        EpeAppUtils.checkNull("secondDir", secondDir);
-        String secondDirStr = secondDir.getStr();
-        EpeAppUtils.checkNull("secondDirStr", secondDirStr);
+        String secondDirStr = this.getStringAt(listExecResult, 1, postMessage);
         secondDirStr = EpeAppUtils.cleanFilename(secondDirStr);
         File secondDirFile = new File(secondDirStr);
 
@@ -69,12 +61,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // DESTINATION DIR
 
-        result = listExecResult.get(2);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent destinationDir = result.getExecContent();
-        EpeAppUtils.checkNull("destinationDir", destinationDir);
-        String destinationDirStr = destinationDir.getStr();
-        EpeAppUtils.checkNull("destinationDirStr", destinationDirStr);
+        String destinationDirStr = this.getStringAt(listExecResult, 2, postMessage);
         destinationDirStr = EpeAppUtils.cleanFilename(destinationDirStr);
         File destinationDirFile = new File(destinationDirStr);
 
@@ -88,12 +75,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // OPERATION MODE (NAME, CONTENT)
 
-        result = listExecResult.get(3);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent operationMode = result.getExecContent();
-        EpeAppUtils.checkNull("operationMode", operationMode);
-        String operationModeStr = operationMode.getStr();
-        EpeAppUtils.checkNull("operationModeStr", operationModeStr);
+        String operationModeStr = this.getStringAt(listExecResult, 3, postMessage);
         EpeAppUtils.checkContains(
                 Arrays.asList(new String[] { EpeAppConstants.OPERATION_MODE_NAME,
                         EpeAppConstants.OPERATION_MODE_CONTENT }), "operation mode", operationModeStr);
@@ -178,9 +160,13 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
             try {
                 step = "reading file \"" + firstFile.getPath() + "\"";
-                String firstContent = EpeAppUtils.readFileAsStringGuessingEncoding(firstFile.getPath());
+                EpeEncodings enc = new EpeEncodings();
+                EpeEncodingsResponse response = enc.readGuessing(firstFile.getPath());
+                String firstContent = response.getFileContent();
+
                 step = "reading file \"" + secondFile.getPath() + "\"";
-                String secondContent = EpeAppUtils.readFileAsStringGuessingEncoding(secondFile.getPath());
+                response = enc.readGuessing(secondFile.getPath());
+                String secondContent = response.getFileContent();
 
                 if (!firstContent.equals(secondContent)) {
                     this.addFileToModelDir(modelDir, firstFile, false);
