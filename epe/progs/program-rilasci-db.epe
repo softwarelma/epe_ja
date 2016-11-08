@@ -20,3 +20,4 @@ template = "PROMPT @./ETC/SCRIPT/[PATH][FILE]
 template2 = replace(template, "[PATH]", sourceDir);
 content = replace(template2, "[FILE]", listScript);
 fwrite(echo(absolute, destinationFile), content, "UTF-8");
+
