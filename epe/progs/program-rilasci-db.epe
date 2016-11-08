@@ -1,0 +1,21 @@
+print_to_console("true");
+absolute = "/home/ellison/Downloads/epe/";
+
+//CREAZIONE CARTELLA
+/*
+d1 = echo(absolute, "d1");
+d2 = echo(absolute, "d2");
+dest = echo(absolute, "dest");
+mode = "content";
+dminus(d1, d2, dest, mode);
+*/
+
+//DDL
+path = "dest/dml_svil/ddl/";
+dir = echo(absolute, path);
+listScript = list_files(dir);
+template = "PROMPT @./ETC/SCRIPT/[PATH][FILE]
+@./ETC/SCRIPT/[PATH][FILE]\n\n";
+template2 = replace(template, "[PATH]", path);
+content = replace(template2, "[FILE]", listScript);
+fwrite(echo(absolute, "dest/da-lanciare.sql"), content, "UTF-8");

@@ -1,8 +1,0 @@
-print_to_console("true");
-
-d1 = "/home/ellison/Downloads/epe/d1";
-d2 = "/home/ellison/Downloads/epe/d2";
-dest = "/home/ellison/Downloads/epe/dest";
-mode = "content";
-
-dminus(d1, d2, dest, mode);
