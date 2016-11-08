@@ -10,12 +10,13 @@ mode = "content";
 dminus(d1, d2, dest, mode);
 */
 
-//DDL
-path = "dest/dml_svil/ddl/";
-dir = echo(absolute, path);
+//DDL, settare sourceDir e destinationFile
+sourceDir = "dest/dml_svil/ddl/";
+destinationFile = "dest/da-lanciare.sql";
+dir = echo(absolute, sourceDir);
 listScript = list_files(dir);
 template = "PROMPT @./ETC/SCRIPT/[PATH][FILE]
 @./ETC/SCRIPT/[PATH][FILE]\n\n";
-template2 = replace(template, "[PATH]", path);
+template2 = replace(template, "[PATH]", sourceDir);
 content = replace(template2, "[FILE]", listScript);
-fwrite(echo(absolute, "dest/da-lanciare.sql"), content, "UTF-8");
+fwrite(echo(absolute, destinationFile), content, "UTF-8");
