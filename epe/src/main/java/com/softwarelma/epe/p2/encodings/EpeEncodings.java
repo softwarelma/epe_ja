@@ -342,8 +342,7 @@ public class EpeEncodings {
             return "\n";
         }
 
-        EpeAppUtils.checkNull("crlf", null);
-        return null;
+        return "\n";
     }
 
     public void write(String content, String filePath, String encoding, boolean append) throws Exception {

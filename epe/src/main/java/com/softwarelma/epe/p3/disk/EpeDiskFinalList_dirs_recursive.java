@@ -19,7 +19,7 @@ public final class EpeDiskFinalList_dirs_recursive extends EpeDiskAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "list_files, expected dir name.";
+        String postMessage = "list_dirs_recursive, expected dir name.";
         String dirName = this.getStringAt(listExecResult, 0, postMessage);
         dirName = EpeAppUtils.cleanDirName(dirName);
         File dir = new File(dirName);

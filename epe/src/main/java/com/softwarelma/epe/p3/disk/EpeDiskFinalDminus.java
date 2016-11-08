@@ -16,6 +16,7 @@ import com.softwarelma.epe.p2.encodings.EpeEncodings;
 import com.softwarelma.epe.p2.encodings.EpeEncodingsResponse;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
+import com.softwarelma.epe.p3.disk.EpeDiskModelDir.MODEL_TYPE;
 
 public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
@@ -89,34 +90,52 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
             EpeAppLogger.logSystemOutPrintln("Files to copy:\n" + modelDir);
         }
 
-        this.copyListFileToDestination(modelDir, destinationDirStr);
+        destinationDirStr = destinationDirStr.endsWith("/") ? destinationDirStr : destinationDirStr + "/";
+        this.copyListFileToDestination(modelDir, destinationDirStr, destinationDirStr, firstDirStr);
         return this.createEmptyResult();
     }
 
-    private void copyListFileToDestination(EpeDiskModelDir modelDir, String destinationDirStr) throws EpeAppException {
+    private void copyListFileToDestination(EpeDiskModelDir modelDir, String destinationDirStrOri,
+            String destinationDirStr, String firstDirStr) throws EpeAppException {
         destinationDirStr = destinationDirStr.endsWith("/") ? destinationDirStr : destinationDirStr + "/";
 
         for (int i = 0; i < modelDir.size(); i++) {
             EpeDiskModelFileDir modelFileDir = modelDir.get(i);
+            String destinationFileName = getDestinationFileName(destinationDirStrOri, destinationDirStr, firstDirStr,
+                    modelFileDir);
 
             if (modelFileDir.isDir()) {
-                File dir = new File(destinationDirStr + modelFileDir.getName());
+                File dir = new File(destinationFileName);
 
                 if (!dir.exists()) {
                     dir.mkdir();
-                    this.copyListFileToDestination(modelFileDir.toDir(), destinationDirStr + modelFileDir.getName());
+                    this.copyListFileToDestination(modelFileDir.toDir(), destinationDirStrOri, destinationFileName,
+                            firstDirStr);
                 }
             } else {
                 try {
                     FileUtils.copyFile(new File(modelFileDir.getLocation() + modelFileDir.getName()), new File(
-                            destinationDirStr + modelFileDir.getName()));
+                            destinationFileName));
                 } catch (IOException e) {
                     throw new EpeAppException("dminus copying from \"" + modelFileDir.getLocation()
-                            + modelFileDir.getName() + "\" to \"" + destinationDirStr + modelFileDir.getName() + "\"",
-                            e);
+                            + modelFileDir.getName() + "\" to \"" + destinationFileName + "\"", e);
                 }
             }
         }
+    }
+
+    private String getDestinationFileName(String destinationDirStrOri, String destinationDirStr, String firstDirStr,
+            EpeDiskModelFileDir modelFileDir) {
+        String intermediatePath = "";
+
+        if (destinationDirStrOri.equals(destinationDirStr)) {
+            intermediatePath = modelFileDir.getLocation().substring(firstDirStr.length());
+            intermediatePath = intermediatePath.startsWith("/") ? intermediatePath.substring(1) : intermediatePath;
+            intermediatePath = intermediatePath.endsWith("/") ? intermediatePath : intermediatePath + "/";
+            intermediatePath = intermediatePath.length() == 1 ? "" : intermediatePath;
+        }
+
+        return destinationDirStr + intermediatePath + modelFileDir.getName();
     }
 
     private EpeDiskModelDir retrieveFilesToCopy(File firstDirFile, File secondDirFile, String operationModeStr,
@@ -193,13 +212,26 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
         for (File firstFileI : arrayFirstFile) {
             File secondFileI = this.retrieveFileByName(arraySecondFile, firstFileI.getName());
             Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(firstFileI.getPath());
-            EpeDiskModelDir modelDirI = new EpeDiskModelDir(filePathAndName.getKey(), filePathAndName.getValue());
+
+            if (new File(firstFileI.getPath()).isFile()) {
+                filePathAndName = EpeAppUtils.retrieveFilePathAndName(filePathAndName.getKey());
+            }
+
+            EpeDiskModelDir modelDirI = this.retrieveOrCreateModelDir(modelDir, filePathAndName.getKey(),
+                    filePathAndName.getValue());
             this.retrieveFilesToCopy2(firstFileI, secondFileI, operationModeStr, modelDirI);
 
             if (modelDirI.size() > 0) {
-                modelDir.add(modelDirI);
+                this.addToModelIfNotExists(modelDir, modelDirI);
             }
         }
+    }
+
+    private EpeDiskModelDir retrieveOrCreateModelDir(EpeDiskModelDir modelDir, String location, String name)
+            throws EpeAppException {
+        EpeDiskModelDir modelDirRet = (EpeDiskModelDir) modelDir.retrieveModelFileDir(location, name, MODEL_TYPE.dir);
+        modelDirRet = modelDirRet == null ? new EpeDiskModelDir(location, name) : modelDirRet;
+        return modelDirRet;
     }
 
     private File retrieveFileByName(File[] arrayFile, String name) {
@@ -230,7 +262,17 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
             throw new EpeAppException("file \"" + file.getPath() + "\" is neither a directory nor a normal file");
         }
 
-        modelDir.add(modelFileDir);
+        this.addToModelIfNotExists(modelDir, modelFileDir);
+    }
+
+    private void addToModelIfNotExists(EpeDiskModelDir modelDir, EpeDiskModelFileDir modelFileDir)
+            throws EpeAppException {
+        EpeDiskModelFileDir modelFileDirToFind = modelDir.retrieveModelFileDir(modelFileDir.getLocation(),
+                modelFileDir.getName(), MODEL_TYPE.fileDir);
+
+        if (modelFileDirToFind == null) {
+            modelDir.add(modelFileDir);
+        }
     }
 
 }
