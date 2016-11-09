@@ -52,25 +52,25 @@ public abstract class EpeAppUtils {
             throws EpeAppException {
         if (open0) {
             if (i < i0) {
-                throw new EpeAppException("Value " + i + " < " + i0 + ". " + postMessage);
+                throw new EpeAppException("Out of range, value " + i + " < " + i0 + ". " + postMessage);
             } else if (i == i0) {
-                throw new EpeAppException("Value " + i + " == " + i0 + ". " + postMessage);
+                throw new EpeAppException("Out of range, value " + i + " == " + i0 + ". " + postMessage);
             }
         } else {
             if (i < i0) {
-                throw new EpeAppException("Value " + i + " < " + i0 + ". " + postMessage);
+                throw new EpeAppException("Out of range, value " + i + " < " + i0 + ". " + postMessage);
             }
         }
 
         if (open1) {
             if (i > i1) {
-                throw new EpeAppException("Value " + i + " > " + i1 + ". " + postMessage);
+                throw new EpeAppException("Out of range, value " + i + " > " + i1 + ". " + postMessage);
             } else if (i == i1) {
-                throw new EpeAppException("Value " + i + " == " + i1 + ". " + postMessage);
+                throw new EpeAppException("Out of range, value " + i + " == " + i1 + ". " + postMessage);
             }
         } else {
             if (i > i1) {
-                throw new EpeAppException("Value " + i + " > " + i1 + ". " + postMessage);
+                throw new EpeAppException("Out of range, value " + i + " > " + i1 + ". " + postMessage);
             }
         }
     }
@@ -194,6 +194,14 @@ public abstract class EpeAppUtils {
         }
 
         return sentStr;
+    }
+
+    public static int parseInt(String str) throws EpeAppException {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            throw new EpeAppException("parseInt for str " + str, e);
+        }
     }
 
 }

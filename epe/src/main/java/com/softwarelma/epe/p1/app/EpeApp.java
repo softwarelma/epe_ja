@@ -49,10 +49,15 @@ public final class EpeApp {
 
             for (int i = 0; i < prog.size(); i++) {
                 progSent = prog.get(i);
+                globalParams.setSentIndex(i);
                 step = step0 + (i + 1) + "/" + prog.size() + " 1-based: " + progSent.toString();
                 // DbpAppLogger.log(step);
                 // EpeExecResult execResult =
                 exec.execute(globalParams, progSent, mapNotContainedReplaced);
+
+                if (progSent.getLiteralOrFuncName().equals("goto")) {
+                    i = globalParams.getSentIndex();
+                }
             }
         } catch (Exception e) {
             if (!(e instanceof EpeAppException)) {

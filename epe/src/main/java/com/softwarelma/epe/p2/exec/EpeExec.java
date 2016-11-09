@@ -95,8 +95,10 @@ public final class EpeExec {
         EpeExecResult execResult = null;
         List<EpeExecResult> listExecResult;
         EpeExecParams execParams;
+        boolean known = false;
 
         if (this.dbFactory.isDb(funcName)) {
+            known = true;
             EpeExecInterface db = this.dbFactory.getNewInstance(funcName);
             listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
             execParams = new EpeExecParams(globalParams);
@@ -104,6 +106,7 @@ public final class EpeExec {
         }
 
         if (this.diskFactory.isDisk(funcName)) {
+            known = true;
             if (execResult != null) {
                 throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
             }
@@ -115,6 +118,7 @@ public final class EpeExec {
         }
 
         if (this.funcFactory.isFunc(funcName)) {
+            known = true;
             if (execResult != null) {
                 throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
             }
@@ -123,6 +127,10 @@ public final class EpeExec {
             listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
             execParams = new EpeExecParams(globalParams);
             execResult = func.doFunc(execParams, listExecResult);
+        }
+
+        if (!known) {
+            throw new EpeAppException("Unknown func " + funcName);
         }
 
         EpeAppUtils.checkNull("execResult for funcName " + funcName, execResult);
