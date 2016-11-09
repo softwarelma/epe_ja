@@ -36,6 +36,16 @@ public abstract class EpeAppConstants {
     public static final String CONTAINED_STRING_CLOSE = "}";
 
     /*
+     * EXEC
+     */
+    public static final String EXEC_COMMAND_LIN = "sh ";
+    public static final String EXEC_COMMAND_WIN = "";
+    public static final String EXEC_NEW_TERM_COMMAND_PREFIX_WIN = "start cmd.exe @cmd /k \"";
+    public static final String EXEC_NEW_TERM_COMMAND_PREFIX_LIN = "gnome-terminal -x sh -c \"";
+    public static final String EXEC_NEW_TERM_COMMAND_SUFFIX_WIN = "\"";
+    public static final String EXEC_NEW_TERM_COMMAND_SUFFIX_LIN = "; bash\"";
+
+    /*
      * ******************** REGULAR EXPRESSIONS - BEGIN ********************
      * 
      * "big" regexs are those that can match a result bigger than desired, eg. (see REGEX_STR) the case between

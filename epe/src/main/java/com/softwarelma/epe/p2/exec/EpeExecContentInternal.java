@@ -19,7 +19,7 @@ public final class EpeExecContentInternal {
 
     @Override
     public String toString() {
-        return listStr == null ? str : listStr.toString();
+        return listStr == null ? str : this.listToString();
     }
 
     public String getStr() {
@@ -28,6 +28,16 @@ public final class EpeExecContentInternal {
 
     public List<String> getListStr() {
         return listStr;
+    }
+
+    private String listToString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (String str : this.listStr) {
+            sb.append(str);
+        }
+
+        return sb.toString();
     }
 
 }

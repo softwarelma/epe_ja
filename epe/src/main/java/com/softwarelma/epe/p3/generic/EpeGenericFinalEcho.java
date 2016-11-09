@@ -32,7 +32,7 @@ public final class EpeGenericFinalEcho extends EpeGenericAbstract {
                 }
             }
 
-            sb.append(content.getStr());
+            sb.append(content.getContentInternal().toString());
         }
 
         String ret = sb.toString();
