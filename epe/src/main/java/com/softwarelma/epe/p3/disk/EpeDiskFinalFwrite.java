@@ -19,7 +19,6 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         EpeAppUtils.checkRange(listExecResult.size(), 2, 4, false, false, postMessage);
 
         // FILE
-
         String filename = this.getStringAt(listExecResult, 0, postMessage);
         filename = EpeAppUtils.cleanFilename(filename);
         File file = new File(filename);
@@ -29,18 +28,15 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         }
 
         // CONTENT
-
         String content = this.getStringAtForce(listExecResult, 1, postMessage);
 
         // ENCODING
-
         String encoding = null;
         if (listExecResult.size() > 2) {
             encoding = this.getStringAt(listExecResult, 2, postMessage);
         }
 
         // APPEND
-
         String appendStr = null;
         boolean appendBool = false;
         if (listExecResult.size() > 3) {
@@ -49,15 +45,17 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         }
 
         // WRITING
+        this.writeFile(content, filename, encoding, appendBool);
+        return this.createEmptyResult();
+    }
 
+    private void writeFile(String content, String filename, String encoding, boolean appendBool) throws EpeAppException {
         try {
             EpeEncodings enc = new EpeEncodings();
             enc.write(content, filename, encoding, appendBool);
         } catch (Exception e) {
             throw new EpeAppException("fwrite, file \"" + filename + "\" is not valid for writing", e);
         }
-
-        return this.createEmptyResult();
     }
 
 }

@@ -15,24 +15,24 @@ public final class EpeApp {
     public void start(String[] args) throws EpeAppException {
         EpeAppGlobalParams globalParams = new EpeAppGlobalParams();
         String programPath = null;
-        String programContent = null;
 
         if (args.length == 0) {
             programPath = EpeAppConstants.PROGRAM_DEFAULT_PATH;
+            this.start(globalParams, programPath);
         } else if (args.length == 2 && "-f".equals(args[0])) {
-            programPath = args[1];
-        } else if (args.length == 2 && "-p".equals(args[0])) {
-            programContent = args[1];
+            for (int i = 1; i < args.length; i++) {
+                programPath = args[1];
+                this.start(globalParams, programPath);
+            }
         } else {
             List<String> list = Arrays.asList(args);
             throw new EpeAppException("Invalid args: " + list);
         }
-
-        this.start(globalParams, programPath, programContent);
     }
 
-    private void start(EpeAppGlobalParams globalParams, String programPath, String programContent) {
-        String progName = programPath == null ? "CONTENT" : "\"" + programPath + "\"";
+    private void start(EpeAppGlobalParams globalParams, String programPath) throws EpeAppException {
+        EpeAppUtils.checkNull("programPath", programPath);
+        String progName = "\"" + programPath + "\"";
         String step = "retrieving the PROG " + progName;
 
         try {
@@ -40,13 +40,8 @@ public final class EpeApp {
             Map<String, String> mapNotContainedReplaced = new HashMap<>();
             EpeProgInterface prog;
 
-            if (programPath != null) {
-                prog = EpeProgFactory.getInstanceFromProgramPath(programPath, mapNotContainedReplaced);
-            } else if (programContent != null) {
-                prog = EpeProgFactory.getInstanceFromProgramContent(programContent, mapNotContainedReplaced);
-            } else {
-                throw new EpeAppException("Program not found");
-            }
+            prog = EpeProgFactory.getInstanceFromProgramPath(programPath, mapNotContainedReplaced);
+            // prog = EpeProgFactory.getInstanceFromProgramContent(programContent, mapNotContainedReplaced);
 
             String step0 = "executing from prog " + progName + " the SENTENCE ";
             EpeProgSentInterface progSent;
