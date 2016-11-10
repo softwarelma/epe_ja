@@ -43,6 +43,29 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return execResult;
     }
 
+    protected int getIntOrSizeAt(List<EpeExecResult> listExecResult, int index, String postMessage)
+            throws EpeAppException {
+        if (this.isListStringAt(listExecResult, index, postMessage)) {
+            List<String> listStr = this.getListStringAt(listExecResult, index, postMessage);
+            return listStr.size();
+        }
+
+        String str = this.getStringAt(listExecResult, 0, postMessage);
+        int i = EpeAppUtils.parseInt(str);
+        return i;
+    }
+
+    protected int getIntAt(List<EpeExecResult> listExecResult, int index, String postMessage) throws EpeAppException {
+        String str = this.getStringAt(listExecResult, 0, postMessage);
+        int i = EpeAppUtils.parseInt(str);
+        return i;
+    }
+
+    protected int getSizeAt(List<EpeExecResult> listExecResult, int index, String postMessage) throws EpeAppException {
+        List<String> listStr = this.getListStringAt(listExecResult, index, postMessage);
+        return listStr.size();
+    }
+
     protected String getStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
             throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);

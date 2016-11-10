@@ -2,14 +2,26 @@ print_to_console("true");
 //echo("hello world");
 
 label1 = label();
+ele = for(list, ind);
+
+
 goto("3", "true");
 
 echo("to avoid");
 echo("end");
 
-list = echo_to_list("e1");
-elem = for(list);
-echo(list);
+//list = echo_to_list("e4.11.0", "f5.1", "z5.1.1");
+//order(list);
+//order(list, "version");
+
+//elem = for(list);
+//echo(list);
 
 //empty(list);
-not("false");
+//not("false");
+
+line = read_line("inserire un val", "aa|bb", "true", "false");
+echo(line);
+
+
+goto(label1, cond);

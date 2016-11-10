@@ -2,6 +2,7 @@ package com.softwarelma.epe.p1.app;
 
 import java.io.File;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,19 @@ public abstract class EpeAppUtils {
 
         if (value == null) {
             throw new EpeAppException("Null " + name);
+        }
+    }
+
+    public static void checkEquals(String name1, String name2, Object value1, Object value2) throws EpeAppException {
+        checkNull("name1", name1);
+        checkNull("name2", name2);
+
+        if (value1 == null && value2 == null) {
+            return;
+        }
+
+        if (value1 == null || value2 == null || !value1.equals(value2)) {
+            throw new EpeAppException("Vars " + name1 + " and " + name2 + " are not equals");
         }
     }
 
@@ -135,6 +149,15 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static <T> boolean isEmptyArray(T[] param) throws EpeAppException {
+        return param == null || param.length == 0;
+    }
+
+    public static boolean isEmptyTrimming(String param) {
+        return param == null || param.isEmpty() || param.trim().isEmpty()
+                || param.trim().replace("\t", "").replace("\r\n", "").replace("\n", "").isEmpty();
+    }
+
     public static String getNotContainedString(String text, String open, String close) throws EpeAppException {
         EpeAppUtils.checkNull("text", text);
         EpeAppUtils.checkNull("open", open);
@@ -202,6 +225,24 @@ public abstract class EpeAppUtils {
         } catch (NumberFormatException e) {
             throw new EpeAppException("parseInt for str " + str, e);
         }
+    }
+
+    public static boolean parseBoolean(String str) throws EpeAppException {
+        try {
+            return Boolean.parseBoolean(str);
+        } catch (NumberFormatException e) {
+            throw new EpeAppException("parseBoolean for str " + str, e);
+        }
+    }
+
+    public static <T> List<T> asList(T[] array) {
+        List<T> list = new ArrayList<T>();
+
+        for (T t : array) {
+            list.add(t);
+        }
+
+        return list;
     }
 
 }

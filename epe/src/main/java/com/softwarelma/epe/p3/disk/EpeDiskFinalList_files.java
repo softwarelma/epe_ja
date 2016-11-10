@@ -23,7 +23,7 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
         String dirName = this.getStringAt(listExecResult, 0, postMessage);
         File dir = new File(dirName);
         EpeAppUtils.checkDir(dir);
-        List<String> list = Arrays.asList(dir.list());
+        List<String> list = EpeAppUtils.asList(dir.list());
         this.log(execParams, list);
         return this.createResult(list);
     }

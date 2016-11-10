@@ -41,7 +41,8 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         boolean appendBool = false;
         if (listExecResult.size() > 3) {
             appendStr = this.getStringAt(listExecResult, 3, postMessage);
-            appendBool = "append".equals(appendStr);
+            EpeAppUtils.checkEquals("fwrite-4th-param", "append", appendStr, "append");
+            appendBool = true;
         }
 
         // WRITING
