@@ -15,6 +15,16 @@ public final class EpeGenericFinalGoto extends EpeGenericAbstract {
         String label = this.getStringAt(listExecResult, 0, postMessage);
         int sentIndex = EpeAppUtils.parseInt(label);
         String str = sentIndex + "";
+
+        if (listExecResult.size() > 1) {
+            String condition = this.getStringAt(listExecResult, 1, postMessage);
+            EpeAppUtils.checkContains(new String[] { "true", "false" }, "condition", condition);
+
+            if (condition.equals("false")) {
+                return this.createEmptyResult();
+            }
+        }
+
         execParams.getGlobalParams().setSentIndex(sentIndex);
         this.log(execParams, str);
         return this.createResult(str);

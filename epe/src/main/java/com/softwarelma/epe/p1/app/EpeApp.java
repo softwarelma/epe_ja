@@ -57,6 +57,7 @@ public final class EpeApp {
 
                 if (progSent.getLiteralOrFuncName().equals("goto")) {
                     i = globalParams.getSentIndex();
+                    EpeAppUtils.checkRange(i, 0, prog.size(), false, true, "EpeApp.start().");
                 }
             }
         } catch (Exception e) {

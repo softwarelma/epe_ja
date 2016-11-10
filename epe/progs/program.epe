@@ -2,11 +2,14 @@ print_to_console("true");
 //echo("hello world");
 
 label1 = label();
-goto("3");
+goto("3", "true");
 
 echo("to avoid");
 echo("end");
 
-list = echo_to_list("e1", "e2", "e3");
-elem = for(list, "2");
+list = echo_to_list("e1");
+elem = for(list);
 echo(list);
+
+//empty(list);
+not("false");
