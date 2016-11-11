@@ -5,13 +5,18 @@ print_to_console("true");
 
 
 
-//content = fread("props/program-installazione-db-lab--topolino.xml");
-//currentDir = read_line("Inserire il path contenente i pacchetti da accorpare", "*", "true", "true");
-//currentDir = "/home/ellison/Downloads/epe-install/DB_4.1.19-20/";
-//list_dirs = list_dirs(currentDir);
-//list_dirs = order(list_dirs, "version");
+content = fread("props-installazione-db/program-installazione-db-lab--topolino.xml");
 
-exec("ls", "wrap");
+
+currentDir = read_line("Inserire il path contenente i pacchetti da accorpare", "*", "true", "true");
+list_zip = read_line("Inserire i pacchetti (zip) da accorpare, separati da virgola", "*", "true", "true");
+ticket = read_line("TICKET", "*", "true", "true");
+userName = read_line("USER_NAME", "*", "true", "true");
+eventualiNote = read_line("EVENTUALI NOTE", "*", "true", "true");
+
+//currentDir = "/home/ellison/Downloads/epe-install/db/";
+list_dirs = list_dirs(currentDir);
+list_dirs = order(list_dirs, "version");
 
 /*
 ind = "0";
@@ -23,7 +28,7 @@ echo("");
 goto(label0, smaller);
 */
 
-/*
+
 
 label1 = label();
 dir = echo(for(list_dirs), "/");
@@ -72,8 +77,12 @@ upgrade_sge = replace(upgrade_sge, "\nDEFINE ORACLE_SID   	=", echo("\nDEFINE OR
 applicazione_pman_portale = find_between(content, "<applicazione_pman_portale>", "</applicazione_pman_portale>");
 upgrade_sge = replace(upgrade_sge, "\nDEFINE APPLICAZIONE_PMAN_PORTALE =", echo("\nDEFINE APPLICAZIONE_PMAN_PORTALE = '''", applicazione_pman_portale, "'''"));
 
-//fwrite(fileName, upgrade_sge, "ISO-8859-15");
-//fwrite(fileName, "\nQUIT\n", "ISO-8859-15", "append");
+upgrade_sge = replace(upgrade_sge, "\nACCEPT TICKET     		PROMPT 'TICKET : '", echo("\nDEFINE TICKET = ", ticket));
+upgrade_sge = replace(upgrade_sge, "\nACCEPT USER_NAME 		PROMPT 'USER_NAME : '", echo("\nDEFINE USER_NAME = ", userName));
+upgrade_sge = replace(upgrade_sge, "\nACCEPT NOTE 			PROMPT 'EVENTUALI NOTE : '", echo("\nDEFINE NOTE = '", eventualiNote, "'"));
+
+fwrite(fileName, upgrade_sge, "ISO-8859-15");
+fwrite(fileName, "\nQUIT\n", "ISO-8859-15", "append");
 
 not_empty = not(empty(list_dirs));
 goto(label1, not_empty);
@@ -81,13 +90,12 @@ goto(label1, not_empty);
 
 
 
-content = order(list_dirs(currentDir));
+list_dirs = list_dirs(currentDir);
+content = order(list_dirs, "version");
 content = replace("echo [DIR]\ncd [DIR]\nsqlplus /nolog @upgrade_sge.sql\ncd..\n\n", "[DIR]", content);
 content = echo(content);
 content = echo("@echo off\n\n", content, "pause\nexit");
-//fwrite(echo(currentDir, "upgrade_main.bat"), content, "ISO-8859-15");
+fwrite(echo(currentDir, "upgrade_main.bat"), content, "ISO-8859-15");
 
 
 
-
-*/
