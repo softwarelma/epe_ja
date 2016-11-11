@@ -21,6 +21,7 @@ public abstract class EpeAppConstants {
      * ENCODINGS REGISTRED
      */
     public static final String ENCODING_UTF_8 = "UTF-8";
+    public static final String ENCODING_DEFAULT = ENCODING_UTF_8;
     public static final String ENCODING_ISO_8859_15 = "ISO-8859-15";
 
     /*
@@ -38,12 +39,24 @@ public abstract class EpeAppConstants {
     /*
      * EXEC
      */
+    public static final String EXEC_FILE_LIN = "run-epe.sh";
+    public static final String EXEC_FILE_WIN = "run-epe.bat";
     public static final String EXEC_COMMAND_LIN = "sh ";
     public static final String EXEC_COMMAND_WIN = "";
     public static final String EXEC_NEW_TERM_COMMAND_PREFIX_WIN = "start cmd.exe @cmd /k \"";
     public static final String EXEC_NEW_TERM_COMMAND_PREFIX_LIN = "gnome-terminal -x sh -c \"";
     public static final String EXEC_NEW_TERM_COMMAND_SUFFIX_WIN = "\"";
     public static final String EXEC_NEW_TERM_COMMAND_SUFFIX_LIN = "; bash\"";
+
+    /**
+     * RandomInitVector 16 bytes IV
+     */
+    public static final String CIPHER_INIT_VECTOR = "12345678*/+-#{[(";
+
+    /**
+     * per rinforzare la key, lunghezza 16
+     */
+    public static final String CIPHER_KEY_SUFFIX = "*/+-#{[(12345678";
 
     /*
      * ******************** REGULAR EXPRESSIONS - BEGIN ********************

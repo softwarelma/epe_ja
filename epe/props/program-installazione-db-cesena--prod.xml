@@ -1,0 +1,19 @@
+<username_master>SGE_MASTER</username_master>
+<password_master>SU3RdKpy43</password_master>
+
+<username_user>SGE_USER</username_user>
+<password_user>df0T4QU20E</password_user>
+
+<username_acsor>ACSOR</username_acsor>
+<password_acsor>cCaJnnib8u</password_acsor>
+
+<username_scheduler>SCHEDULER</username_scheduler>
+<password_scheduler>qu4E3Z45qh</password_scheduler>
+
+<username_pman>PMAN</username_pman>
+<password_pman>nfYyaDMWqR</password_pman>
+
+<codice_ente>C573</codice_ente>
+<sid>C573_CESENA_PROD</sid>
+
+<applicazione_pman_portale>PORTALE NETTUNO</applicazione_pman_portale>

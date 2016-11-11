@@ -1,0 +1,19 @@
+<username_master>SGE_MASTER</username_master>
+<password_master>PR2511_SGE_MASTER</password_master>
+
+<username_user>SGE_USER</username_user>
+<password_user>PR2511_SGE_USER</password_user>
+
+<username_acsor>ACSOR</username_acsor>
+<password_acsor>PR2511_ACSOR</password_acsor>
+
+<username_scheduler>SCHEDULER</username_scheduler>
+<password_scheduler>PR2511_SCHEDULER</password_scheduler>
+
+<username_pman>PMAN</username_pman>
+<password_pman>PR2511_PMAN</password_pman>
+
+<codice_ente>F257</codice_ente>
+<sid>F257_MODENA_COLL</sid>
+
+<applicazione_pman_portale>PORTALE NETTUNO</applicazione_pman_portale>

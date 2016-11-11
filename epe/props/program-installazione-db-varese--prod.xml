@@ -1,0 +1,19 @@
+<username_master>SGE_MASTER</username_master>
+<password_master>JkDGHqMzZV</password_master>
+
+<username_user>SGE_USER</username_user>
+<password_user>Vxp3Qaj6yi</password_user>
+
+<username_acsor>ACSOR</username_acsor>
+<password_acsor>n4hFFrD6G2</password_acsor>
+
+<username_scheduler>SCHEDULER</username_scheduler>
+<password_scheduler>WvAe0XyHvd</password_scheduler>
+
+<username_pman>PMAN</username_pman>
+<password_pman>odddfQ8028</password_pman>
+
+<codice_ente>L682</codice_ente>
+<sid>L682_VARESE_PROD</sid>
+
+<applicazione_pman_portale>PORTALE NETTUNO</applicazione_pman_portale>

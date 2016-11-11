@@ -153,6 +153,10 @@ public abstract class EpeAppUtils {
         return param == null || param.length == 0;
     }
 
+    public static boolean isEmpty(String param) {
+        return param == null || param.isEmpty();
+    }
+
     public static boolean isEmptyTrimming(String param) {
         return param == null || param.isEmpty() || param.trim().isEmpty()
                 || param.trim().replace("\t", "").replace("\r\n", "").replace("\n", "").isEmpty();

@@ -32,12 +32,35 @@
             <version>2.3</version>
         </dependency>
 
+        <!-- APACHE BEAN UTILS -->
+        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
         <!-- APACHE COMMONS IO -->
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
+        </dependency>
+
+        <!-- APACHE COMMONS CODEC - ENCRYPT/DECRIPT -->
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+
+        <!-- APACHE COMMONS CONFIGURATION - HIERARCHICAL PROPERTIES -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <version>2.1</version>
         </dependency>
 
     </dependencies>

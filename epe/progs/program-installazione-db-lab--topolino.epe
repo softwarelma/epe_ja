@@ -5,13 +5,15 @@ print_to_console("true");
 
 
 
-content = fread("props/program-installazione-db-lab--topolino.xml");
-currentDir = read_line("Inserire il path contenente i pacchetti da accorpare", "*", "true", "true");
+//content = fread("props/program-installazione-db-lab--topolino.xml");
+//currentDir = read_line("Inserire il path contenente i pacchetti da accorpare", "*", "true", "true");
 //currentDir = "/home/ellison/Downloads/epe-install/DB_4.1.19-20/";
-list_dirs = list_dirs(currentDir);
-list_dirs = order(list_dirs, "version");
+//list_dirs = list_dirs(currentDir);
+//list_dirs = order(list_dirs, "version");
 
+exec("ls", "wrap");
 
+/*
 ind = "0";
 label0 = label();
 dir = for(list_dirs, ind);
@@ -19,8 +21,7 @@ ind = inc(ind);
 smaller = smaller(ind, list_dirs);
 echo("");
 goto(label0, smaller);
-
-
+*/
 
 /*
 
