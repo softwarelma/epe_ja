@@ -9,6 +9,14 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeGenericFinalFor extends EpeGenericAbstract {
 
+    // ind = "0";
+    // label0 = label();
+    // dir = for(list_dirs, ind);
+    // ind = inc(ind);
+    // smaller = smaller(ind, list_dirs);
+    // echo("");
+    // goto(label0, smaller);
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "for, expected list and optionally index.";

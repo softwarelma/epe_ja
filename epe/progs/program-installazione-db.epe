@@ -4,6 +4,10 @@ print_to_console("true");
 //list_dirs_da_usare = echo_to_list("DB_4.1.0", "DB_4.1.2");
 
 
+fdunzip("/home/ellison/Downloads/aaaa/Untitled Folder.zip", "/home/ellison/Downloads/aaaa/aa");
+
+
+/*
 
 content = fread("props-installazione-db/program-installazione-db-lab--topolino.xml");
 
@@ -18,15 +22,6 @@ eventualiNote = read_line("EVENTUALI NOTE", "*", "true", "true");
 list_dirs = list_dirs(currentDir);
 list_dirs = order(list_dirs, "version");
 
-/*
-ind = "0";
-label0 = label();
-dir = for(list_dirs, ind);
-ind = inc(ind);
-smaller = smaller(ind, list_dirs);
-echo("");
-goto(label0, smaller);
-*/
 
 
 
@@ -98,4 +93,4 @@ content = echo("@echo off\n\n", content, "pause\nexit");
 fwrite(echo(currentDir, "upgrade_main.bat"), content, "ISO-8859-15");
 
 
-
+*/
