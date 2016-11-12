@@ -33,7 +33,7 @@ public final class EpeApp {
     private void start(EpeAppGlobalParams globalParams, String programPath) throws EpeAppException {
         EpeAppUtils.checkNull("programPath", programPath);
         String progName = "\"" + programPath + "\"";
-        String step = "retrieving the PROG " + progName;
+        StringBuilder step = new StringBuilder("retrieving the PROG " + progName);
 
         try {
             // DbpAppLogger.log(step);
@@ -44,22 +44,10 @@ public final class EpeApp {
             // prog = EpeProgFactory.getInstanceFromProgramContent(programContent, mapNotContainedReplaced);
 
             String step0 = "executing from prog " + progName + " the SENTENCE ";
-            EpeProgSentInterface progSent;
             EpeExec exec = new EpeExec();
 
-            for (int i = 0; i < prog.size(); i++) {
-                progSent = prog.get(i);
-                globalParams.setSentIndex(i);
-                step = step0 + (i + 1) + "/" + prog.size() + " 1-based: " + progSent.toString();
-                // DbpAppLogger.log(step);
-                // EpeExecResult execResult =
-                exec.execute(globalParams, progSent, mapNotContainedReplaced);
-
-                if (progSent.getLiteralOrFuncName().equals("goto")) {
-                    i = globalParams.getSentIndex();
-                    EpeAppUtils.checkRange(i, 0, prog.size(), false, true, "EpeApp.start().");
-                }
-            }
+            this.executeLabels(globalParams, exec, prog, step, step0, mapNotContainedReplaced);
+            this.executeSents(globalParams, exec, prog, step, step0, mapNotContainedReplaced);
         } catch (Exception e) {
             if (!(e instanceof EpeAppException)) {
                 new EpeAppException("DbpApp.start() while " + step, e);
@@ -68,4 +56,60 @@ public final class EpeApp {
             System.exit(0);
         }
     }
+
+    private void executeLabels(EpeAppGlobalParams globalParams, EpeExec exec, EpeProgInterface prog, StringBuilder step,
+            String step0, Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+        EpeProgSentInterface progSent;
+
+        for (int i = 0; i < prog.size(); i++) {
+            progSent = prog.get(i);
+            globalParams.setSentIndex(i);
+
+            step.delete(0, step.length());
+            step.append(step0);
+            step.append((i + 1));
+            step.append("/");
+            step.append(prog.size());
+            step.append(" 1-based: ");
+            step.append(progSent.toString());
+
+            if (progSent.getLiteralOrFuncName().equals("label")) {
+                // DbpAppLogger.log(step);
+                // EpeExecResult execResult =
+                exec.execute(globalParams, progSent, mapNotContainedReplaced);
+            }
+        }
+    }
+
+    private void executeSents(EpeAppGlobalParams globalParams, EpeExec exec, EpeProgInterface prog, StringBuilder step,
+            String step0, Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+        EpeProgSentInterface progSent;
+
+        for (int i = 0; i < prog.size(); i++) {
+            progSent = prog.get(i);
+            globalParams.setSentIndex(i);
+
+            step.delete(0, step.length());
+            step.append(step0);
+            step.append((i + 1));
+            step.append("/");
+            step.append(prog.size());
+            step.append(" 1-based: ");
+            step.append(progSent.toString());
+
+            if (progSent.getLiteralOrFuncName().equals("label")) {
+                continue;
+            }
+
+            // DbpAppLogger.log(step);
+            // EpeExecResult execResult =
+            exec.execute(globalParams, progSent, mapNotContainedReplaced);
+
+            if (progSent.getLiteralOrFuncName().equals("goto")) {
+                i = globalParams.getSentIndex();
+                EpeAppUtils.checkRange(i, 0, prog.size(), false, true, "EpeApp.start().");
+            }
+        }
+    }
+
 }
