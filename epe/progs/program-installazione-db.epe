@@ -4,12 +4,8 @@ print_to_console("true");
 //list_dirs_da_usare = echo_to_list("DB_4.1.0", "DB_4.1.2");
 
 
-echo(
-	echo(
-		echo(
- echo(
- 
- "aa "))));
+//fwrite("/home/ellison/Downloads/aaaa/a/a.txt", "Ñ", print_default_encoding());
+fread("/home/ellison/Downloads/aaaa/a/a.txt");
 
 //fdunzip("/home/ellison/Downloads/aaaa/Untitled Folder.zip", "/home/ellison/Downloads/aaaa/aa");
 

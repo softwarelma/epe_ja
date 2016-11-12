@@ -46,17 +46,15 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         }
 
         // WRITING
-        this.writeFile(content, filename, encoding, appendBool);
-        return this.createEmptyResult();
-    }
+        this.log(execParams, "fwrite()");
+        this.log(execParams, "\tfilename: " + filename);
+        this.log(execParams, "\tencoding: " + encoding);
+        this.log(execParams, "\tappendBool: " + appendBool);
+        this.log(execParams, "\tcontent:\n" + content);
 
-    private void writeFile(String content, String filename, String encoding, boolean appendBool) throws EpeAppException {
-        try {
-            EpeEncodings enc = new EpeEncodings();
-            enc.write(content, filename, encoding, appendBool);
-        } catch (Exception e) {
-            throw new EpeAppException("fwrite, file \"" + filename + "\" is not valid for writing", e);
-        }
+        EpeEncodings enc = new EpeEncodings();
+        enc.write(content, filename, encoding, appendBool);
+        return this.createEmptyResult();
     }
 
 }

@@ -18,7 +18,7 @@ public final class EpeGenericFinalIs_mac extends EpeGenericAbstract {
     }
 
     public static boolean isMac() {
-        return (EpeGenericFinalOs_name.retrieveOsName().toLowerCase().indexOf("mac") >= 0);
+        return (EpeGenericFinalPrint_os_name.retrieveOsName().toLowerCase().indexOf("mac") >= 0);
     }
 
 }

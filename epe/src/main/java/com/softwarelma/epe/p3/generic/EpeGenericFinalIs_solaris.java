@@ -18,7 +18,7 @@ public final class EpeGenericFinalIs_solaris extends EpeGenericAbstract {
     }
 
     public static boolean isSolaris() {
-        return (EpeGenericFinalOs_name.retrieveOsName().toLowerCase().indexOf("sunos") >= 0);
+        return (EpeGenericFinalPrint_os_name.retrieveOsName().toLowerCase().indexOf("sunos") >= 0);
     }
 
 }

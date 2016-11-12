@@ -18,7 +18,7 @@ public final class EpeGenericFinalIs_windows extends EpeGenericAbstract {
     }
 
     public static boolean isWindows() {
-        return (EpeGenericFinalOs_name.retrieveOsName().toLowerCase().indexOf("win") >= 0);
+        return (EpeGenericFinalPrint_os_name.retrieveOsName().toLowerCase().indexOf("win") >= 0);
     }
 
 }

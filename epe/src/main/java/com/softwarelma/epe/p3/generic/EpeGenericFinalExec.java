@@ -1,7 +1,6 @@
 package com.softwarelma.epe.p3.generic;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.util.AbstractMap;
 import java.util.List;
@@ -26,13 +25,13 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
         EpeAppUtils.checkContains(new String[] { "wrap", "nowrap" }, "wrapping option", wrapStr);
         boolean wrap = wrapStr.equals("wrap");
         String execFilename = listExecResult.size() > 2 ? this.getStringAt(listExecResult, 2, postMessage)
-                : retrieveDefaultExecFilename();
+                : EpeGenericFinalPrint_default_exec_file_name.retrieveDefaultExecFilename();
         String encoding = listExecResult.size() > 3 ? this.getStringAt(listExecResult, 3, postMessage)
                 : EpeAppConstants.ENCODING_DEFAULT;
         Map.Entry<Integer, String> exitAndOutput;
 
         if (wrap) {
-            String wrappedCommand = retrieveWrappedCommand(command);
+            String wrappedCommand = EpeGenericFinalPrint_wrapped_command.retrieveWrappedCommand(command);
             exitAndOutput = execWrappedCommand(execParams.getGlobalParams().isPrintToConsole(), wrappedCommand,
                     execFilename, encoding);
         } else {
@@ -84,90 +83,9 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
             throw new EpeAppException("mainForTarget", e);
         }
 
-        String osCommand = retrieveExecOSCommand(execFilename);
+        String osCommand = EpeGenericFinalPrint_os_command.retrieveExecOSCommand(execFilename);
         Map.Entry<Integer, String> exitAndOutput = execCommand(doLog, osCommand);
         return exitAndOutput;
-    }
-
-    public static String retrieveExecOSCommand(String execFilename) throws EpeAppException {
-        String execCommand = null;
-
-        if (EpeGenericFinalIs_windows.isWindows()) {
-            execCommand = EpeAppConstants.EXEC_COMMAND_WIN;
-        } else if (EpeGenericFinalIs_unix.isUnix()) {
-            execCommand = EpeAppConstants.EXEC_COMMAND_LIN;
-        } else if (EpeGenericFinalIs_mac.isMac()) {
-            execCommand = EpeAppConstants.EXEC_COMMAND_LIN;
-        } else if (EpeGenericFinalIs_solaris.isSolaris()) {
-            execCommand = EpeAppConstants.EXEC_COMMAND_LIN;
-        }
-
-        EpeAppUtils.checkNull("execCommand (OS: " + EpeGenericFinalOs_name.retrieveOsName() + ")", execCommand);
-        return execCommand + execFilename;
-    }
-
-    public static String retrieveDefaultExecFilename() throws EpeAppException {
-        String execFilename = null;
-
-        if (EpeGenericFinalIs_windows.isWindows()) {
-            execFilename = EpeAppConstants.EXEC_FILE_WIN;
-        } else if (EpeGenericFinalIs_unix.isUnix()) {
-            execFilename = EpeAppConstants.EXEC_FILE_LIN;
-        } else if (EpeGenericFinalIs_mac.isMac()) {
-            execFilename = EpeAppConstants.EXEC_FILE_LIN;
-        } else if (EpeGenericFinalIs_solaris.isSolaris()) {
-            execFilename = EpeAppConstants.EXEC_FILE_LIN;
-        }
-
-        EpeAppUtils.checkNull("execFilename (OS: " + EpeGenericFinalOs_name.retrieveOsName() + ")", execFilename);
-        File tmp = new File("tmp");
-
-        if (!tmp.exists()) {
-            tmp.mkdir();
-        }
-
-        execFilename = "tmp/" + execFilename;
-        return execFilename;
-    }
-
-    public static String retrieveWrappedCommand(String command) throws EpeAppException {
-        return retrieveNewTerminalCommandPrefix() + command + retrieveNewTerminalCommandSuffix();
-    }
-
-    public static String retrieveNewTerminalCommandPrefix() throws EpeAppException {
-        String newTerminalCommandPrefix = null;
-
-        if (EpeGenericFinalIs_windows.isWindows()) {
-            newTerminalCommandPrefix = EpeAppConstants.EXEC_NEW_TERM_COMMAND_PREFIX_WIN;
-        } else if (EpeGenericFinalIs_unix.isUnix()) {
-            newTerminalCommandPrefix = EpeAppConstants.EXEC_NEW_TERM_COMMAND_PREFIX_LIN;
-        } else if (EpeGenericFinalIs_mac.isMac()) {
-            // ?
-        } else if (EpeGenericFinalIs_solaris.isSolaris()) {
-            // ?
-        }
-
-        EpeAppUtils.checkNull("newTerminalCommandPrefix (OS: " + EpeGenericFinalOs_name.retrieveOsName() + ")",
-                newTerminalCommandPrefix);
-        return newTerminalCommandPrefix;
-    }
-
-    public static String retrieveNewTerminalCommandSuffix() throws EpeAppException {
-        String newTerminalCommandSuffix = null;
-
-        if (EpeGenericFinalIs_windows.isWindows()) {
-            newTerminalCommandSuffix = EpeAppConstants.EXEC_NEW_TERM_COMMAND_SUFFIX_WIN;
-        } else if (EpeGenericFinalIs_unix.isUnix()) {
-            newTerminalCommandSuffix = EpeAppConstants.EXEC_NEW_TERM_COMMAND_SUFFIX_LIN;
-        } else if (EpeGenericFinalIs_mac.isMac()) {
-            // ?
-        } else if (EpeGenericFinalIs_solaris.isSolaris()) {
-            // ?
-        }
-
-        EpeAppUtils.checkNull("newTerminalCommandPrefix (OS: " + EpeGenericFinalOs_name.retrieveOsName() + ")",
-                newTerminalCommandSuffix);
-        return newTerminalCommandSuffix;
     }
 
 }

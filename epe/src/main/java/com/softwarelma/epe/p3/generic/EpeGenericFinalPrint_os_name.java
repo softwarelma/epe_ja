@@ -7,19 +7,18 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalIs_unix extends EpeGenericAbstract {
+public final class EpeGenericFinalPrint_os_name extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
-        String str = isUnix() + "";
+        String str = retrieveOsName();
         this.log(execParams, str);
         return this.createResult(str);
     }
 
-    public static boolean isUnix() {
-        String os = EpeGenericFinalPrint_os_name.retrieveOsName().toLowerCase();
-        return (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0);
+    public static String retrieveOsName() {
+        return System.getProperty("os.name");
     }
 
 }

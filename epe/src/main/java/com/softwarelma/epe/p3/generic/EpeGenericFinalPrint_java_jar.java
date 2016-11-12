@@ -31,7 +31,7 @@ public final class EpeGenericFinalPrint_java_jar extends EpeGenericAbstract {
         permSize = permSize < 256 && physicalRam >= 768 ? 256 : permSize;
 
         args = EpeAppUtils.isEmpty(args) ? "" : " " + args;
-        String command = "java -Xms" + physicalRam + "M -Xmx" + physicalRam + "M -Xxs" + permSize + "M -XX:PermSize="
+        String command = "java -Xms" + physicalRam + "M -Xmx" + physicalRam + "M -Xss" + permSize + "M -XX:PermSize="
                 + permSize + "M -XX:MaxPermSize=" + permSize + "M -jar " + javaJarName + args;
         return command;
     }

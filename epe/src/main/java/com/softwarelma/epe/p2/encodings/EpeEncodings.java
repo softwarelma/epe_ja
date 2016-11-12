@@ -208,8 +208,8 @@ public class EpeEncodings {
             return responseIso;
         }
 
-        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey()
-                + "\" (int val " + ((int) cUtf.getKey()) + ")";
+        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey() + "\" (int val "
+                + ((int) cUtf.getKey()) + ")";
         responseUtf.getListWarning().add(warn);
         responseIso.getListWarning().add(warn);
         warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_ISO_8859_15 + " \"" + cIso.getKey() + "\" (int val "
@@ -243,9 +243,19 @@ public class EpeEncodings {
      *             the exception
      */
     public EpeEncodingsResponse read(String filePath, String encoding) throws EpeAppException {
-        EpeAppUtils.checkNull("filePath", filePath);
-        EpeAppUtils.checkNull("encoding", encoding);
+        EpeAppUtils.checkEmpty("filePath", filePath);
+        EpeAppUtils.checkEmpty("encoding", encoding);
         filePath = this.cleanPath(filePath);
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            throw new EpeAppException("read, file \"" + filePath + "\" does not exist");
+        }
+
+        if (!file.isFile()) {
+            throw new EpeAppException("read, file \"" + filePath + "\" is not a file");
+        }
+
         String fileContent;
         StringBuilder fileData = new StringBuilder(1000);
         BufferedReader reader;
@@ -345,20 +355,29 @@ public class EpeEncodings {
         return "\n";
     }
 
-    public void write(String content, String filePath, String encoding, boolean append) throws Exception {
+    public void write(String content, String filePath, String encoding, boolean append) throws EpeAppException {
         EpeAppUtils.checkNull("content", content);
         EpeAppUtils.checkNull("filePath", filePath);
         EpeAppUtils.checkNull("encoding", encoding);
         filePath = this.cleanPath(filePath);
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(filePath);
+            File dir = new File(filePathAndName.getKey());
+            dir.mkdirs();
+        }
+
         Charset charset = Charset.forName(encoding);
         Path path = Paths.get(filePath);
-        OpenOption optionAppend = new File(filePath).exists() ? (append ? StandardOpenOption.APPEND
-                : StandardOpenOption.TRUNCATE_EXISTING) : StandardOpenOption.CREATE_NEW;
+        OpenOption optionAppend = file.exists()
+                ? (append ? StandardOpenOption.APPEND : StandardOpenOption.TRUNCATE_EXISTING)
+                : StandardOpenOption.CREATE_NEW;
 
         try (BufferedWriter writer = Files.newBufferedWriter(path, charset, optionAppend)) {
             writer.write(content, 0, content.length());
-        } catch (Exception x) {
-            throw x;
+        } catch (Exception e) {
+            throw new EpeAppException("write file \"" + filePath + "\"", e);
         }
     }
 
@@ -385,14 +404,16 @@ public class EpeEncodings {
                 '\u00CC', '\u00EC', '\u00CD', '\u00ED', // i accentate
                 '\u00D2', '\u00F2', '\u00D3', '\u00F3', // o accentate
                 '\u00D9', '\u00F9', '\u00DA', '\u00FA', // u accentate
-                96,// accento grave
-                128,// "?", quello normale e' 63
-                133,// sconosciuto
-                138,// sconosciuto
-                158,// "?", quello normale e' 63
-                176,// zero piccolo, d'ordine
-                216,// uno zero strano
-                // 65533,//non usare, char di sostituzione
+                96, // accento grave
+                128, // "?", quello normale e' 63
+                133, // sconosciuto
+                138, // sconosciuto
+                158, // "?", quello normale e' 63
+                176, // zero piccolo, d'ordine
+                209, // Ñ
+                216, // uno zero strano
+                241, // ñ
+                     // 65533,//non usare, char di sostituzione
                 '\u20AC' // euro, per ultimo, puo' creare ambiguita'
         };
         String specialCharsStr = "";
