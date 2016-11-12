@@ -82,8 +82,14 @@ public abstract class EpeAppConstants {
     public static final String REGEX_FUNC_LEVEL_1 = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_1 + ")|("
             + REGEX_PARAM_LEVEL_1 + ")(\\,(" + REGEX_PARAM_LEVEL_1 + "))+)\\)";
     public static final String REGEX_PARAM_LEVEL_2 = REGEX_FUNC_LEVEL_1 + "|" + REGEX_PARAM_LEVEL_1;
-    public static final String REGEX_FUNC = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_2 + ")|(" + REGEX_PARAM_LEVEL_2
-            + ")(\\,(" + REGEX_PARAM_LEVEL_2 + "))+)\\)";
+    public static final String REGEX_FUNC_LEVEL_2 = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_2 + ")|("
+            + REGEX_PARAM_LEVEL_2 + ")(\\,(" + REGEX_PARAM_LEVEL_2 + "))+)\\)";
+    public static final String REGEX_PARAM_LEVEL_3 = REGEX_FUNC_LEVEL_2 + "|" + REGEX_PARAM_LEVEL_2;
+    public static final String REGEX_FUNC_LEVEL_3 = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_3 + ")|("
+            + REGEX_PARAM_LEVEL_3 + ")(\\,(" + REGEX_PARAM_LEVEL_3 + "))+)\\)";
+    public static final String REGEX_PARAM_LEVEL_4 = REGEX_FUNC_LEVEL_3 + "|" + REGEX_PARAM_LEVEL_3;
+    public static final String REGEX_FUNC = REGEX_ID + "\\((|(" + REGEX_PARAM_LEVEL_4 + ")|(" + REGEX_PARAM_LEVEL_4
+            + ")(\\,(" + REGEX_PARAM_LEVEL_4 + "))+)\\)";
 
     /*
      * LEFT SIDE

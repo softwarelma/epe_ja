@@ -20,6 +20,8 @@ public final class EpeProgParserSent {
     protected EpeProgSentInterface getProgSent(String sentStr, Map<String, String> mapNotContainedReplaced,
             String sDoubleBackSlash, String sBackSlashedQuote) throws EpeAppException {
         sentStr = sentStr.replace(" ", "");
+        sentStr = sentStr.replace("\n", "");
+        sentStr = sentStr.replace("\r", "");
         sentStr = sentStr.replace("\t", "");
 
         // String reRight = "(" + "(" + reFunc + ")|(" + reNull + ")|(" + reStr
