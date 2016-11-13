@@ -1,8 +1,6 @@
 print_to_console("true");
-xml_read_site("http://www.softwarelma.com/translator/");
 
 
-/*
 
 //list_dirs_da_usare = echo_to_list("DB_4.1.0", "DB_4.1.2");
 
@@ -90,4 +88,3 @@ content = echo("@echo off\n\n", content, "pause\nexit");
 fwrite(echo(currentDir, "upgrade_main.bat"), content, "ISO-8859-15");
 
 
-*/
