@@ -1,19 +1,10 @@
 print_to_console("true");
-//set_properties("program-installazione-db.properties");
-
-//list_dirs_da_usare = echo_to_list("DB_4.1.0", "DB_4.1.2");
-
-echo("e1");
-label1 = label();
-echo("e2");
-goto(label2);
-echo("e3");
-label2 = label();
-echo("e4");
-
+xml_read_site("http://www.softwarelma.com/translator/");
 
 
 /*
+
+//list_dirs_da_usare = echo_to_list("DB_4.1.0", "DB_4.1.2");
 
 content = fread("props-installazione-db/program-installazione-db-lab--topolino.xml");
 

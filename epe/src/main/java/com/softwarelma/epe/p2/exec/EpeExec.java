@@ -13,12 +13,14 @@ import com.softwarelma.epe.p3.db.EpeDbFactory;
 import com.softwarelma.epe.p3.disk.EpeDiskFactory;
 import com.softwarelma.epe.p3.generic.EpeGenericFactory;
 import com.softwarelma.epe.p3.mem.EpeMem;
+import com.softwarelma.epe.p3.xml.EpeXmlFactory;
 
 public final class EpeExec {
 
     private final EpeDbFactory dbFactory = EpeDbFactory.getInstance();
     private final EpeDiskFactory diskFactory = EpeDiskFactory.getInstance();
     private final EpeGenericFactory funcFactory = EpeGenericFactory.getInstance();
+    private final EpeXmlFactory xmlFactory = EpeXmlFactory.getInstance();
     private final EpeMem mem = new EpeMem();
 
     public EpeExecResult execute(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,
@@ -124,6 +126,18 @@ public final class EpeExec {
             }
 
             EpeExecInterface func = this.funcFactory.getNewInstance(funcName);
+            listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
+            execParams = new EpeExecParams(globalParams);
+            execResult = func.doFunc(execParams, listExecResult);
+        }
+
+        if (this.xmlFactory.isFunc(funcName)) {
+            known = true;
+            if (execResult != null) {
+                throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
+            }
+
+            EpeExecInterface func = this.xmlFactory.getNewInstance(funcName);
             listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
             execParams = new EpeExecParams(globalParams);
             execResult = func.doFunc(execParams, listExecResult);

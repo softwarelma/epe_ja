@@ -15,7 +15,7 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
-        String postMessage = "fwrite params should be 2 to 4: the file name, the content, optionally the encoding and optionally the append option";
+        String postMessage = "fwrite params should be 2 to 4: the file name, the content, optionally the encoding and optionally the \"append\" option";
         EpeAppUtils.checkRange(listExecResult.size(), 2, 4, false, false, postMessage);
 
         // FILE

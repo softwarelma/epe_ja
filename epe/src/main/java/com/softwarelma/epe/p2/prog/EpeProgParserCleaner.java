@@ -18,10 +18,10 @@ public final class EpeProgParserCleaner {
             String sDoubleBackSlash, String sBackSlashedQuote) throws EpeAppException {
         programContent = programContent.replace("\r\n", "\n");
         programContent = programContent.replace("\r", "");
-        programContent = cleanCommentOrString(programContent, true, mapNotContainedReplaced);
+        // programContent = cleanCommentOrString(programContent, true, mapNotContainedReplaced);
         programContent = programContent.replace("\\\\", sDoubleBackSlash);
         programContent = programContent.replace("\\\"", sBackSlashedQuote);
-        programContent = cleanCommentOrString(programContent, false, mapNotContainedReplaced);
+        programContent = cleanCommentOrString(programContent, mapNotContainedReplaced);
         cleanProgramContentValidation(programContent);
         return programContent;
     }
@@ -38,20 +38,22 @@ public final class EpeProgParserCleaner {
         }
     }
 
-    private String cleanCommentOrString(String text, boolean iscomment, Map<String, String> mapNotContainedReplaced)
+    private String cleanCommentOrString(String text, Map<String, String> mapNotContainedReplaced)
             throws EpeAppException {
         // System.out.println(text);
         // System.out.println("---------------------");
         String text2 = text;
         int iter = 0;
-        String notContained = null;
-
-        if (!iscomment) {
-            notContained = EpeAppUtils.getNotContainedString(text);
-        }
+        String notContained = EpeAppUtils.getNotContainedString(text);
 
         do {
             text = text2;
+            Boolean iscomment = this.isComment(text);
+
+            if (iscomment == null) {
+                return text;
+            }
+
             if (iscomment) {
                 text2 = cleanCommentOnce(text);
             } else {
@@ -63,6 +65,39 @@ public final class EpeProgParserCleaner {
         } while (text2 != null);
 
         return text;
+    }
+
+    private Boolean isComment(String text) {
+        int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR);
+        int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE);
+        int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK);
+
+        int posComment = this.retrieveValidMin(posLineComment[0], posBlockComment[0]);
+        return this.isComment(posComment, posString[0]);
+    }
+
+    private Boolean isComment(int posComment, int posString) {
+        if (posComment == -1 && posString == -1) {
+            return null;
+        } else if (posComment == -1) {
+            return false;
+        } else if (posString == -1) {
+            return true;
+        } else {
+            return posComment < posString;
+        }
+    }
+
+    private int retrieveValidMin(int pos0, int pos1) {
+        if (pos0 == -1 && pos1 == -1) {
+            return -1;
+        } else if (pos0 == -1) {
+            return pos1;
+        } else if (pos1 == -1) {
+            return pos0;
+        } else {
+            return Math.min(pos0, pos1);
+        }
     }
 
     private String cleanStringOnce(String text, String notContained, int iter,
