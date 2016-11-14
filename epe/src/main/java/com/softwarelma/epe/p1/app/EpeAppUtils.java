@@ -29,7 +29,18 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static void checkMinorOrEqual(int value1, int value2) throws EpeAppException {
+        if (value1 > value2) {
+            throw new EpeAppException("Value " + value1 + " should be <= " + value2);
+        }
+    }
+
     public static void checkEquals(String name1, String name2, Object value1, Object value2) throws EpeAppException {
+        checkEquals(name1, name2, value1, value2, null);
+    }
+
+    public static void checkEquals(String name1, String name2, Object value1, Object value2, String message)
+            throws EpeAppException {
         checkNull("name1", name1);
         checkNull("name2", name2);
 
@@ -38,7 +49,7 @@ public abstract class EpeAppUtils {
         }
 
         if (value1 == null || value2 == null || !value1.equals(value2)) {
-            throw new EpeAppException("Vars " + name1 + " and " + name2 + " are not equals");
+            throw new EpeAppException(message == null ? "Vars " + name1 + " and " + name2 + " are not equals" : message);
         }
     }
 
@@ -203,16 +214,21 @@ public abstract class EpeAppUtils {
     }
 
     public static Map.Entry<String, String> retrieveFilePathAndName(String fullFileName) throws EpeAppException {
-        checkEmpty("fullFileName", fullFileName);
-        fullFileName = cleanFilename(fullFileName);
-        fullFileName = fullFileName.endsWith("/") ? fullFileName.substring(0, fullFileName.length() - 1) : fullFileName;
-        String[] array = fullFileName.split("/");
+        return retrievePathAndLast(fullFileName, "/");
+    }
+
+    public static Map.Entry<String, String> retrievePathAndLast(String fullPath, String separator)
+            throws EpeAppException {
+        checkEmpty("fullPath", fullPath);
+        fullPath = cleanFilename(fullPath);
+        fullPath = fullPath.endsWith(separator) ? fullPath.substring(0, fullPath.length() - 1) : fullPath;
+        String[] array = fullPath.split(separator);
 
         String name = array[array.length - 1];
-        String path = fullFileName.substring(0, fullFileName.length() - name.length());
+        String path = fullPath.substring(0, fullPath.length() - name.length());
 
-        Map.Entry<String, String> filePathAndName = new AbstractMap.SimpleEntry<>(path, name);
-        return filePathAndName;
+        Map.Entry<String, String> filePathAndLast = new AbstractMap.SimpleEntry<>(path, name);
+        return filePathAndLast;
     }
 
     public static String replaceNotContainedWithReplaced(String sentStr, Map<String, String> mapNotContainedReplaced) {

@@ -22,6 +22,7 @@ public class EpeDiskFinalFdunzip extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fdunzip, expected the zip file name and optionally the output directory.";
         String zipFileName = this.getStringAt(listExecResult, 0, postMessage);
+        this.log(execParams, "zip file: \"" + zipFileName + "\"");
         String outputDirectory = this.getStringAt(listExecResult, 1, postMessage, "");
         this.unZip(execParams.getGlobalParams().isPrintToConsole(), zipFileName, outputDirectory);
         return this.createEmptyResult();
@@ -30,12 +31,12 @@ public class EpeDiskFinalFdunzip extends EpeDiskAbstract {
     private void unZip(boolean doLog, String zipFileName, String outputDirectory) throws EpeAppException {
         EpeAppUtils.checkEmpty("zipFileName", zipFileName);
         EpeAppUtils.checkNull("outputDirectory", outputDirectory);
-        outputDirectory = EpeAppUtils.cleanDirName(outputDirectory);
 
-        if (doLog) {
-            EpeAppLogger.log("zip file: \"" + zipFileName + "\"");
+        if (!new File(zipFileName).exists()) {
+            return;
         }
 
+        outputDirectory = EpeAppUtils.cleanDirName(outputDirectory);
         byte[] buffer = new byte[1024];
 
         try {

@@ -8,7 +8,6 @@ import org.apache.commons.io.FileUtils;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -16,6 +15,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
+        String postMessage = "fdcopy, expected the source file/dir name and the destination file/dir name.";
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
 
@@ -23,18 +23,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
             throw new EpeAppException("fcopy params should be 2, file name and destination");
         }
 
-        EpeExecResult result = listExecResult.get(0);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent filenameOrigin = result.getExecContent();
-        EpeAppUtils.checkNull("filenameOrigin", filenameOrigin);
-
-        result = listExecResult.get(1);
-        EpeAppUtils.checkNull("result", result);
-        EpeExecContent filenameDestination = result.getExecContent();
-        EpeAppUtils.checkNull("filenameDestination", filenameDestination);
-
-        String filenameOriginStr = filenameOrigin.getContentInternal().getStr();
-        EpeAppUtils.checkNull("filenameOriginStr", filenameOriginStr);
+        String filenameOriginStr = this.getStringAt(listExecResult, 0, postMessage);
         filenameOriginStr = EpeAppUtils.cleanFilename(filenameOriginStr);
         File fileOrigin = new File(filenameOriginStr);
 
@@ -42,8 +31,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
             throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" does not exist");
         }
 
-        String filenameDestinationStr = filenameDestination.getStr();
-        EpeAppUtils.checkNull("filenameDestinationStr", filenameDestinationStr);
+        String filenameDestinationStr = this.getStringAt(listExecResult, 1, postMessage);
         filenameDestinationStr = EpeAppUtils.cleanFilename(filenameDestinationStr);
         File fileDestination = new File(filenameDestinationStr);
 

@@ -61,8 +61,8 @@ public final class EpeGenericFinalOrder extends EpeGenericAbstract {
     }
 
     private static int compareVersion(String str1, String str2) throws EpeAppException {
-        str1 = clean(str1);
-        str2 = clean(str2);
+        str1 = EpeGenericFinalFind_version.retrieveVersion(str1);
+        str2 = EpeGenericFinalFind_version.retrieveVersion(str2);
         String[] array1 = str1.split("\\.");
         String[] array2 = str2.split("\\.");
 
@@ -86,44 +86,6 @@ public final class EpeGenericFinalOrder extends EpeGenericAbstract {
         } else {
             return 0;
         }
-    }
-
-    private static String clean(String str) throws EpeAppException {
-        String ret = "";
-        char c;
-        boolean versFound = false;
-        String digits = "1234567890";
-        char dot = '.';
-
-        for (int i = 0; i < str.length(); i++) {
-            c = str.charAt(i);
-
-            if (digits.contains(c + "")) {
-                if (ret.contains(".")) {
-                    versFound = true;
-                }
-
-                ret += c;
-            } else if (dot == c) {
-                if (ret.endsWith(".")) {
-                    ret = "";
-                    versFound = false;
-                } else {
-                    ret = ret.isEmpty() ? ret : ret + c;
-                }
-            } else {
-                if (versFound) {
-                    EpeAppUtils.checkEmpty("cleaning " + str, ret);
-                    return ret;
-                }
-
-                ret = "";
-                versFound = false;
-            }
-        }
-
-        ret = ret.isEmpty() || !versFound ? "0" : ret;
-        return ret;
     }
 
 }

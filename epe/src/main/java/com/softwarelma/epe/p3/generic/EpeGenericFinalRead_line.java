@@ -33,7 +33,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         EpeAppUtils.checkNull("screenMessage", screenMessage);
         EpeAppUtils.checkNull("alternatives", alternatives);
         screenMessage = screenMessage.startsWith("tcm_") ? screenMessage.substring(4) : screenMessage;
-        screenMessage = "Indicare un valore per " + screenMessage.replace("_", " ");
+        screenMessage = screenMessage.replace("_", " ");
         String input = null;
 
         if (alternatives.equals("*")) {
