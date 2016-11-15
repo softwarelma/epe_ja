@@ -37,11 +37,12 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
             }
         }
 
-        this.createZip(execParams.getGlobalParams().isPrintToConsole(), listFullFileName, zipStr);
+        createZip(execParams.getGlobalParams().isPrintToConsole(), listFullFileName, zipStr);
         return this.createEmptyResult();
     }
 
-    private void createZip(boolean doLog, List<String> listFullFileName, String zipFileName) throws EpeAppException {
+    public static void createZip(boolean doLog, List<String> listFullFileName, String zipFileName)
+            throws EpeAppException {
         ZipOutputStream zos = null;
         String currentFullFileName = "";
 
@@ -70,8 +71,8 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
         }
     }
 
-    private void addZipEntryFileOrFolder(boolean doLog, String zipFolder, String fullFileName, ZipOutputStream zos)
-            throws IOException, EpeAppException {
+    private static void addZipEntryFileOrFolder(boolean doLog, String zipFolder, String fullFileName,
+            ZipOutputStream zos) throws IOException, EpeAppException {
         fullFileName = fullFileName.replace("\\", "/");
         File file = new File(fullFileName);
 
@@ -89,7 +90,7 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
         }
     }
 
-    private void addZipEntryFile(boolean doLog, String zipFolder, String fullFileName, ZipOutputStream zos)
+    private static void addZipEntryFile(boolean doLog, String zipFolder, String fullFileName, ZipOutputStream zos)
             throws IOException, EpeAppException {
         byte[] buffer = new byte[1024];
         Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(fullFileName);

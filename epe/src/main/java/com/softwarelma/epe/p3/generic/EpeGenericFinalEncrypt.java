@@ -23,7 +23,7 @@ public final class EpeGenericFinalEncrypt extends EpeGenericAbstract {
         String decrypted = this.getStringAt(listExecResult, 1, postMessage);
         String initVector = this.getStringAt(listExecResult, 2, postMessage, null);
         String keySuffix = this.getStringAt(listExecResult, 3, postMessage, null);
-        String str = this.encrypt(key, decrypted, initVector, keySuffix);
+        String str = encrypt(key, decrypted, initVector, keySuffix);
         this.log(execParams, str);
         return this.createResult(str);
     }
@@ -32,7 +32,8 @@ public final class EpeGenericFinalEncrypt extends EpeGenericAbstract {
      * @param key
      *            128 bit key
      */
-    private String encrypt(String key, String decrypted, String initVector, String keySuffix) throws EpeAppException {
+    public static String encrypt(String key, String decrypted, String initVector, String keySuffix)
+            throws EpeAppException {
         EpeAppUtils.checkNull("key", key);
         EpeAppUtils.checkNull("decrypted", decrypted);
         initVector = EpeAppUtils.isEmpty(initVector) ? EpeAppConstants.CIPHER_INIT_VECTOR : initVector;
