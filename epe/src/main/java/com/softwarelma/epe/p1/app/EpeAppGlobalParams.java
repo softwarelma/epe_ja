@@ -1,13 +1,23 @@
 package com.softwarelma.epe.p1.app;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.softwarelma.epe.p2.exec.EpeExecContent;
+
 public class EpeAppGlobalParams {
 
+    private final Map<String, EpeExecContent> mapVarNameExecContent = new HashMap<>();
     private boolean printToConsole;
     private int sentIndex;
 
     @Override
     public String toString() {
-        return printToConsole + "";
+        return "[printToConsole=" + printToConsole + ", sentIndex=" + sentIndex + "]";
+    }
+
+    public Map<String, EpeExecContent> getMapVarNameExecContent() {
+        return mapVarNameExecContent;
     }
 
     public boolean isPrintToConsole() {

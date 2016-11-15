@@ -19,9 +19,11 @@ public final class EpeApp {
         if (args.length == 0) {
             programPath = EpeAppConstants.PROGRAM_DEFAULT_PATH;
             this.start(globalParams, programPath);
-        } else if (args.length == 2 && "-f".equals(args[0])) {
+        } else if (args.length >= 2 && "-f".equals(args[0])) {
             for (int i = 1; i < args.length; i++) {
-                programPath = args[1];
+                programPath = args[i];
+                globalParams.setPrintToConsole(false);
+                globalParams.setSentIndex(0);
                 this.start(globalParams, programPath);
             }
         } else {
@@ -57,8 +59,8 @@ public final class EpeApp {
         }
     }
 
-    private void executeLabels(EpeAppGlobalParams globalParams, EpeExec exec, EpeProgInterface prog, StringBuilder step,
-            String step0, Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+    private void executeLabels(EpeAppGlobalParams globalParams, EpeExec exec, EpeProgInterface prog,
+            StringBuilder step, String step0, Map<String, String> mapNotContainedReplaced) throws EpeAppException {
         EpeProgSentInterface progSent;
 
         for (int i = 0; i < prog.size(); i++) {

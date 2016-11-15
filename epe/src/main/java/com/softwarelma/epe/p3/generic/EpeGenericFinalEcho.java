@@ -22,17 +22,17 @@ public final class EpeGenericFinalEcho extends EpeGenericAbstract {
             EpeAppUtils.checkNull("result", result);
             EpeExecContent content = result.getExecContent();
 
-            if (content.getContentInternal() != null) {
-                String s = content.getContentInternal().toString();
+            if (content.getContentInternal() == null) {
+                sb.append(null + "");
+            } else {
+                String str = content.getContentInternal().toString();
 
-                if (s != null && s.startsWith("\"") && s.endsWith("\"") && s.length() > 1) {
-                    s = getReplacedSting(s, false);
-                    sb.append(s);
-                    continue;
+                if (str != null && str.startsWith("\"") && str.endsWith("\"") && str.length() > 1) {
+                    str = getReplacedSting(str, false);
                 }
-            }
 
-            sb.append(content.getContentInternal().toString());
+                sb.append(str);
+            }
         }
 
         String ret = sb.toString();

@@ -1,0 +1,52 @@
+/*************************************************************************
+PROGRAMMA CHE RACCOGLIE PER COMUNE-AMBIENTE GLI ACCORPAMENTI DEI PACCHETTI
+CHE COMPONGONO L'INSTALLAZIONE
+*************************************************************************/
+
+zip_dir = trim(fread("resources/temp/temp.tmp"));
+//zip_dir = "/org/company/workspaces/luna-SR2/db-rilasci-4.1/";
+
+list_props = list_files("resources/props-installazione-db/");
+label2 = label();
+filename_prop = for(list_props);
+
+	comune_ambiente = replace(filename_prop, "program-installazione-db-", "");
+	comune_ambiente = replace(comune_ambiente, ".xml", "");
+	list_ranges = list_dirs(echo(zip_dir, "installazione_automatizzata/"));
+	list_to_zip = list_new();
+
+	/***********************************************
+	RACCOLTA PER UN COMUNE-AMBIENTE DI TUTTI I RANGE
+	***********************************************/
+
+	label3 = label();
+	dir_range = for(list_ranges);
+	
+		dir_range_com_amb_ori = echo(zip_dir, "installazione_automatizzata/", dir_range, "/", dir_range, "_", comune_ambiente);
+		dir_range_dest = echo("resources/temp/", dir_range);
+		fdmove(dir_range_com_amb_ori, dir_range_dest);
+		list_add(list_to_zip, dir_range_dest);
+	
+	goto(label3, not(empty(list_ranges)));
+
+	fdzip(echo(zip_dir, "installazione_automatizzata/", comune_ambiente, ".zip"), list_to_zip);
+	fddelete("resources/temp/");
+	dmkdir("resources/temp/");
+
+goto(label2, not(empty(list_props)));
+fddelete("resources/temp/");
+
+/*************************************************
+CANCELLAZIONE CARTELLE TEMPORANEE DI TUTTI I RANGE
+*************************************************/
+
+list_ranges = list_dirs(echo(zip_dir, "installazione_automatizzata/"));
+label4 = label();
+dir_range = for(list_ranges);
+
+	fddelete(echo(zip_dir, "installazione_automatizzata/", dir_range, "/"));
+
+goto(label4, not(empty(list_ranges)));
+
+print_to_console("true");
+echo("Programma (comuni-ambienti) terminato con successo");

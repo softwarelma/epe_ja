@@ -31,6 +31,12 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return execResult;
     }
 
+    protected EpeExecResult createResult(EpeExecContent content) {
+        EpeExecResult execResult = new EpeExecResult();
+        execResult.setExecContent(content);
+        return execResult;
+    }
+
     protected EpeExecResult createResult(String str) {
         EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(str)));
@@ -69,6 +75,19 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
     protected String getStringAt(List<EpeExecResult> listExecResult, int index, String postMessage, String defaultStr)
             throws EpeAppException {
         return listExecResult.size() > index ? this.getStringAt(listExecResult, index, postMessage) : defaultStr;
+    }
+
+    protected EpeExecContent getContentAt(List<EpeExecResult> listExecResult, int index, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkRange(index, 0, listExecResult.size() - 1, false, false, postMessage);
+
+        EpeExecResult result = listExecResult.get(index);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent content = result.getExecContent();
+        EpeAppUtils.checkNull("content", content);
+
+        return content;
     }
 
     protected String getStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
