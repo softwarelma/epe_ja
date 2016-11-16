@@ -13,6 +13,9 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.encodings.EpeEncodings;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
+import com.softwarelma.epe.p3.print.EpePrintFinalPrint_default_exec_file_name;
+import com.softwarelma.epe.p3.print.EpePrintFinalPrint_os_command;
+import com.softwarelma.epe.p3.print.EpePrintFinalPrint_wrapped_command;
 
 public final class EpeGenericFinalExec extends EpeGenericAbstract {
 
@@ -25,13 +28,13 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
         EpeAppUtils.checkContains(new String[] { "wrap", "nowrap" }, "wrapping option", wrapStr);
         boolean wrap = wrapStr.equals("wrap");
         String execFilename = listExecResult.size() > 2 ? this.getStringAt(listExecResult, 2, postMessage)
-                : EpeGenericFinalPrint_default_exec_file_name.retrieveDefaultExecFilename();
+                : EpePrintFinalPrint_default_exec_file_name.retrieveDefaultExecFilename();
         String encoding = listExecResult.size() > 3 ? this.getStringAt(listExecResult, 3, postMessage)
                 : EpeAppConstants.ENCODING_DEFAULT;
         Map.Entry<Integer, String> exitAndOutput;
 
         if (wrap) {
-            String wrappedCommand = EpeGenericFinalPrint_wrapped_command.retrieveWrappedCommand(command);
+            String wrappedCommand = EpePrintFinalPrint_wrapped_command.retrieveWrappedCommand(command);
             exitAndOutput = execWrappedCommand(execParams.getGlobalParams().isPrintToConsole(), wrappedCommand,
                     execFilename, encoding);
         } else {
@@ -47,7 +50,7 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
     }
 
     public static Map.Entry<Integer, String> execCommand(boolean doLog, String command) throws EpeAppException {
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         int exitVal;
 
         if (doLog) {
@@ -55,14 +58,20 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
         }
 
         try {
-            Process p = Runtime.getRuntime().exec(command);
+            ProcessBuilder pb = new ProcessBuilder(command.split(" "));
+            pb.redirectErrorStream(true);
+            Process p = pb.start();
+            // Process p = Runtime.getRuntime().exec(command);
+
             exitVal = p.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = "";
+            String line;
 
             while ((line = reader.readLine()) != null) {
                 output.append(line + "\n");
             }
+
+            reader.close();
         } catch (Exception e) {
             throw new EpeAppException("executeCommand(): " + command, e);
         }
@@ -83,7 +92,7 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
             throw new EpeAppException("mainForTarget", e);
         }
 
-        String osCommand = EpeGenericFinalPrint_os_command.retrieveExecOSCommand(execFilename);
+        String osCommand = EpePrintFinalPrint_os_command.retrieveExecOSCommand(execFilename);
         Map.Entry<Integer, String> exitAndOutput = execCommand(doLog, osCommand);
         return exitAndOutput;
     }

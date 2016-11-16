@@ -1,4 +1,4 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.echo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalEcho_to_list extends EpeGenericAbstract {
+public final class EpeEchoFinalEcho_to_list extends EpeEchoAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -18,6 +18,7 @@ public final class EpeGenericFinalEcho_to_list extends EpeGenericAbstract {
 
         for (int i = 0; i < listExecResult.size(); i++) {
             String str = this.getStringAt(listExecResult, i, postMessage);
+            // str = EpeEchoFinalEcho.retrieveEchoed(str, false);
             listStr.add(str);
         }
 

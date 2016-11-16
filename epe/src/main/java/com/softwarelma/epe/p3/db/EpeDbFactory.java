@@ -1,40 +1,33 @@
 package com.softwarelma.epe.p3.db;
 
-import com.softwarelma.epe.p1.app.EpeAppException;
-import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.exec.EpeExecInterface;
+import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpeDbFactory {
+public final class EpeDbFactory extends EpeExecAbstractFactory {
 
-    private static EpeDbFactory dbFactory;
+    private static EpeDbFactory factory;
 
-    public static EpeDbFactory getInstance() {
-        if (dbFactory != null) {
-            return dbFactory;
+    public static EpeDbFactory getFactoryInstance() {
+        if (factory != null) {
+            return factory;
         }
 
         synchronized (EpeDbFactory.class) {
-            if (dbFactory != null) {
-                return dbFactory;
+            if (factory != null) {
+                return factory;
             }
 
-            EpeDbFactory dbFactory2 = new EpeDbFactory();
-            dbFactory = dbFactory2;
-            return dbFactory;
+            EpeDbFactory factory2 = new EpeDbFactory();
+            factory = factory2;
+            return factory;
         }
     }
 
     private EpeDbFactory() {
     }
 
-    public boolean isDb(String funcName) throws EpeAppException {
-        EpeAppUtils.checkNull("funcName", funcName);
-        return false;
-    }
-
-    public EpeExecInterface getNewInstance(String funcName) throws EpeAppException {
-        EpeAppUtils.checkNull("funcName", funcName);
-        throw new EpeAppException("Not implemented");
+    @Override
+    public String getClassNamPrefix() {
+        return "com.softwarelma.epe.p3.db.EpeDbFinal";
     }
 
 }

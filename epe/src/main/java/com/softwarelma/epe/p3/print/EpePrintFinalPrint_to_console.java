@@ -1,4 +1,4 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.print;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalPrint_to_console extends EpeGenericAbstract {
+public final class EpePrintFinalPrint_to_console extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {

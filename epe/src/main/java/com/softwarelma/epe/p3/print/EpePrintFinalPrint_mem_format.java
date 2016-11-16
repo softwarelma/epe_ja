@@ -1,4 +1,4 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.print;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalPrint_mem_format extends EpeGenericAbstract {
+public final class EpePrintFinalPrint_mem_format extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -18,9 +18,12 @@ public final class EpeGenericFinalPrint_mem_format extends EpeGenericAbstract {
         return this.createResult(str);
     }
 
-    public static String formatMem(long memBytes) {
-        return Math.round(((double) memBytes) / (1024 * 1024 * 1024)) + " GB\t\t" + (memBytes / (1024 * 1024))
-                + " MB\t\t" + memBytes + " B";
+    /**
+     * in Bytes
+     */
+    public static String formatMem(long physicalRamInBytes) {
+        return // Math.round(
+        ((double) physicalRamInBytes) / (1024 * 1024 * 1024)// )
+                + " GB\t\t" + (physicalRamInBytes / (1024 * 1024)) + " MB\t\t" + physicalRamInBytes + " B";
     }
-
 }

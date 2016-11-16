@@ -6,6 +6,7 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
+import com.softwarelma.epe.p3.print.EpePrintFinalPrint_os_name;
 
 public final class EpeGenericFinalIs_mac extends EpeGenericAbstract {
 
@@ -18,7 +19,7 @@ public final class EpeGenericFinalIs_mac extends EpeGenericAbstract {
     }
 
     public static boolean isMac() {
-        return (EpeGenericFinalPrint_os_name.retrieveOsName().toLowerCase().indexOf("mac") >= 0);
+        return (EpePrintFinalPrint_os_name.retrieveOsName().toLowerCase().indexOf("mac") >= 0);
     }
 
 }

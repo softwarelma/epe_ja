@@ -1,19 +1,24 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.print;
 
 import java.util.List;
 
-import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalPrint_default_encoding extends EpeGenericAbstract {
+public final class EpePrintFinalPrint_os_name extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String str = EpeAppConstants.ENCODING_DEFAULT;
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        String str = retrieveOsName();
         this.log(execParams, str);
         return this.createResult(str);
+    }
+
+    public static String retrieveOsName() {
+        return System.getProperty("os.name");
     }
 
 }

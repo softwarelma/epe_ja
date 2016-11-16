@@ -1,4 +1,4 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.print;
 
 import java.util.List;
 
@@ -7,8 +7,12 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
+import com.softwarelma.epe.p3.generic.EpeGenericFinalIs_mac;
+import com.softwarelma.epe.p3.generic.EpeGenericFinalIs_solaris;
+import com.softwarelma.epe.p3.generic.EpeGenericFinalIs_unix;
+import com.softwarelma.epe.p3.generic.EpeGenericFinalIs_windows;
 
-public final class EpeGenericFinalPrint_wrapped_command extends EpeGenericAbstract {
+public final class EpePrintFinalPrint_wrapped_command extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -36,7 +40,7 @@ public final class EpeGenericFinalPrint_wrapped_command extends EpeGenericAbstra
             // ?
         }
 
-        EpeAppUtils.checkNull("newTerminalCommandPrefix (OS: " + EpeGenericFinalPrint_os_name.retrieveOsName() + ")",
+        EpeAppUtils.checkNull("newTerminalCommandPrefix (OS: " + EpePrintFinalPrint_os_name.retrieveOsName() + ")",
                 newTerminalCommandPrefix);
         return newTerminalCommandPrefix;
     }
@@ -54,7 +58,7 @@ public final class EpeGenericFinalPrint_wrapped_command extends EpeGenericAbstra
             // ?
         }
 
-        EpeAppUtils.checkNull("newTerminalCommandPrefix (OS: " + EpeGenericFinalPrint_os_name.retrieveOsName() + ")",
+        EpeAppUtils.checkNull("newTerminalCommandPrefix (OS: " + EpePrintFinalPrint_os_name.retrieveOsName() + ")",
                 newTerminalCommandSuffix);
         return newTerminalCommandSuffix;
     }

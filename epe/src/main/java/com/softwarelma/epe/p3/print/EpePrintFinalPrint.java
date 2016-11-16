@@ -1,4 +1,4 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.print;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalEcho_reverse extends EpeGenericAbstract {
+public final class EpePrintFinalPrint extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -21,15 +21,7 @@ public final class EpeGenericFinalEcho_reverse extends EpeGenericAbstract {
         for (EpeExecResult result : listExecResult) {
             EpeAppUtils.checkNull("result", result);
             EpeExecContent content = result.getExecContent();
-
-            if (content.getContentInternal() != null) {
-                String s = content.getContentInternal().toString();
-                s = EpeGenericFinalEcho.getReplacedSting(s, true);
-                sb.append(s);
-                continue;
-            }
-
-            sb.append(content.getStr());
+            sb.append(content.getContentInternal() == null ? null : content.getContentInternal().toString());
         }
 
         String ret = sb.toString();

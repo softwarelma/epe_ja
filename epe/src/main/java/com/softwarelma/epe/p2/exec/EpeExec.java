@@ -11,16 +11,20 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
 import com.softwarelma.epe.p3.db.EpeDbFactory;
 import com.softwarelma.epe.p3.disk.EpeDiskFactory;
+import com.softwarelma.epe.p3.echo.EpeEchoFactory;
 import com.softwarelma.epe.p3.generic.EpeGenericFactory;
 import com.softwarelma.epe.p3.mem.EpeMem;
+import com.softwarelma.epe.p3.print.EpePrintFactory;
 import com.softwarelma.epe.p3.xml.EpeXmlFactory;
 
 public final class EpeExec {
 
-    private final EpeDbFactory dbFactory = EpeDbFactory.getInstance();
-    private final EpeDiskFactory diskFactory = EpeDiskFactory.getInstance();
-    private final EpeGenericFactory funcFactory = EpeGenericFactory.getInstance();
-    private final EpeXmlFactory xmlFactory = EpeXmlFactory.getInstance();
+    private final EpeDbFactory dbFactory = EpeDbFactory.getFactoryInstance();
+    private final EpeDiskFactory diskFactory = EpeDiskFactory.getFactoryInstance();
+    private final EpeEchoFactory echoFactory = EpeEchoFactory.getFactoryInstance();
+    private final EpeGenericFactory genericFactory = EpeGenericFactory.getFactoryInstance();
+    private final EpePrintFactory printFactory = EpePrintFactory.getFactoryInstance();
+    private final EpeXmlFactory xmlFactory = EpeXmlFactory.getFactoryInstance();
     private final EpeMem mem = new EpeMem();
 
     public EpeExecResult execute(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,
@@ -75,7 +79,7 @@ public final class EpeExec {
     }
 
     private EpeExecResult doEcho(EpeAppGlobalParams globalParams, String literal) throws EpeAppException {
-        EpeExecInterface funcEcho = this.funcFactory.getNewInstance("echo");
+        EpeExecInterface funcEcho = this.echoFactory.getNewFuncInstance("echo");
         List<EpeExecResult> listExecResult = new ArrayList<>();
         EpeExecContent execContent = new EpeExecContent(new EpeExecContentInternal(literal));
         EpeExecResult result = new EpeExecResult();
@@ -89,67 +93,49 @@ public final class EpeExec {
         return execResult;
     }
 
+    private EpeExecResult retrieveExecResult(EpeAppGlobalParams globalParams, EpeExecResult result,
+            EpeExecFactoryInterface factory, EpeProgSentInterface progSent, boolean[] known, String message,
+            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+        if (!factory.isFunc(progSent.getLiteralOrFuncName())) {
+            return result;
+        }
+
+        EpeAppUtils.checkBooleanForceFalse("known[0]", known[0]);
+        known[0] = true;
+        EpeAppUtils.checkNullForceNull("execResult", result, message);
+        EpeExecInterface func = factory.getNewFuncInstance(progSent.getLiteralOrFuncName());
+        List<EpeExecResult> listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
+        EpeExecParams execParams = new EpeExecParams(globalParams);
+        result = func.doFunc(execParams, listExecResult);
+        return result;
+    }
+
     private EpeExecResult getExecContentFromFunc(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,
             Map<String, String> mapNotContainedReplaced) throws EpeAppException {
         EpeAppUtils.checkNull("progSent", progSent);
         String funcName = progSent.getLiteralOrFuncName();
         EpeAppUtils.checkNull("funcName", funcName);
-        EpeExecResult execResult = null;
-        List<EpeExecResult> listExecResult;
-        EpeExecParams execParams;
-        boolean known = false;
+        EpeExecResult result = null;
+        boolean[] known = { false };
+        String message = "The func " + funcName + " can't be registred in more than one exec module";
 
-        if (this.dbFactory.isDb(funcName)) {
-            known = true;
-            EpeExecInterface db = this.dbFactory.getNewInstance(funcName);
-            listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
-            execParams = new EpeExecParams(globalParams);
-            execResult = db.doFunc(execParams, listExecResult);
-        }
+        result = this.retrieveExecResult(globalParams, result, this.dbFactory, progSent, known, message,
+                mapNotContainedReplaced);
+        result = this.retrieveExecResult(globalParams, result, this.diskFactory, progSent, known, message,
+                mapNotContainedReplaced);
+        result = this.retrieveExecResult(globalParams, result, this.echoFactory, progSent, known, message,
+                mapNotContainedReplaced);
+        result = this.retrieveExecResult(globalParams, result, this.genericFactory, progSent, known, message,
+                mapNotContainedReplaced);
+        result = this.retrieveExecResult(globalParams, result, this.printFactory, progSent, known, message,
+                mapNotContainedReplaced);
+        result = this.retrieveExecResult(globalParams, result, this.xmlFactory, progSent, known, message,
+                mapNotContainedReplaced);
 
-        if (this.diskFactory.isDisk(funcName)) {
-            known = true;
-            if (execResult != null) {
-                throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
-            }
-
-            EpeExecInterface disk = this.diskFactory.getNewInstance(funcName);
-            listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
-            execParams = new EpeExecParams(globalParams);
-            execResult = disk.doFunc(execParams, listExecResult);
-        }
-
-        if (this.funcFactory.isFunc(funcName)) {
-            known = true;
-            if (execResult != null) {
-                throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
-            }
-
-            EpeExecInterface func = this.funcFactory.getNewInstance(funcName);
-            listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
-            execParams = new EpeExecParams(globalParams);
-            execResult = func.doFunc(execParams, listExecResult);
-        }
-
-        if (this.xmlFactory.isFunc(funcName)) {
-            known = true;
-            if (execResult != null) {
-                throw new EpeAppException("The func " + funcName + " can't be registred in more than one exec module");
-            }
-
-            EpeExecInterface func = this.xmlFactory.getNewInstance(funcName);
-            listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
-            execParams = new EpeExecParams(globalParams);
-            execResult = func.doFunc(execParams, listExecResult);
-        }
-
-        if (!known) {
-            throw new EpeAppException("Unknown func " + funcName);
-        }
-
-        EpeAppUtils.checkNull("execResult for funcName " + funcName, execResult);
-        EpeAppUtils.checkNull("execContent for funcName " + funcName, execResult.getExecContent());
-        return execResult;
+        EpeAppUtils.checkBooleanForceTrue("known[0]", known[0], "Unknown func " + funcName);
+        EpeAppUtils.checkNull("execResult for funcName " + funcName, result);
+        EpeAppUtils.checkNull("execContent for funcName " + funcName, result.getExecContent());
+        return result;
     }
 
     private List<EpeExecResult> getExecContentList(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,

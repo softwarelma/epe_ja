@@ -5,4 +5,11 @@ echo("program");
 var1 = "hw";
 export("var1", var1);
 
+//exec("java -Xms3956M -Xmx3956M -Xss494M -XX:PermSize=494M -XX:MaxPermSize=494M -version", "wrap");
+//exec("java -Xms3956M -Xmx3956M -Xss494M -XX:PermSize=494M -XX:MaxPermSize=494M -version", "nowrap");
+//exec("ls", "wrap");
+//exec("ls", "nowrap");
+
+print_java_jar("file.jar", print_mem_guessing("mB"), "arg1 arg2");
+
 echo("");

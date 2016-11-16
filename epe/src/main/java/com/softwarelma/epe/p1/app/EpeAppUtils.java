@@ -20,12 +20,74 @@ public abstract class EpeAppUtils {
     }
 
     public static void checkNull(String name, Object value) throws EpeAppException {
-        if (name == null) {
-            throw new EpeAppException("Null name");
-        }
+        checkNull("name", name);
 
         if (value == null) {
             throw new EpeAppException("Null " + name);
+        }
+    }
+
+    public static void checkNullForceNull(String name, String value) throws EpeAppException {
+        checkNull("name", name);
+
+        if (value != null) {
+            throw new EpeAppException("Not null " + name);
+        }
+    }
+
+    public static void checkNullForceNull(String name, String value, String message) throws EpeAppException {
+        checkNull("name", name);
+
+        if (value != null) {
+            throw new EpeAppException(message);
+        }
+    }
+
+    public static void checkNullForceNull(String name, Object value) throws EpeAppException {
+        checkNull("name", name);
+
+        if (value != null) {
+            throw new EpeAppException("Not null " + name);
+        }
+    }
+
+    public static void checkNullForceNull(String name, Object value, String message) throws EpeAppException {
+        checkNull("name", name);
+
+        if (value != null) {
+            throw new EpeAppException(message);
+        }
+    }
+
+    public static void checkBooleanForceTrue(String name, boolean b) throws EpeAppException {
+        checkNull("name", name);
+
+        if (!b) {
+            throw new EpeAppException("Found false in " + name);
+        }
+    }
+
+    public static void checkBooleanForceTrue(String name, boolean b, String message) throws EpeAppException {
+        checkNull("name", name);
+
+        if (!b) {
+            throw new EpeAppException(message);
+        }
+    }
+
+    public static void checkBooleanForceFalse(String name, boolean b) throws EpeAppException {
+        checkNull("name", name);
+
+        if (b) {
+            throw new EpeAppException("Found true in " + name);
+        }
+    }
+
+    public static void checkBooleanForceFalse(String name, boolean b, String message) throws EpeAppException {
+        checkNull("name", name);
+
+        if (b) {
+            throw new EpeAppException(message);
         }
     }
 
