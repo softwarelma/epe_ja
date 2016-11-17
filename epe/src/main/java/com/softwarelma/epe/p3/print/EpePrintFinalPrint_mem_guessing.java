@@ -52,7 +52,7 @@ public final class EpePrintFinalPrint_mem_guessing extends EpePrintAbstract {
             output = exitAndOutput.getValue();
             secondsEnd = System.currentTimeMillis() / 1000;
             physicalRamInMB -= 100;
-        } while (!output.toLowerCase().startsWith("java version ") && physicalRamInMB >= 500
+        } while (!output.toLowerCase().contains("java version \"") && physicalRamInMB >= 500
                 && secondsEnd - secondsStart < 60 // && output.length() < 2000
         );
 
