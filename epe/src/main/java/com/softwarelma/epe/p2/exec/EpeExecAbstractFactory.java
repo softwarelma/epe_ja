@@ -1,18 +1,39 @@
 package com.softwarelma.epe.p2.exec;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public abstract class EpeExecAbstractFactory implements EpeExecFactoryInterface {
 
+    private static final Set<String> setFuncClassNameValid = new HashSet<>();
+    private static final Set<String> setFuncClassNameInvalid = new HashSet<>();
+
     @Override
     public boolean isFunc(String funcName) throws EpeAppException {
         String className = this.getClassName(funcName);
 
+        if (setFuncClassNameValid.contains(className)) {
+            return true;
+        } else if (setFuncClassNameInvalid.contains(className)) {
+            return false;
+        }
+
         try {
             Class.forName(className);
+
+            synchronized (setFuncClassNameValid) {
+                setFuncClassNameValid.add(className);
+            }
+
             return true;
         } catch (ClassNotFoundException e) {
+            synchronized (setFuncClassNameInvalid) {
+                setFuncClassNameInvalid.add(className);
+            }
+
             return false;
         }
     }
