@@ -1,23 +1,23 @@
 package com.softwarelma.epe.p3.disk;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 /**
  * @author ellison
- *
  */
-public final class EpeDiskFinalList_new extends EpeDiskAbstract {
+public final class EpeDiskFinalUser_home_dir extends EpeDiskAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        List<String> listStr = new ArrayList<>();
-        this.log(execParams, listStr);
-        return this.createResult(listStr);
+        String prop = System.getProperty("user.home");
+        prop = EpeAppUtils.cleanDirName(prop);
+        this.log(execParams, prop);
+        return this.createResult(prop);
     }
 
 }
