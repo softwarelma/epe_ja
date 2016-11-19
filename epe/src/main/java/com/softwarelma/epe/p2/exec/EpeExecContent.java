@@ -14,6 +14,18 @@ public final class EpeExecContent {
         return contentInternal == null ? null : contentInternal.toString();
     }
 
+    public boolean isNull() {
+        return this.contentInternal == null;
+    }
+
+    public boolean isString() {
+        return this.contentInternal != null && this.contentInternal.isString();
+    }
+
+    public boolean isListString() {
+        return this.contentInternal != null && this.contentInternal.isListString();
+    }
+
     public EpeExecContent(EpeExecContentInternal contentInternal) {
         this.contentInternal = contentInternal;
     }

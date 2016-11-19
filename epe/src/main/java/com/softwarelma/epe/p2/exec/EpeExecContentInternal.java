@@ -22,6 +22,14 @@ public final class EpeExecContentInternal {
         return listStr == null ? str : this.listToString();
     }
 
+    public boolean isString() {
+        return this.str != null;
+    }
+
+    public boolean isListString() {
+        return this.listStr != null;
+    }
+
     public String getStr() {
         return str;
     }

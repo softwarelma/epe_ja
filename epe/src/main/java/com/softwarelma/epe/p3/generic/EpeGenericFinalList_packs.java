@@ -25,9 +25,9 @@ public final class EpeGenericFinalList_packs extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        List<String> listPacks = retriveListPack();
-        this.log(execParams, listPacks);
-        return this.createResult(listPacks);
+        List<String> listPack = retriveListPack();
+        this.log(execParams, listPack);
+        return this.createResult(listPack);
     }
 
     public static List<String> retriveListPack() throws EpeAppException {
@@ -36,7 +36,6 @@ public final class EpeGenericFinalList_packs extends EpeGenericAbstract {
         List<Class<?>> listClass = null;
         String classStr;
         String classPrefixLowerCase = packP2 + ".epepack";
-        // EpePackPrintFactory
 
         try {
             listClass = EpeGenericFinalList_funcs.getClassesForPackage(packP2);

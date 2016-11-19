@@ -8,24 +8,38 @@ import com.softwarelma.epe.p1.app.EpeAppConstants.SENT_TYPE;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppGlobalParams;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.pack.EpePackDbFactory;
-import com.softwarelma.epe.p2.pack.EpePackDiskFactory;
-import com.softwarelma.epe.p2.pack.EpePackEchoFactory;
-import com.softwarelma.epe.p2.pack.EpePackGenericFactory;
-import com.softwarelma.epe.p2.pack.EpePackPrintFactory;
-import com.softwarelma.epe.p2.pack.EpePackXmlFactory;
 import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
+import com.softwarelma.epe.p3.echo.EpeEchoFinalEcho;
+import com.softwarelma.epe.p3.generic.EpeGenericFinalList_packs;
 import com.softwarelma.epe.p3.mem.EpeMem;
 
 public final class EpeExec {
 
-    private final EpePackDbFactory dbFactory = EpePackDbFactory.getFactoryInstance();
-    private final EpePackDiskFactory diskFactory = EpePackDiskFactory.getFactoryInstance();
-    private final EpePackEchoFactory echoFactory = EpePackEchoFactory.getFactoryInstance();
-    private final EpePackGenericFactory genericFactory = EpePackGenericFactory.getFactoryInstance();
-    private final EpePackPrintFactory printFactory = EpePackPrintFactory.getFactoryInstance();
-    private final EpePackXmlFactory xmlFactory = EpePackXmlFactory.getFactoryInstance();
+    private final List<EpeExecFactoryInterface> listFactory = new ArrayList<>();
     private final EpeMem mem = new EpeMem();
+
+    public EpeExec() throws EpeAppException {
+        List<String> listPack = EpeGenericFinalList_packs.retriveListPack();
+        EpeExecFactoryInterface factory;
+
+        for (String pack : listPack) {
+            pack = pack.substring(0, 1).toUpperCase() + pack.substring(1);
+            String className = "com.softwarelma.epe.p2.pack.EpePack" + pack + "Factory";
+
+            try {
+                Class<?> clazz = Class.forName(className);
+                factory = (EpeExecFactoryInterface) clazz.newInstance();
+            } catch (ClassNotFoundException e) {
+                throw new EpeAppException("EpeExec for class name: " + className, e);
+            } catch (InstantiationException e) {
+                throw new EpeAppException("EpeExec for class name: " + className, e);
+            } catch (IllegalAccessException e) {
+                throw new EpeAppException("EpeExec for class name: " + className, e);
+            }
+
+            this.listFactory.add(factory);
+        }
+    }
 
     public EpeExecResult execute(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,
             Map<String, String> mapNotContainedReplaced) throws EpeAppException {
@@ -79,7 +93,7 @@ public final class EpeExec {
     }
 
     private EpeExecResult doEcho(EpeAppGlobalParams globalParams, String literal) throws EpeAppException {
-        EpeExecInterface funcEcho = this.echoFactory.getNewFuncInstance("echo");
+        EpeExecInterface funcEcho = new EpeEchoFinalEcho();
         List<EpeExecResult> listExecResult = new ArrayList<>();
         EpeExecContent execContent = new EpeExecContent(new EpeExecContentInternal(literal));
         EpeExecResult result = new EpeExecResult();
@@ -119,18 +133,10 @@ public final class EpeExec {
         boolean[] known = { false };
         String message = "The func " + funcName + " can't be registred in more than one exec module";
 
-        result = this.retrieveExecResult(globalParams, result, this.dbFactory, progSent, known, message,
-                mapNotContainedReplaced);
-        result = this.retrieveExecResult(globalParams, result, this.diskFactory, progSent, known, message,
-                mapNotContainedReplaced);
-        result = this.retrieveExecResult(globalParams, result, this.echoFactory, progSent, known, message,
-                mapNotContainedReplaced);
-        result = this.retrieveExecResult(globalParams, result, this.genericFactory, progSent, known, message,
-                mapNotContainedReplaced);
-        result = this.retrieveExecResult(globalParams, result, this.printFactory, progSent, known, message,
-                mapNotContainedReplaced);
-        result = this.retrieveExecResult(globalParams, result, this.xmlFactory, progSent, known, message,
-                mapNotContainedReplaced);
+        for (EpeExecFactoryInterface factory : this.listFactory) {
+            result = this.retrieveExecResult(globalParams, result, factory, progSent, known, message,
+                    mapNotContainedReplaced);
+        }
 
         EpeAppUtils.checkBooleanForceTrue("known[0]", known[0], "Unknown func " + funcName);
         EpeAppUtils.checkNull("execResult for funcName " + funcName, result);
