@@ -1,28 +1,28 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p2.pack;
 
 import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpeGenericFactory extends EpeExecAbstractFactory {
+public final class EpePackGenericFactory extends EpeExecAbstractFactory {
 
-    private static EpeGenericFactory factory;
+    private static EpePackGenericFactory factory;
 
-    public static EpeGenericFactory getFactoryInstance() {
+    public static EpePackGenericFactory getFactoryInstance() {
         if (factory != null) {
             return factory;
         }
 
-        synchronized (EpeGenericFactory.class) {
+        synchronized (EpePackGenericFactory.class) {
             if (factory != null) {
                 return factory;
             }
 
-            EpeGenericFactory factory2 = new EpeGenericFactory();
+            EpePackGenericFactory factory2 = new EpePackGenericFactory();
             factory = factory2;
             return factory;
         }
     }
 
-    private EpeGenericFactory() {
+    private EpePackGenericFactory() {
     }
 
     @Override

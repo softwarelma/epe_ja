@@ -8,23 +8,23 @@ import com.softwarelma.epe.p1.app.EpeAppConstants.SENT_TYPE;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppGlobalParams;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.pack.EpePackDbFactory;
+import com.softwarelma.epe.p2.pack.EpePackDiskFactory;
+import com.softwarelma.epe.p2.pack.EpePackEchoFactory;
+import com.softwarelma.epe.p2.pack.EpePackGenericFactory;
+import com.softwarelma.epe.p2.pack.EpePackPrintFactory;
+import com.softwarelma.epe.p2.pack.EpePackXmlFactory;
 import com.softwarelma.epe.p2.prog.EpeProgSentInterface;
-import com.softwarelma.epe.p3.db.EpeDbFactory;
-import com.softwarelma.epe.p3.disk.EpeDiskFactory;
-import com.softwarelma.epe.p3.echo.EpeEchoFactory;
-import com.softwarelma.epe.p3.generic.EpeGenericFactory;
 import com.softwarelma.epe.p3.mem.EpeMem;
-import com.softwarelma.epe.p3.print.EpePrintFactory;
-import com.softwarelma.epe.p3.xml.EpeXmlFactory;
 
 public final class EpeExec {
 
-    private final EpeDbFactory dbFactory = EpeDbFactory.getFactoryInstance();
-    private final EpeDiskFactory diskFactory = EpeDiskFactory.getFactoryInstance();
-    private final EpeEchoFactory echoFactory = EpeEchoFactory.getFactoryInstance();
-    private final EpeGenericFactory genericFactory = EpeGenericFactory.getFactoryInstance();
-    private final EpePrintFactory printFactory = EpePrintFactory.getFactoryInstance();
-    private final EpeXmlFactory xmlFactory = EpeXmlFactory.getFactoryInstance();
+    private final EpePackDbFactory dbFactory = EpePackDbFactory.getFactoryInstance();
+    private final EpePackDiskFactory diskFactory = EpePackDiskFactory.getFactoryInstance();
+    private final EpePackEchoFactory echoFactory = EpePackEchoFactory.getFactoryInstance();
+    private final EpePackGenericFactory genericFactory = EpePackGenericFactory.getFactoryInstance();
+    private final EpePackPrintFactory printFactory = EpePackPrintFactory.getFactoryInstance();
+    private final EpePackXmlFactory xmlFactory = EpePackXmlFactory.getFactoryInstance();
     private final EpeMem mem = new EpeMem();
 
     public EpeExecResult execute(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,

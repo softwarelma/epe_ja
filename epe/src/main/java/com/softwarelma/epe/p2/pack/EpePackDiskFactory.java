@@ -1,28 +1,28 @@
-package com.softwarelma.epe.p3.disk;
+package com.softwarelma.epe.p2.pack;
 
 import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpeDiskFactory extends EpeExecAbstractFactory {
+public final class EpePackDiskFactory extends EpeExecAbstractFactory {
 
-    private static EpeDiskFactory factory;
+    private static EpePackDiskFactory factory;
 
-    public static EpeDiskFactory getFactoryInstance() {
+    public static EpePackDiskFactory getFactoryInstance() {
         if (factory != null) {
             return factory;
         }
 
-        synchronized (EpeDiskFactory.class) {
+        synchronized (EpePackDiskFactory.class) {
             if (factory != null) {
                 return factory;
             }
 
-            EpeDiskFactory factory2 = new EpeDiskFactory();
+            EpePackDiskFactory factory2 = new EpePackDiskFactory();
             factory = factory2;
             return factory;
         }
     }
 
-    private EpeDiskFactory() {
+    private EpePackDiskFactory() {
     }
 
     @Override

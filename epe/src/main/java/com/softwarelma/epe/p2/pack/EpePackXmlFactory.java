@@ -1,28 +1,28 @@
-package com.softwarelma.epe.p3.xml;
+package com.softwarelma.epe.p2.pack;
 
 import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpeXmlFactory extends EpeExecAbstractFactory {
+public final class EpePackXmlFactory extends EpeExecAbstractFactory {
 
-    private static EpeXmlFactory factory;
+    private static EpePackXmlFactory factory;
 
-    public static EpeXmlFactory getFactoryInstance() {
+    public static EpePackXmlFactory getFactoryInstance() {
         if (factory != null) {
             return factory;
         }
 
-        synchronized (EpeXmlFactory.class) {
+        synchronized (EpePackXmlFactory.class) {
             if (factory != null) {
                 return factory;
             }
 
-            EpeXmlFactory factory2 = new EpeXmlFactory();
+            EpePackXmlFactory factory2 = new EpePackXmlFactory();
             factory = factory2;
             return factory;
         }
     }
 
-    private EpeXmlFactory() {
+    private EpePackXmlFactory() {
     }
 
     @Override

@@ -1,7 +1,8 @@
 print_to_console("true");
 //echo("program");
 
-//list_funcs("generic");
-list_funcs_2();
+list_funcs();
+list_packs();
+print_funcs();
 
 echo("");

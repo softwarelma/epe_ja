@@ -1,28 +1,28 @@
-package com.softwarelma.epe.p3.print;
+package com.softwarelma.epe.p2.pack;
 
 import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpePrintFactory extends EpeExecAbstractFactory {
+public final class EpePackPrintFactory extends EpeExecAbstractFactory {
 
-    private static EpePrintFactory factory;
+    private static EpePackPrintFactory factory;
 
-    public static EpePrintFactory getFactoryInstance() {
+    public static EpePackPrintFactory getFactoryInstance() {
         if (factory != null) {
             return factory;
         }
 
-        synchronized (EpePrintFactory.class) {
+        synchronized (EpePackPrintFactory.class) {
             if (factory != null) {
                 return factory;
             }
 
-            EpePrintFactory factory2 = new EpePrintFactory();
+            EpePackPrintFactory factory2 = new EpePackPrintFactory();
             factory = factory2;
             return factory;
         }
     }
 
-    private EpePrintFactory() {
+    private EpePackPrintFactory() {
     }
 
     @Override

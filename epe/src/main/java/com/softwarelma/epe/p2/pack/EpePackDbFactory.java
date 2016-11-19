@@ -1,28 +1,28 @@
-package com.softwarelma.epe.p3.db;
+package com.softwarelma.epe.p2.pack;
 
 import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpeDbFactory extends EpeExecAbstractFactory {
+public final class EpePackDbFactory extends EpeExecAbstractFactory {
 
-    private static EpeDbFactory factory;
+    private static EpePackDbFactory factory;
 
-    public static EpeDbFactory getFactoryInstance() {
+    public static EpePackDbFactory getFactoryInstance() {
         if (factory != null) {
             return factory;
         }
 
-        synchronized (EpeDbFactory.class) {
+        synchronized (EpePackDbFactory.class) {
             if (factory != null) {
                 return factory;
             }
 
-            EpeDbFactory factory2 = new EpeDbFactory();
+            EpePackDbFactory factory2 = new EpePackDbFactory();
             factory = factory2;
             return factory;
         }
     }
 
-    private EpeDbFactory() {
+    private EpePackDbFactory() {
     }
 
     @Override

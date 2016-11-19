@@ -1,28 +1,28 @@
-package com.softwarelma.epe.p3.echo;
+package com.softwarelma.epe.p2.pack;
 
 import com.softwarelma.epe.p2.exec.EpeExecAbstractFactory;
 
-public final class EpeEchoFactory extends EpeExecAbstractFactory {
+public final class EpePackEchoFactory extends EpeExecAbstractFactory {
 
-    private static EpeEchoFactory factory;
+    private static EpePackEchoFactory factory;
 
-    public static EpeEchoFactory getFactoryInstance() {
+    public static EpePackEchoFactory getFactoryInstance() {
         if (factory != null) {
             return factory;
         }
 
-        synchronized (EpeEchoFactory.class) {
+        synchronized (EpePackEchoFactory.class) {
             if (factory != null) {
                 return factory;
             }
 
-            EpeEchoFactory factory2 = new EpeEchoFactory();
+            EpePackEchoFactory factory2 = new EpePackEchoFactory();
             factory = factory2;
             return factory;
         }
     }
 
-    private EpeEchoFactory() {
+    private EpePackEchoFactory() {
     }
 
     @Override
