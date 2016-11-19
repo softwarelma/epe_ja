@@ -2,6 +2,6 @@ print_to_console("true");
 //echo("program");
 
 //list_funcs("generic");
-print_funcs();
+list_funcs_2();
 
 echo("");
