@@ -16,45 +16,37 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fdcopy, expected the source file/dir name and the destination file/dir name.";
-        EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecResult", listExecResult);
-
-        if (listExecResult.size() != 2) {
-            throw new EpeAppException("fcopy params should be 2, file name and destination");
-        }
-
-        String filenameOriginStr = this.getStringAt(listExecResult, 0, postMessage);
-        filenameOriginStr = EpeAppUtils.cleanFilename(filenameOriginStr);
-        File fileOrigin = new File(filenameOriginStr);
-
-        if (!fileOrigin.exists()) {
-            throw new EpeAppException("fcopy from \"" + filenameOriginStr + "\" does not exist");
-        }
-
-        String filenameDestinationStr = this.getStringAt(listExecResult, 1, postMessage);
-        filenameDestinationStr = EpeAppUtils.cleanFilename(filenameDestinationStr);
-        File fileDestination = new File(filenameDestinationStr);
-
-        this.doFdCopy(filenameOriginStr, fileOrigin, filenameDestinationStr, fileDestination);
+        EpeAppUtils.checkRange(2, 2, 2, false, false, "fdcopy params should be 2, file name and destination");
+        String sourceFilename = this.getStringAt(listExecResult, 0, postMessage);
+        String destinationFilename = this.getStringAt(listExecResult, 1, postMessage);
+        this.doFdCopy(sourceFilename, destinationFilename);
         return this.createEmptyResult();
     }
 
-    protected void doFdCopy(String filenameOriginStr, File fileOrigin, String filenameDestinationStr,
-            File fileDestination) throws EpeAppException {
+    public static void doFdCopy(String sourceFilename, String destinationFilename) throws EpeAppException {
         try {
+            sourceFilename = EpeAppUtils.cleanFilename(sourceFilename);
+            destinationFilename = EpeAppUtils.cleanFilename(destinationFilename);
+            File fileOrigin = new File(sourceFilename);
+            File fileDestination = new File(destinationFilename);
+
+            if (!fileOrigin.exists()) {
+                throw new EpeAppException("fcopy from \"" + sourceFilename + "\" does not exist");
+            }
+
             if (fileOrigin.isDirectory()) {
                 if (fileDestination.isDirectory()) {
                     // existing dir
                     FileUtils.copyDirectory(fileOrigin, fileDestination, true);
                 } else if (fileDestination.isFile()) {
                     // existing file
-                    throw new EpeAppException("fcopy to \"" + filenameDestinationStr + "\" is not a directory");
-                } else if (filenameDestinationStr.endsWith("/")) {
+                    throw new EpeAppException("fcopy to \"" + destinationFilename + "\" is not a directory");
+                } else if (destinationFilename.endsWith("/")) {
                     // new dir
                     FileUtils.copyDirectory(fileOrigin, fileDestination, true);
                 } else {
                     // new file
-                    throw new EpeAppException("fcopy to \"" + filenameDestinationStr + "\" is not a directory");
+                    throw new EpeAppException("fcopy to \"" + destinationFilename + "\" is not a directory");
                 }
             } else if (fileOrigin.isFile()) {
                 if (fileDestination.isDirectory()) {
@@ -63,7 +55,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
                 } else if (fileDestination.isFile()) {
                     // existing file
                     FileUtils.copyFile(fileOrigin, fileDestination);
-                } else if (filenameDestinationStr.endsWith("/")) {
+                } else if (destinationFilename.endsWith("/")) {
                     // new dir
                     FileUtils.copyFileToDirectory(fileOrigin, fileDestination, true);
                 } else {
@@ -71,12 +63,11 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
                     FileUtils.copyFile(fileOrigin, fileDestination);
                 }
             } else {
-                throw new EpeAppException("fdcopy from \"" + filenameOriginStr
+                throw new EpeAppException("fdcopy from \"" + sourceFilename
                         + "\" is neither a directory nor a normal file");
             }
         } catch (IOException e) {
-            throw new EpeAppException("fdcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"",
-                    e);
+            throw new EpeAppException("fdcopy from \"" + sourceFilename + "\" to \"" + destinationFilename + "\"", e);
         }
     }
 
