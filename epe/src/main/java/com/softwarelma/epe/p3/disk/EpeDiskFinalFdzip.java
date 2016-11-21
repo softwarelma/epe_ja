@@ -56,7 +56,7 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
 
             for (String fullFileName : listFullFileName) {
                 currentFullFileName = fullFileName;
-                addZipEntryFileOrFolder(doLog, "", fullFileName, zos);
+                addZipEntryFileOrDir(doLog, "", fullFileName, zos);
             }
         } catch (IOException e) {
             throw new EpeAppException("createZip() - \"" + currentFullFileName + "\"", e);
@@ -71,8 +71,8 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
         }
     }
 
-    private static void addZipEntryFileOrFolder(boolean doLog, String zipFolder, String fullFileName,
-            ZipOutputStream zos) throws IOException, EpeAppException {
+    private static void addZipEntryFileOrDir(boolean doLog, String zipFolder, String fullFileName, ZipOutputStream zos)
+            throws IOException, EpeAppException {
         fullFileName = fullFileName.replace("\\", "/");
         File file = new File(fullFileName);
 
@@ -81,12 +81,28 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
             fullFileName += fullFileName.endsWith("/") ? "" : "/";
             Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(fullFileName);
 
+            // if (arrayFile.length == 0) {
+            addZipEntryDir(doLog, zipFolder, fullFileName, zos);
+            // } else {
             for (String fileName : arrayFile) {
-                addZipEntryFileOrFolder(doLog, zipFolder + filePathAndName.getValue() + "/", fullFileName + fileName,
-                        zos);
+                addZipEntryFileOrDir(doLog, zipFolder + filePathAndName.getValue() + "/", fullFileName + fileName, zos);
             }
+            // }
         } else {
             addZipEntryFile(doLog, zipFolder, fullFileName, zos);
+        }
+    }
+
+    private static void addZipEntryDir(boolean doLog, String zipFolder, String fullFileName, ZipOutputStream zos)
+            throws IOException, EpeAppException {
+        Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(fullFileName);
+        String dirName = EpeAppUtils.cleanDirName(filePathAndName.getValue());
+        ZipEntry ze = new ZipEntry(zipFolder + dirName);
+        zos.putNextEntry(ze);
+        zos.closeEntry();
+
+        if (doLog) {
+            EpeAppLogger.log("\tshould create folder: \"" + zipFolder + dirName + "\"");
         }
     }
 

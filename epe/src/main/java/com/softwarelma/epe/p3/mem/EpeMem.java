@@ -23,16 +23,24 @@ public final class EpeMem {
             return;
         }
 
-        this.mapVarNameExecContent.put(varName, this.rewrap(content));
+        this.mapVarNameExecContent.put(varName, this.rewrapFake(content));
     }
 
     public EpeExecContent getAlsoNull(String varName) throws EpeAppException {
         EpeAppUtils.checkNull("varName", varName);
         EpeExecContent content = this.mapVarNameExecContent.get(varName);
-        content = content == null ? new EpeExecContent(null) : this.rewrap(content);
+        content = content == null ? new EpeExecContent(null) : this.rewrapFake(content);
         return content;
     }
 
+    private EpeExecContent rewrapFake(EpeExecContent content) throws EpeAppException {
+        return content;
+    }
+
+    /**
+     * because of consuming funcs like for(), which consume and also enable assignment
+     */
+    @Deprecated
     private EpeExecContent rewrap(EpeExecContent content) throws EpeAppException {
         EpeExecContentInternal contentInternal;
 
