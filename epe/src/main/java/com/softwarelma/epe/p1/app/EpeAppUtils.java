@@ -1,9 +1,11 @@
 package com.softwarelma.epe.p1.app;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -275,6 +277,17 @@ public abstract class EpeAppUtils {
         return dirName;
     }
 
+    public static Map.Entry<String, String> retrieveKeyAndValue(String fullprop) throws EpeAppException {
+        checkEmpty("fullprop", fullprop);
+        String[] array = fullprop.split("=");
+        checkRange(array.length, 2, 2, false, false, "fullprop not valid \"" + fullprop
+                + "\", should be like key=value");
+        checkEmpty("key", array[0]);
+        checkNull("value", array[1]);
+        Map.Entry<String, String> filePathAndLast = new AbstractMap.SimpleEntry<>(array[0], array[1]);
+        return filePathAndLast;
+    }
+
     public static Map.Entry<String, String> retrieveFilePathAndName(String fullFileName) throws EpeAppException {
         return retrievePathAndLast(fullFileName, "/");
     }
@@ -299,6 +312,14 @@ public abstract class EpeAppUtils {
         }
 
         return sentStr;
+    }
+
+    public static String retrieveTimestamp(String format) throws EpeAppException {
+        checkEmpty("format", format);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format.trim());
+        return simpleDateFormat.format(new Date());
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format.trim());
+        // return LocalDateTime.now().format(formatter);
     }
 
     public static int parseInt(String str) throws EpeAppException {

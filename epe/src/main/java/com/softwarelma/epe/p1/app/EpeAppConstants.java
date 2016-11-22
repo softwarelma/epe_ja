@@ -18,6 +18,11 @@ public abstract class EpeAppConstants {
     public static final String PROGRAM_DEFAULT_PATH = "progs/program.epe";
 
     /*
+     * TIMESTAMP
+     */
+    public static final String TIMESTAMP_DEFAULT_FORMAT = "yyyyMMdd-HHmmss";
+
+    /*
      * ENCODINGS REGISTRED
      */
     public static final String ENCODING_UTF_8 = "UTF-8";

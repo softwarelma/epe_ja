@@ -1,7 +1,8 @@
 //program-tcm-zip.epe
 
 print_to_console("true");
-tcmDir = "/org/company/workspaces/luna-SR2/tcm/";
+tcmDir = read_line("\tInserire il path del progetto TCM nella workspace di eclipse\n", "*", "true", "true");
+// /org/company/workspaces/luna-SR2/tcm/
 
 pomPath = echo(tcmDir, "pom.xml");
 vers = find_between(fread(pomPath), "<it.eng.tributi.tcm.version>", "</it.eng.tributi.tcm.version>");

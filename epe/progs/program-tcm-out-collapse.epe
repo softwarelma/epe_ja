@@ -1,0 +1,26 @@
+print_to_console("true");
+outDir = "/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/.temp/out (copy)/";
+
+listFiles = list_files(outDir, "prefix=tcm-", "suffix=.error.DB");
+totalContent = "";
+label1 = label();
+fileName = for(listFiles);
+	fileContent = fread(echo(outDir, fileName));
+	totalContent = echo(totalContent, fileContent);
+goto(label1, not(empty(listFiles)));
+fwrite(echo("/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/ftcm-", print_timestamp(), ".error.DB"), 
+	totalContent, print_default_encoding());
+
+listFiles = list_files(outDir, "prefix=tcm-", "suffix=.warn.DB");
+totalContent = "";
+label2 = label();
+fileName = for(listFiles);
+	fileContent = fread(echo(outDir, fileName));
+	totalContent = echo(totalContent, fileContent);
+goto(label2, not(empty(listFiles)));
+fwrite(echo("/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/ftcm-", print_timestamp(), ".warn.DB"), 
+	totalContent, print_default_encoding());
+
+fwrite(echo("/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/ftcm-", print_timestamp(), ".out.DB"), 
+	" ", print_default_encoding());
+

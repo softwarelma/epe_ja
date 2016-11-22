@@ -208,8 +208,8 @@ public class EpeEncodings {
             return responseIso;
         }
 
-        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey() + "\" (int val "
-                + ((int) cUtf.getKey()) + ")";
+        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey()
+                + "\" (int val " + ((int) cUtf.getKey()) + ")";
         responseUtf.getListWarning().add(warn);
         responseIso.getListWarning().add(warn);
         warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_ISO_8859_15 + " \"" + cIso.getKey() + "\" (int val "
@@ -357,8 +357,8 @@ public class EpeEncodings {
 
     public void write(String content, String filePath, String encoding, boolean append) throws EpeAppException {
         EpeAppUtils.checkNull("content", content);
-        EpeAppUtils.checkNull("filePath", filePath);
-        EpeAppUtils.checkNull("encoding", encoding);
+        EpeAppUtils.checkEmpty("filePath", filePath);
+        EpeAppUtils.checkEmpty("encoding", encoding);
         filePath = this.cleanPath(filePath);
         File file = new File(filePath);
 
@@ -370,9 +370,8 @@ public class EpeEncodings {
 
         Charset charset = Charset.forName(encoding);
         Path path = Paths.get(filePath);
-        OpenOption optionAppend = file.exists()
-                ? (append ? StandardOpenOption.APPEND : StandardOpenOption.TRUNCATE_EXISTING)
-                : StandardOpenOption.CREATE_NEW;
+        OpenOption optionAppend = file.exists() ? (append ? StandardOpenOption.APPEND
+                : StandardOpenOption.TRUNCATE_EXISTING) : StandardOpenOption.CREATE_NEW;
 
         try (BufferedWriter writer = Files.newBufferedWriter(path, charset, optionAppend)) {
             writer.write(content, 0, content.length());
