@@ -22,7 +22,7 @@ public final class EpeDiskFinalFdmove extends EpeDiskAbstract {
         return this.createEmptyResult();
     }
 
-    protected void doFdmove(String filenameOriginStr, String filenameDestinationStr) throws EpeAppException {
+    public static void doFdmove(String filenameOriginStr, String filenameDestinationStr) throws EpeAppException {
         File fileOrigin = new File(filenameOriginStr);
         File fileDestination = new File(filenameDestinationStr);
 

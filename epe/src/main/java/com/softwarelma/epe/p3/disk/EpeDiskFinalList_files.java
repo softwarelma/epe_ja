@@ -32,10 +32,10 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
         String str2 = this.getStringAt(listExecResult, 2, postMessage, null);
         String str3 = this.getStringAt(listExecResult, 3, postMessage, null);
         String[] prefixContainedAndSuffix = retrievePrefixContainedAndSuffix(str1, str2, str3);
-
         String prefix = prefixContainedAndSuffix[0];
         String contained = prefixContainedAndSuffix[1];
         String suffix = prefixContainedAndSuffix[2];
+
         List<String> list = new ArrayList<>();
         String[] listFileName = dir.list();
 
@@ -59,7 +59,8 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
         return this.createResult(list);
     }
 
-    private String[] retrievePrefixContainedAndSuffix(String str1, String str2, String str3) throws EpeAppException {
+    public static String[] retrievePrefixContainedAndSuffix(String str1, String str2, String str3)
+            throws EpeAppException {
         String[] prefixContainedAndSuffix = { null, null, null };
         retrievePrefixContainedOrSuffixByStr(str1, prefixContainedAndSuffix);
         retrievePrefixContainedOrSuffixByStr(str2, prefixContainedAndSuffix);
@@ -67,7 +68,7 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
         return prefixContainedAndSuffix;
     }
 
-    private void retrievePrefixContainedOrSuffixByStr(String str, String[] prefixContainedAndSuffix)
+    private static void retrievePrefixContainedOrSuffixByStr(String str, String[] prefixContainedAndSuffix)
             throws EpeAppException {
         if (EpeAppUtils.isEmpty(str)) {
             return;
