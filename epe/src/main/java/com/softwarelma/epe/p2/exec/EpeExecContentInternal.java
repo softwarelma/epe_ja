@@ -6,15 +6,24 @@ public final class EpeExecContentInternal {
 
     private final String str;
     private final List<String> listStr;
+    private final List<List<String>> listListStr;
 
     public EpeExecContentInternal(String str) {
         this.str = str;
         this.listStr = null;
+        this.listListStr = null;
     }
 
     public EpeExecContentInternal(List<String> listStr) {
         this.str = null;
         this.listStr = listStr;
+        this.listListStr = null;
+    }
+
+    public EpeExecContentInternal(List<List<String>> listListStr) {
+        this.str = null;
+        this.listStr = null;
+        this.listListStr = listListStr;
     }
 
     @Override

@@ -1,10 +1,7 @@
 package com.softwarelma.epe.p3.generic;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.JarURLConnection;
 import java.net.URL;
@@ -21,7 +18,6 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-// FIXME test from jar
 // from http://stackoverflow.com/questions/520328/can-you-find-all-classes-in-a-package-using-reflection
 public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
 
@@ -103,20 +99,20 @@ public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
                         try {
                             checkDirectory(new File(URLDecoder.decode(url.getPath(), "UTF-8")), pckgname, classes);
                         } catch (final UnsupportedEncodingException ex) {
-                            throw new ClassNotFoundException(
-                                    pckgname + " does not appear to be a valid package (Unsupported encoding)", ex);
+                            throw new ClassNotFoundException(pckgname
+                                    + " does not appear to be a valid package (Unsupported encoding)", ex);
                         }
                     } else
-                        throw new ClassNotFoundException(
-                                pckgname + " (" + url.getPath() + ") does not appear to be a valid package");
+                        throw new ClassNotFoundException(pckgname + " (" + url.getPath()
+                                + ") does not appear to be a valid package");
                 } catch (final IOException ioex) {
-                    throw new ClassNotFoundException(
-                            "IOException was thrown when trying to get all resources for " + pckgname, ioex);
+                    throw new ClassNotFoundException("IOException was thrown when trying to get all resources for "
+                            + pckgname, ioex);
                 }
             }
         } catch (final NullPointerException ex) {
-            throw new ClassNotFoundException(
-                    pckgname + " does not appear to be a valid package (Null pointer exception)", ex);
+            throw new ClassNotFoundException(pckgname
+                    + " does not appear to be a valid package (Null pointer exception)", ex);
         } catch (final IOException ioex) {
             throw new ClassNotFoundException("IOException was thrown when trying to get all resources for " + pckgname,
                     ioex);
