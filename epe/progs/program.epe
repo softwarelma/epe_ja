@@ -1,6 +1,4 @@
 print_to_console("true");
-//echo("program");
 
-from_unicode(to_unicode("Hello World!"));
-
-echo("");
+//print_mem_format(print_mem_physical());
+print_mem_guessing("mb");
