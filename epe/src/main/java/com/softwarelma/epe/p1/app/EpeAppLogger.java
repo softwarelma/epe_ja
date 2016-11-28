@@ -5,8 +5,16 @@ import org.slf4j.LoggerFactory;
 
 public abstract class EpeAppLogger {
 
-    private static final Logger logger = LoggerFactory.getLogger(EpeAppLogger.class);
-    private static Logger loggerExternal = null;
+    private static Logger logger;
+    private static Logger loggerExternal;
+
+    public static void addLoggerInternal() throws EpeAppException {
+        EpeAppLogger.logger = LoggerFactory.getLogger(EpeAppLogger.class);
+    }
+
+    public static void removeLoggerInternal() throws EpeAppException {
+        EpeAppLogger.logger = null;
+    }
 
     public static void setLoggerExternal(Logger loggerExternal) throws EpeAppException {
         EpeAppUtils.checkNull("loggerExternal", loggerExternal);
@@ -72,14 +80,35 @@ public abstract class EpeAppLogger {
         log(null, t, logger, level);
     }
 
+    public static void log(String[] arrayMessage, String messageTitle, Throwable t, Logger logger, LEVEL level) {
+        if (arrayMessage == null || arrayMessage.length == 0) {
+            log("", t, logger, level);
+        }
+
+        log(messageTitle, t, logger, level);
+
+        for (String messageI : arrayMessage) {
+            log(messageI, t, logger, level);
+        }
+    }
+
     public static void log(String message, Throwable t, Logger logger, LEVEL level) {
-        message = message == null || message.isEmpty() ? "Messaggio non trovato" : message;
+        message = message == null || message.isEmpty() ? "Message not found" : message;
         logger = logger == null ? EpeAppLogger.logger : logger;
         logger = loggerExternal == null ? logger : loggerExternal;
         level = level == null ? LEVEL.INFO : level;
 
         if (!EpeAppConstants.SHOW_EXCEPTIONS && t != null) {
             return;
+        }
+
+        if (logger == null) {
+            if (t == null) {
+                logSystemOutPrintln(message);
+            } else {
+                logSystemOutPrintln(message);
+                t.printStackTrace();
+            }
         }
 
         switch (level) {
@@ -124,7 +153,7 @@ public abstract class EpeAppLogger {
 
             return;
         case FATAL:
-            // fatal si puo' configurare con i markers se necessario
+            // fatal, it can be configured with the markers if necessary
 
             if (t == null) {
                 logger.error(message);
@@ -168,19 +197,7 @@ public abstract class EpeAppLogger {
 
             return;
         default:
-            logger.error("Livello non valido: " + level);
-        }
-    }
-
-    public static void log(String[] arrayMessage, String messageTitle, Throwable t, Logger logger, LEVEL level) {
-        if (arrayMessage == null || arrayMessage.length == 0) {
-            log("", t, logger, level);
-        }
-
-        log(messageTitle, t, logger, level);
-
-        for (String messageI : arrayMessage) {
-            log(messageI, t, logger, level);
+            logger.error("Invalid level: " + level);
         }
     }
 

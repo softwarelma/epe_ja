@@ -24,13 +24,13 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         boolean required = EpeAppUtils.parseBoolean(requiredStr);
         String caseSensitiveStr = this.getStringAt(listExecResult, 4, postMessage);
         boolean caseSensitive = EpeAppUtils.parseBoolean(caseSensitiveStr);
-        String str = this.retrieveExternalInput(execParams.getGlobalParams().isPrintToConsole(), screenMessage,
+        String str = retrieveExternalInput(execParams.getGlobalParams().isPrintToConsole(), screenMessage,
                 alternatives, postAlternativesMessage, required, caseSensitive);
         this.log(execParams, str);
         return this.createResult(str);
     }
 
-    private String retrieveExternalInput(boolean doLog, String screenMessage, String alternatives,
+    public static String retrieveExternalInput(boolean doLog, String screenMessage, String alternatives,
             String postAlternativesMessage, boolean required, boolean caseSensitive) throws EpeAppException {
         EpeAppUtils.checkNull("screenMessage", screenMessage);
         EpeAppUtils.checkNull("alternatives", alternatives);
@@ -39,7 +39,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         String input = null;
 
         if (alternatives.equals("*")) {
-            input = this.retrieveConsoleInput(doLog, screenMessage);
+            input = retrieveConsoleInput(doLog, screenMessage);
             return input;
         }
 
@@ -59,17 +59,17 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         if (EpeAppUtils.isEmptyArray(possibleValue)) {
             if (required) {
                 while (EpeAppUtils.isEmptyTrimming(input)) {
-                    input = this.retrieveConsoleInput(doLog, screenMessage);
+                    input = retrieveConsoleInput(doLog, screenMessage);
                 }
 
                 return input;
             } else {
-                input = this.retrieveConsoleInput(doLog, screenMessage);
+                input = retrieveConsoleInput(doLog, screenMessage);
                 return input;
             }
         } else {
             while (true) {
-                input = this.retrieveConsoleInput(doLog, screenMessage);
+                input = retrieveConsoleInput(doLog, screenMessage);
                 matchedValue = retrieveMatchedValue(input, possibleValue, caseSensitive);
 
                 if (matchedValue != null) {
@@ -79,7 +79,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         }
     }
 
-    private String retrieveConsoleInput(boolean doLog, String screenMessage) throws EpeAppException {
+    private static String retrieveConsoleInput(boolean doLog, String screenMessage) throws EpeAppException {
         EpeAppLogger.logSystemOutPrint(screenMessage);
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
@@ -96,7 +96,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         }
     }
 
-    private String retrieveMatchedValue(String value, String[] possibleValue, boolean caseSensitive) {
+    private static String retrieveMatchedValue(String value, String[] possibleValue, boolean caseSensitive) {
         value = value == null ? "" : value;
 
         for (int i = 0; i < possibleValue.length; i++) {
