@@ -109,6 +109,8 @@ public abstract class EpeAppLogger {
                 logSystemOutPrintln(message);
                 t.printStackTrace();
             }
+
+            return;
         }
 
         switch (level) {
