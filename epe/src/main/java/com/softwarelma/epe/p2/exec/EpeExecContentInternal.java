@@ -20,7 +20,7 @@ public final class EpeExecContentInternal {
         this.listListStr = null;
     }
 
-    public EpeExecContentInternal(List<List<String>> listListStr) {
+    public EpeExecContentInternal(List<List<String>> listListStr, String fake) {
         this.str = null;
         this.listStr = null;
         this.listListStr = listListStr;

@@ -1,4 +1,3 @@
-print_to_console("true");
+//print_to_console("true");
 
-//print_mem_format(print_mem_physical());
-print_mem_guessing("mb");
+v = read_line("value ", "a|b", ": ", "true", "true");

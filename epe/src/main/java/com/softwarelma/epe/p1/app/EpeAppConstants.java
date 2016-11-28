@@ -63,6 +63,11 @@ public abstract class EpeAppConstants {
      */
     public static final String CIPHER_KEY_SUFFIX = "*/+-#{[(12345678";
 
+    /**
+     * enables exception logging
+     */
+    public static boolean SHOW_EXCEPTIONS = true;
+
     /*
      * ******************** REGULAR EXPRESSIONS - BEGIN ********************
      * 

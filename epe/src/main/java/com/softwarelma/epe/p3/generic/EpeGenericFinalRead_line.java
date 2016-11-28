@@ -15,22 +15,23 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "read_line, expected the screen message, the alternatives (also empty but not null), "
-                + "the required bool and the case sensitive bool.";
+        String postMessage = "read_line, expected the screen message, the alternatives (also empty or null), "
+                + "the post-alternatives message (also empty or null), the required bool and the case sensitive bool.";
         String screenMessage = this.getStringAt(listExecResult, 0, postMessage);
-        String alternatives = this.getStringAt(listExecResult, 1, postMessage);
-        String requiredStr = this.getStringAt(listExecResult, 2, postMessage);
+        String alternatives = this.getStringAt(listExecResult, 1, postMessage, "");
+        String postAlternativesMessage = this.getStringAt(listExecResult, 2, postMessage, "");
+        String requiredStr = this.getStringAt(listExecResult, 3, postMessage);
         boolean required = EpeAppUtils.parseBoolean(requiredStr);
-        String caseSensitiveStr = this.getStringAt(listExecResult, 3, postMessage);
+        String caseSensitiveStr = this.getStringAt(listExecResult, 4, postMessage);
         boolean caseSensitive = EpeAppUtils.parseBoolean(caseSensitiveStr);
         String str = this.retrieveExternalInput(execParams.getGlobalParams().isPrintToConsole(), screenMessage,
-                alternatives, required, caseSensitive);
+                alternatives, postAlternativesMessage, required, caseSensitive);
         this.log(execParams, str);
         return this.createResult(str);
     }
 
-    private String retrieveExternalInput(boolean doLog, String screenMessage, String alternatives, boolean required,
-            boolean caseSensitive) throws EpeAppException {
+    private String retrieveExternalInput(boolean doLog, String screenMessage, String alternatives,
+            String postAlternativesMessage, boolean required, boolean caseSensitive) throws EpeAppException {
         EpeAppUtils.checkNull("screenMessage", screenMessage);
         EpeAppUtils.checkNull("alternatives", alternatives);
         screenMessage = screenMessage.startsWith("tcm_") ? screenMessage.substring(4) : screenMessage;
@@ -52,8 +53,8 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
 
         String matchedValue;
         String[] possibleValue = alternatives.split("\\|");
-        String alternativesMessage = possibleValue.length == 1 ? "" : ": [" + alternatives + "]";
-        screenMessage += alternativesMessage;
+        String alternativesMessage = possibleValue.length == 1 ? "" : "[" + alternatives + "]";
+        screenMessage += alternativesMessage + postAlternativesMessage;
 
         if (EpeAppUtils.isEmptyArray(possibleValue)) {
             if (required) {
@@ -79,7 +80,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
     }
 
     private String retrieveConsoleInput(boolean doLog, String screenMessage) throws EpeAppException {
-        EpeAppLogger.log(screenMessage);
+        EpeAppLogger.logSystemOutPrint(screenMessage);
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
         try {
