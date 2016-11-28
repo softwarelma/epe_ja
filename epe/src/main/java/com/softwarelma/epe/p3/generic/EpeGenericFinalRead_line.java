@@ -80,7 +80,10 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
     }
 
     private static String retrieveConsoleInput(boolean doLog, String screenMessage) throws EpeAppException {
-        EpeAppLogger.logSystemOutPrint(screenMessage);
+        if (doLog) {
+            EpeAppLogger.log(screenMessage);
+        }
+
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
         try {
