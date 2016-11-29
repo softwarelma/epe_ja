@@ -28,7 +28,33 @@ public final class EpeExecContentInternal {
 
     @Override
     public String toString() {
-        return listStr == null ? str : this.listToString();
+        if (this.isString()) {
+            return this.str;
+        } else if (this.isListString()) {
+            return this.listToString(this.listStr);
+        } else {
+            return this.listListToString(this.listListStr);
+        }
+    }
+
+    private String listListToString(List<List<String>> listListStr) {
+        StringBuilder sb = new StringBuilder();
+
+        for (List<String> listStr : listListStr) {
+            sb.append(this.listToString(listStr));
+        }
+
+        return sb.toString();
+    }
+
+    private String listToString(List<String> listStr) {
+        StringBuilder sb = new StringBuilder();
+
+        for (String str : listStr) {
+            sb.append(str);
+        }
+
+        return sb.toString();
     }
 
     public boolean isString() {
@@ -39,6 +65,10 @@ public final class EpeExecContentInternal {
         return this.listStr != null;
     }
 
+    public boolean isListListString() {
+        return this.listListStr != null;
+    }
+
     public String getStr() {
         return str;
     }
@@ -47,14 +77,8 @@ public final class EpeExecContentInternal {
         return listStr;
     }
 
-    private String listToString() {
-        StringBuilder sb = new StringBuilder();
-
-        for (String str : this.listStr) {
-            sb.append(str);
-        }
-
-        return sb.toString();
+    public List<List<String>> getListListStr() {
+        return listListStr;
     }
 
 }

@@ -18,14 +18,6 @@ public final class EpeExecContent {
         return this.contentInternal == null;
     }
 
-    public boolean isString() {
-        return this.contentInternal != null && this.contentInternal.isString();
-    }
-
-    public boolean isListString() {
-        return this.contentInternal != null && this.contentInternal.isListString();
-    }
-
     public EpeExecContent(EpeExecContentInternal contentInternal) {
         this.contentInternal = contentInternal;
     }
@@ -34,12 +26,28 @@ public final class EpeExecContent {
         return contentInternal;
     }
 
+    public boolean isString() {
+        return this.contentInternal != null && this.contentInternal.isString();
+    }
+
+    public boolean isListString() {
+        return this.contentInternal != null && this.contentInternal.isListString();
+    }
+
+    public boolean isListListString() {
+        return this.contentInternal != null && this.contentInternal.isListListString();
+    }
+
     public String getStr() {
         return this.contentInternal == null ? null : this.contentInternal.getStr();
     }
 
     public List<String> getListStr() {
         return this.contentInternal == null ? null : this.contentInternal.getListStr();
+    }
+
+    public List<List<String>> getListListStr() {
+        return this.contentInternal == null ? null : this.contentInternal.getListListStr();
     }
 
 }

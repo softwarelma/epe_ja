@@ -151,6 +151,21 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return listStr;
     }
 
+    protected List<List<String>> getListListStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkRange(index, 0, listExecResult.size() - 1, false, false, postMessage);
+
+        EpeExecResult result = listExecResult.get(index);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent content = result.getExecContent();
+        EpeAppUtils.checkNull("content", content);
+        List<List<String>> listListStr = content.getListListStr();
+        EpeAppUtils.checkNull("listListStr", listListStr);
+
+        return listListStr;
+    }
+
     protected boolean isStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
             throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
@@ -179,6 +194,21 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         EpeAppUtils.checkNull("contentInternal", contentInternal);
 
         return contentInternal.getListStr() != null;
+    }
+
+    protected boolean isListListStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkRange(index, 0, listExecResult.size() - 1, false, false, postMessage);
+
+        EpeExecResult result = listExecResult.get(index);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent content = result.getExecContent();
+        EpeAppUtils.checkNull("content", content);
+        EpeExecContentInternal contentInternal = content.getContentInternal();
+        EpeAppUtils.checkNull("contentInternal", contentInternal);
+
+        return contentInternal.getListListStr() != null;
     }
 
 }
