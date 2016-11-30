@@ -1,6 +1,7 @@
 package com.softwarelma.epe.p3.db;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +26,11 @@ public final class EpeDbFinalDb_datasource extends EpeDbAbstract {
         String username = this.getStringAt(listExecResult, 1, postMessage);
         String password = this.getStringAt(listExecResult, 2, postMessage);
         DataSource dataSource = retrieveOrCreateDataSource(url, username, password);
-        String str = "URL=" + url + " username=" + username;
-        this.log(execParams, str);
-        return this.createResult(str);
+        List<String> listStr = new ArrayList<>();
+        listStr.add("URL=" + url);
+        listStr.add("username=" + username);
+        this.log(execParams, listStr);
+        return this.createResult(listStr, dataSource);
     }
 
     public static DataSource retrieveOrCreateDataSource(String url, String username, String password)

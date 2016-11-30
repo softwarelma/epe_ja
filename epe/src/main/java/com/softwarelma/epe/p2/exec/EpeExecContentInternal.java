@@ -2,7 +2,11 @@ package com.softwarelma.epe.p2.exec;
 
 import java.util.List;
 
-public final class EpeExecContentInternal {
+import javax.sql.DataSource;
+
+import com.softwarelma.epe.p1.app.EpeAppException;
+
+public class EpeExecContentInternal {
 
     private final String str;
     private final List<String> listStr;
@@ -79,6 +83,10 @@ public final class EpeExecContentInternal {
 
     public List<List<String>> getListListStr() {
         return listListStr;
+    }
+
+    public DataSource getDataSource() throws EpeAppException {
+        throw new EpeAppException("Method not valid");
     }
 
 }

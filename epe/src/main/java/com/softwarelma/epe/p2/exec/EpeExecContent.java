@@ -2,6 +2,10 @@ package com.softwarelma.epe.p2.exec;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import com.softwarelma.epe.p1.app.EpeAppException;
+
 /**
  * this class is intended to implement a NOP, so the contentInternal can be null
  */
@@ -48,6 +52,10 @@ public final class EpeExecContent {
 
     public List<List<String>> getListListStr() {
         return this.contentInternal == null ? null : this.contentInternal.getListListStr();
+    }
+
+    public DataSource getDataSource() throws EpeAppException {
+        return this.contentInternal == null ? null : this.contentInternal.getDataSource();
     }
 
 }

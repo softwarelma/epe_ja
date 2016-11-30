@@ -2,9 +2,12 @@ package com.softwarelma.epe.p2.exec;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p3.db.EpeDbContentInternalDb;
 
 public abstract class EpeExecAbstract implements EpeExecInterface {
 
@@ -16,12 +19,21 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         }
     }
 
-    protected void log(EpeExecParams execParams, List<String> list) throws EpeAppException {
+    protected void log(EpeExecParams execParams, List<String> listStr) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("list", list);
+        EpeAppUtils.checkNull("listStr", listStr);
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(list.toString());
+            EpeAppLogger.logSystemOutPrintln(listStr.toString());
+        }
+    }
+
+    protected void log(EpeExecParams execParams, List<List<String>> listListStr, String fake) throws EpeAppException {
+        EpeAppUtils.checkNull("execParams", execParams);
+        EpeAppUtils.checkNull("listListStr", listListStr);
+
+        if (execParams.getGlobalParams().isPrintToConsole()) {
+            EpeAppLogger.logSystemOutPrintln(listListStr.toString());
         }
     }
 
@@ -46,6 +58,20 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
     protected EpeExecResult createResult(List<String> listStr) {
         EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(listStr)));
+        return execResult;
+    }
+
+    protected EpeExecResult createResult(List<List<String>> listListStr, String fake) {
+        EpeExecResult execResult = new EpeExecResult();
+        execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(listListStr, fake)));
+        return execResult;
+    }
+
+    protected EpeExecResult createResult(List<String> listStr, DataSource dataSource) {
+        EpeExecResult execResult = new EpeExecResult();
+        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr);
+        contentInternalDb.setDataSource(dataSource);
+        execResult.setExecContent(new EpeExecContent(contentInternalDb));
         return execResult;
     }
 
@@ -164,6 +190,21 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         EpeAppUtils.checkNull("listListStr", listListStr);
 
         return listListStr;
+    }
+
+    protected DataSource getDataSourceAt(List<EpeExecResult> listExecResult, int index, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkRange(index, 0, listExecResult.size() - 1, false, false, postMessage);
+
+        EpeExecResult result = listExecResult.get(index);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent content = result.getExecContent();
+        EpeAppUtils.checkNull("content", content);
+        DataSource dataSource = content.getDataSource();
+        EpeAppUtils.checkNull("dataSource", dataSource);
+
+        return dataSource;
     }
 
     protected boolean isStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
