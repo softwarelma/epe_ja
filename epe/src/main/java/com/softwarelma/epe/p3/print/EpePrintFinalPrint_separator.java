@@ -10,13 +10,14 @@ import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpePrintFinalPrint extends EpePrintAbstract {
+public final class EpePrintFinalPrint_separator extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
-        String str = retrievePrintableStr(listExecResult);
+        String sepInternal, String sepExternal;
+        String str = retrievePrintableStrWithSeparators(listExecResult);
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
             EpeAppLogger.logSystemOutPrintln(str);
@@ -27,7 +28,7 @@ public final class EpePrintFinalPrint extends EpePrintAbstract {
         return execResult;
     }
 
-    public static String retrievePrintableStr(List<EpeExecResult> listExecResult) throws EpeAppException {
+    public static String retrievePrintableStrWithSeparators(String sepInternal, String sepExternal,List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         StringBuilder sb = new StringBuilder();
 

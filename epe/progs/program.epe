@@ -1,4 +1,6 @@
-print_to_console("true");
+//print_to_console("true");
 
 ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_MASTER", "SGE_MASTER");
-db_select(ds, "select * from c_dyqe_gruppo");
+rs = db_select(ds, "select * from c_dyqe_gruppo");
+print_to_console("true");
+print(rs);
