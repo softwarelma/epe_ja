@@ -16,16 +16,17 @@ public final class EpePrintFinalPrint_separator extends EpePrintAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
-        String sepInternal, String sepExternal;
-        String str = retrievePrintableStrWithSeparators(listExecResult);
+//        String sepInternal, String sepExternal;
+//        String str = retrievePrintableStrWithSeparators(listExecResult);
 
-        if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(str);
-        }
+//        if (execParams.getGlobalParams().isPrintToConsole()) {
+//            EpeAppLogger.logSystemOutPrintln(str);
+//        }
 
-        EpeExecResult execResult = new EpeExecResult();
-        execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(str)));
-        return execResult;
+//        EpeExecResult execResult = new EpeExecResult();
+//        execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(str)));
+//        return execResult;
+        return this.createEmptyResult();
     }
 
     public static String retrievePrintableStrWithSeparators(String sepInternal, String sepExternal,List<EpeExecResult> listExecResult) throws EpeAppException {
