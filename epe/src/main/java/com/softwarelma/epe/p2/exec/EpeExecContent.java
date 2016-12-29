@@ -18,6 +18,14 @@ public final class EpeExecContent {
         return contentInternal == null ? null : contentInternal.toString();
     }
 
+    public String toString(String sepExternal, String sepInternal) {
+        return contentInternal == null ? null : contentInternal.toString(sepExternal, sepInternal);
+    }
+
+    public String toString(String sepExternal, List<Integer> listWidth) throws EpeAppException {
+        return contentInternal == null ? null : contentInternal.toString(sepExternal, listWidth);
+    }
+
     public boolean isNull() {
         return this.contentInternal == null;
     }

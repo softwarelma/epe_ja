@@ -49,25 +49,25 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return execResult;
     }
 
-    protected EpeExecResult createResult(String str) {
+    protected EpeExecResult createResult(String str) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(str)));
         return execResult;
     }
 
-    protected EpeExecResult createResult(List<String> listStr) {
+    protected EpeExecResult createResult(List<String> listStr) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(listStr)));
         return execResult;
     }
 
-    protected EpeExecResult createResult(List<List<String>> listListStr, String fake) {
+    protected EpeExecResult createResult(List<List<String>> listListStr, String fake) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
         execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(listListStr, fake)));
         return execResult;
     }
 
-    protected EpeExecResult createResult(List<String> listStr, DataSource dataSource) {
+    protected EpeExecResult createResult(List<String> listStr, DataSource dataSource) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
         EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr);
         contentInternalDb.setDataSource(dataSource);

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public class EpeExecContentInternal {
 
@@ -12,19 +13,22 @@ public class EpeExecContentInternal {
     private final List<String> listStr;
     private final List<List<String>> listListStr;
 
-    public EpeExecContentInternal(String str) {
+    public EpeExecContentInternal(String str) throws EpeAppException {
+        EpeAppUtils.checkNull("str", str);
         this.str = str;
         this.listStr = null;
         this.listListStr = null;
     }
 
-    public EpeExecContentInternal(List<String> listStr) {
+    public EpeExecContentInternal(List<String> listStr) throws EpeAppException {
+        EpeAppUtils.checkNull("listStr", listStr);
         this.str = null;
         this.listStr = listStr;
         this.listListStr = null;
     }
 
-    public EpeExecContentInternal(List<List<String>> listListStr, String fake) {
+    public EpeExecContentInternal(List<List<String>> listListStr, String fake) throws EpeAppException {
+        EpeAppUtils.checkNull("listListStr", listListStr);
         this.str = null;
         this.listStr = null;
         this.listListStr = listListStr;
@@ -36,8 +40,30 @@ public class EpeExecContentInternal {
             return this.str;
         } else if (this.isListString()) {
             return this.listToString(this.listStr);
-        } else {
+        } else if (this.isListString()) {
             return this.listListToString(this.listListStr);
+        } else {
+            throw new RuntimeException("Unknown internal content type");
+        }
+    }
+
+    public String toString(String sepExternal, String sepInternal) {
+        if (this.isString()) {
+            return this.str;
+        } else if (this.isListString()) {
+            return this.listToString(this.listStr, sepInternal);
+        } else {
+            return this.listListToString(this.listListStr, sepExternal, sepInternal);
+        }
+    }
+
+    public String toString(String sepExternal, List<Integer> listWidth) throws EpeAppException {
+        if (this.isString()) {
+            return this.str;
+        } else if (this.isListString()) {
+            return this.listToString(this.listStr, listWidth);
+        } else {
+            return this.listListToString(this.listListStr, sepExternal, listWidth);
         }
     }
 
@@ -51,11 +77,95 @@ public class EpeExecContentInternal {
         return sb.toString();
     }
 
+    private String listListToString(List<List<String>> listListStr, String sepExternal, String sepInternal) {
+        StringBuilder sb = new StringBuilder();
+        String sepExternal2 = "";
+
+        for (List<String> listStr : listListStr) {
+            sb.append(sepExternal2);
+            sepExternal2 = sepExternal;
+            sb.append(this.listToString(listStr, sepInternal));
+        }
+
+        return sb.toString();
+    }
+
+    private String listListToString(List<List<String>> listListStr, String sepExternal, List<Integer> listWidth)
+            throws EpeAppException {
+        StringBuilder sb = new StringBuilder();
+        String sepExternal2 = "";
+
+        for (List<String> listStr : listListStr) {
+            sb.append(sepExternal2);
+            sepExternal2 = sepExternal;
+            sb.append(this.listToString(listStr, listWidth));
+        }
+
+        return sb.toString();
+    }
+
     private String listToString(List<String> listStr) {
         StringBuilder sb = new StringBuilder();
 
         for (String str : listStr) {
             sb.append(str);
+        }
+
+        return sb.toString();
+    }
+
+    private String listToString(List<String> listStr, String sepInternal) {
+        StringBuilder sb = new StringBuilder();
+        String sepInternal2 = "";
+
+        for (String str : listStr) {
+            sb.append(sepInternal2);
+            sepInternal2 = sepInternal;
+            sb.append(str);
+        }
+
+        return sb.toString();
+    }
+
+    private String listToString(List<String> listStr, List<Integer> listWidth) throws EpeAppException {
+        StringBuilder sb = new StringBuilder();
+        String sepInternal2 = "";
+        String str;
+        int width;
+
+        for (int i = 0; i < listStr.size(); i++) {
+            str = listStr.get(i);
+            sb.append(sepInternal2);
+            width = this.retrieveWidth(listWidth, i);
+            sepInternal2 = this.retrieveBackspaces(width, str);
+            sb.append(str);
+        }
+
+        return sb.toString();
+    }
+
+    private int retrieveWidth(List<Integer> listWidth, int i) throws EpeAppException {
+        EpeAppUtils.checkNull("listWidth", listWidth);
+
+        if (i < 0 || i > listWidth.size() - 1) {
+            throw new EpeAppException("Index out bound " + i + " for list size " + listWidth.size());
+        }
+
+        return listWidth.get(i);
+
+    }
+
+    private String retrieveBackspaces(int width, String str) throws EpeAppException {
+        StringBuilder sb = new StringBuilder(" ");
+        str = str + "";// null becomes "null"
+
+        if (str.length() > width) {
+            throw new EpeAppException("The string (" + str + ") has a length (" + str.length() + ") bigger than "
+                    + width);
+        }
+
+        for (int i = 0; i < width - str.length(); i++) {
+            sb.append(" ");
         }
 
         return sb.toString();

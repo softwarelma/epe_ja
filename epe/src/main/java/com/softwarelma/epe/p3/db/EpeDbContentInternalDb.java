@@ -11,15 +11,15 @@ public class EpeDbContentInternalDb extends EpeExecContentInternal {
 
     private DataSource dataSource;
 
-    public EpeDbContentInternalDb(String str) {
+    public EpeDbContentInternalDb(String str) throws EpeAppException {
         super(str);
     }
 
-    public EpeDbContentInternalDb(List<String> listStr) {
+    public EpeDbContentInternalDb(List<String> listStr) throws EpeAppException {
         super(listStr);
     }
 
-    public EpeDbContentInternalDb(List<List<String>> listListStr, String fake) {
+    public EpeDbContentInternalDb(List<List<String>> listListStr, String fake) throws EpeAppException {
         super(listListStr, fake);
     }
 

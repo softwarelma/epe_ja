@@ -1,6 +1,9 @@
 //print_to_console("true");
 
 ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_MASTER", "SGE_MASTER");
-rs = db_select(ds, "select * from c_dyqe_gruppo");
+rs1 = db_select(ds, "select * from c_dyqe_gruppo");
+rs2 = db_select(ds, "select * from tcan where cod_ano like '%:PARAM'");
+list_sep = echo_to_list("\n\n", "\n", "\t\t");
 print_to_console("true");
-print(rs);
+//print_separator(list_sep, rs, rs);
+print_separator_smart(rs1, rs2);

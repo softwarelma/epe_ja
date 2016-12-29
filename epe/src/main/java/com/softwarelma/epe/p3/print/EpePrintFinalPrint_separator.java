@@ -1,5 +1,6 @@
 package com.softwarelma.epe.p3.print;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -14,29 +15,31 @@ public final class EpePrintFinalPrint_separator extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecResult", listExecResult);
-//        String sepInternal, String sepExternal;
-//        String str = retrievePrintableStrWithSeparators(listExecResult);
-
-//        if (execParams.getGlobalParams().isPrintToConsole()) {
-//            EpeAppLogger.logSystemOutPrintln(str);
-//        }
-
-//        EpeExecResult execResult = new EpeExecResult();
-//        execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(str)));
-//        return execResult;
-        return this.createEmptyResult();
+        String postMessage = "print_separator, expected a list with the param, external and internal separators "
+                + "and the contents to print.";
+        List<String> listStr = this.getListStringAt(listExecResult, 0, postMessage);
+        String sepParam = listStr.size() > 0 ? listStr.get(0) : "";
+        String sepExternal = listStr.size() > 1 ? listStr.get(1) : "";
+        String sepInternal = listStr.size() > 2 ? listStr.get(2) : "";
+        String str = retrievePrintableStrWithSeparators(sepParam, sepExternal, sepInternal, listExecResult, 1);
+        this.log(execParams, str);
+        return this.createResult(str);
     }
 
-    public static String retrievePrintableStrWithSeparators(String sepInternal, String sepExternal,List<EpeExecResult> listExecResult) throws EpeAppException {
+    public static String retrievePrintableStrWithSeparators(String sepParam, String sepExternal, String sepInternal,
+            List<EpeExecResult> listExecResult, int startingIndex) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         StringBuilder sb = new StringBuilder();
+        String sepParam2 = "";
 
-        for (EpeExecResult result : listExecResult) {
+        for (int i = startingIndex; i < listExecResult.size(); i++) {
+            EpeExecResult result = listExecResult.get(i);
             EpeAppUtils.checkNull("result", result);
             EpeExecContent content = result.getExecContent();
-            sb.append(content.getContentInternal() == null ? null : content.getContentInternal().toString());
+            EpeAppUtils.checkNull("content", content);
+            sb.append(sepParam2);
+            sepParam2 = sepParam;
+            sb.append(content.toString(sepExternal, sepInternal));
         }
 
         return sb.toString();

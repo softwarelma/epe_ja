@@ -14,17 +14,9 @@ public final class EpePrintFinalPrint extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        EpeAppUtils.checkNull("execParams", execParams);
-        EpeAppUtils.checkNull("listExecResult", listExecResult);
         String str = retrievePrintableStr(listExecResult);
-
-        if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(str);
-        }
-
-        EpeExecResult execResult = new EpeExecResult();
-        execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(str)));
-        return execResult;
+        this.log(execParams, str);
+        return this.createResult(str);
     }
 
     public static String retrievePrintableStr(List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -34,7 +26,8 @@ public final class EpePrintFinalPrint extends EpePrintAbstract {
         for (EpeExecResult result : listExecResult) {
             EpeAppUtils.checkNull("result", result);
             EpeExecContent content = result.getExecContent();
-            sb.append(content.getContentInternal() == null ? null : content.getContentInternal().toString());
+            EpeAppUtils.checkNull("content", content);
+            sb.append(content.toString());
         }
 
         return sb.toString();
