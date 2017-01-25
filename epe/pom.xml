@@ -72,6 +72,11 @@
 			<version>11.2.0.3</version>
 		</dependency>
 
+    <!-- DBs -->
+    <!-- 1. h2 -->
+    <!-- 2. hsql -->
+    <!-- 3. javadb -->
+
 	</dependencies>
 
 	<build>
