@@ -41,10 +41,28 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
         return this.createEmptyResult();
     }
 
+    public static void createDirIfNotExisting(String dirName) throws EpeAppException {
+        File dir = new File(dirName);
+
+        if (dir.exists()) {
+            if (dir.isDirectory()) {
+                // already exists and it is a dir
+                return;
+            } else {
+                // already exists but it is not a dir
+                throw new EpeAppException("The file is not a dir: " + dirName);
+            }
+        } else {
+            dir.mkdirs();
+        }
+    }
+
     public static void createZip(boolean doLog, List<String> listFullFileName, String zipFileName)
             throws EpeAppException {
         ZipOutputStream zos = null;
         String currentFullFileName = "";
+        Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(zipFileName);
+        createDirIfNotExisting(filePathAndName.getKey());
 
         try {
             FileOutputStream fos = new FileOutputStream(zipFileName);

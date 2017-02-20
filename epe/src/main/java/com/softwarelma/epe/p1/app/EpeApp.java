@@ -32,7 +32,10 @@ public final class EpeApp {
             }
         } else {
             List<String> list = Arrays.asList(args);
-            throw new EpeAppException("Invalid args: " + list);
+            throw new EpeAppException("Invalid args: " + list + ". Expected nothing for default program ("
+                    + EpeAppConstants.PROGRAM_DEFAULT_PATH
+                    + ") or -p programName programContent or -f programPath1 ... programPathN "
+                    + "with at least 1 program path.");
         }
     }
 
@@ -40,10 +43,10 @@ public final class EpeApp {
      * @param path
      *            true=path, false=content
      */
-    private void start(EpeAppGlobalParams globalParams, String progName, String programPathOrContent, boolean path)
+    private void start(EpeAppGlobalParams globalParams, String programName, String programPathOrContent, boolean path)
             throws EpeAppException {
         EpeAppUtils.checkNull("programPathOrContent", programPathOrContent);
-        StringBuilder step = new StringBuilder("retrieving the PROG " + progName);
+        StringBuilder step = new StringBuilder("retrieving the PROGRAM " + programName);
 
         try {
             // DbpAppLogger.log(step);
@@ -56,7 +59,7 @@ public final class EpeApp {
                 prog = EpeProgFactory.getInstanceFromProgramContent(programPathOrContent, mapNotContainedReplaced);
             }
 
-            String step0 = "executing from prog " + progName + " the SENTENCE ";
+            String step0 = "executing from program " + programName + " the SENTENCE ";
             EpeExec exec = new EpeExec();
 
             this.executeLabels(globalParams, exec, prog, step, step0, mapNotContainedReplaced);
