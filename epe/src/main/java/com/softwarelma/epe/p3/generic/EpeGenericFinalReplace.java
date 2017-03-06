@@ -22,7 +22,7 @@ public final class EpeGenericFinalReplace extends EpeGenericAbstract {
         throw new EpeAppException("Text not valid. " + postMessage);
     }
 
-    private EpeExecResult doFuncStringText(EpeExecParams execParams, List<EpeExecResult> listExecResult,
+    public EpeExecResult doFuncStringText(EpeExecParams execParams, List<EpeExecResult> listExecResult,
             String postMessage) throws EpeAppException {
         String text = this.getStringAt(listExecResult, 0, postMessage);
         String target = this.getStringAt(listExecResult, 1, postMessage);
@@ -46,7 +46,7 @@ public final class EpeGenericFinalReplace extends EpeGenericAbstract {
         return this.createResult(listRet);
     }
 
-    private EpeExecResult doFuncListStringText(EpeExecParams execParams, List<EpeExecResult> listExecResult,
+    public EpeExecResult doFuncListStringText(EpeExecParams execParams, List<EpeExecResult> listExecResult,
             String postMessage) throws EpeAppException {
         List<String> listText = this.getListStringAt(listExecResult, 0, postMessage);
         List<String> listRet = new ArrayList<>();
