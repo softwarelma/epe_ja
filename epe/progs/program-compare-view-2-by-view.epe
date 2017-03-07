@@ -1,0 +1,60 @@
+list_all_views = import("list_all_views");
+ds_topolino = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_USER", "SGE_USER");
+ds_pippo = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/netbo", "SGE_USER", "SGE_USER");
+
+label0 = label();
+view_name = for(list_all_views);
+
+	query = echo("select text from all_views WHERE view_name = '", view_name, "'");
+	print_to_console("true");
+	//echo(query);
+	print_to_console("false");
+
+	rs = db_select(ds_topolino, query);
+	list = list_get_list_at(rs, "0", echo_to_list("topolino"));
+	view_topolino = list_get_at(list, "0");
+	print_to_console("true");
+	//echo("topolino done");
+	print_to_console("false");
+
+	rs = db_select(ds_pippo, query);
+	list = list_get_list_at(rs, "0", echo_to_list("pippo"));
+	view_pippo = list_get_at(list, "0");
+	print_to_console("true");
+	//echo("pippo done");
+	print_to_console("false");
+
+	/*view_pippo = replace(view_pippo, ";", "");
+	view_pippo = replace(view_pippo, "/", "");
+	view_pippo = replace_regex(view_pippo, ".*\nSELECT", "SELECT");
+	view_pippo = replace_regex(view_pippo, ".*\nselect", "SELECT");
+	view_pippo = replace_regex(view_pippo, ".*\nSelect", "SELECT");*/
+	
+	view_pippo = replace(view_pippo, " ", "");
+	view_pippo = replace(view_pippo, from_unicode("\u000d"), "");
+	view_pippo = replace(view_pippo, from_unicode("\u0020"), "");
+	view_pippo = replace(view_pippo, "\r", "");
+	view_pippo = replace(view_pippo, "\n\n", "\n");
+	view_pippo = replace(view_pippo, "\t", "");
+	view_pippo = replace(view_pippo, "tmp.", "");
+	view_pippo = trim_full(view_pippo);
+	
+	view_topolino = replace(view_topolino, " ", "");
+	view_topolino = replace(view_topolino, from_unicode("\u000d"), "");
+	view_topolino = replace(view_topolino, from_unicode("\u0020"), "");
+	view_topolino = replace(view_topolino, "\r", "");
+	view_topolino = replace(view_topolino, "\n\n", "\n");
+	view_topolino = replace(view_topolino, "\t", "");
+	view_topolino = replace(view_topolino, "tmp.", "");
+	view_topolino = trim_full(view_topolino);
+	
+	equals = equals_ignore_case(view_pippo, view_topolino);
+	/*view_pippo = to_unicode(view_pippo);
+	view_topolino = to_unicode(view_topolino);
+	echo("++", view_pippo, "**");
+	echo("++", view_topolino, "**");*/
+	print_to_console("true");
+	echo(view_name, ": ", equals);
+	print_to_console("false");
+
+goto(label0, not(empty(list_all_views)));

@@ -1,5 +1,6 @@
 package com.softwarelma.epe.p3.generic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -15,7 +16,19 @@ public final class EpeGenericFinalList_get_list_at extends EpeGenericAbstract {
         List<List<String>> listListStr = this.getListListStringAt(listExecResult, 0, postMessage);
         String index = this.getStringAt(listExecResult, 1, postMessage);
         int ind = EpeAppUtils.parseInt(index);
-        List<String> listStr = listListStr.get(ind);
+        List<String> listStr;
+
+        if (listExecResult.size() > 2) {
+            if (listListStr.size() < ind + 1) {
+                List<String> listStrDefault = this.getListStringAt(listExecResult, 2, postMessage);
+                listStr = listStrDefault;
+            } else {
+                listStr = listListStr.get(ind);
+            }
+        } else {
+            listStr = listListStr.get(ind);
+        }
+
         this.log(execParams, listStr);
         return this.createResult(listStr);
     }

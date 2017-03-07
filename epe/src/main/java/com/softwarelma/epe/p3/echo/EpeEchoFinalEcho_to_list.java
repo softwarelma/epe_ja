@@ -12,7 +12,7 @@ public final class EpeEchoFinalEcho_to_list extends EpeEchoAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "echo_to_list.";
+        String postMessage = "echo_to_list, expected 0 to N strings";
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         List<String> listStr = new ArrayList<>();
 

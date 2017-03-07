@@ -1,9 +1,10 @@
 ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_USER", "SGE_USER");
-view_name = echo("F24_RATA");
+view_name = "F24_RATA";
 rs1 = db_select(ds, echo("select text from all_views WHERE view_name = '", view_name, "'"));
 list = list_get_list_at(rs1, "0");
 view_db = list_get_at(list, "0");
-view_svn = fread("/org/company/workspaces/luna-SR2/db-sge-ex-trunk-2015/SGE_USER/view/mapping/F24_RATA.sql");
+file_name = echo("/org/company/workspaces/luna-SR2/db-sge-ex-trunk-2015/SGE_USER/view/mapping/", view_name, ".sql");
+view_svn = fread(file_name);
 
 view_svn = replace(view_svn, ";", "");
 view_svn = replace(view_svn, "/", "");
@@ -39,26 +40,3 @@ echo(equals);
 
 
 
-
-
-
-/*
-print_to_console("false");
-unicode = to_unicode("@Δ 0¡P¿p£_!1AQaq$Φ2BRbr¥Γ#3CScsèΛ¤4DTdtéΩ%5EUeuùΠ&6FVfvìΨ'7GWgwòΣ(8HXhxÇΘ)9IYiyΞ*:JZjzØ[ESC]+;KÄkäøÆ,<LÖlöæ-=MÑmñÅß.>NÜnüåÉ/?O§oà");
-testo = from_unicode(unicode);
-print_to_console("true");
-echo(unicode);
-echo_reverse(testo);
-*/
-
-//decrypt("password_db", "6ngwPA7NoDL33UEDQsjk/Q==");
-
-/*
-ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_MASTER", "SGE_MASTER");
-rs1 = db_select(ds, "select * from c_dyqe_gruppo");
-rs2 = db_select(ds, "select * from tcan where cod_ano like '%:PARAM'");
-list_sep = echo_to_list("\n\n", "\n", "\t\t");
-print_to_console("true");
-//print_separator(list_sep, rs, rs);
-print_separator_smart(rs1, rs2);
-*/
