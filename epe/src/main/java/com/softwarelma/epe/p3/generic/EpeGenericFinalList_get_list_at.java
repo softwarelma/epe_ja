@@ -12,7 +12,8 @@ public final class EpeGenericFinalList_get_list_at extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "list_get_list_at, expected the list of list and the index.";
+        String postMessage = "list_get_list_at, expected the list of list, the index and optionally the default list "
+                + "to return in case of no element at specified index.";
         List<List<String>> listListStr = this.getListListStringAt(listExecResult, 0, postMessage);
         String index = this.getStringAt(listExecResult, 1, postMessage);
         int ind = EpeAppUtils.parseInt(index);
