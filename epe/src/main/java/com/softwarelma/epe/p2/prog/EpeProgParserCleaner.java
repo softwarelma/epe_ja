@@ -1,6 +1,8 @@
 package com.softwarelma.epe.p2.prog;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -68,9 +70,9 @@ public final class EpeProgParserCleaner {
     }
 
     private Boolean isComment(String text) {
-        int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR);
-        int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE);
-        int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK);
+        int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR, "STR");
+        int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE, "COMMENT_LINE");
+        int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK, "COMMENT_BLOCK");
 
         int posComment = this.retrieveValidMin(posLineComment[0], posBlockComment[0]);
         return this.isComment(posComment, posString[0]);
@@ -105,7 +107,7 @@ public final class EpeProgParserCleaner {
         // System.out.println(text);
         // System.out.println("---------------------");
 
-        int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR);
+        int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR, "STR");
         // int[] posString = indexOf(text, "\"(((?!\").)*\\n*)*\"", 0, 3);
 
         // System.out.println("posBlockComment " + posBlockComment[0] + ", " +
@@ -131,11 +133,11 @@ public final class EpeProgParserCleaner {
         // System.out.println(text);
         // System.out.println("---------------------");
 
-        int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE);
+        int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE, "COMMENT_LINE");
         posLineComment[1] = posLineComment[0] == -1 ? -1 : posLineComment[1] - 1;
         // System.out.println("posLineComment " + posLineComment[0] + ", " +
         // posLineComment[1]);
-        int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK);
+        int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK, "COMMENT_BLOCK");
         // System.out.println("posBlockComment " + posBlockComment[0] + ", " +
         // posBlockComment[1]);
         // System.out.println("---------------------");

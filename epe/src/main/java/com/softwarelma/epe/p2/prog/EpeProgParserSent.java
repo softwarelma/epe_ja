@@ -40,7 +40,7 @@ public final class EpeProgParserSent {
         // return progSent;
         // }
 
-        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_STR_INTERNAL);
+        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_STR_INTERNAL, "STR_INTERNAL");
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.str : null;
 
         if (sentType != null) {
@@ -53,7 +53,7 @@ public final class EpeProgParserSent {
             return progSent;
         }
 
-        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_FUNC);
+        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_FUNC, "FUNC");
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.func : null;
 
         if (sentType != null) {
@@ -63,7 +63,7 @@ public final class EpeProgParserSent {
             return progSent;
         }
 
-        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_ID);
+        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_ID, "ID");
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.id : null;
 
         if (sentType != null) {
@@ -82,7 +82,7 @@ public final class EpeProgParserSent {
         // return progSent;
         // }
 
-        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_LEFT_STR);
+        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_LEFT_STR, "LEFT_STR");
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.left_str : null;
 
         if (sentType != null) {
@@ -95,7 +95,7 @@ public final class EpeProgParserSent {
             return progSent;
         }
 
-        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_LEFT_FUNC);
+        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_LEFT_FUNC, "LEFT_FUNC");
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.left_func : null;
 
         if (sentType != null) {
@@ -105,7 +105,7 @@ public final class EpeProgParserSent {
             return progSent;
         }
 
-        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_LEFT_ID);
+        posString = this.parserSearch.indexOf(sentStr, EpeAppConstants.REGEX_LEFT_ID, "LEFT_ID");
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.left_id : null;
 
         if (sentType != null) {
