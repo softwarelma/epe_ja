@@ -19,14 +19,15 @@ public final class EpeGenericFinalList_get_list_at extends EpeGenericAbstract {
         int ind = EpeAppUtils.parseInt(index);
         List<String> listStr;
 
-        if (listExecResult.size() > 2) {
-            if (listListStr.size() < ind + 1) {
-                List<String> listStrDefault = this.getListStringAt(listExecResult, 2, postMessage);
-                listStr = listStrDefault;
+        if (listListStr.size() <= ind) {// default needed
+            if (listExecResult.size() > 2) {
+                // retrieving the default listStr
+                listStr = this.getListStringAt(listExecResult, 2, postMessage);
             } else {
-                listStr = listListStr.get(ind);
+                throw new EpeAppException("Default needed. " + postMessage);
             }
         } else {
+            EpeAppUtils.checkRange(ind, 0, listListStr.size(), false, true, postMessage);
             listStr = listListStr.get(ind);
         }
 

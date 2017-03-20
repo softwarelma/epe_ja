@@ -14,8 +14,8 @@ public final class EpeGenericFinalList_get_at extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "list_get_at, expected the list, the index and optionally the default element to return "
-                + "in case of no element at specified index.";
+        String postMessage = "list_get_at, expected the list (list of str or list of list), the index and optionally "
+                + "the default element to return in case of no element at specified index.";
         String index = this.getStringAt(listExecResult, 1, postMessage);
         int ind = EpeAppUtils.parseInt(index);
         EpeExecFactoryInterface factory = new EpePackGenericFactory();
@@ -25,11 +25,8 @@ public final class EpeGenericFinalList_get_at extends EpeGenericAbstract {
             func = factory.getNewFuncInstance("list_get_str_at");
         } else if (this.isListStringAt(listExecResult, ind, postMessage)) {
             func = factory.getNewFuncInstance("list_get_list_at");
-        } else if (this.isListListStringAt(listExecResult, ind, postMessage)) {
-            func = factory.getNewFuncInstance("list_get_list_list_at");
         } else {
-
-            // default or exce
+            throw new EpeAppException(postMessage);
         }
 
         return func.doFunc(execParams, listExecResult);
