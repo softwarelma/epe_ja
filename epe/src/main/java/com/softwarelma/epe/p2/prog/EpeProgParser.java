@@ -9,9 +9,14 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public final class EpeProgParser {
 
-    private final EpeProgParserSearch parserSearch = new EpeProgParserSearch();
-    private final EpeProgParserCleaner parserCleaner = new EpeProgParserCleaner(this.parserSearch);
-    private final EpeProgParserSent parserSent = new EpeProgParserSent(this.parserSearch);
+    private final EpeProgParserCleaner parserCleaner;
+    private final EpeProgParserSent parserSent;
+
+    protected EpeProgParser() {
+        EpeProgParserSearch parserSearch = new EpeProgParserSearch();
+        this.parserCleaner = new EpeProgParserCleaner(parserSearch);
+        this.parserSent = new EpeProgParserSent(parserSearch);
+    }
 
     public List<EpeProgSentInterface> retrieveProgSentList(String programContent,
             Map<String, String> mapNotContainedReplaced) throws EpeAppException {
