@@ -45,11 +45,11 @@ public final class EpeProgParserSearch {
 
         // BIG
 
-        // TODO avoid recursion
-
-        for (int i = 1; i < text.length(); i++) {
-            String text3 = text.substring(0, i);
-            matcher = pattern.matcher(text3);
+*        for (int i = text.length(); i > 0; i--) {
+            System.out.println(tab + tab + "i=" + i + "indexOf text=?" + ", patternName=" + patternName
+                    + ", patternStr=" + patternStr);
+            String textPart = text.substring(0, i + 1);
+            matcher = pattern.matcher(textPart);
 
             if (matcher.find()) {
                 ret = new int[] { matcher.start(), matcher.end() };
@@ -57,16 +57,7 @@ public final class EpeProgParserSearch {
             }
         }
 
-        if (matcher.find()) {
-            ret = new int[] { matcher.start(), matcher.end() };
-        }
-
-        if (ret[0] != -1) {
-            String text2 = text.substring(0, ret[1] - 1);
-            int[] ret2 = indexOf(text2, patternStr, patternName, tab + "  ");
-            ret = ret2[0] == -1 ? ret : ret2;
-        }
-
+        ret = new int[] { -1, -1 };
         return ret;
     }
 
