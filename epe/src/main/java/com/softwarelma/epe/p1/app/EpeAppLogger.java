@@ -8,6 +8,14 @@ public abstract class EpeAppLogger {
     private static Logger logger;
     private static Logger loggerExternal;
 
+    static {
+        try {
+            addLoggerInternal();
+        } catch (EpeAppException e) {
+            new EpeAppException("Adding internal logger", e);
+        }
+    }
+
     public static void addLoggerInternal() throws EpeAppException {
         EpeAppLogger.logger = LoggerFactory.getLogger(EpeAppLogger.class);
     }

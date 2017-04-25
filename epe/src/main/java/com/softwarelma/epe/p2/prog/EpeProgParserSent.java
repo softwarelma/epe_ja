@@ -36,7 +36,7 @@ public final class EpeProgParserSent {
         //
         // if (sentType != null) {
         // progSent = new EpeProgDefaultSent(sentType, null, sentStr, null, null);
-        // // System.out.println(" " + progSent);
+        // // println(" " + progSent);
         // return progSent;
         // }
 
@@ -49,7 +49,7 @@ public final class EpeProgParserSent {
             literal = literal.replace(sBackSlashedQuote, "\\\"");
             literal = literal.replace(sDoubleBackSlash, "\\\\");
             progSent = new EpeProgDefaultSent(sentType, null, literal, null);
-            // System.out.println(" " + progSent);
+            // println(" " + progSent);
             return progSent;
         }
 
@@ -59,7 +59,7 @@ public final class EpeProgParserSent {
         if (sentType != null) {
             progSent = getProgSentFromFuncSent(sentStr, sentType, mapNotContainedReplaced, sDoubleBackSlash,
                     sBackSlashedQuote);
-            // System.out.println(" " + progSent);
+            // println(" " + progSent);
             return progSent;
         }
 
@@ -68,7 +68,7 @@ public final class EpeProgParserSent {
 
         if (sentType != null) {
             progSent = new EpeProgDefaultSent(sentType, null, sentStr, null);
-            // System.out.println(" " + progSent);
+            // println(" " + progSent);
             return progSent;
         }
 
@@ -78,7 +78,7 @@ public final class EpeProgParserSent {
         // if (sentType != null) {
         // textSplit = sentStr.split("=");
         // progSent = new EpeProgDefaultSent(sentType, textSplit[0], textSplit[1], null, null);
-        // // System.out.println(" " + progSent);
+        // // println(" " + progSent);
         // return progSent;
         // }
 
@@ -91,7 +91,7 @@ public final class EpeProgParserSent {
             literal = literal.replace(sBackSlashedQuote, "\\\"");
             literal = literal.replace(sDoubleBackSlash, "\\\\");
             progSent = new EpeProgDefaultSent(sentType, textSplit[0], literal, null);
-            // System.out.println(" " + progSent);
+            // println(" " + progSent);
             return progSent;
         }
 
@@ -101,7 +101,7 @@ public final class EpeProgParserSent {
         if (sentType != null) {
             progSent = getProgSentFromFuncSent(sentStr, sentType, mapNotContainedReplaced, sDoubleBackSlash,
                     sBackSlashedQuote);
-            // System.out.println(" " + progSent);
+            // println(" " + progSent);
             return progSent;
         }
 
@@ -111,7 +111,7 @@ public final class EpeProgParserSent {
         if (sentType != null) {
             textSplit = sentStr.split("=");
             progSent = new EpeProgDefaultSent(sentType, textSplit[0], textSplit[1], null);
-            // System.out.println(" " + progSent);
+            // println(" " + progSent);
             return progSent;
         }
 

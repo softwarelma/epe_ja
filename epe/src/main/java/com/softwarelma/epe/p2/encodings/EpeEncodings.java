@@ -18,6 +18,7 @@ import java.util.Map;
 
 import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public class EpeEncodings {
@@ -96,9 +97,9 @@ public class EpeEncodings {
             return;
         }
 
-        System.out.println("File: " + filePath);
-        System.out.println("\tEncoding: " + response.getEncoding());
-        System.out.println("\tCRLF: " + this.guessCrlfVisible(response.getCrlf()));
+        EpeAppLogger.log("File: " + filePath);
+        EpeAppLogger.log("\tEncoding: " + response.getEncoding());
+        EpeAppLogger.log("\tCRLF: " + this.guessCrlfVisible(response.getCrlf()));
 
         if (mapFilePathEncoding != null) {
             String[] arrayPath = filePath.split("/");
@@ -108,12 +109,12 @@ public class EpeEncodings {
             if (mapAssert != null) {
                 String encodingAssert = mapAssert.get(filename);
                 String resultAssert = response.getEncoding().equals(encodingAssert) ? "OK" : "KO";
-                System.out.println("\tResult: " + resultAssert);
+                EpeAppLogger.log("\tResult: " + resultAssert);
             }
         }
 
         for (String warning : response.getListWarning()) {
-            System.out.println("\tWarn: " + warning);
+            EpeAppLogger.log("\tWarn: " + warning);
         }
     }
 
@@ -140,7 +141,7 @@ public class EpeEncodings {
         }
 
         if (mapAssert != null) {
-            System.out.println("\n\nTest result: " + (mapFilePathEncoding.equals(mapAssert) ? "OK" : "KO"));
+            EpeAppLogger.log("\n\nTest result: " + (mapFilePathEncoding.equals(mapAssert) ? "OK" : "KO"));
         }
     }
 
@@ -208,8 +209,8 @@ public class EpeEncodings {
             return responseIso;
         }
 
-        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey()
-                + "\" (int val " + ((int) cUtf.getKey()) + ")";
+        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey() + "\" (int val "
+                + ((int) cUtf.getKey()) + ")";
         responseUtf.getListWarning().add(warn);
         responseIso.getListWarning().add(warn);
         warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_ISO_8859_15 + " \"" + cIso.getKey() + "\" (int val "
@@ -370,8 +371,9 @@ public class EpeEncodings {
 
         Charset charset = Charset.forName(encoding);
         Path path = Paths.get(filePath);
-        OpenOption optionAppend = file.exists() ? (append ? StandardOpenOption.APPEND
-                : StandardOpenOption.TRUNCATE_EXISTING) : StandardOpenOption.CREATE_NEW;
+        OpenOption optionAppend = file.exists()
+                ? (append ? StandardOpenOption.APPEND : StandardOpenOption.TRUNCATE_EXISTING)
+                : StandardOpenOption.CREATE_NEW;
 
         try (BufferedWriter writer = Files.newBufferedWriter(path, charset, optionAppend)) {
             writer.write(content, 0, content.length());

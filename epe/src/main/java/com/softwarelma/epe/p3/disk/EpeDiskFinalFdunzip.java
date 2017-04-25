@@ -16,8 +16,6 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public class EpeDiskFinalFdunzip extends EpeDiskAbstract {
 
-    List<String> fileList;
-
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fdunzip, expected the zip file name and optionally the output directory.";
@@ -28,7 +26,7 @@ public class EpeDiskFinalFdunzip extends EpeDiskAbstract {
         return this.createEmptyResult();
     }
 
-    private void unZip(boolean doLog, String zipFileName, String outputDirectory) throws EpeAppException {
+    public static void unZip(boolean doLog, String zipFileName, String outputDirectory) throws EpeAppException {
         EpeAppUtils.checkEmpty("zipFileName", zipFileName);
         EpeAppUtils.checkNull("outputDirectory", outputDirectory);
 

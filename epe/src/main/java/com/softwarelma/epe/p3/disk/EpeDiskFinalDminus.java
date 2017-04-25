@@ -78,8 +78,9 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         String operationModeStr = this.getStringAt(listExecResult, 3, postMessage);
         EpeAppUtils.checkContains(
-                Arrays.asList(new String[] { EpeAppConstants.OPERATION_MODE_NAME,
-                        EpeAppConstants.OPERATION_MODE_CONTENT }), "operation mode", operationModeStr);
+                Arrays.asList(
+                        new String[] { EpeAppConstants.OPERATION_MODE_NAME, EpeAppConstants.OPERATION_MODE_CONTENT }),
+                "operation mode", operationModeStr);
 
         // DMINUS OPERATION
 
@@ -87,7 +88,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
                 destinationDirStr);
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln("Files to copy:\n" + modelDir);
+            EpeAppLogger.log("Files to copy:\n" + modelDir);
         }
 
         destinationDirStr = destinationDirStr.endsWith("/") ? destinationDirStr : destinationDirStr + "/";
@@ -114,8 +115,8 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
                 }
             } else {
                 try {
-                    FileUtils.copyFile(new File(modelFileDir.getLocation() + modelFileDir.getName()), new File(
-                            destinationFileName));
+                    FileUtils.copyFile(new File(modelFileDir.getLocation() + modelFileDir.getName()),
+                            new File(destinationFileName));
                 } catch (IOException e) {
                     throw new EpeAppException("dminus copying from \"" + modelFileDir.getLocation()
                             + modelFileDir.getName() + "\" to \"" + destinationFileName + "\"", e);
@@ -152,8 +153,8 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
         return modelDir;
     }
 
-    private void retrieveFilesToCopy2(File firstFile, File secondFile, String operationModeStr, EpeDiskModelDir modelDir)
-            throws EpeAppException {
+    private void retrieveFilesToCopy2(File firstFile, File secondFile, String operationModeStr,
+            EpeDiskModelDir modelDir) throws EpeAppException {
         // SECOND FILE NOT FOUND
 
         if (secondFile == null) {
@@ -164,8 +165,8 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
         String step = null;
 
         if (!firstFile.getName().equals(secondFile.getName())) {
-            throw new EpeAppException("file names does not match: \"" + firstFile.getName() + "\", \""
-                    + secondFile.getName() + "\"");
+            throw new EpeAppException(
+                    "file names does not match: \"" + firstFile.getName() + "\", \"" + secondFile.getName() + "\"");
         }
 
         // NAMES ARE THE SAME

@@ -42,8 +42,6 @@ public final class EpeProgParserCleaner {
 
     private String cleanCommentOrString(String text, Map<String, String> mapNotContainedReplaced)
             throws EpeAppException {
-        // System.out.println(text);
-        // System.out.println("---------------------");
         String text2 = text;
         int iter = 0;
         String notContained = EpeAppUtils.getNotContainedString(text);
@@ -62,14 +60,12 @@ public final class EpeProgParserCleaner {
                 text2 = cleanStringOnce(text, notContained, iter++, mapNotContainedReplaced);
             }
 
-            // System.out.println(text2);
-            // System.out.println("---------------------");
         } while (text2 != null);
 
         return text;
     }
 
-    private Boolean isComment(String text) {
+    private Boolean isComment(String text) throws EpeAppException {
         int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR, "STR");
         int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE, "COMMENT_LINE");
         int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK, "COMMENT_BLOCK");
@@ -104,15 +100,12 @@ public final class EpeProgParserCleaner {
 
     private String cleanStringOnce(String text, String notContained, int iter,
             Map<String, String> mapNotContainedReplaced) throws EpeAppException {
-        // System.out.println(text);
-        // System.out.println("---------------------");
 
         int[] posString = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_STR, "STR");
         // int[] posString = indexOf(text, "\"(((?!\").)*\\n*)*\"", 0, 3);
 
-        // System.out.println("posBlockComment " + posBlockComment[0] + ", " +
+        // println("posBlockComment " + posBlockComment[0] + ", " +
         // posBlockComment[1]);
-        // System.out.println("---------------------");
 
         if (posString[0] == -1) {
             return null;
@@ -124,23 +117,18 @@ public final class EpeProgParserCleaner {
         text = text.replace(replaced, notContained);
         // text = text.substring(0, posString[0]) + notContained +
         // text.substring(posString[1], text.length());
-        // System.out.println(text);
-        // System.out.println("---------------------");
         return text;
     }
 
     private String cleanCommentOnce(String text) throws EpeAppException {
-        // System.out.println(text);
-        // System.out.println("---------------------");
 
         int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE, "COMMENT_LINE");
         posLineComment[1] = posLineComment[0] == -1 ? -1 : posLineComment[1] - 1;
-        // System.out.println("posLineComment " + posLineComment[0] + ", " +
+        // println("posLineComment " + posLineComment[0] + ", " +
         // posLineComment[1]);
         int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK, "COMMENT_BLOCK");
-        // System.out.println("posBlockComment " + posBlockComment[0] + ", " +
+        // println("posBlockComment " + posBlockComment[0] + ", " +
         // posBlockComment[1]);
-        // System.out.println("---------------------");
 
         int[] posComment;
         if (posLineComment[0] == -1 && posBlockComment[0] == -1) {
@@ -150,16 +138,14 @@ public final class EpeProgParserCleaner {
         } else {
             posComment = posLineComment[0] > posBlockComment[0] ? posLineComment : posBlockComment;
         }
-        // System.out.println("posComment " + posComment[0] + ", " +
+        // println("posComment " + posComment[0] + ", " +
         // posComment[1]);
-        // System.out.println("---------------------");
 
         if (posComment[0] == -1) {
             return null;
         }
         text = text.substring(0, posComment[0]) + text.substring(posComment[1], text.length());
-        // System.out.println(text);
-        // System.out.println("---------------------");
+        // println(text);
         return text;
     }
 

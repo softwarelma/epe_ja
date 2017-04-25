@@ -35,7 +35,7 @@ public final class EpeEchoFinalEcho_reverse extends EpeEchoAbstract {
         String ret = sb.toString();
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(ret);
+            EpeAppLogger.log(ret);
         }
 
         EpeExecResult execResult = new EpeExecResult();

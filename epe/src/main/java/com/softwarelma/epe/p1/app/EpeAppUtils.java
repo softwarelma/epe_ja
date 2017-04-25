@@ -113,7 +113,8 @@ public abstract class EpeAppUtils {
         }
 
         if (value1 == null || value2 == null || !value1.equals(value2)) {
-            throw new EpeAppException(message == null ? "Vars " + name1 + " and " + name2 + " are not equals" : message);
+            throw new EpeAppException(
+                    message == null ? "Vars " + name1 + " and " + name2 + " are not equals" : message);
         }
     }
 
@@ -173,46 +174,97 @@ public abstract class EpeAppUtils {
     }
 
     public static void checkEmpty(String paramName, Object paramValue) throws EpeAppException {
-        checkNull("paramName", paramName);
-
-        if (paramValue == null || paramValue.toString().trim().isEmpty()) {
-            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
-        }
+        checkEmpty(paramName, paramValue, "The param ", " cannot be empty");
     }
 
-    public static void checkEmptyForceEmpty(String paramName, Object paramValue, boolean doLog) throws EpeAppException {
-        checkNull("paramName", paramName);
+    public static void checkEmptyIT(String paramName, Object paramValue) throws EpeAppException {
+        checkEmpty(paramName, paramValue, "Il parametro ", " non puo' essere vuoto");
+    }
 
-        if (paramValue != null && !paramValue.toString().trim().isEmpty()) {
-            throw new EpeAppException("Il parametro " + paramName + " dev'essere vuoto, trovato: " + paramValue);
+    public static void checkEmpty(String paramName, Object paramValue, String theParam, String cannotBeEmpty)
+            throws EpeAppException {
+        checkNull("paramName", paramName);
+        theParam = theParam == null ? "The param " : theParam;
+        cannotBeEmpty = cannotBeEmpty == null ? " cannot be empty" : cannotBeEmpty;
+
+        if (paramValue == null || paramValue.toString().trim().isEmpty()) {
+            throw new EpeAppException(theParam + paramName + cannotBeEmpty);
         }
     }
 
     public static void checkEmptyNoTrim(String paramName, Object paramValue) throws EpeAppException {
+        checkEmptyNoTrim(paramName, paramValue, "The param ", " cannot be empty");
+    }
+
+    public static void checkEmptyNoTrimIT(String paramName, Object paramValue) throws EpeAppException {
+        checkEmptyNoTrim(paramName, paramValue, "Il parametro ", " non puo' essere vuoto");
+    }
+
+    public static void checkEmptyNoTrim(String paramName, Object paramValue, String theParam, String cannotBeEmpty)
+            throws EpeAppException {
         checkNull("paramName", paramName);
+        theParam = theParam == null ? "The param " : theParam;
+        cannotBeEmpty = cannotBeEmpty == null ? " cannot be empty" : cannotBeEmpty;
 
         if (paramValue == null || paramValue.toString().isEmpty()) {
-            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+            throw new EpeAppException(theParam + paramName + cannotBeEmpty);
         }
     }
 
     public static void checkEmptyForceEmpty(String paramName, Object paramValue) throws EpeAppException {
-        checkEmptyForceEmpty(paramName, paramValue, true);
+        checkEmptyForceEmpty(paramName, paramValue, "The param ", " must be empty, found: ");
+    }
+
+    public static void checkEmptyForceEmptyIT(String paramName, Object paramValue) throws EpeAppException {
+        checkEmptyForceEmpty(paramName, paramValue, "Il parametro ", " dev'essere vuoto, trovato: ");
+    }
+
+    public static void checkEmptyForceEmpty(String paramName, Object paramValue, String theParam, String mustBeEmpty)
+            throws EpeAppException {
+        checkNull("paramName", paramName);
+        theParam = theParam == null ? "The param " : theParam;
+        mustBeEmpty = mustBeEmpty == null ? " must be empty, found: " : mustBeEmpty;
+
+        if (paramValue != null && !paramValue.toString().trim().isEmpty()) {
+            throw new EpeAppException(theParam + paramName + mustBeEmpty + paramValue);
+        }
     }
 
     public static <T> void checkEmptyArray(String paramName, T[] paramValue) throws EpeAppException {
+        checkEmptyArray(paramName, paramValue, "The param ", " cannot be empty");
+    }
+
+    public static <T> void checkEmptyArrayIT(String paramName, T[] paramValue) throws EpeAppException {
+        checkEmptyArray(paramName, paramValue, "Il parametro ", " non puo' essere vuoto");
+    }
+
+    public static <T> void checkEmptyArray(String paramName, T[] paramValue, String theParam, String cannotBeEmpty)
+            throws EpeAppException {
         checkEmpty("paramName", paramName);
+        theParam = theParam == null ? "The param " : theParam;
+        cannotBeEmpty = cannotBeEmpty == null ? " cannot be empty" : cannotBeEmpty;
 
         if (paramValue == null || paramValue.length == 0) {
-            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+            throw new EpeAppException(theParam + paramName + cannotBeEmpty);
         }
     }
 
     public static <T> void checkEmptyList(String paramName, List<T> paramValue) throws EpeAppException {
+        checkEmptyList(paramName, paramValue, "The param ", " cannot be empty");
+    }
+
+    public static <T> void checkEmptyListIT(String paramName, List<T> paramValue) throws EpeAppException {
+        checkEmptyList(paramName, paramValue, "Il parametro ", " non puo' essere vuoto");
+    }
+
+    public static <T> void checkEmptyList(String paramName, List<T> paramValue, String theParam, String cannotBeEmpty)
+            throws EpeAppException {
         checkNull("paramName", paramName);
+        theParam = theParam == null ? "The param " : theParam;
+        cannotBeEmpty = cannotBeEmpty == null ? " cannot be empty" : cannotBeEmpty;
 
         if (paramValue == null || paramValue.isEmpty()) {
-            throw new EpeAppException("Il parametro " + paramName + " non puo' essere vuoto");
+            throw new EpeAppException(theParam + paramName + cannotBeEmpty);
         }
     }
 
@@ -280,8 +332,8 @@ public abstract class EpeAppUtils {
     public static Map.Entry<String, String> retrieveKeyAndValue(String fullprop) throws EpeAppException {
         checkEmpty("fullprop", fullprop);
         String[] array = fullprop.split("=");
-        checkRange(array.length, 2, 2, false, false, "fullprop not valid \"" + fullprop
-                + "\", should be like key=value");
+        checkRange(array.length, 2, 2, false, false,
+                "fullprop not valid \"" + fullprop + "\", should be like key=value");
         checkEmpty("key", array[0]);
         checkNull("value", array[1]);
         Map.Entry<String, String> filePathAndLast = new AbstractMap.SimpleEntry<>(array[0], array[1]);

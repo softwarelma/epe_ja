@@ -15,7 +15,7 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         EpeAppUtils.checkNull("execParams", execParams);
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(str);
+            EpeAppLogger.log(str);
         }
     }
 
@@ -24,7 +24,7 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         EpeAppUtils.checkNull("listStr", listStr);
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(listStr.toString());
+            EpeAppLogger.log(listStr.toString());
         }
     }
 
@@ -33,7 +33,7 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         EpeAppUtils.checkNull("listListStr", listListStr);
 
         if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.logSystemOutPrintln(listListStr.toString());
+            EpeAppLogger.log(listListStr.toString());
         }
     }
 
