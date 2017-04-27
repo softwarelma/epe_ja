@@ -13,7 +13,8 @@ public final class EpeProgParserSearch {
 
     private static final int gap = 20;
     private final Map<String, Pattern> mapPatternNameAndPattern = new HashMap<>();
-    private static int count = 0;// FIXME remove
+
+    // private static int count = 0;// remove
 
     protected int[] indexOf(String text, String patternStr, String patternName) throws EpeAppException {
         return indexOfWithIteration(text, patternStr, patternName);
@@ -51,19 +52,19 @@ public final class EpeProgParserSearch {
         // System.out.println("firstValidClosure=" + firstValidClosure);
 
         for (int i = firstValidClosure; i < text.length(); i++) {
-            count++;
+            // count++;
             // System.out.println("i=" + i + ", patternName=" + patternName + ", patternStr=" + patternStr);
             String textPart = text.substring(0, i + 1);
             matcher = pattern.matcher(textPart);
 
             if (matcher.find()) {
                 // System.out.println("textPart=" + textPart);
-                System.out.println("ok count=" + count + ", patternName=" + patternName);
+                // System.out.println("ok count=" + count + ", patternName=" + patternName);
                 return new int[] { matcher.start(), matcher.end() };
             }
         }
 
-        System.out.println("KO count=" + count + ", patternName=" + patternName);
+        // System.out.println("KO count=" + count + ", patternName=" + patternName);
         return ret;
     }
 
