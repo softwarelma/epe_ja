@@ -24,8 +24,8 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         boolean required = EpeAppUtils.parseBoolean(requiredStr);
         String caseSensitiveStr = this.getStringAt(listExecResult, 4, postMessage);
         boolean caseSensitive = EpeAppUtils.parseBoolean(caseSensitiveStr);
-        String str = retrieveExternalInput(execParams.getGlobalParams().isPrintToConsole(), screenMessage,
-                alternatives, postAlternativesMessage, required, caseSensitive);
+        String str = retrieveExternalInput(execParams.getGlobalParams().isPrintToConsole(), screenMessage, alternatives,
+                postAlternativesMessage, required, caseSensitive);
         this.log(execParams, str);
         return this.createResult(str);
     }
@@ -39,13 +39,17 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         String input = null;
 
         if (alternatives.equals("*")) {
-            input = retrieveConsoleInput(doLog, screenMessage);
-            return input;
-        }
+            if (required) {
+                while (EpeAppUtils.isEmptyTrimming(input)) {
+                    input = retrieveConsoleInput(doLog, screenMessage);
+                }
 
-        // if (alternatives.equalsIgnoreCase("si")) {
-        // screenMessage += " (si/no)";
-        // }
+                return input;
+            } else {
+                input = retrieveConsoleInput(doLog, screenMessage);
+                return input;
+            }
+        }
 
         if (alternatives.startsWith("*")) {
             return alternatives.substring(1);
@@ -81,6 +85,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
 
     private static String retrieveConsoleInput(boolean doLog, String screenMessage) throws EpeAppException {
         if (doLog) {
+            screenMessage = screenMessage != null && screenMessage.isEmpty() ? " " : screenMessage;
             EpeAppLogger.log(screenMessage);
         }
 
@@ -90,6 +95,7 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
             String line = bufferRead.readLine();
 
             if (doLog) {
+                line = line != null && line.isEmpty() ? " " : line;
                 EpeAppLogger.log(line);
             }
 
