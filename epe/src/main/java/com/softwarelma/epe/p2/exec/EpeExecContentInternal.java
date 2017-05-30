@@ -57,13 +57,13 @@ public class EpeExecContentInternal {
         }
     }
 
-    public String toString(String sepExternal, List<Integer> listWidth) throws EpeAppException {
+    public String toString(String sepExternal, List<Integer> listWidth, String suffixBackspace) throws EpeAppException {
         if (this.isString()) {
             return this.str;
         } else if (this.isListString()) {
-            return this.listToString(this.listStr, listWidth);
+            return this.listToString(this.listStr, listWidth, suffixBackspace);
         } else {
-            return this.listListToString(this.listListStr, sepExternal, listWidth);
+            return this.listListToString(this.listListStr, sepExternal, listWidth, suffixBackspace);
         }
     }
 
@@ -90,15 +90,15 @@ public class EpeExecContentInternal {
         return sb.toString();
     }
 
-    private String listListToString(List<List<String>> listListStr, String sepExternal, List<Integer> listWidth)
-            throws EpeAppException {
+    private String listListToString(List<List<String>> listListStr, String sepExternal, List<Integer> listWidth,
+            String suffixBackspace) throws EpeAppException {
         StringBuilder sb = new StringBuilder();
         String sepExternal2 = "";
 
         for (List<String> listStr : listListStr) {
             sb.append(sepExternal2);
             sepExternal2 = sepExternal;
-            sb.append(this.listToString(listStr, listWidth));
+            sb.append(this.listToString(listStr, listWidth, suffixBackspace));
         }
 
         return sb.toString();
@@ -127,17 +127,19 @@ public class EpeExecContentInternal {
         return sb.toString();
     }
 
-    private String listToString(List<String> listStr, List<Integer> listWidth) throws EpeAppException {
+    private String listToString(List<String> listStr, List<Integer> listWidth, String suffixBackspace)
+            throws EpeAppException {
         StringBuilder sb = new StringBuilder();
         String sepInternal2 = "";
         String str;
         int width;
+        suffixBackspace = suffixBackspace == null ? "" : suffixBackspace;
 
         for (int i = 0; i < listStr.size(); i++) {
             str = listStr.get(i);
             sb.append(sepInternal2);
             width = this.retrieveWidth(listWidth, i);
-            sepInternal2 = this.retrieveBackspaces(width, str);
+            sepInternal2 = this.retrieveBackspaces(width, str) + suffixBackspace;
             sb.append(str);
         }
 

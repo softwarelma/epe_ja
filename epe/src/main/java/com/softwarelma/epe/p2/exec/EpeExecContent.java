@@ -22,8 +22,8 @@ public final class EpeExecContent {
         return contentInternal == null ? null : contentInternal.toString(sepExternal, sepInternal);
     }
 
-    public String toString(String sepExternal, List<Integer> listWidth) throws EpeAppException {
-        return contentInternal == null ? null : contentInternal.toString(sepExternal, listWidth);
+    public String toString(String sepExternal, List<Integer> listWidth, String suffixBackspace) throws EpeAppException {
+        return contentInternal == null ? null : contentInternal.toString(sepExternal, listWidth, suffixBackspace);
     }
 
     public boolean isNull() {

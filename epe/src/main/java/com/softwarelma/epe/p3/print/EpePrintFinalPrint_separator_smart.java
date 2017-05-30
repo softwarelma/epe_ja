@@ -19,13 +19,14 @@ public final class EpePrintFinalPrint_separator_smart extends EpePrintAbstract {
                 + "and the contents to print.";
         String sepParam = "\n\n";
         String sepExternal = "\n";
-        String str = retrievePrintableStrWithSeparatorsSmart(sepParam, sepExternal, listExecResult);
+        String suffixBackspace = "| ";// TODO
+        String str = retrievePrintableStrWithSeparatorsSmart(sepParam, sepExternal, listExecResult, suffixBackspace);
         this.log(execParams, str);
         return this.createResult(str);
     }
 
     public static String retrievePrintableStrWithSeparatorsSmart(String sepParam, String sepExternal,
-            List<EpeExecResult> listExecResult) throws EpeAppException {
+            List<EpeExecResult> listExecResult, String suffixBackspace) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         StringBuilder sb = new StringBuilder();
         String sepParam2 = "";
@@ -38,7 +39,7 @@ public final class EpePrintFinalPrint_separator_smart extends EpePrintAbstract {
             sb.append(sepParam2);
             sepParam2 = sepParam;
             List<Integer> listWidth = retrieveWidths(content);
-            sb.append(content.toString(sepExternal, listWidth));
+            sb.append(content.toString(sepExternal, listWidth, suffixBackspace));
         }
 
         return sb.toString();
