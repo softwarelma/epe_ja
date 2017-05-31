@@ -276,6 +276,17 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static void checkInstanceOf(String name, Object value, Class<?> clazz) throws EpeAppException {
+        EpeAppUtils.checkNull("name", name);
+        // value can be null
+        EpeAppUtils.checkNull("clazz", clazz);
+
+        if (value != null && !clazz.isInstance(value)) {
+            throw new EpeAppException("Invalid class for " + name + ", required " + clazz.getName() + ", found "
+                    + value.getClass().getName());
+        }
+    }
+
     public static <T> boolean isEmptyArray(T[] param) throws EpeAppException {
         return param == null || param.length == 0;
     }
