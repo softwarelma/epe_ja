@@ -36,6 +36,9 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         return this.createResult(listListStr, null);
     }
 
+    // TODO | rs to prop
+
+    // TODO to prop
     public static boolean isHeader(String headerStr) throws EpeAppException {
         if (headerStr == null) {
             return false;
@@ -53,11 +56,24 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         return headerStr.equals("true");
     }
 
+    public static String addLimits(DataSource dataSource, String select) throws EpeAppException {
+        EpeAppUtils.checkNull("dataSource", dataSource);
+        EpeAppUtils.checkNull("select", select);
+        String dataSourceClassName = dataSource.getClass().getName();
+
+        if (dataSourceClassName.endsWith(".OracleDataSource")) {
+            return "SELECT * FROM (" + select + ") WHERE ROWNUM < 10";
+        } else {
+            throw new EpeAppException("Unknown data source class name: " + dataSourceClassName);
+        }
+    }
+
     public static void readQuery(DataSource dataSource, String select, List<List<String>> listListStr, boolean header)
             throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
         EpeAppUtils.checkNull("select", select);
         EpeAppUtils.checkNull("listListStr", listListStr);
+        select = addLimits(dataSource, select);
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
@@ -72,31 +88,32 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listListStr", listListStr);
-        List<String> colNames = header ? new ArrayList<String>() : null;
 
         try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
+            if (header) {
+                List<String> colNames = new ArrayList<String>();
+
+                for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
+                    colNames.add(resultSetMetaData.getColumnName(i + 1));
+                }
+
+                listListStr.add(colNames);
+            }
+
             while (resultSet.next()) {
-                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
                 List<String> listStr = new ArrayList<>();
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
-                    if (header) {
-                        colNames.add(resultSetMetaData.getColumnName(i + 1));
-                    }
-
                     Object o = resultSet.getObject(i + 1);
                     listStr.add(o == null ? "" : o + "");// FIXME to str
                 }
 
-                if (header) {
-                    listListStr.add(colNames);
-                }
-
-                header = false;
                 listListStr.add(listStr);
             }
         } catch (Exception e) {
-            throw new EpeAppException("retrieveResult", e);
+            throw new EpeAppException("Reading result set", e);
         }
     }
 

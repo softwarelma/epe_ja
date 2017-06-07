@@ -23,13 +23,25 @@ print_to_console("true");
 echo("\n\n", rs_smart_dent, "\n\n", rs_smart_rmbsdett, "\n\n", rs_smart_rmbs, "\n\n", rs_smart_rmbsmotiv);
 */
 
-select = "SELECT * FROM tltr";
+// and yea_rif = ***
+select = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
 rs = db_select(ds, select, "header=true");
-rs_smart_tltr = print_separator_smart(rs);
+rs_smart_prvd = print_separator_smart(rs);
 
-select = "SELECT * FROM ttpd";
+print_to_console("true");
+echo("\n\n", rs_smart_prvd);
+print_to_console("false");
+
+//update = "CREATE TABLE aaa (id number)";
+//update = "INSERT INTO aaa (id) VALUES (1)";
+//update = "UPDATE aaa SET id = 2 WHERE id = 1";
+//update = "DELETE aaa WHERE id = 1";
+//update = "DROP TABLE aaa";
+//db_update(ds, update);
+
+select = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
 rs = db_select(ds, select, "header=true");
 rs_smart_ttpd = print_separator_smart(rs);
 
 print_to_console("true");
-echo("\n\n", rs_smart_tltr, "\n\n", rs_smart_ttpd);
+echo("\n\n", rs_smart_ttpd);

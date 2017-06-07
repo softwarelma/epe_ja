@@ -19,7 +19,7 @@ public final class EpePrintFinalPrint_separator_smart extends EpePrintAbstract {
                 + "and the contents to print.";
         String sepParam = "\n\n";
         String sepExternal = "\n";
-        String suffixBackspace = "| ";// TODO
+*prop        String suffixBackspace = "| ";// TODO
         String str = retrievePrintableStrWithSeparatorsSmart(sepParam, sepExternal, listExecResult, suffixBackspace);
         this.log(execParams, str);
         return this.createResult(str);
