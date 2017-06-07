@@ -12,6 +12,7 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 public final class EpeExecContent {
 
     private final EpeExecContentInternal contentInternal;
+    private boolean prop;
 
     @Override
     public String toString() {
@@ -22,8 +23,8 @@ public final class EpeExecContent {
         return contentInternal == null ? null : contentInternal.toString(sepExternal, sepInternal);
     }
 
-    public String toString(String sepExternal, List<Integer> listWidth, String suffixBackspace) throws EpeAppException {
-        return contentInternal == null ? null : contentInternal.toString(sepExternal, listWidth, suffixBackspace);
+    public String toString(String sepExternal, List<Integer> listWidth, String colSuffix) throws EpeAppException {
+        return contentInternal == null ? null : contentInternal.toString(sepExternal, listWidth, colSuffix);
     }
 
     public boolean isNull() {
@@ -64,6 +65,14 @@ public final class EpeExecContent {
 
     public DataSource getDataSource() throws EpeAppException {
         return this.contentInternal == null ? null : this.contentInternal.getDataSource();
+    }
+
+    public boolean isProp() {
+        return prop;
+    }
+
+    public void setProp(boolean prop) {
+        this.prop = prop;
     }
 
 }

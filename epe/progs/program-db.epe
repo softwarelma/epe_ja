@@ -41,7 +41,7 @@ print_to_console("false");
 
 select = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
 rs = db_select(ds, select, "header=true");
-rs_smart_ttpd = print_separator_smart(rs);
+rs_smart_ttpd = print_separator_smart(rs, prop("col_suffix=| "));
 
 print_to_console("true");
 echo("\n\n", rs_smart_ttpd);

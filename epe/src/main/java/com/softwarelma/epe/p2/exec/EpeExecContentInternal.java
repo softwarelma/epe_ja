@@ -57,13 +57,13 @@ public class EpeExecContentInternal {
         }
     }
 
-    public String toString(String sepExternal, List<Integer> listWidth, String suffixBackspace) throws EpeAppException {
+    public String toString(String sepExternal, List<Integer> listWidth, String colSuffix) throws EpeAppException {
         if (this.isString()) {
             return this.str;
         } else if (this.isListString()) {
-            return this.listToString(this.listStr, listWidth, suffixBackspace);
+            return this.listToString(this.listStr, listWidth, colSuffix);
         } else {
-            return this.listListToString(this.listListStr, sepExternal, listWidth, suffixBackspace);
+            return this.listListToString(this.listListStr, sepExternal, listWidth, colSuffix);
         }
     }
 
@@ -91,14 +91,14 @@ public class EpeExecContentInternal {
     }
 
     private String listListToString(List<List<String>> listListStr, String sepExternal, List<Integer> listWidth,
-            String suffixBackspace) throws EpeAppException {
+            String colSuffix) throws EpeAppException {
         StringBuilder sb = new StringBuilder();
         String sepExternal2 = "";
 
         for (List<String> listStr : listListStr) {
             sb.append(sepExternal2);
             sepExternal2 = sepExternal;
-            sb.append(this.listToString(listStr, listWidth, suffixBackspace));
+            sb.append(this.listToString(listStr, listWidth, colSuffix));
         }
 
         return sb.toString();
@@ -127,19 +127,19 @@ public class EpeExecContentInternal {
         return sb.toString();
     }
 
-    private String listToString(List<String> listStr, List<Integer> listWidth, String suffixBackspace)
+    private String listToString(List<String> listStr, List<Integer> listWidth, String colSuffix)
             throws EpeAppException {
         StringBuilder sb = new StringBuilder();
         String sepInternal2 = "";
         String str;
         int width;
-        suffixBackspace = suffixBackspace == null ? "" : suffixBackspace;
+        colSuffix = colSuffix == null ? "" : colSuffix;
 
         for (int i = 0; i < listStr.size(); i++) {
             str = listStr.get(i);
             sb.append(sepInternal2);
             width = this.retrieveWidth(listWidth, i);
-            sepInternal2 = this.retrieveBackspaces(width, str) + suffixBackspace;
+            sepInternal2 = this.retrieveBackspaces(width, str) + colSuffix;
             sb.append(str);
         }
 
@@ -162,8 +162,8 @@ public class EpeExecContentInternal {
         str = str + "";// null becomes "null"
 
         if (str.length() > width) {
-            throw new EpeAppException("The string (" + str + ") has a length (" + str.length() + ") bigger than "
-                    + width);
+            throw new EpeAppException(
+                    "The string (" + str + ") has a length (" + str.length() + ") bigger than " + width);
         }
 
         for (int i = 0; i < width - str.length(); i++) {

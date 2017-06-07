@@ -13,20 +13,53 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpePrintFinalPrint_separator_smart extends EpePrintAbstract {
 
+    public static final String PROP_COL_SUFFIX = "col_suffix";
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_separator_smart, expected a list with the param, external and internal separators "
                 + "and the contents to print.";
         String sepParam = "\n\n";
         String sepExternal = "\n";
-*prop        String suffixBackspace = "| ";// TODO
-        String str = retrievePrintableStrWithSeparatorsSmart(sepParam, sepExternal, listExecResult, suffixBackspace);
+        String colSuffix = retrieveColSuffix(listExecResult);
+        String str = retrievePrintableStrWithSeparatorsSmart(sepParam, sepExternal, listExecResult, colSuffix);
         this.log(execParams, str);
         return this.createResult(str);
     }
 
+    public static String retrieveColSuffix(List<EpeExecResult> listExecResult) throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+
+        for (int i = 0; i < listExecResult.size(); i++) {
+            EpeExecResult result = listExecResult.get(i);
+            EpeAppUtils.checkNull("result", result);
+            EpeExecContent content = result.getExecContent();
+            EpeAppUtils.checkNull("content", content);
+
+            if (!content.isProp()) {
+                continue;
+            }
+
+            EpeExecContentInternal contentInternal = content.getContentInternal();
+            EpeAppUtils.checkNull("contentInternal", contentInternal);
+            String str = contentInternal.getStr();
+            EpeAppUtils.checkNull("str", str);
+
+            if (!str.startsWith(PROP_COL_SUFFIX + "=")) {
+                throw new EpeAppException("print_separator_smart, expected a prop like: \"" + PROP_COL_SUFFIX
+                        + "=| \" or \"" + PROP_COL_SUFFIX + "=/ \"");
+            }
+
+            String propVal = str.substring(PROP_COL_SUFFIX.length() + 1);
+            return propVal;
+        }
+
+        // the prop is not required
+        return null;
+    }
+
     public static String retrievePrintableStrWithSeparatorsSmart(String sepParam, String sepExternal,
-            List<EpeExecResult> listExecResult, String suffixBackspace) throws EpeAppException {
+            List<EpeExecResult> listExecResult, String colSuffix) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         StringBuilder sb = new StringBuilder();
         String sepParam2 = "";
@@ -36,10 +69,15 @@ public final class EpePrintFinalPrint_separator_smart extends EpePrintAbstract {
             EpeAppUtils.checkNull("result", result);
             EpeExecContent content = result.getExecContent();
             EpeAppUtils.checkNull("content", content);
+
+            if (content.isProp()) {
+                continue;
+            }
+
             sb.append(sepParam2);
             sepParam2 = sepParam;
             List<Integer> listWidth = retrieveWidths(content);
-            sb.append(content.toString(sepExternal, listWidth, suffixBackspace));
+            sb.append(content.toString(sepExternal, listWidth, colSuffix));
         }
 
         return sb.toString();
