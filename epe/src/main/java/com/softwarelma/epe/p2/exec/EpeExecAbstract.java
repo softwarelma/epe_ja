@@ -252,4 +252,67 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return contentInternal.getListListStr() != null;
     }
 
+    protected boolean isPropAt(List<EpeExecResult> listExecResult, int index, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkRange(index, 0, listExecResult.size() - 1, false, false, postMessage);
+
+        EpeExecResult result = listExecResult.get(index);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent content = result.getExecContent();
+        EpeAppUtils.checkNull("content", content);
+
+        return content.isProp();
+    }
+
+    public static String retrievePropValueOrDefault(String funcNameCaller, List<EpeExecResult> listExecResult,
+            String propName, String defaultValue) throws EpeAppException {
+        String propValue = retrievePropValueOrNull(funcNameCaller, listExecResult, propName);
+        return propValue == null ? defaultValue : propValue;
+    }
+
+    /**
+     * 
+     * @return null when there is not such prop, otherwise the found prop value which could be also empty ("prop=")
+     * @throws EpeAppException
+     *             when a content is set as prop and has an invalid format
+     */
+    public static String retrievePropValueOrNull(String funcNameCaller, List<EpeExecResult> listExecResult,
+            String propName) throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+
+        for (int i = 0; i < listExecResult.size(); i++) {
+            EpeExecResult result = listExecResult.get(i);
+            EpeAppUtils.checkNull("result", result);
+            EpeExecContent content = result.getExecContent();
+            EpeAppUtils.checkNull("content", content);
+
+            if (!content.isProp()) {
+                continue;
+            }
+
+            EpeExecContentInternal contentInternal = content.getContentInternal();
+            EpeAppUtils.checkNull("contentInternal", contentInternal);
+            String str = contentInternal.getStr();
+            EpeAppUtils.checkNull("str", str);
+
+            if (!str.contains("=")) {
+                // invalid property
+                throw new EpeAppException(funcNameCaller + ", invalid prop format, expected a prop like: \"" + propName
+                        + "=...\"");
+            }
+
+            if (!str.startsWith(propName + "=")) {
+                // not the searched prop
+                continue;
+            }
+
+            String propVal = str.substring(propName.length() + 1);
+            return propVal;// could be empty: ""
+        }
+
+        // the prop is not required
+        return null;
+    }
+
 }

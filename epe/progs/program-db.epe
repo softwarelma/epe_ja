@@ -1,4 +1,6 @@
+//H223_REGGIOEMILIA_LAB_PAPERINO
 ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neth223", "SGE_MASTER", "SGE_MASTER");
+
 //list_sep = echo_to_list("\n\n", "\n", "\t\t");
 //smart = print_separator(list_sep, rs);
 
@@ -23,15 +25,6 @@ print_to_console("true");
 echo("\n\n", rs_smart_dent, "\n\n", rs_smart_rmbsdett, "\n\n", rs_smart_rmbs, "\n\n", rs_smart_rmbsmotiv);
 */
 
-// and yea_rif = ***
-select = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
-rs = db_select(ds, select, "header=true");
-rs_smart_prvd = print_separator_smart(rs);
-
-print_to_console("true");
-echo("\n\n", rs_smart_prvd);
-print_to_console("false");
-
 //update = "CREATE TABLE aaa (id number)";
 //update = "INSERT INTO aaa (id) VALUES (1)";
 //update = "UPDATE aaa SET id = 2 WHERE id = 1";
@@ -39,9 +32,19 @@ print_to_console("false");
 //update = "DROP TABLE aaa";
 //db_update(ds, update);
 
+/*
+select = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
+rs_prvd = db_select(ds, select, prop("header=true"));
 select = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
-rs = db_select(ds, select, "header=true");
-rs_smart_ttpd = print_separator_smart(rs, prop("col_suffix=| "));
+rs_ttpd = db_select(ds, select, prop("header=true"));
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs_prvd, rs_ttpd);
+*/
+
+select_prvd = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
+select_ttpd = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
+
+rs = db_select(ds, prop("header=true"), select_prvd, select_ttpd);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
-echo("\n\n", rs_smart_ttpd);
+echo(rs_smart);

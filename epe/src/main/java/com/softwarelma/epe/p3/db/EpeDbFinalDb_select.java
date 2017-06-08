@@ -21,39 +21,27 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
+    public static final String PROP_HEADER = "header";
     private static final Map<String, DataSource> mapUrlAndDataSource = new HashMap<>();
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "db_select, expected the data source and the select.";
         DataSource dataSource = this.getDataSourceAt(listExecResult, 0, postMessage);
-        String select = this.getStringAt(listExecResult, 1, postMessage);
-        String headerStr = this.getStringAt(listExecResult, 2, postMessage, null);
-        boolean header = isHeader(headerStr);
+        String headerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_HEADER, "false");
+        EpeAppUtils.checkContains(new String[] { "true", "false" }, "header", headerStr);
+        boolean header = headerStr.equals("true");
         List<List<String>> listListStr = new ArrayList<>();
-        readQuery(dataSource, select, listListStr, header);
+
+        for (int i = 1; i < listExecResult.size(); i++) {
+            if (!this.isPropAt(listExecResult, i, postMessage)) {
+                String select = this.getStringAt(listExecResult, i, postMessage);
+                readQuery(dataSource, select, listListStr, header);
+            }
+        }
+
         this.log(execParams, listListStr, null);
         return this.createResult(listListStr, null);
-    }
-
-    // TODO | rs to prop
-
-    // TODO to prop
-    public static boolean isHeader(String headerStr) throws EpeAppException {
-        if (headerStr == null) {
-            return false;
-        }
-
-        String prefix = "header=";
-
-        if (!headerStr.startsWith(prefix)) {
-            throw new EpeAppException("Invalid optional header param (" + headerStr
-                    + "), it should be like header=true");
-        }
-
-        headerStr = headerStr.substring(prefix.length());
-        EpeAppUtils.checkContains(new String[] { "true", "false" }, "header", headerStr);
-        return headerStr.equals("true");
     }
 
     public static String addLimits(DataSource dataSource, String select) throws EpeAppException {
@@ -93,12 +81,15 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
             if (header) {
+                List<String> listEmtpy = new ArrayList<String>();
                 List<String> colNames = new ArrayList<String>();
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
+                    // listEmtpy.add("");
                     colNames.add(resultSetMetaData.getColumnName(i + 1));
                 }
 
+                listListStr.add(listEmtpy);
                 listListStr.add(colNames);
             }
 
@@ -107,7 +98,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     Object o = resultSet.getObject(i + 1);
-                    listStr.add(o == null ? "" : o + "");// FIXME to str
+                    listStr.add(o == null ? "" : o + "");// FIXME to str, see date, decimals, etc
                 }
 
                 listListStr.add(listStr);
