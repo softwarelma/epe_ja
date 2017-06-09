@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import oracle.jdbc.pool.OracleDataSource;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
@@ -33,6 +34,13 @@ public final class EpeDbFinalDb_datasource extends EpeDbAbstract {
         return this.createResult(listStr, dataSource);
     }
 
+    /**
+     * Eg.
+     * 
+     * db_datasource("jdbc:oracle:thin:@//host:port/schema", "username", "password")
+     * 
+     * db_datasource("jdbc:mysql://host:port/schema", "username", "password")
+     */
     public static DataSource retrieveOrCreateDataSource(String url, String username, String password)
             throws EpeAppException {
         EpeAppUtils.checkEmpty("url", url);
@@ -44,22 +52,30 @@ public final class EpeDbFinalDb_datasource extends EpeDbAbstract {
             return dataSource;
         }
 
-        if (url.startsWith("jdbc:oracle")) {
-            try {
+        try {
+            if (url.startsWith("jdbc:oracle")) {
                 OracleDataSource oracleDataSource;
                 oracleDataSource = new OracleDataSource();
-
-                // sintassi service_name
-                oracleDataSource.setURL(url);
-
+                oracleDataSource.setURL(url);// service_name syntax
                 oracleDataSource.setUser(username);
                 oracleDataSource.setPassword(password);
                 dataSource = oracleDataSource;
-            } catch (SQLException e) {
-                throw new EpeAppException("Invalid URL or credentials. URL=" + url + " username=" + username, e);
+            } else if (url.startsWith("jdbc:mysql")) {
+                MysqlDataSource mysqlDataSource;
+                mysqlDataSource = new MysqlDataSource();
+                mysqlDataSource.setURL(url);// service_name syntax
+                mysqlDataSource.setUser(username);
+                mysqlDataSource.setPassword(password);
+                dataSource = mysqlDataSource;
+            } else {
+                throw new EpeAppException("Invalid URL: " + url + ". Unknown DB vendor.");
             }
-        } else {
-            throw new EpeAppException("Invalid URL: " + url + ". Unknown DB vendor.");
+        } catch (EpeAppException e) {
+            throw e;
+        } catch (SQLException e) {
+            throw new EpeAppException("Invalid URL or credentials. URL=" + url + " username=" + username, e);
+        } catch (Exception e) {
+            throw new EpeAppException("Invalid URL or credentials. URL=" + url + " username=" + username, e);
         }
 
         mapUrlAndDataSource.put(url, dataSource);

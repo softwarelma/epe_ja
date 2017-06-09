@@ -68,6 +68,9 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
         if (dataSourceClassName.endsWith(".OracleDataSource")) {
             return "SELECT * FROM (" + select + ") WHERE ROWNUM <= " + limit;
+        } else if (dataSourceClassName.endsWith(".MysqlDataSource")) {
+            // TODO
+            return select;
         } else {
             throw new EpeAppException("Unknown data source class name: " + dataSourceClassName);
         }
@@ -140,6 +143,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             str = obj.toString();
         } else if (obj instanceof BigDecimal) {
             str = ((BigDecimal) obj).toPlainString();
+        } else if (obj instanceof Integer) {
+            str = ((Integer) obj).toString();
         } else if (obj instanceof Timestamp) {
             Timestamp ts = (Timestamp) obj;
             str = new SimpleDateFormat("yyyyMMddHHmmss").format(ts);

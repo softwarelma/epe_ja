@@ -1,0 +1,18 @@
+ds = db_datasource("jdbc:mysql://localhost:3306/ewf", "ewf_usr", "#~[}à1e%|B");
+
+//update = "CREATE TABLE aaa (id int)";
+//update = "INSERT INTO aaa (id) VALUES (1)";
+//update = "UPDATE aaa SET id = 2 WHERE id = 1";
+//update = "DELETE aaa WHERE id = 1";
+//update = "DROP TABLE aaa";
+//print_to_console("true");
+//db_update(ds, update);
+
+select_1 = "select * from aaa";
+
+rs = db_select(ds, prop("header=true"), prop("limit=200"), prop("avoiding_classes=java.sql.Clob"), 
+	select_1);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
+
+print_to_console("true");
+echo(rs_smart);
