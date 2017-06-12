@@ -76,6 +76,10 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
+    
+    
+    *//read as obj 4 ewf
+    
     public static void readQuery(DataSource dataSource, String select, String limitStr, String avoidingClasses,
             List<List<String>> listListStr, boolean header) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
