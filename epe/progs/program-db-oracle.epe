@@ -40,13 +40,14 @@ rs_ttpd = db_select(ds, select, prop("header=true"));
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs_prvd, rs_ttpd);
 */
 
-select_prvd = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
-select_ttpd = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
-select_cont = "select * from C_DYQE_ESTRAZIONE";
+//select_prvd = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
+//select_ttpd = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
+select_icpara = "select * from icpara";
 
 rs = db_select(ds, prop("header=true"), prop("limit=200"), prop("avoiding_classes=java.sql.Clob"), 
-	select_prvd, select_ttpd, select_cont);
+	select_icpara);
+rs = list_transpose(rs);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
-echo(rs_smart);
+echo("\n", rs_smart);

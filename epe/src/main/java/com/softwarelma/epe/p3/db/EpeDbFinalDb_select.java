@@ -76,10 +76,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    
-    
-    *//read as obj 4 ewf
-    
+    // TODO read as obj 4 ewf
+
     public static void readQuery(DataSource dataSource, String select, String limitStr, String avoidingClasses,
             List<List<String>> listListStr, boolean header) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
@@ -105,7 +103,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
             if (header) {
-                List<String> listEmtpy = new ArrayList<String>();
+                // List<String> listEmtpy = new ArrayList<String>();
                 List<String> colNames = new ArrayList<String>();
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
@@ -113,7 +111,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                     colNames.add(resultSetMetaData.getColumnName(i + 1));
                 }
 
-                listListStr.add(listEmtpy);
+                // listListStr.add(listEmtpy);
                 listListStr.add(colNames);
             }
 
