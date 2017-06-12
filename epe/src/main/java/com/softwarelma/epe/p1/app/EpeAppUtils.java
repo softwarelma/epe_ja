@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class EpeAppUtils {
 
@@ -115,6 +116,43 @@ public abstract class EpeAppUtils {
         if (value1 == null || value2 == null || !value1.equals(value2)) {
             throw new EpeAppException(
                     message == null ? "Vars " + name1 + " and " + name2 + " are not equals" : message);
+        }
+    }
+
+    public static void checkEquals(String name1, String name2, List<String> list, Set<String> set)
+            throws EpeAppException {
+        checkNull("name1", name1);
+        checkNull("name2", name2);
+
+        if (list == null && set == null) {
+            return;
+        }
+
+        if (list.isEmpty() && set.isEmpty()) {
+            return;
+        }
+
+        if (list.size() != set.size()) {
+            throw new EpeAppException("Vars " + name1 + " and " + name2 + " are not equals, list size " + list.size()
+                    + " != set size " + set.size());
+        }
+
+        List<String> listTmp = new ArrayList<>(list);
+
+        for (String str : set) {
+            if (!listTmp.remove(str)) {
+                throw new EpeAppException("Vars " + name1 + " and " + name2
+                        + " are not equals, the list does not contain \"" + str + "\"");
+            }
+        }
+    }
+
+    public static void checkContains(Set<String> set, String name, String value) throws EpeAppException {
+        checkNull("name", name);
+        checkNull("set", set);
+
+        if (!set.contains(value)) {
+            throw new EpeAppException(name + " \"" + value + "\" is not contained in " + set);
         }
     }
 
@@ -268,6 +306,15 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static <K, V> void checkEmptyMap(String paramName, Map<K, V> paramValue) throws EpeAppException {
+        checkNull("paramName", paramName);
+        checkNull(paramName, paramValue);
+
+        if (paramValue.isEmpty()) {
+            throw new EpeAppException("Empty " + paramName);
+        }
+    }
+
     public static void checkDir(File dir) throws EpeAppException {
         checkNull("dir", dir);
 
@@ -409,6 +456,24 @@ public abstract class EpeAppUtils {
         }
 
         return list;
+    }
+
+    public static void checkForceLower(String name, String value) throws EpeAppException {
+        EpeAppUtils.checkNull("name", name);
+        EpeAppUtils.checkNull("value", value);
+
+        if (!value.toLowerCase().equals(value)) {
+            throw new EpeAppException("The param " + name + " is not in lower case, found: " + value);
+        }
+    }
+
+    public static void checkForceUpper(String name, String value) throws EpeAppException {
+        EpeAppUtils.checkNull("name", name);
+        EpeAppUtils.checkNull("value", value);
+
+        if (!value.toUpperCase().equals(value)) {
+            throw new EpeAppException("The param " + name + " is not in upper case, found: " + value);
+        }
     }
 
 }
