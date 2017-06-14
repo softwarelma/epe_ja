@@ -1,5 +1,6 @@
 //H223_REGGIOEMILIA_LAB_PAPERINO
 ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neth223", "SGE_MASTER", "SGE_MASTER");
+//ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/PMANLAB", "PMAN", "PMAN");
 
 //list_sep = echo_to_list("\n\n", "\n", "\t\t");
 //smart = print_separator(list_sep, rs);
@@ -31,6 +32,16 @@ echo("\n\n", rs_smart_dent, "\n\n", rs_smart_rmbsdett, "\n\n", rs_smart_rmbs, "\
 //update = "DELETE aaa WHERE id = 1";
 //update = "DROP TABLE aaa";
 //db_update(ds, update);
+/*
+-null
+-no lf
+-\n == splitter == not cont
+	{-1}: null - {-2}: no LF - {0}: LF
+	{1}attr1{-1}{1}attr2{-2}abc{1}attr3{0}ab{0}c
+		attr1{-1}
+		attr2{-2}abc
+		attr3{0}ab{0}c
+*/
 
 /*
 select = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
@@ -41,12 +52,11 @@ rs_smart = print_separator_smart(prop("col_suffix=| "), rs_prvd, rs_ttpd);
 */
 
 //select_prvd = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
-//select_ttpd = "select * from ttpd where sub_tip_doc = 51000 and cod_trb = 10";
-select_icpara = "select * from icpara";
+select_ttpd = "select * from ttpd where tip_doc = 50000";
 
-rs = db_select(ds, prop("header=true"), prop("limit=200"), prop("avoiding_classes=java.sql.Clob"), 
-	select_icpara);
-rs = list_transpose(rs);
+rs = db_select(ds, prop("header=true"), prop("limit=50"), 
+	prop("avoiding_classes=java.sql.Clob"),	select_icpara);
+//rs = list_transpose(rs);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");

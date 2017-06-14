@@ -13,13 +13,14 @@ public class EpeDbMetaDataColumn implements Serializable {
     private final int precision;
     private final int scale;
     private final boolean nullable;
+    private final Object defaultValue;
 
     /*
      * types of col/att: long, dec, date, tms, str fix, str var, clob, blob
      */
 
-    public EpeDbMetaDataColumn(String column, String className, int precision, int scale, boolean nullable)
-            throws EpeAppException {
+    public EpeDbMetaDataColumn(String column, String className, int precision, int scale, boolean nullable,
+            Object defaultValue) throws EpeAppException {
         EpeAppUtils.checkEmpty("column", column);
         EpeAppUtils.checkEmpty("className", className);
         this.column = column.toUpperCase();
@@ -27,6 +28,7 @@ public class EpeDbMetaDataColumn implements Serializable {
         this.precision = precision;
         this.scale = scale;
         this.nullable = nullable;
+        this.defaultValue = defaultValue;
     }
 
     @Override
@@ -90,6 +92,10 @@ public class EpeDbMetaDataColumn implements Serializable {
 
     public boolean isNullable() {
         return nullable;
+    }
+
+    public Object getDefaultValue() {
+        return defaultValue;
     }
 
 }

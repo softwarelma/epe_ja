@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p3.db.EpeDbEntity;
 
 public class EpeExecContentInternal {
 
@@ -127,8 +128,7 @@ public class EpeExecContentInternal {
         return sb.toString();
     }
 
-    private String listToString(List<String> listStr, List<Integer> listWidth, String colSuffix)
-            throws EpeAppException {
+    private String listToString(List<String> listStr, List<Integer> listWidth, String colSuffix) throws EpeAppException {
         StringBuilder sb = new StringBuilder();
         String sepInternal2 = "";
         String str;
@@ -162,8 +162,8 @@ public class EpeExecContentInternal {
         str = str + "";// null becomes "null"
 
         if (str.length() > width) {
-            throw new EpeAppException(
-                    "The string (" + str + ") has a length (" + str.length() + ") bigger than " + width);
+            throw new EpeAppException("The string (" + str + ") has a length (" + str.length() + ") bigger than "
+                    + width);
         }
 
         for (int i = 0; i < width - str.length(); i++) {
@@ -198,6 +198,10 @@ public class EpeExecContentInternal {
     }
 
     public DataSource getDataSource() throws EpeAppException {
+        throw new EpeAppException("Method not valid");
+    }
+
+    public EpeDbEntity getEntity() throws EpeAppException {
         throw new EpeAppException("Method not valid");
     }
 

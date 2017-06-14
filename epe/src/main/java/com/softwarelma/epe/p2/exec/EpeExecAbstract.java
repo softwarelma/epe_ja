@@ -8,6 +8,7 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p3.db.EpeDbContentInternalDb;
+import com.softwarelma.epe.p3.db.EpeDbEntity;
 
 public abstract class EpeExecAbstract implements EpeExecInterface {
 
@@ -69,8 +70,14 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
 
     protected EpeExecResult createResult(List<String> listStr, DataSource dataSource) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
-        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr);
-        contentInternalDb.setDataSource(dataSource);
+        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr, dataSource);
+        execResult.setExecContent(new EpeExecContent(contentInternalDb));
+        return execResult;
+    }
+
+    protected EpeExecResult createResult(List<String> listStr, EpeDbEntity entity) throws EpeAppException {
+        EpeExecResult execResult = new EpeExecResult();
+        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr, entity);
         execResult.setExecContent(new EpeExecContent(contentInternalDb));
         return execResult;
     }
