@@ -94,6 +94,8 @@ public class EpeDbMetaDataEntity implements Serializable {
         List<String> listAttribute = new ArrayList<>();
 
         for (String attribute : this.listAttribute) {
+            EpeAppUtils.checkEmpty("attribute", attribute);
+
             if (!attribute.startsWith(EpeDbEntityColumns.COLUMN_PREFIX_ID)) {
                 listAttribute.add(attribute);
             }
@@ -106,6 +108,8 @@ public class EpeDbMetaDataEntity implements Serializable {
         List<String> listAttribute = new ArrayList<>();
 
         for (String attribute : this.listAttribute) {
+            EpeAppUtils.checkEmpty("attribute", attribute);
+
             if (attribute.startsWith(EpeDbEntityColumns.COLUMN_PREFIX_ID)) {
                 listAttribute.add(attribute);
             }
@@ -140,33 +144,68 @@ public class EpeDbMetaDataEntity implements Serializable {
     }
 
     public String getClassName(int index) throws EpeAppException {
-        return this.mapAttAndMetaAtt.get(this.getAttribute(index)).getClassName();
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(this.getAttribute(index));
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.getClassName();
     }
 
     public String getClassName(String attribute) throws EpeAppException {
+        EpeAppUtils.checkEmpty("attribute", attribute);
         EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(attribute);
         EpeAppUtils.checkNull("metaAtt", metaAtt);
         return metaAtt.getClassName();
     }
 
     public int getPrecision(int index) throws EpeAppException {
-        return this.mapAttAndMetaAtt.get(this.getAttribute(index)).getPrecision();
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(this.getAttribute(index));
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.getPrecision();
     }
 
     public int getPrecision(String attribute) throws EpeAppException {
+        EpeAppUtils.checkEmpty("attribute", attribute);
         EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(attribute);
         EpeAppUtils.checkNull("metaAtt", metaAtt);
         return metaAtt.getPrecision();
     }
 
     public int getScale(int index) throws EpeAppException {
-        return this.mapAttAndMetaAtt.get(this.getAttribute(index)).getScale();
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(this.getAttribute(index));
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.getScale();
     }
 
     public int getScale(String attribute) throws EpeAppException {
+        EpeAppUtils.checkEmpty("attribute", attribute);
         EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(attribute);
         EpeAppUtils.checkNull("metaAtt", metaAtt);
         return metaAtt.getScale();
+    }
+
+    public boolean isNullable(int index) throws EpeAppException {
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(this.getAttribute(index));
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.isNullable();
+    }
+
+    public boolean isNullable(String attribute) throws EpeAppException {
+        EpeAppUtils.checkEmpty("attribute", attribute);
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(attribute);
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.isNullable();
+    }
+
+    public Object getDefaultValue(int index) throws EpeAppException {
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(this.getAttribute(index));
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.getDefaultValue();
+    }
+
+    public Object getDefaultValue(String attribute) throws EpeAppException {
+        EpeAppUtils.checkEmpty("attribute", attribute);
+        EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(attribute);
+        EpeAppUtils.checkNull("metaAtt", metaAtt);
+        return metaAtt.getDefaultValue();
     }
 
 }

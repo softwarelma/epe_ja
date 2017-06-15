@@ -28,6 +28,8 @@ public final class EpeDbFinalEntity_from_string extends EpeDbAbstract {
             throws EpeAppException {
         EpeAppUtils.checkEmpty("table", table);
         EpeAppUtils.checkEmpty("entityStr", entityStr);
+        //TODO
+        return null;
     }
 
     

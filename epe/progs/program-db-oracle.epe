@@ -52,11 +52,11 @@ rs_smart = print_separator_smart(prop("col_suffix=| "), rs_prvd, rs_ttpd);
 */
 
 //select_prvd = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
-select_ttpd = "select * from ttpd where tip_doc = 50000";
+select = "select * from icpara";
 
 rs = db_select(ds, prop("header=true"), prop("limit=50"), 
-	prop("avoiding_classes=java.sql.Clob"),	select_icpara);
-//rs = list_transpose(rs);
+	prop("avoiding_classes=java.sql.Clob"),	select);
+rs = list_transpose(rs);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
