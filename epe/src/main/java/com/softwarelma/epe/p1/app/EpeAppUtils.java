@@ -432,20 +432,25 @@ public abstract class EpeAppUtils {
         // return LocalDateTime.now().format(formatter);
     }
 
+    public static long parseLong(String s) throws EpeAppException {
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            throw new EpeAppException("Invalid long " + s, e);
+        }
+    }
+
     public static int parseInt(String str) throws EpeAppException {
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
-            throw new EpeAppException("parseInt for str " + str, e);
+            throw new EpeAppException("Invalid int " + str, e);
         }
     }
 
     public static boolean parseBoolean(String str) throws EpeAppException {
-        try {
-            return Boolean.parseBoolean(str);
-        } catch (NumberFormatException e) {
-            throw new EpeAppException("parseBoolean for str " + str, e);
-        }
+        checkContains(new String[] { "true", "false" }, "str", str);
+        return Boolean.parseBoolean(str);
     }
 
     public static <T> List<T> asList(T[] array) {

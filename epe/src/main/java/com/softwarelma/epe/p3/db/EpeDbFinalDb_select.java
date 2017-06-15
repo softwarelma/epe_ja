@@ -3,6 +3,7 @@ package com.softwarelma.epe.p3.db;
 import java.math.BigDecimal;
 import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -92,6 +93,21 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
+    }
+
+    // TODO test
+    public String getColumnDefaultValue(Connection conn, String TableName, String ColumnName) throws Exception {
+        String columnDefaultVal = "";
+        DatabaseMetaData md = conn.getMetaData();
+        ResultSet rs = md.getColumns(conn.getCatalog(), md.getUserName(), TableName, ColumnName);
+
+        if (rs.next()) {
+            columnDefaultVal = rs.getString("COLUMN_DEF");
+        }
+
+        System.out.println("Default Value of Column is " + columnDefaultVal);
+        return columnDefaultVal;
+
     }
 
     public static void readResult(ResultSet resultSet, List<List<String>> listListStr, boolean header,

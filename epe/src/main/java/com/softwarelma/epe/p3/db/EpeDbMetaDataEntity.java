@@ -208,4 +208,15 @@ public class EpeDbMetaDataEntity implements Serializable {
         return metaAtt.getDefaultValue();
     }
 
+    public void validateTypeAndNullable(String attribute, Object value) throws EpeAppException {
+        if (value == null) {
+            if (!this.isNullable(attribute)) {
+                throw new EpeAppException("The attribute " + attribute + " can't be null");
+            }
+        } else {
+            String className = this.getClassName(attribute);
+            EpeAppUtils.checkEquals("meataDataClassName", "valueClassName", className, value.getClass().getName());
+        }
+    }
+
 }
