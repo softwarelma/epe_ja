@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import oracle.jdbc.pool.OracleDataSource;
+import oracle.jdbc.proxy.annotation.GetCreator;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
@@ -90,8 +91,34 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
             readResult(resultSet, listListStr, header, avoidingClasses);
+
+            // FIXME remove
+            getCols(connection);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
+        }
+    }
+
+    // TODO test 4 tabs
+    public static void getCols(Connection connection) throws EpeAppException {
+        try {
+            DatabaseMetaData dmd = connection.getMetaData();
+            ResultSet rs = dmd.getTables(null, "SGE_MASTER", "C_DYQE%", null);
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+//            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+//                System.out.print(rsmd.getColumnName(i) + "\t");
+//            }
+
+            while (rs.next()) {
+                System.out.println();
+//                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    System.out.print(rs.getObject(3));
+//                }
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            throw new EpeAppException(e.getMessage(), e);
         }
     }
 
