@@ -201,7 +201,7 @@ public class EpeExecContentInternal {
         throw new EpeAppException("Method not valid");
     }
 
-    public EpeDbEntity getEntity() throws EpeAppException {
+    public List<EpeDbEntity> getListEntity() throws EpeAppException {
         throw new EpeAppException("Method not valid");
     }
 

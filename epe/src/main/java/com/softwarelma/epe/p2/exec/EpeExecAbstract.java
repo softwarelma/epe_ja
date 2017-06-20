@@ -75,9 +75,9 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return execResult;
     }
 
-    protected EpeExecResult createResult(List<String> listStr, EpeDbEntity entity) throws EpeAppException {
+    protected EpeExecResult createResult(List<String> listStr, List<EpeDbEntity> listEntity) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
-        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr, entity);
+        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr, listEntity);
         execResult.setExecContent(new EpeExecContent(contentInternalDb));
         return execResult;
     }

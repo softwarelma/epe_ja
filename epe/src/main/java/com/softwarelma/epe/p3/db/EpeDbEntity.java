@@ -17,7 +17,7 @@ public class EpeDbEntity implements Serializable {
     private boolean insert;
     private final EpeDbMetaDataEntity metaData;
     private final Map<String, Object> mapAttAndValue;
-    private final List<String> listAttOriginal;
+    private final List<String> listAttUpdated;
 
     public EpeDbEntity(EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue) throws EpeAppException {
         EpeAppUtils.checkNull("metaData", metaData);
@@ -38,20 +38,20 @@ public class EpeDbEntity implements Serializable {
         this.metaData = metaData;
         this.mapAttAndValue = new HashMap<>(mapAttAndValue);
         this.insert = insert;
-        this.listAttOriginal = new ArrayList<>();
+        this.listAttUpdated = new ArrayList<>();
     }
 
     private EpeDbEntity(boolean insert, EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue,
-            List<String> listAttOriginal) {
+            List<String> listAttUpdated) {
         this.insert = insert;
         this.metaData = metaData;
         this.mapAttAndValue = mapAttAndValue;
-        this.listAttOriginal = listAttOriginal;
+        this.listAttUpdated = listAttUpdated;
     }
 
     public EpeDbEntity retrieveClone() throws EpeAppException {
         Map<String, Object> mapAttAndValue = new HashMap<>(this.mapAttAndValue);
-        List<String> listAttOriginal = new ArrayList<>(this.listAttOriginal);
+        List<String> listAttOriginal = new ArrayList<>(this.listAttUpdated);
         EpeDbEntity clone = new EpeDbEntity(this.insert, this.metaData, mapAttAndValue, listAttOriginal);
         return clone;
     }
@@ -118,8 +118,8 @@ public class EpeDbEntity implements Serializable {
         this.metaData.validateTypeAndNullable(attribute, value);
         this.mapAttAndValue.put(attribute, value);
 
-        if (!this.listAttOriginal.contains(attribute)) {
-            this.listAttOriginal.add(attribute);
+        if (!this.listAttUpdated.contains(attribute)) {
+            this.listAttUpdated.add(attribute);
         }
     }
 
@@ -141,8 +141,8 @@ public class EpeDbEntity implements Serializable {
     private String retrieveDescriptionShortOrLong(boolean shortDescr, String descriptionTemplate,
             String descriptionColumns) throws EpeAppException {
         if (EpeAppUtils.isEmpty(descriptionTemplate) || EpeAppUtils.isEmpty(descriptionColumns)) {
-            return shortDescr ? this.getString(EpeDbEntityColumns.NAME)
-                    : "(" + this.get(EpeDbEntityColumns.ID) + ") " + this.getString(EpeDbEntityColumns.NAME);
+            return shortDescr ? this.getString(EpeDbEntityColumns.NAME) : "(" + this.get(EpeDbEntityColumns.ID) + ") "
+                    + this.getString(EpeDbEntityColumns.NAME);
         }
 
         String[] arrayAttribute = descriptionColumns.split(Pattern.quote(","));
