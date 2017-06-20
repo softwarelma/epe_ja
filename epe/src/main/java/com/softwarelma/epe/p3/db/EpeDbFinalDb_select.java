@@ -48,7 +48,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
 
         if (resultAsEntity) {
-            List<EpeDbEntity> listEntity = retrieveListEntity();
+            List<EpeDbEntity> listEntity = retrieveListEntity(listExecResult, postMessage, dataSource, limitStr,
+                    avoidingClasses, header);
             // this.log(execParams, listEntity);
             List<String> listStr = new ArrayList<>();// for future usage
             return this.createResult(listStr, listEntity);
@@ -62,17 +63,13 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
     public List<List<String>> retrieveListListStr(List<EpeExecResult> listExecResult, String postMessage,
             DataSource dataSource, String limitStr, String avoidingClasses, boolean header) throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkEmpty("postMessage", postMessage);
-        EpeAppUtils.checkNull("dataSource", dataSource);
         List<List<String>> listListStr = new ArrayList<>();
 
-        // TODO
         for (int i = 1; i < listExecResult.size(); i++) {
             if (!this.isPropAt(listExecResult, i, postMessage)) {
                 String select = this.getStringAt(listExecResult, i, postMessage);
-
-                // TODO alternative list list obj from prop
-                // readQueryAsObject(dataSource, select, limitStr, avoidingClasses, listListStr, header);
                 readQueryAsString(dataSource, select, limitStr, avoidingClasses, listListStr, header);
             }
         }
@@ -80,9 +77,19 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         return listListStr;
     }
 
-    public static List<EpeDbEntity> retrieveListEntity() throws EpeAppException {
+    public List<EpeDbEntity> retrieveListEntity(List<EpeExecResult> listExecResult, String postMessage,
+            DataSource dataSource, String limitStr, String avoidingClasses, boolean header) throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkEmpty("postMessage", postMessage);
         List<EpeDbEntity> listEntity = new ArrayList<>();
-        // TODO
+
+        for (int i = 1; i < listExecResult.size(); i++) {
+            if (!this.isPropAt(listExecResult, i, postMessage)) {
+                String select = this.getStringAt(listExecResult, i, postMessage);
+                readQueryAsEntity(dataSource, select, limitStr, avoidingClasses, listEntity, header);
+            }
+        }
+
         return listEntity;
     }
 
@@ -96,14 +103,29 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
-            readResult(resultSet, listListStr, header, avoidingClasses);
-
-            // FIXME remove
-//            getCols(connection);
+            readResultAsString(resultSet, listListStr, header, avoidingClasses);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
     }
+
+    public static void readQueryAsEntity(DataSource dataSource, String select, String limitStr, String avoidingClasses,
+            List<EpeDbEntity> listEntity, boolean header) throws EpeAppException {
+        EpeAppUtils.checkNull("dataSource", dataSource);
+        EpeAppUtils.checkNull("select", select);
+        EpeAppUtils.checkNull("listEntity", listEntity);
+        select = addLimits(dataSource, select, limitStr);
+
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(select);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            readResultAsEntity(resultSet, listEntity, header, avoidingClasses);
+        } catch (Exception e) {
+            throw new EpeAppException("retrieveResult with select: " + select, e);
+        }
+    }
+
+    // TODO use params for queries
 
     public static String addLimits(DataSource dataSource, String select, String limitStr) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
@@ -128,7 +150,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static void readResult(ResultSet resultSet, List<List<String>> listListStr, boolean header,
+    public static void readResultAsString(ResultSet resultSet, List<List<String>> listListStr, boolean header,
             String avoidingClasses) throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listListStr", listListStr);
@@ -154,7 +176,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     Object obj = resultSet.getObject(i + 1);
-                    listStr.add(toString(resultSetMetaData.getColumnName(i + 1), obj, avoidingClasses));
+                    listStr.add(EpeDbFinalEntity_to_string.toString(resultSetMetaData.getColumnName(i + 1), obj,
+                            avoidingClasses));
                 }
 
                 listListStr.add(listStr);
@@ -164,46 +187,78 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static String toString(String columnName, Object obj, String avoidingClasses) throws EpeAppException {
-        EpeAppUtils.checkEmpty("columnName", columnName);
-        avoidingClasses = avoidingClasses == null ? "" : "," + avoidingClasses.trim() + ",";
+    public static void readResultAsEntity(ResultSet resultSet, List<EpeDbEntity> listEntity, String avoidingClasses)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("resultSet", resultSet);
+        EpeAppUtils.checkNull("listEntity", listEntity);
 
-        if (obj == null) {
-            return "";
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            EpeDbMetaDataEntity metaData = readResultMetaData(resultSetMetaData);
+            Map<String, Object> mapAttAndValue;
+            EpeDbEntity entity;
+
+            while (resultSet.next()) {
+                mapAttAndValue = new HashMap<>();
+
+                for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
+                    Object obj = resultSet.getObject(i + 1);
+                    mapAttAndValue.put(resultSetMetaData.getColumnName(i + 1), obj);
+                }
+
+                entity = new EpeDbEntity(metaData, mapAttAndValue);
+                listEntity.add(entity);
+            }
+        } catch (EpeAppException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EpeAppException("Reading result set", e);
+        }
+    }
+
+    public static EpeDbMetaDataEntity readResultMetaData(ResultSetMetaData resultSetMetaData) throws EpeAppException {
+        EpeAppUtils.checkNull("resultSetMetaData", resultSetMetaData);
+        String table = null;// TODO
+        List<String> listAtrribute = new ArrayList<String>();
+        Map<String, EpeDbMetaDataColumn> mapAttAndMetaAtt = new HashMap<>();
+        EpeDbMetaDataColumn metaDataColumn;
+        String atrribute;
+
+        try {
+            for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
+                atrribute = resultSetMetaData.getColumnName(i + 1);
+                listAtrribute.add(atrribute);
+                metaDataColumn = readResultMetaDataColumn(resultSetMetaData, i + 1);
+                mapAttAndMetaAtt.put(atrribute, metaDataColumn);
+            }
+        } catch (EpeAppException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EpeAppException("Reading result set meta data", e);
         }
 
-        Class<?> clazz = obj.getClass();
-        String str;
+        EpeDbMetaDataEntity metaData = new EpeDbMetaDataEntity(table, listAtrribute, mapAttAndMetaAtt);
+        return metaData;
+    }
 
-        if (obj instanceof String) {
-            str = obj.toString();
-        } else if (obj instanceof BigDecimal) {
-            str = ((BigDecimal) obj).toPlainString();
-        } else if (obj instanceof Integer) {
-            str = ((Integer) obj).toString();
-        } else if (obj instanceof Timestamp) {
-            Timestamp ts = (Timestamp) obj;
-            str = new SimpleDateFormat("yyyyMMddHHmmss").format(ts);
-            str = str.endsWith("000000") ? str.substring(0, 8) : str;
-            System.out.println("timestamp=" + str);
-        } else if (obj instanceof Clob) {
-            if (avoidingClasses.contains("," + Clob.class.getName() + ",")) {
-                return "[CLOB]";
-            }
+    public static EpeDbMetaDataColumn readResultMetaDataColumn(ResultSetMetaData resultSetMetaData, int ind1Based)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("resultSetMetaData", resultSetMetaData);
 
-            try {
-                Clob clob = (Clob) obj;
-                str = clob.getSubString(1, (int) clob.length());
-            } catch (SQLException e) {
-                throw new EpeAppException("To string for column " + columnName, e);
-            }
-        } else {
-            // str = obj.toString();
-            String className = clazz.getName();
-            throw new EpeAppException("Unknown class " + className + " for column " + columnName);
+        try {
+            String column = resultSetMetaData.getColumnName(ind1Based);
+            String className;// TODO
+            int precision=resultSetMetaData.getPrecision(ind1Based);
+            int scale=resultSetMetaData.getScale(ind1Based);
+            boolean nullable;// TODO
+            Object defaultValue;// TODO
+
+            EpeDbMetaDataColumn metaDataColumn = new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
+                    defaultValue);
+            return metaDataColumn;
+        } catch (Exception e) {
+            throw new EpeAppException("Reading result set column meta data", e);
         }
-
-        return str;
     }
 
     // //////////////////////////////////////////////
