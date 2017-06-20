@@ -48,14 +48,15 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
 
         if (resultAsEntity) {
-            List<List<String>> listListStr = retrieveListListStr();
-            this.log(execParams, listListStr, null);
-            return this.createResult(listListStr, null);
-        } else {
             List<EpeDbEntity> listEntity = retrieveListEntity();
             // this.log(execParams, listEntity);
             List<String> listStr = new ArrayList<>();// for future usage
             return this.createResult(listStr, listEntity);
+        } else {
+            List<List<String>> listListStr = retrieveListListStr(listExecResult, postMessage, dataSource, limitStr,
+                    avoidingClasses, header);
+            this.log(execParams, listListStr, null);
+            return this.createResult(listListStr, null);
         }
     }
 
@@ -71,7 +72,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                 String select = this.getStringAt(listExecResult, i, postMessage);
 
                 // TODO alternative list list obj from prop
-                readQueryAsObject(dataSource, select, limitStr, avoidingClasses, listListStr, header);
+                // readQueryAsObject(dataSource, select, limitStr, avoidingClasses, listListStr, header);
                 readQueryAsString(dataSource, select, limitStr, avoidingClasses, listListStr, header);
             }
         }
@@ -98,7 +99,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             readResult(resultSet, listListStr, header, avoidingClasses);
 
             // FIXME remove
-            getCols(connection);
+//            getCols(connection);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }

@@ -20,7 +20,8 @@ public final class EpeDbFinalEntity_from_string extends EpeDbAbstract {
         List<String> listStr = new ArrayList<>();
         // listStr.add("prop=" + value); //for future usage
         this.log(execParams, listStr);
-        return this.createResult(listStr, entity);
+//        return this.createResult(listStr, entity);
+        return null;
     }
 
     public static EpeDbEntity newEntityFromString(String table, String entityStr) throws EpeAppException {
