@@ -62,3 +62,11 @@ rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
 echo("\n", rs_smart);
+/*
+xml_read_site( //"http.nonProxyHosts=localhost|127.0.0.1"
+	prop("https.proxyHost=proxy.eng.it"),
+	prop("https.proxyPort=3128"),
+	prop("https.proxyUser="),
+	prop("https.proxyPassword="),
+	"https://github.com/softwarelma/utils/releases");
+*/

@@ -13,15 +13,31 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
 
+    // non proxy syntax: localhost|127.0.0.1
+    public static final String[] PROPS_PROXY = { "http.nonProxyHosts", "http.proxyHost", "http.proxyPort",
+            "http.proxyUser", "http.proxyPassword", "https.nonProxyHosts", "https.proxyHost", "https.proxyPort",
+            "https.proxyUser", "https.proxyPassword" };
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "xml_read_site, expected the URL.";
         String url = this.getStringAt(listExecResult, 0, postMessage);
         this.log(execParams, "URL: " + url);
+        this.setSystemProxy(listExecResult);
         String str = this.readSite(url);
         this.log(execParams, "Content:");
         this.log(execParams, str);
         return this.createResult(str);
+    }
+
+    public void setSystemProxy(List<EpeExecResult> listExecResult) throws EpeAppException {
+        for (String propKey : PROPS_PROXY) {
+            String propVal = retrievePropValueOrNull("xml_read_site", listExecResult, propKey);
+
+            if (propVal != null) {
+                System.setProperty(propKey, propVal);
+            }
+        }
     }
 
     private String readSite(String url) throws EpeAppException {
