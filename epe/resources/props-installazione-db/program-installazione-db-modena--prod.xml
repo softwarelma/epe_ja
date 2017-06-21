@@ -7,6 +7,9 @@
 <username_acsor>ACSOR</username_acsor>
 <password_acsor>STIM114_ACSOR</password_acsor>
 
+<username_acsor_ext>ACSOR_EXT</username_acsor_ext>
+<password_acsor_ext>STIM114_ACSOR_EXT</password_acsor_ext>
+
 <username_scheduler>SCHEDULER</username_scheduler>
 <password_scheduler>STIM114_SCHEDULER</password_scheduler>
 
@@ -14,6 +17,6 @@
 <password_pman>STIM114_PMAN</password_pman>
 
 <codice_ente>F257</codice_ente>
-<sid>F205_MILANO_PROD</sid>
+<sid>F257_MODENA_PROD</sid>
 
 <applicazione_pman_portale>PORTALE NETTUNO</applicazione_pman_portale>

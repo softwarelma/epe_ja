@@ -7,6 +7,9 @@
 <username_acsor>ACSOR</username_acsor>
 <password_acsor>PR2511_ACSOR</password_acsor>
 
+<username_acsor_ext>ACSOR_EXT</username_acsor_ext>
+<password_acsor_ext>PR2511_ACSOR_EXT</password_acsor_ext>
+
 <username_scheduler>SCHEDULER</username_scheduler>
 <password_scheduler>PR2511_SCHEDULER</password_scheduler>
 

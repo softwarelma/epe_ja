@@ -7,6 +7,9 @@
 <username_acsor>ACSOR_PROD</username_acsor>
 <password_acsor>acsor</password_acsor>
 
+<username_acsor_ext>ACSOR_EXT_PROD</username_acsor_ext>
+<password_acsor_ext>acsor_ext_prod</password_acsor_ext>
+
 <username_scheduler>CHRONOS</username_scheduler>
 <password_scheduler>chronos</password_scheduler>
 

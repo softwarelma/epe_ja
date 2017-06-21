@@ -7,6 +7,9 @@
 <username_acsor>ACSOR</username_acsor>
 <password_acsor>ACSOR</password_acsor>
 
+<username_acsor_ext>ACSOR_EXT</username_acsor_ext>
+<password_acsor_ext>EX_ACSOR_EXT</password_acsor_ext>
+
 <username_scheduler>SCHEDULER</username_scheduler>
 <password_scheduler>EX_SCHEDULER</password_scheduler>
 
@@ -14,6 +17,6 @@
 <password_pman>EX_PMAN</password_pman>
 
 <codice_ente>F205</codice_ente>
-<sid>ACSORT_SCAN</sid>
+<sid>F205_MILANO_INNOV_COLL</sid>
 
 <applicazione_pman_portale>PORTALE NETTUNO</applicazione_pman_portale>
