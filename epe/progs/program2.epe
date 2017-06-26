@@ -8,7 +8,8 @@ echo_reverse(testo);
 */
 
 print_to_console("true");
-decrypt("password_db", "6ngwPA7NoDL33UEDQsjk/Q==");//ET0p02k466
+//decrypt("password_db", "6ngwPA7NoDL33UEDQsjk/Q==");//ET0p02k466
+//decrypt("password_db", "hMjr4UfacMDbi5VUackbKw==");"sge_master_prod"
 
 /*
 ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_MASTER", "SGE_MASTER");
