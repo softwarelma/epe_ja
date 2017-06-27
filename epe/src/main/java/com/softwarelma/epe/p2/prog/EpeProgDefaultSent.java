@@ -7,9 +7,9 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 
 public final class EpeProgDefaultSent extends EpeProgAbstractSent {
 
-    public EpeProgDefaultSent(SENT_TYPE type, String leftSideVarName, String literalOrFuncName,
+    public EpeProgDefaultSent(String originalSentStr, SENT_TYPE type, String leftSideVarName, String literalOrFuncName,
             List<EpeProgSentInterface> listParam) throws EpeAppException {
-        super(type, leftSideVarName, literalOrFuncName, listParam);
+        super(originalSentStr, type, leftSideVarName, literalOrFuncName, listParam);
     }
 
 }

@@ -14,8 +14,8 @@ public abstract class EpeProgAbstractSent implements EpeProgSentInterface {
     private final String literalOrFuncName;
     private final List<EpeProgSentInterface> listParam;
 
-    public EpeProgAbstractSent(SENT_TYPE type, String leftSideVarName, String literalOrFuncName,
-            List<EpeProgSentInterface> listParam) throws EpeAppException {
+    public EpeProgAbstractSent(String originalSentStr, SENT_TYPE type, String leftSideVarName,
+            String literalOrFuncName, List<EpeProgSentInterface> listParam) throws EpeAppException {
         super();
         EpeAppUtils.checkNull("type", type);
         EpeAppUtils.checkNull("literalOrFuncName", literalOrFuncName);

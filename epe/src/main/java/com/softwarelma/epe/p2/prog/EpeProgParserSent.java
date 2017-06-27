@@ -19,6 +19,7 @@ public final class EpeProgParserSent {
 
     protected EpeProgSentInterface getProgSent(String sentStr, Map<String, String> mapNotContainedReplaced,
             String sDoubleBackSlash, String sBackSlashedQuote) throws EpeAppException {
+        String originalSentStr = sentStr;
         sentStr = sentStr.replace(" ", "");
         sentStr = sentStr.replace("\n", "");
         sentStr = sentStr.replace("\r", "");
@@ -48,7 +49,7 @@ public final class EpeProgParserSent {
             // String literal = mapNotContainedReplaced.get(mapNotContainedReplaced.get(sentStr));
             literal = literal.replace(sBackSlashedQuote, "\\\"");
             literal = literal.replace(sDoubleBackSlash, "\\\\");
-            progSent = new EpeProgDefaultSent(sentType, null, literal, null);
+            progSent = new EpeProgDefaultSent(originalSentStr, sentType, null, literal, null);
             // println(" " + progSent);
             return progSent;
         }
@@ -57,8 +58,8 @@ public final class EpeProgParserSent {
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.func : null;
 
         if (sentType != null) {
-            progSent = getProgSentFromFuncSent(sentStr, sentType, mapNotContainedReplaced, sDoubleBackSlash,
-                    sBackSlashedQuote);
+            progSent = getProgSentFromFuncSent(originalSentStr, sentStr, sentType, mapNotContainedReplaced,
+                    sDoubleBackSlash, sBackSlashedQuote);
             // println(" " + progSent);
             return progSent;
         }
@@ -67,7 +68,7 @@ public final class EpeProgParserSent {
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.id : null;
 
         if (sentType != null) {
-            progSent = new EpeProgDefaultSent(sentType, null, sentStr, null);
+            progSent = new EpeProgDefaultSent(originalSentStr, sentType, null, sentStr, null);
             // println(" " + progSent);
             return progSent;
         }
@@ -90,7 +91,7 @@ public final class EpeProgParserSent {
             String literal = mapNotContainedReplaced.get(textSplit[1]);
             literal = literal.replace(sBackSlashedQuote, "\\\"");
             literal = literal.replace(sDoubleBackSlash, "\\\\");
-            progSent = new EpeProgDefaultSent(sentType, textSplit[0], literal, null);
+            progSent = new EpeProgDefaultSent(originalSentStr, sentType, textSplit[0], literal, null);
             // println(" " + progSent);
             return progSent;
         }
@@ -99,8 +100,8 @@ public final class EpeProgParserSent {
         sentType = posString[0] == 0 && posString[1] == sentStr.length() ? SENT_TYPE.left_func : null;
 
         if (sentType != null) {
-            progSent = getProgSentFromFuncSent(sentStr, sentType, mapNotContainedReplaced, sDoubleBackSlash,
-                    sBackSlashedQuote);
+            progSent = getProgSentFromFuncSent(originalSentStr, sentStr, sentType, mapNotContainedReplaced,
+                    sDoubleBackSlash, sBackSlashedQuote);
             // println(" " + progSent);
             return progSent;
         }
@@ -110,7 +111,7 @@ public final class EpeProgParserSent {
 
         if (sentType != null) {
             textSplit = sentStr.split("=");
-            progSent = new EpeProgDefaultSent(sentType, textSplit[0], textSplit[1], null);
+            progSent = new EpeProgDefaultSent(originalSentStr, sentType, textSplit[0], textSplit[1], null);
             // println(" " + progSent);
             return progSent;
         }
@@ -121,7 +122,7 @@ public final class EpeProgParserSent {
         throw new EpeAppException("Unrecognized sentence: " + sentStr);
     }
 
-    private EpeProgSentInterface getProgSentFromFuncSent(String funcSent, SENT_TYPE sentType,
+    private EpeProgSentInterface getProgSentFromFuncSent(String originalSentStr, String funcSent, SENT_TYPE sentType,
             Map<String, String> mapNotContainedReplaced, String sDoubleBackSlash, String sBackSlashedQuote)
             throws EpeAppException {
         String leftSideVarName = null;
@@ -147,7 +148,8 @@ public final class EpeProgParserSent {
             listParam.add(currentProgSent);
         }
 
-        EpeProgSentInterface progSent = new EpeProgDefaultSent(sentType, leftSideVarName, funcName, listParam);
+        EpeProgSentInterface progSent = new EpeProgDefaultSent(originalSentStr, sentType, leftSideVarName, funcName,
+                listParam);
         return progSent;
     }
 
