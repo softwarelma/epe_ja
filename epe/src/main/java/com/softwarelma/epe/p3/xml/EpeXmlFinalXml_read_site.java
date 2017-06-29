@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -21,16 +23,13 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "xml_read_site, expected the URL.";
-        String url = this.getStringAt(listExecResult, 0, postMessage);
-        this.log(execParams, "URL: " + url);
         this.setSystemProxy(listExecResult);
-        String str = this.readSite(url);
-        this.log(execParams, "Content:");
-        this.log(execParams, str);
-        return this.createResult(str);
+        List<String> listSite = this.readSite(execParams, listExecResult, postMessage);
+        this.log(execParams, listSite);
+        return this.createResult(listSite);
     }
 
-    public void setSystemProxy(List<EpeExecResult> listExecResult) throws EpeAppException {
+    public static void setSystemProxy(List<EpeExecResult> listExecResult) throws EpeAppException {
         for (String propKey : PROPS_PROXY) {
             String propVal = retrievePropValueOrNull("xml_read_site", listExecResult, propKey);
 
@@ -40,7 +39,31 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
         }
     }
 
-    private String readSite(String url) throws EpeAppException {
+    public List<String> readSite(EpeExecParams execParams, List<EpeExecResult> listExecResult, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        List<String> listSite = new ArrayList<>();
+        String url;
+
+        for (int i = 0; i < listExecResult.size(); i++) {
+            if (this.isPropAt(listExecResult, i, postMessage)) {
+                continue;
+            }
+
+            url = this.getStringAt(listExecResult, i, postMessage);
+            this.log(execParams, "URL: " + url);
+            String site = this.readSite(url);
+            this.log(execParams, "Content:");
+            this.log(execParams, site);
+            listSite.add(site);
+        }
+
+        return listSite;
+    }
+
+    public static String readSite(String url) throws EpeAppException {
+        EpeAppUtils.checkEmpty("url", url);
+
         try {
             URL oracle = new URL(url);
             BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
