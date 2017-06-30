@@ -18,7 +18,7 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
     // non proxy syntax: localhost|127.0.0.1
     public static final String[] PROPS_PROXY = { "http.nonProxyHosts", "http.proxyHost", "http.proxyPort",
             "http.proxyUser", "http.proxyPassword", "https.nonProxyHosts", "https.proxyHost", "https.proxyPort",
-            "https.proxyUser", "https.proxyPassword" };
+            "https.proxyUser", "https.proxyPassword", "java.net.useSystemProxies" };
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -60,6 +60,14 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
 
         return listSite;
     }
+
+    /*
+     * TODO
+     * 
+     * 1- Java Networking and Proxies: http://docs.oracle.com/javase/7/docs/technotes/guides/net/proxies.html
+     * 
+     * 2- stackoverflow example: https://stackoverflow.com/questions/1432961/how-do-i-make-httpurlconnection-use-a-proxy
+     */
 
     public static String readSite(String url) throws EpeAppException {
         EpeAppUtils.checkEmpty("url", url);
