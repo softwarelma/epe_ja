@@ -63,15 +63,5 @@ rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 print_to_console("true");
 echo("\n", rs_smart);
 
-xml_read_site( //"http.nonProxyHosts=localhost|127.0.0.1"
-	prop("http.proxyHost=proxy.eng.it"),
-	prop("http.proxyPort=3128"),
-	prop("http.proxyUser="),
-	prop("http.proxyPassword="),
-	prop("https.proxyHost=proxy.eng.it"),
-	prop("https.proxyPort=3128"),
-	prop("https.proxyUser="),
-	prop("https.proxyPassword="),
-	prop("java.net.useSystemProxies=true"),
-	"https://github.com/softwarelma/utils/releases");
-/**/
+//xml_read_site("https://github.com/softwarelma/utils/releases");
+//system_prop("http.proxyHost=proxy.com", "http.proxyPort=8080");

@@ -3,8 +3,13 @@ package com.softwarelma.epe.p3.xml;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +57,8 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
 
             url = this.getStringAt(listExecResult, i, postMessage);
             this.log(execParams, "URL: " + url);
-            String site = this.readSite(url);
+            // String site = this.readSite(url);TODO
+            String site = this.readSite2(url);
             this.log(execParams, "Content:");
             this.log(execParams, site);
             listSite.add(site);
@@ -68,6 +74,38 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
      * 
      * 2- stackoverflow example: https://stackoverflow.com/questions/1432961/how-do-i-make-httpurlconnection-use-a-proxy
      */
+
+    public static String readSite2(String url) throws EpeAppException {
+        try {
+            Authenticator authenticator = new Authenticator() {
+
+                public PasswordAuthentication getPasswordAuthentication() {
+                    // or "domainName\\user"
+                    return (new PasswordAuthentication("user", "password".toCharArray()));
+                }
+
+            };
+
+            Authenticator.setDefault(authenticator);
+
+            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("HOST", 8080));
+            URLConnection conn = new URL(url).openConnection(proxy);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuilder sb = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                sb.append(inputLine);
+                sb.append("\n");
+            }
+
+            in.close();
+            return sb.toString();
+        } catch (IOException e) {
+            throw new EpeAppException("readSite url: " + url, e);
+        }
+    }
 
     public static String readSite(String url) throws EpeAppException {
         EpeAppUtils.checkEmpty("url", url);
