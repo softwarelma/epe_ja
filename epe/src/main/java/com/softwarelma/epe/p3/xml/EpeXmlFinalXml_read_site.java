@@ -20,32 +20,39 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
 
-    // non proxy syntax: localhost|127.0.0.1
-    public static final String[] PROPS_PROXY = { "http.nonProxyHosts", "http.proxyHost", "http.proxyPort",
-            "http.proxyUser", "http.proxyPassword", "https.nonProxyHosts", "https.proxyHost", "https.proxyPort",
-            "https.proxyUser", "https.proxyPassword", "java.net.useSystemProxies" };
+    // maybe also nonProxyHosts and java.net.useSystemProxies
+    public static final String PROP_PROXY_HOST = "proxyHost";
+    public static final String PROP_PROXY_PORT = "proxyPort";
+    public static final String PROP_PROXY_USER = "proxyUser";
+    public static final String PROP_PROXY_PASSWORD = "proxyPassword";
+
+    /*
+     * "http.nonProxyHosts", "http.proxyHost", "http.proxyPort", "http.proxyUser", "http.proxyPassword",
+     * "https.nonProxyHosts", "https.proxyHost", "https.proxyPort", "https.proxyUser", "https.proxyPassword",
+     * "java.net.useSystemProxies"
+     */
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "xml_read_site, expected the URL.";
-        this.setSystemProxy(listExecResult);
-        List<String> listSite = this.readSite(execParams, listExecResult, postMessage);
+        String host = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_HOST);
+        String port = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PORT);
+        String username = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_USER);
+        String password = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PASSWORD);
+        List<String> listSite = this.readSite(execParams, listExecResult, postMessage, host, port, username, password);
+
+        if (listSite.size() == 1) {
+            String str = listSite.get(0);
+            this.log(execParams, str);
+            return this.createResult(str);
+        }
+
         this.log(execParams, listSite);
         return this.createResult(listSite);
     }
 
-    public static void setSystemProxy(List<EpeExecResult> listExecResult) throws EpeAppException {
-        for (String propKey : PROPS_PROXY) {
-            String propVal = retrievePropValueOrNull("xml_read_site", listExecResult, propKey);
-
-            if (propVal != null) {
-                System.setProperty(propKey, propVal);
-            }
-        }
-    }
-
-    public List<String> readSite(EpeExecParams execParams, List<EpeExecResult> listExecResult, String postMessage)
-            throws EpeAppException {
+    public List<String> readSite(EpeExecParams execParams, List<EpeExecResult> listExecResult, String postMessage,
+            String host, String port, String username, String password) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         List<String> listSite = new ArrayList<>();
         String url;
@@ -57,8 +64,7 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
 
             url = this.getStringAt(listExecResult, i, postMessage);
             this.log(execParams, "URL: " + url);
-            // String site = this.readSite(url);TODO
-            String site = this.readSite2(url);
+            String site = this.readSite(url, host, port, username, password);
             this.log(execParams, "Content:");
             this.log(execParams, site);
             listSite.add(site);
@@ -68,29 +74,18 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
     }
 
     /*
-     * TODO
+     * from:
      * 
      * 1- Java Networking and Proxies: http://docs.oracle.com/javase/7/docs/technotes/guides/net/proxies.html
      * 
      * 2- stackoverflow example: https://stackoverflow.com/questions/1432961/how-do-i-make-httpurlconnection-use-a-proxy
      */
 
-    public static String readSite2(String url) throws EpeAppException {
+    public static String readSite(String url, String host, String port, String username, String password)
+            throws EpeAppException {
         try {
-            Authenticator authenticator = new Authenticator() {
-
-                public PasswordAuthentication getPasswordAuthentication() {
-                    // or "domainName\\user"
-                    return (new PasswordAuthentication("user", "password".toCharArray()));
-                }
-
-            };
-
-            Authenticator.setDefault(authenticator);
-
-            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("HOST", 8080));
-            URLConnection conn = new URL(url).openConnection(proxy);
-
+            Proxy proxy = retrieveProxy(host, port, username, password);
+            URLConnection conn = proxy == null ? new URL(url).openConnection() : new URL(url).openConnection(proxy);
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
             StringBuilder sb = new StringBuilder();
@@ -107,7 +102,8 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
         }
     }
 
-    public static String readSite(String url) throws EpeAppException {
+    @Deprecated
+    public static String readSiteOld(String url) throws EpeAppException {
         EpeAppUtils.checkEmpty("url", url);
 
         try {
@@ -128,6 +124,35 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
         } catch (IOException e) {
             throw new EpeAppException("readSite url: " + url, e);
         }
+    }
+
+    public static Proxy retrieveProxy(String host, String port, String username, String password)
+            throws EpeAppException {
+        if (host == null || port == null) {
+            return null;
+        }
+
+        setAuthenticator(username, password);
+        int portInt = EpeAppUtils.parseInt(port);
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host, portInt));
+        return proxy;
+    }
+
+    public static void setAuthenticator(final String username, final String password) {
+        if (username == null || password == null) {
+            return;
+        }
+
+        Authenticator authenticator = new Authenticator() {
+
+            public PasswordAuthentication getPasswordAuthentication() {
+                // or "domainName\\user"
+                return (new PasswordAuthentication(username, password.toCharArray()));
+            }
+
+        };
+
+        Authenticator.setDefault(authenticator);
     }
 
 }

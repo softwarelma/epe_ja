@@ -10,6 +10,8 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeGenericFinalSystem_prop extends EpeGenericAbstract {
 
+    // non proxy syntax: localhost|127.0.0.1
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "system_prop, expected 0 to N props strings like \"key=value\".";
