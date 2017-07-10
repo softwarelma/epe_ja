@@ -55,10 +55,14 @@ rs_smart = print_separator_smart(prop("col_suffix=| "), rs_prvd, rs_ttpd);
 //select = "select * from icpara";
 select = "select * from pm_applicazioni where descrizione = 'PORTALE NETTUNO'";
 
-rs = db_select(ds, prop("header=true"), prop("limit=50"), 
-	prop("avoiding_classes=java.sql.Clob"),	select);
-//rs = list_transpose(rs);
+rs = db_select(ds, prop("header=true"), prop("limit=50"), prop("avoiding_classes=java.sql.Clob"), select);
+rs = list_transpose(rs);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
 echo("\n", rs_smart);
+
+//system_prop("http.proxyHost=proxy.com", "http.proxyPort=8080");
+//xml_read_site(//prop("proxyHost=proxy.eng.it"), prop("proxyPort=3128"), prop("proxyUser="), prop("proxyPassword="), 
+	//"https://github.com/softwarelma/utils/releases");
+	//"https://confluence.tributi.eng.it/display/~gellison");

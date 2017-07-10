@@ -24,8 +24,8 @@ public final class EpeGenericFinalRead_line extends EpeGenericAbstract {
         boolean required = EpeAppUtils.parseBoolean(requiredStr);
         String caseSensitiveStr = this.getStringAt(listExecResult, 4, postMessage);
         boolean caseSensitive = EpeAppUtils.parseBoolean(caseSensitiveStr);
-        String str = retrieveExternalInput(execParams.getGlobalParams().isPrintToConsole(), screenMessage, alternatives,
-                postAlternativesMessage, required, caseSensitive);
+        String str = retrieveExternalInput(true,// execParams.getGlobalParams().isPrintToConsole(),
+                screenMessage, alternatives, postAlternativesMessage, required, caseSensitive);
         this.log(execParams, str);
         return this.createResult(str);
     }

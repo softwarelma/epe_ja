@@ -5,6 +5,8 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 
 public interface EpeProgSentInterface {
 
+    public String getOriginalSentStr();
+
     public SENT_TYPE getType();
 
     public String getLeftSideVarName();

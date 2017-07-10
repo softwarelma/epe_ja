@@ -115,17 +115,23 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         EpeAppUtils.checkNull("select", select);
         EpeAppUtils.checkNull("listEntity", listEntity);
         select = addLimits(dataSource, select, limitStr);
+        String table = retrieveTable(select);
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
-            readResultAsEntity(resultSet, listEntity, header, avoidingClasses);
+            readResultAsEntity(table, resultSet, listEntity, avoidingClasses);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
     }
 
     // TODO use params for queries
+
+    public static String retrieveTable(String select) {
+        // TODO
+        return null;
+    }
 
     public static String addLimits(DataSource dataSource, String select, String limitStr) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
@@ -187,14 +193,14 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static void readResultAsEntity(ResultSet resultSet, List<EpeDbEntity> listEntity, String avoidingClasses)
-            throws EpeAppException {
+    public static void readResultAsEntity(String table, ResultSet resultSet, List<EpeDbEntity> listEntity,
+            String avoidingClasses) throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listEntity", listEntity);
 
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            EpeDbMetaDataEntity metaData = readResultMetaData(resultSetMetaData);
+            EpeDbMetaDataEntity metaData = readResultMetaData(table, resultSetMetaData);
             Map<String, Object> mapAttAndValue;
             EpeDbEntity entity;
 
@@ -216,9 +222,10 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static EpeDbMetaDataEntity readResultMetaData(ResultSetMetaData resultSetMetaData) throws EpeAppException {
+    public static EpeDbMetaDataEntity readResultMetaData(String table, ResultSetMetaData resultSetMetaData)
+            throws EpeAppException {
+        EpeAppUtils.checkEmpty("table", table);
         EpeAppUtils.checkNull("resultSetMetaData", resultSetMetaData);
-        String table = null;// TODO
         List<String> listAtrribute = new ArrayList<String>();
         Map<String, EpeDbMetaDataColumn> mapAttAndMetaAtt = new HashMap<>();
         EpeDbMetaDataColumn metaDataColumn;
@@ -248,13 +255,14 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         try {
             String column = resultSetMetaData.getColumnName(ind1Based);
             String className;// TODO
-            int precision=resultSetMetaData.getPrecision(ind1Based);
-            int scale=resultSetMetaData.getScale(ind1Based);
+            int precision = resultSetMetaData.getPrecision(ind1Based);
+            int scale = resultSetMetaData.getScale(ind1Based);
             boolean nullable;// TODO
             Object defaultValue;// TODO
 
-            EpeDbMetaDataColumn metaDataColumn = new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
-                    defaultValue);
+            EpeDbMetaDataColumn metaDataColumn = null;// TODO
+            // new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
+            // defaultValue);
             return metaDataColumn;
         } catch (Exception e) {
             throw new EpeAppException("Reading result set column meta data", e);
