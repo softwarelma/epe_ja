@@ -1,6 +1,6 @@
 //H223_REGGIOEMILIA_LAB_PAPERINO
 //ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neth223", "SGE_MASTER", "SGE_MASTER");
-//ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/PMANLAB", "PMAN", "PMAN");
+ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/PMANLAB", "PMAN", "PMAN");
 
 //list_sep = echo_to_list("\n\n", "\n", "\t\t");
 //smart = print_separator(list_sep, rs);
@@ -53,16 +53,16 @@ rs_smart = print_separator_smart(prop("col_suffix=| "), rs_prvd, rs_ttpd);
 
 //select_prvd = "select * from dent where cod_cnt = 74512 and cod_trb in (8, 10) and tip_doc = 50000 order by prg_dent desc";
 //select = "select * from icpara";
-//select = "select * from pm_applicazioni where descrizione = 'PORTALE NETTUNO'";
+select = "select * from pm_applicazioni where descrizione = 'PORTALE NETTUNO'";
 
-//rs = db_select(ds, prop("header=true"), prop("limit=50"), prop("avoiding_classes=java.sql.Clob"), select);
-//rs = list_transpose(rs);
-//rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
+rs = db_select(ds, prop("header=true"), prop("limit=50"), prop("avoiding_classes=java.sql.Clob"), select);
+rs = list_transpose(rs);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
-//echo("\n", rs_smart);
+echo("\n", rs_smart);
 
 //system_prop("http.proxyHost=proxy.com", "http.proxyPort=8080");
-xml_read_site(//prop("proxyHost=proxy.eng.it"), prop("proxyPort=3128"), prop("proxyUser="), prop("proxyPassword="), 
-	"https://github.com/softwarelma/utils/releases");
+//xml_read_site(//prop("proxyHost=proxy.eng.it"), prop("proxyPort=3128"), prop("proxyUser="), prop("proxyPassword="), 
+	//"https://github.com/softwarelma/utils/releases");
 	//"https://confluence.tributi.eng.it/display/~gellison");

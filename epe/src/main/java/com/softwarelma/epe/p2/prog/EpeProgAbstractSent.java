@@ -9,17 +9,20 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public abstract class EpeProgAbstractSent implements EpeProgSentInterface {
 
+    private final String originalSentStr;
     private final SENT_TYPE type;
     private final String leftSideVarName;
     private final String literalOrFuncName;
     private final List<EpeProgSentInterface> listParam;
 
-    public EpeProgAbstractSent(String originalSentStr, SENT_TYPE type, String leftSideVarName,
-            String literalOrFuncName, List<EpeProgSentInterface> listParam) throws EpeAppException {
+    public EpeProgAbstractSent(String originalSentStr, SENT_TYPE type, String leftSideVarName, String literalOrFuncName,
+            List<EpeProgSentInterface> listParam) throws EpeAppException {
         super();
+        EpeAppUtils.checkEmpty("originalSentStr", originalSentStr);
         EpeAppUtils.checkNull("type", type);
         EpeAppUtils.checkNull("literalOrFuncName", literalOrFuncName);
 
+        this.originalSentStr = originalSentStr;
         this.type = type;
         this.leftSideVarName = leftSideVarName;
         this.literalOrFuncName = literalOrFuncName;
@@ -50,6 +53,11 @@ public abstract class EpeProgAbstractSent implements EpeProgSentInterface {
 
         ret += this.literalOrFuncName + "(" + params + ")";
         return ret;
+    }
+
+    @Override
+    public String getOriginalSentStr() {
+        return originalSentStr;
     }
 
     @Override

@@ -102,6 +102,7 @@ public final class EpeExec {
         EpeExecParams execParams = new EpeExecParams(globalParams);
         boolean printToConsole = globalParams.isPrintToConsole();
         globalParams.setPrintToConsole(false);
+        // TODO doFunc to public static
         EpeExecResult execResult = funcEcho.doFunc(execParams, listExecResult);
         globalParams.setPrintToConsole(printToConsole);
         return execResult;
@@ -120,8 +121,21 @@ public final class EpeExec {
         EpeExecInterface func = factory.getNewFuncInstance(progSent.getLiteralOrFuncName());
         List<EpeExecResult> listExecResult = this.getExecContentList(globalParams, progSent, mapNotContainedReplaced);
         EpeExecParams execParams = new EpeExecParams(globalParams);
+
+        String originalSentStr = progSent.getOriginalSentStr();
+        originalSentStr = this.injectReplacements(originalSentStr, mapNotContainedReplaced);
+        System.out.println("originalSentStr: " + originalSentStr);// TODO
+
         result = func.doFunc(execParams, listExecResult);
         return result;
+    }
+
+    private String injectReplacements(String originalSentStr, Map<String, String> mapNotContainedReplaced) {
+        for (String notContained : mapNotContainedReplaced.keySet()) {
+            originalSentStr = originalSentStr.replace(notContained, mapNotContainedReplaced.get(notContained));
+        }
+
+        return originalSentStr;
     }
 
     private EpeExecResult getExecContentFromFunc(EpeAppGlobalParams globalParams, EpeProgSentInterface progSent,
