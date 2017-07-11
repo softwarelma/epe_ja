@@ -124,7 +124,7 @@ public final class EpeExec {
 
         String originalSentStr = progSent.getOriginalSentStr();
         originalSentStr = this.injectReplacements(originalSentStr, mapNotContainedReplaced);
-        System.out.println("originalSentStr: " + originalSentStr);// TODO
+        System.out.println("thread id: " + Thread.currentThread().getId() + ", originalSentStr: " + originalSentStr);// TODO
 
         result = func.doFunc(execParams, listExecResult);
         return result;
