@@ -1,11 +1,15 @@
 package com.softwarelma.epe.p1.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class EpeAppConstants {
 
     public static final List<String> listReservedWords = new ArrayList<>();
+
+    public static final Map<Long, String> mapThreadIdAndExceptionSuffix = new HashMap<>();
 
     // static {
     // listReservedWords.add("null");

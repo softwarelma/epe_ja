@@ -100,8 +100,20 @@ public abstract class EpeAppLogger {
         }
     }
 
+    private static String retrieveMessageWithThreadExceptionSuffix(String message, Throwable t) {
+        if (t != null) {
+            Long threadId = Thread.currentThread().getId();
+            String exceptionSuffix = EpeAppConstants.mapThreadIdAndExceptionSuffix.remove(threadId);
+            exceptionSuffix = exceptionSuffix == null ? "" : exceptionSuffix;
+            message = message + exceptionSuffix;
+        }
+
+        return message;
+    }
+
     public static void log(String message, Throwable t, Logger logger, LEVEL level) {
         message = message == null || message.isEmpty() ? "Message not found" : message;
+        message = retrieveMessageWithThreadExceptionSuffix(message, t);
         logger = logger == null ? EpeAppLogger.logger : logger;
         logger = loggerExternal == null ? logger : loggerExternal;
         level = level == null ? LEVEL.INFO : level;
