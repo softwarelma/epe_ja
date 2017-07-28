@@ -104,7 +104,7 @@ public abstract class EpeAppLogger {
         if (t != null) {
             Long threadId = Thread.currentThread().getId();
             String exceptionSuffix = EpeAppConstants.mapThreadIdAndExceptionSuffix.remove(threadId);
-            exceptionSuffix = exceptionSuffix == null ? "" : exceptionSuffix;
+            exceptionSuffix = exceptionSuffix == null ? "" : "\nEXCEPTION ON SENT: " + exceptionSuffix;
             message = message + exceptionSuffix;
         }
 

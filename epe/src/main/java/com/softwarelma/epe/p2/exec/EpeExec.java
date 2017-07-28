@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppConstants.SENT_TYPE;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppGlobalParams;
@@ -124,7 +125,10 @@ public final class EpeExec {
 
         String originalSentStr = progSent.getOriginalSentStr();
         originalSentStr = this.injectReplacements(originalSentStr, mapNotContainedReplaced);
-        System.out.println("thread id: " + Thread.currentThread().getId() + ", originalSentStr: " + originalSentStr);// TODO
+
+        // TODO add sent ori
+        EpeAppConstants.mapThreadIdAndExceptionSuffix.put(Thread.currentThread().getId(), originalSentStr);
+        System.out.println("thread id: " + Thread.currentThread().getId() + ", originalSentStr: " + originalSentStr);
 
         result = func.doFunc(execParams, listExecResult);
         return result;
