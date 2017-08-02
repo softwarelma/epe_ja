@@ -94,18 +94,14 @@ public final class EpeExec {
     }
 
     private EpeExecResult doEcho(EpeAppGlobalParams globalParams, String literal) throws EpeAppException {
-        EpeExecInterface funcEcho = new EpeEchoFinalEcho();
         List<EpeExecResult> listExecResult = new ArrayList<>();
         EpeExecContent execContent = new EpeExecContent(new EpeExecContentInternal(literal));
         EpeExecResult result = new EpeExecResult();
         result.setExecContent(execContent);
         listExecResult.add(result);
         EpeExecParams execParams = new EpeExecParams(globalParams);
-        boolean printToConsole = globalParams.isPrintToConsole();
-        globalParams.setPrintToConsole(false);
-        // TODO doFunc to public static
-        EpeExecResult execResult = funcEcho.doFunc(execParams, listExecResult);
-        globalParams.setPrintToConsole(printToConsole);
+        String ret = EpeEchoFinalEcho.doEcho(execParams, listExecResult);
+        EpeExecResult execResult = EpeExecAbstract.createResult(ret);
         return execResult;
     }
 
@@ -125,11 +121,9 @@ public final class EpeExec {
 
         String originalSentStr = progSent.getOriginalSentStr();
         originalSentStr = this.injectReplacements(originalSentStr, mapNotContainedReplaced);
-
-        // TODO add sent ori
         EpeAppConstants.mapThreadIdAndExceptionSuffix.put(Thread.currentThread().getId(), originalSentStr);
-        System.out.println("thread id: " + Thread.currentThread().getId() + ", originalSentStr: " + originalSentStr);
 
+        // THE ONLY VALID DOFUNC CALL
         result = func.doFunc(execParams, listExecResult);
         return result;
     }

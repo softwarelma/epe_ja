@@ -5,6 +5,7 @@ import java.util.List;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.exec.EpeExecAbstract;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
@@ -14,6 +15,12 @@ public final class EpeEchoFinalEcho extends EpeEchoAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
+        String str = doEcho(execParams, listExecResult);
+        this.log(execParams, str);
+        return EpeExecAbstract.createResult(str);
+    }
+
+    public static String doEcho(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("execParams", execParams);
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         StringBuilder sb = new StringBuilder();
@@ -35,15 +42,7 @@ public final class EpeEchoFinalEcho extends EpeEchoAbstract {
             }
         }
 
-        String ret = sb.toString();
-
-        if (execParams.getGlobalParams().isPrintToConsole()) {
-            EpeAppLogger.log(ret);
-        }
-
-        EpeExecResult execResult = new EpeExecResult();
-        execResult.setExecContent(new EpeExecContent(new EpeExecContentInternal(ret)));
-        return execResult;
+        return sb.toString();
     }
 
     public static String retrieveEchoed(String str, boolean reverse) throws EpeAppException {
