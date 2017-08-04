@@ -1,5 +1,6 @@
 package com.softwarelma.epe.p2.exec;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -302,12 +303,43 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
                 continue;
             }
 
-            EpeExecContentInternal contentInternal = content.getContentInternal();
-            EpeAppUtils.checkNull("contentInternal", contentInternal);
-            String str = contentInternal.getStr();
+            String propVal = retrievePropValueOrNull(funcNameCaller, propName, content);
+
+            if (propVal == null) {
+                continue;
+            }
+
+            return propVal;// could be empty: ""
+        }
+
+        // the prop is not required
+        return null;
+    }
+
+    public static String retrievePropValueOrNull(String funcNameCaller, String propName, EpeExecContent content)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("propName", propName);
+        EpeAppUtils.checkNull("content", content);
+        EpeExecContentInternal contentInternal = content.getContentInternal();
+        EpeAppUtils.checkNull("contentInternal", contentInternal);
+        List<String> listStr;
+
+        if (contentInternal.isString()) {
+            listStr = new ArrayList<>();
+            listStr.add(contentInternal.getStr());
+        } else if (contentInternal.isListString()) {
+            listStr = contentInternal.getListStr();
+        } else {
+            EpeAppUtils.checkNull("funcNameCaller", funcNameCaller);
+            throw new EpeAppException(
+                    funcNameCaller + ", invalid content for prop \"" + propName + "\", string or list expected");
+        }
+
+        for (String str : listStr) {
             EpeAppUtils.checkNull("str", str);
 
             if (!str.contains("=")) {
+                EpeAppUtils.checkNull("funcNameCaller", funcNameCaller);
                 // invalid property
                 throw new EpeAppException(
                         funcNameCaller + ", invalid prop format, expected a prop like: \"" + propName + "=...\"");
@@ -322,7 +354,6 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
             return propVal;// could be empty: ""
         }
 
-        // the prop is not required
         return null;
     }
 

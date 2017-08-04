@@ -44,7 +44,7 @@ public final class EpeDbFinalEntity_to_string extends EpeDbAbstract {
             System.out.println("timestamp=" + str);
         } else if (obj instanceof Clob) {
             if (avoidingClasses.contains("," + Clob.class.getName() + ",")) {
-                return "[CLOB]";
+                return "[HIDDEN]";
             }
 
             try {
