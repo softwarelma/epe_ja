@@ -1,42 +1,4 @@
-ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_USER", "SGE_USER");
-view_name = "F24_RATA";
-rs1 = db_select(ds, echo("select text from all_views WHERE view_name = '", view_name, "'"));
-list = list_get_list_at(rs1, "0");
-view_db = list_get_at(list, "0");
-file_name = echo("/org/company/workspaces/luna-SR2/db-sge-ex-trunk-2015/SGE_USER/view/mapping/", view_name, ".sql");
-view_svn = fread(file_name);
-
-view_svn = replace(view_svn, ";", "");
-view_svn = replace(view_svn, "/", "");
-view_svn = replace_regex(view_svn, ".*\nSELECT", "SELECT");
-view_svn = replace_regex(view_svn, ".*\nselect", "SELECT");
-view_svn = replace_regex(view_svn, ".*\nSelect", "SELECT");
-
-view_svn = replace(view_svn, " ", "");
-view_svn = replace(view_svn, from_unicode("\u000d"), "");
-view_svn = replace(view_svn, from_unicode("\u0020"), "");
-view_svn = replace(view_svn, "\r", "");
-view_svn = replace(view_svn, "\n\n", "\n");
-view_svn = replace(view_svn, "\t", "");
-view_svn = replace(view_svn, "tmp.", "");
-view_svn = trim_full(view_svn);
-
-view_db = replace(view_db, " ", "");
-view_db = replace(view_db, from_unicode("\u000d"), "");
-view_db = replace(view_db, from_unicode("\u0020"), "");
-view_db = replace(view_db, "\r", "");
-view_db = replace(view_svn, "\n\n", "\n");
-view_db = replace(view_db, "\t", "");
-view_db = replace(view_db, "tmp.", "");
-view_db = trim_full(view_db);
-
-equals = equals_ignore_case(view_db, view_svn);
-view_db = to_unicode(view_db);
-view_svn = to_unicode(view_svn);
 print_to_console("true");
-echo("++", view_db, "**");
-echo("++", view_svn, "**");
-echo(equals);
-
-
-
+echo("hw!");
+//print_mem_guessing("mb");
+//print_mem_physical();

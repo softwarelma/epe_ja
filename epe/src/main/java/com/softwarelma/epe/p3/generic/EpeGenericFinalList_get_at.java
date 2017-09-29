@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.exec.EpeExecAbstract;
 import com.softwarelma.epe.p2.exec.EpeExecFactoryInterface;
 import com.softwarelma.epe.p2.exec.EpeExecInterface;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
@@ -18,8 +19,6 @@ public final class EpeGenericFinalList_get_at extends EpeGenericAbstract {
                 + "the default element to return in case of no element at specified index.";
         // String index = this.getStringAt(listExecResult, 1, postMessage);
         // int ind = EpeAppUtils.parseInt(index);
-        EpeExecFactoryInterface factory = new EpePackGenericFactory();
-        EpeExecInterface func;
 
         if (this.isStringAt(listExecResult, 0, postMessage)) {
             this.getListStringAt(listExecResult, 0, postMessage);// throwing
@@ -27,15 +26,14 @@ public final class EpeGenericFinalList_get_at extends EpeGenericAbstract {
         }
 
         if (this.isListStringAt(listExecResult, 0, postMessage)) {
-            func = factory.getNewFuncInstance("list_get_str_at");
+            String str = EpeGenericFinalList_get_str_at.doGetStrAt(execParams, listExecResult);
+            return EpeExecAbstract.createResult(str);
         } else if (this.isListListStringAt(listExecResult, 0, postMessage)) {
-            func = factory.getNewFuncInstance("list_get_list_at");
+            List<String> listStr = EpeGenericFinalList_get_list_at.doGetListAt(execParams, listExecResult);
+            return EpeExecAbstract.createResult(listStr);
         } else {
             throw new EpeAppException(postMessage);
         }
-
-        // TODO doFunc to public static
-        return func.doFunc(execParams, listExecResult);
     }
 
 }

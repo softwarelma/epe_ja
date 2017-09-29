@@ -16,7 +16,7 @@ public final class EpeApp {
         EpeAppGlobalParams globalParams = new EpeAppGlobalParams();
         String programPath = null;
 
-        if (args.length == 0) {
+        if (args == null || args.length == 0) {
             programPath = EpeAppConstants.PROGRAM_DEFAULT_PATH;
             String progName = "\"" + programPath + "\"";
             this.start(globalParams, progName, programPath, true);
@@ -73,8 +73,8 @@ public final class EpeApp {
         }
     }
 
-    private void executeLabels(EpeAppGlobalParams globalParams, EpeExec exec, EpeProgInterface prog,
-            StringBuilder step, String step0, Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+    private void executeLabels(EpeAppGlobalParams globalParams, EpeExec exec, EpeProgInterface prog, StringBuilder step,
+            String step0, Map<String, String> mapNotContainedReplaced) throws EpeAppException {
         EpeProgSentInterface progSent;
 
         for (int i = 0; i < prog.size(); i++) {
