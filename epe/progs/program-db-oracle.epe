@@ -22,7 +22,7 @@ ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/nettuno", "SGE_MASTE
 select = "select * from ttpd where SUB_TIP_DOC in (90030, 31101, 31102)";
 
 rs = db_select(ds, prop("header=true"), prop("limit=10"), prop("avoiding_classes=java.sql.Clob"), select);
-rs = list_transpose(rs);
+//rs = list_transpose(rs);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
