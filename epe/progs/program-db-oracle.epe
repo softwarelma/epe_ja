@@ -17,11 +17,20 @@ ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/netreg2", "SGE_MASTE
 	//"https://github.com/softwarelma/utils/releases");
 	//"https://confluence.tributi.eng.it/display/~gellison");
 
-select = "select * from M_CONF_MODULO_DETTAGLIO";
+select_conf_master = "select * from M_CONF_MODULO_MASTER";
+select_cont_dett = "select * from M_CONF_MODULO_DETTAGLIO";
+select_stag_master = "select * from M_STAGING_MASTER";
+select_stag_dett = "select * from M_STAGING_DETTAGLIO";
+select_stag_dett_valori = "select * from M_STAGING_DETT_VALORI";
 
-rs = db_select(ds, prop("header=true"), prop("limit=10"), prop("avoiding_classes=java.sql.Clob"), select);
+rs = db_select(ds, prop("header=true"), prop("footer=true"), prop("limit=10"), prop("avoiding_classes=java.sql.Clob"), 
+	select_conf_master, select_cont_dett, select_stag_master, select_stag_dett, select_stag_dett_valori);
 //rs = list_transpose(rs);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
+
+/*select_stag_master_xml = "select RICHIESTA_XML from M_STAGING_MASTER";
+rs = db_select(ds, prop("header=true"), prop("limit=10"), select_stag_master_xml);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);*/
 
 print_to_console("true");
 echo("\n", rs_smart);
