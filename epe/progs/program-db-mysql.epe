@@ -14,5 +14,6 @@ rs = db_select(ds, prop("header=true", "limit=200", "result_as_entity=true", "av
 	select_1);
 rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
+
 print_to_console("true");
 echo("\n", rs_smart);
