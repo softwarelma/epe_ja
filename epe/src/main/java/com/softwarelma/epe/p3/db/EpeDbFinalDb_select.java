@@ -28,6 +28,7 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
     public static final String PROP_HEADER = "header";
+    public static final String PROP_FOOTER = "footer";
     public static final String PROP_LIMIT = "limit";
     public static final String PROP_RESULT_AS_ENTITY = "result_as_entity";
     public static final int PROP_LIMIT_DEFAULT = 10;
@@ -40,9 +41,15 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         DataSource dataSource = this.getDataSourceAt(listExecResult, 0, postMessage);
         String limitStr = retrievePropValueOrNull("db_select", listExecResult, PROP_LIMIT);
         String avoidingClasses = retrievePropValueOrNull("db_select", listExecResult, PROP_AVOIDING_CLASSES);
+
         String headerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_HEADER, "false");
         EpeAppUtils.checkContains(new String[] { "true", "false" }, "header", headerStr);
         boolean header = headerStr.equals("true");
+
+        String footerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_FOOTER, "false");
+        EpeAppUtils.checkContains(new String[] { "true", "false" }, "footer", footerStr);
+        boolean footer = footerStr.equals("true");
+
         String resultAsEntityStr = this.retrievePropValueOrDefault("db_select", listExecResult, PROP_RESULT_AS_ENTITY,
                 "false");
         boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
@@ -55,14 +62,15 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             return this.createResult(listStr, listEntity);
         } else {
             List<List<String>> listListStr = retrieveListListStr(listExecResult, postMessage, dataSource, limitStr,
-                    avoidingClasses, header);
+                    avoidingClasses, header, footer);
             this.log(execParams, listListStr, null);
             return this.createResult(listListStr, null);
         }
     }
 
     public List<List<String>> retrieveListListStr(List<EpeExecResult> listExecResult, String postMessage,
-            DataSource dataSource, String limitStr, String avoidingClasses, boolean header) throws EpeAppException {
+            DataSource dataSource, String limitStr, String avoidingClasses, boolean header, boolean footer)
+            throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkEmpty("postMessage", postMessage);
         List<List<String>> listListStr = new ArrayList<>();
@@ -70,7 +78,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         for (int i = 1; i < listExecResult.size(); i++) {
             if (!this.isPropAt(listExecResult, i, postMessage)) {
                 String select = this.getStringAt(listExecResult, i, postMessage);
-                readQueryAsString(dataSource, select, limitStr, avoidingClasses, listListStr, header);
+                readQueryAsString(dataSource, select, limitStr, avoidingClasses, listListStr, header, footer);
             }
         }
 
@@ -94,7 +102,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     }
 
     public static void readQueryAsString(DataSource dataSource, String select, String limitStr, String avoidingClasses,
-            List<List<String>> listListStr, boolean header) throws EpeAppException {
+            List<List<String>> listListStr, boolean header, boolean footer) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
         EpeAppUtils.checkNull("select", select);
         EpeAppUtils.checkNull("listListStr", listListStr);
@@ -103,7 +111,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
-            readResultAsString(resultSet, listListStr, header, avoidingClasses);
+            readResultAsString(resultSet, listListStr, header, footer, avoidingClasses);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
@@ -157,7 +165,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     }
 
     public static void readResultAsString(ResultSet resultSet, List<List<String>> listListStr, boolean header,
-            String avoidingClasses) throws EpeAppException {
+            boolean footer, String avoidingClasses) throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listListStr", listListStr);
 
@@ -178,7 +186,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             }
 
             while (resultSet.next()) {
-                List<String> listStr = new ArrayList<>();
+                List<String> listStr = new ArrayList<>(resultSetMetaData.getColumnCount());
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     Object obj = resultSet.getObject(i + 1);
@@ -187,6 +195,10 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                 }
 
                 listListStr.add(listStr);
+            }
+
+            if (footer) {
+                listListStr.add(new ArrayList<String>());
             }
         } catch (Exception e) {
             throw new EpeAppException("Reading result set", e);
