@@ -1,5 +1,5 @@
 //H223 moana
-ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/netreg2", "SGE_MASTER", "SGE_MASTER");
+ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/netreg2", "sge_carryon", "sge_carryon");
 
 //H223 clarabella
 //ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/nettuno", "SGE_MASTER", "SGE_MASTER");
@@ -17,11 +17,11 @@ ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/netreg2", "SGE_MASTE
 	//"https://github.com/softwarelma/utils/releases");
 	//"https://confluence.tributi.eng.it/display/~gellison");
 
-select_conf_master = "select * from M_CONF_MODULO_MASTER";
-select_cont_dett = "select * from M_CONF_MODULO_DETTAGLIO";
-select_stag_master = "select * from M_STAGING_MASTER";
-select_stag_dett = "select * from M_STAGING_DETTAGLIO";
-select_stag_dett_valori = "select * from M_STAGING_DETT_VALORI";
+select_conf_master = "select * from C_MODULO_MASTER";
+select_cont_dett = "select * from C_MODULO_DETTAGLIO";
+select_stag_master = "select * from STAGING_MASTER";
+select_stag_dett = "select * from STAGING_DETTAGLIO";
+select_stag_dett_valori = "select * from STAGING_DETT_VALORI";
 
 rs = db_select(ds, prop("header=true"), prop("footer=true"), prop("limit=10"), prop("avoiding_classes=java.sql.Clob"), 
 	select_conf_master, select_cont_dett, select_stag_master, select_stag_dett, select_stag_dett_valori);
