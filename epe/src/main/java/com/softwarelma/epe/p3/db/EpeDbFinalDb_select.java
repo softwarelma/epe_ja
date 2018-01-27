@@ -21,6 +21,7 @@ import oracle.jdbc.pool.OracleDataSource;
 import oracle.jdbc.proxy.annotation.GetCreator;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
@@ -33,6 +34,10 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     public static final String PROP_RESULT_AS_ENTITY = "result_as_entity";
     public static final int PROP_LIMIT_DEFAULT = 10;
     public static final String PROP_AVOIDING_CLASSES = "avoiding_classes";
+
+    // comma-separated, eg "tables=t1" or "tables=t1,t2"
+    public static final String PROP_TABLES = "tables";
+
     private static final Map<String, DataSource> mapUrlAndDataSource = new HashMap<>();
 
     @Override
@@ -90,15 +95,28 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkEmpty("postMessage", postMessage);
         List<EpeDbEntity> listEntity = new ArrayList<>();
+        String[] arrayTable = this.retrieveTables(listExecResult);
+        int index = 0;
 
         for (int i = 1; i < listExecResult.size(); i++) {
             if (!this.isPropAt(listExecResult, i, postMessage)) {
                 String select = this.getStringAt(listExecResult, i, postMessage);
-                readQueryAsEntity(dataSource, select, limitStr, avoidingClasses, listEntity, header);
+
+                EpeAppUtils.checkRange(index, 0, arrayTable.length, false, true);
+                String table = arrayTable[index++];
+
+                readQueryAsEntity(dataSource, select, table, limitStr, avoidingClasses, listEntity, header);
             }
         }
 
         return listEntity;
+    }
+
+    public String[] retrieveTables(List<EpeExecResult> listExecResult) throws EpeAppException {
+        String tables = retrievePropValueOrNull("db_select", listExecResult, PROP_TABLES);
+        EpeAppUtils.checkEmpty("tables", tables);
+        String[] arrayTable = tables.split("\\,");
+        return arrayTable;
     }
 
     public static void readQueryAsString(DataSource dataSource, String select, String limitStr, String avoidingClasses,
@@ -117,28 +135,20 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static void readQueryAsEntity(DataSource dataSource, String select, String limitStr, String avoidingClasses,
-            List<EpeDbEntity> listEntity, boolean header) throws EpeAppException {
+    public static void readQueryAsEntity(DataSource dataSource, String select, String table, String limitStr,
+            String avoidingClasses, List<EpeDbEntity> listEntity, boolean header) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
         EpeAppUtils.checkNull("select", select);
         EpeAppUtils.checkNull("listEntity", listEntity);
         select = addLimits(dataSource, select, limitStr);
-        String table = retrieveTable(select);
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
-            readResultAsEntity(table, resultSet, listEntity, avoidingClasses);
+            readResultAsEntity(connection, table, resultSet, listEntity, avoidingClasses);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
-    }
-
-    // TODO use params for queries
-
-    public static String retrieveTable(String select) {
-        // TODO
-        return null;
     }
 
     public static String addLimits(DataSource dataSource, String select, String limitStr) throws EpeAppException {
@@ -157,8 +167,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         if (dataSourceClassName.endsWith(".OracleDataSource")) {
             return "SELECT * FROM (" + select + ") WHERE ROWNUM <= " + limit;
         } else if (dataSourceClassName.endsWith(".MysqlDataSource")) {
-            // TODO
-            return select;
+            return select + " limit 0, " + limit;
         } else {
             throw new EpeAppException("Unknown data source class name: " + dataSourceClassName);
         }
@@ -205,14 +214,15 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static void readResultAsEntity(String table, ResultSet resultSet, List<EpeDbEntity> listEntity,
-            String avoidingClasses) throws EpeAppException {
+    public static void readResultAsEntity(Connection connection, String table, ResultSet resultSet,
+            List<EpeDbEntity> listEntity, String avoidingClasses) throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listEntity", listEntity);
 
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            EpeDbMetaDataEntity metaData = readResultMetaData(table, resultSetMetaData);
+            EpeDbMetaDataEntity metaData = readResultMetaData(connection, table, resultSetMetaData);
+            String attribute;
             Map<String, Object> mapAttAndValue;
             EpeDbEntity entity;
 
@@ -221,7 +231,9 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     Object obj = resultSet.getObject(i + 1);
-                    mapAttAndValue.put(resultSetMetaData.getColumnName(i + 1), obj);
+                    attribute = resultSetMetaData.getColumnName(i + 1);
+                    mapAttAndValue.put(attribute, obj);
+                    metaData.setColumnClassNameIfNotNull(attribute, obj);
                 }
 
                 entity = new EpeDbEntity(metaData, mapAttAndValue);
@@ -234,8 +246,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static EpeDbMetaDataEntity readResultMetaData(String table, ResultSetMetaData resultSetMetaData)
-            throws EpeAppException {
+    public static EpeDbMetaDataEntity readResultMetaData(Connection connection, String table,
+            ResultSetMetaData resultSetMetaData) throws EpeAppException {
         EpeAppUtils.checkEmpty("table", table);
         EpeAppUtils.checkNull("resultSetMetaData", resultSetMetaData);
         List<String> listAtrribute = new ArrayList<String>();
@@ -247,7 +259,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                 atrribute = resultSetMetaData.getColumnName(i + 1);
                 listAtrribute.add(atrribute);
-                metaDataColumn = readResultMetaDataColumn(resultSetMetaData, i + 1);
+                metaDataColumn = readResultMetaDataColumn(connection, table, resultSetMetaData, i + 1);
                 mapAttAndMetaAtt.put(atrribute, metaDataColumn);
             }
         } catch (EpeAppException e) {
@@ -260,24 +272,87 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         return metaData;
     }
 
-    public static EpeDbMetaDataColumn readResultMetaDataColumn(ResultSetMetaData resultSetMetaData, int ind1Based)
-            throws EpeAppException {
+    public static EpeDbMetaDataColumn readResultMetaDataColumn(Connection connection, String table,
+            ResultSetMetaData resultSetMetaData, int ind1Based) throws EpeAppException {
         EpeAppUtils.checkNull("resultSetMetaData", resultSetMetaData);
 
         try {
             String column = resultSetMetaData.getColumnName(ind1Based);
-            String className;// TODO
+            String className = null;// when retrieving the objects
             int precision = resultSetMetaData.getPrecision(ind1Based);
             int scale = resultSetMetaData.getScale(ind1Based);
-            boolean nullable;// TODO
-            Object defaultValue;// TODO
+            boolean nullable = resultSetMetaData.isNullable(ind1Based) == ResultSetMetaData.columnNullable;
+            String[] columnDefaultAndComment = retrieveColumnDefaultAndComment(connection, table, column);
+            String defaultValue = columnDefaultAndComment[0];
+            String comment = columnDefaultAndComment[1];
 
-            EpeDbMetaDataColumn metaDataColumn = null;// TODO
-            // new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
-            // defaultValue);
+            EpeDbMetaDataColumn metaDataColumn = new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
+                    defaultValue, comment);
             return metaDataColumn;
         } catch (Exception e) {
             throw new EpeAppException("Reading result set column meta data", e);
+        }
+    }
+
+    public static String[] retrieveColumnDefaultAndComment(Connection connection, String table, String column)
+            throws EpeAppException {
+        try {
+            DatabaseMetaData md = connection.getMetaData();
+            ResultSet rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toLowerCase(),
+                    column.toLowerCase());
+            boolean printEnable = false;
+
+            if (rs.next()) {
+                if (printEnable) {
+                    printResultSetRecord(table, column, rs);
+                }
+
+                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
+            }
+
+            rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toLowerCase(), column.toUpperCase());
+            if (rs.next()) {
+                if (printEnable) {
+                    printResultSetRecord(table, column, rs);
+                }
+
+                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
+            }
+
+            rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toUpperCase(), column.toLowerCase());
+            if (rs.next()) {
+                if (printEnable) {
+                    printResultSetRecord(table, column, rs);
+                }
+
+                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
+            }
+
+            rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toUpperCase(), column.toUpperCase());
+            if (rs.next()) {
+                if (printEnable) {
+                    printResultSetRecord(table, column, rs);
+                }
+
+                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
+            }
+
+            return null;
+        } catch (SQLException e) {
+            throw new EpeAppException("When retrieving metadata for " + table + "." + column, e);
+        }
+    }
+
+    private static void printResultSetRecord(String table, String column, ResultSet rs) throws EpeAppException {
+        try {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            EpeAppLogger.log("col " + column);
+
+            for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                EpeAppLogger.log("    " + rsmd.getColumnName(i + 1) + " = " + rs.getString(i + 1));
+            }
+        } catch (SQLException e) {
+            throw new EpeAppException("When printing metadata for " + table + "." + column, e);
         }
     }
 
@@ -304,21 +379,6 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         } catch (SQLException e) {
             throw new EpeAppException(e.getMessage(), e);
         }
-    }
-
-    // TODO test
-    public String getColumnDefaultValue(Connection conn, String TableName, String ColumnName) throws Exception {
-        String columnDefaultVal = "";
-        DatabaseMetaData md = conn.getMetaData();
-        ResultSet rs = md.getColumns(conn.getCatalog(), md.getUserName(), TableName, ColumnName);
-
-        if (rs.next()) {
-            columnDefaultVal = rs.getString("COLUMN_DEF");
-        }
-
-        System.out.println("Default Value of Column is " + columnDefaultVal);
-        return columnDefaultVal;
-
     }
 
 }

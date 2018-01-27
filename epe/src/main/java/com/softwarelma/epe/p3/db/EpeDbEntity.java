@@ -21,32 +21,38 @@ public class EpeDbEntity implements Serializable {
 
     public EpeDbEntity(EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue) throws EpeAppException {
         EpeAppUtils.checkNull("metaData", metaData);
-        EpeAppUtils.checkEmptyMap("mapAttAndValue", mapAttAndValue);
-        Set<String> setAtt = mapAttAndValue.keySet();
-        metaData.validateSetAttribute(setAtt);
-        boolean insert = this.getLong(EpeDbEntityColumns.ID) == null;
+        this.metaData = metaData;
+        this.mapAttAndValue = this.retrieveMapAttAndValueNorm(mapAttAndValue);
+        Set<String> setAtt = this.mapAttAndValue.keySet();
+        this.metaData.validateSetAttribute(setAtt);
+        boolean insert = this.get(EpeDbEntityColumns.ID) == null;
+        // boolean insert = this.getLong(EpeDbEntityColumns.ID) == null;
 
         if (!insert) {
             Object value;
 
             for (String attribute : setAtt) {
-                value = mapAttAndValue.get(attribute);
-                metaData.validateTypeAndNullable(attribute, value);
+                value = this.mapAttAndValue.get(attribute);
+                this.metaData.validateTypeAndNullable(attribute, value);
             }
         }
 
-        this.metaData = metaData;
-        this.mapAttAndValue = new HashMap<>(mapAttAndValue);
         this.insert = insert;
         this.listAttUpdated = new ArrayList<>();
     }
 
     private EpeDbEntity(boolean insert, EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue,
-            List<String> listAttUpdated) {
+            List<String> listAttUpdated) throws EpeAppException {
         this.insert = insert;
         this.metaData = metaData;
-        this.mapAttAndValue = mapAttAndValue;
+        this.mapAttAndValue = this.retrieveMapAttAndValueNorm(mapAttAndValue);
         this.listAttUpdated = listAttUpdated;
+    }
+
+    @Override
+    public String toString() {
+        return "\nEpeDbEntity [\n  insert=" + insert + ",\n  metaData=" + metaData + ",\n  mapAttAndValue="
+                + mapAttAndValue + ",\n  listAttUpdated=" + listAttUpdated + "]";
     }
 
     public EpeDbEntity retrieveClone() throws EpeAppException {
@@ -54,6 +60,18 @@ public class EpeDbEntity implements Serializable {
         List<String> listAttOriginal = new ArrayList<>(this.listAttUpdated);
         EpeDbEntity clone = new EpeDbEntity(this.insert, this.metaData, mapAttAndValue, listAttOriginal);
         return clone;
+    }
+
+    private Map<String, Object> retrieveMapAttAndValueNorm(Map<String, Object> mapAttAndValue) throws EpeAppException {
+        EpeAppUtils.checkEmptyMap("mapAttAndValue", mapAttAndValue);
+        Map<String, Object> mapAttAndValueNorm = new HashMap<>();
+
+        for (String attribute : mapAttAndValue.keySet()) {
+            EpeAppUtils.checkEmpty("attribute", attribute);
+            mapAttAndValueNorm.put(attribute.toUpperCase(), mapAttAndValue.get(attribute));
+        }
+
+        return mapAttAndValueNorm;
     }
 
     public boolean isInsert() {
@@ -141,8 +159,8 @@ public class EpeDbEntity implements Serializable {
     private String retrieveDescriptionShortOrLong(boolean shortDescr, String descriptionTemplate,
             String descriptionColumns) throws EpeAppException {
         if (EpeAppUtils.isEmpty(descriptionTemplate) || EpeAppUtils.isEmpty(descriptionColumns)) {
-            return shortDescr ? this.getString(EpeDbEntityColumns.NAME) : "(" + this.get(EpeDbEntityColumns.ID) + ") "
-                    + this.getString(EpeDbEntityColumns.NAME);
+            return shortDescr ? this.getString(EpeDbEntityColumns.NAME)
+                    : "(" + this.get(EpeDbEntityColumns.ID) + ") " + this.getString(EpeDbEntityColumns.NAME);
         }
 
         String[] arrayAttribute = descriptionColumns.split(Pattern.quote(","));

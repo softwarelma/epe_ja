@@ -31,6 +31,10 @@ public final class EpeDbFinalEntity_to_string extends EpeDbAbstract {
         Class<?> clazz = obj.getClass();
         String str;
 
+        if (avoidingClasses.contains("," + clazz.getName() + ",")) {
+            return "[" + clazz.getName() + "]";
+        }
+
         if (obj instanceof String) {
             str = obj.toString();
         } else if (obj instanceof BigDecimal) {
@@ -43,10 +47,6 @@ public final class EpeDbFinalEntity_to_string extends EpeDbAbstract {
             str = str.endsWith("000000") ? str.substring(0, 8) : str;
             System.out.println("timestamp=" + str);
         } else if (obj instanceof Clob) {
-            if (avoidingClasses.contains("," + Clob.class.getName() + ",")) {
-                return "[HIDDEN]";
-            }
-
             try {
                 Clob clob = (Clob) obj;
                 str = clob.getSubString(1, (int) clob.length());

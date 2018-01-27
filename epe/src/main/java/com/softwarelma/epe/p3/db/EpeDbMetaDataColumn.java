@@ -9,32 +9,37 @@ public class EpeDbMetaDataColumn implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private final String column;
-    private final String className;
+
+    // if the obj of the record is null it could be set on another record
+    private String className;
+
     private final int precision;
     private final int scale;
     private final boolean nullable;
-    private final Object defaultValue;
+    private final String defaultValue;
+    private final String comment;
 
     /*
      * types of col/att: long, dec, date, tms, str fix, str var, clob, blob
      */
 
     public EpeDbMetaDataColumn(String column, String className, int precision, int scale, boolean nullable,
-            Object defaultValue) throws EpeAppException {
+            String defaultValue, String comment) throws EpeAppException {
         EpeAppUtils.checkEmpty("column", column);
-        EpeAppUtils.checkEmpty("className", className);
         this.column = column.toUpperCase();
         this.className = className;
         this.precision = precision;
         this.scale = scale;
         this.nullable = nullable;
         this.defaultValue = defaultValue;
+        this.comment = comment;
     }
 
     @Override
     public String toString() {
-        return this.getClass().getName() + " [column=" + column + ", className=" + className + ", precision="
-                + precision + ", scale=" + scale + "]";
+        return "EpeDbMetaDataColumn [column=" + column + ", className=" + className + ", precision=" + precision
+                + ", scale=" + scale + ", nullable=" + nullable + ", defaultValue=" + defaultValue + ", comment="
+                + comment + "]";
     }
 
     @Override
@@ -82,6 +87,10 @@ public class EpeDbMetaDataColumn implements Serializable {
         return className;
     }
 
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     public int getPrecision() {
         return precision;
     }
@@ -94,8 +103,12 @@ public class EpeDbMetaDataColumn implements Serializable {
         return nullable;
     }
 
-    public Object getDefaultValue() {
+    public String getDefaultValue() {
         return defaultValue;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
 }
