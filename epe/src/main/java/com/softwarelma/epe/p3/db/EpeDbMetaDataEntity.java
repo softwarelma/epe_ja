@@ -153,14 +153,17 @@ public class EpeDbMetaDataEntity implements Serializable {
     }
 
     public boolean isSystemTable() {
+        // TODO not yet used
         return this.table.startsWith(EpeDbEntityTables.TABLE_PREFIX_SYS);
     }
 
     public boolean isAdminTable() {
+        // TODO not yet used
         return this.table.startsWith(EpeDbEntityTables.TABLE_PREFIX_DMN);
     }
 
     public boolean isFinalTable() {
+        // TODO not yet used
         return this.table.startsWith(EpeDbEntityTables.TABLE_PREFIX_FNL);
     }
 

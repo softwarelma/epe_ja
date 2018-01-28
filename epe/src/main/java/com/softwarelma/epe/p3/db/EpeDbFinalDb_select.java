@@ -1,24 +1,17 @@
 package com.softwarelma.epe.p3.db;
 
-import java.math.BigDecimal;
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
-
-import oracle.jdbc.pool.OracleDataSource;
-import oracle.jdbc.proxy.annotation.GetCreator;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
@@ -38,12 +31,10 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     // comma-separated, eg "tables=t1" or "tables=t1,t2"
     public static final String PROP_TABLES = "tables";
 
-    private static final Map<String, DataSource> mapUrlAndDataSource = new HashMap<>();
-
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "db_select, expected the data source and the select.";
-        DataSource dataSource = this.getDataSourceAt(listExecResult, 0, postMessage);
+        DataSource dataSource = getDataSourceAt(listExecResult, 0, postMessage);
         String limitStr = retrievePropValueOrNull("db_select", listExecResult, PROP_LIMIT);
         String avoidingClasses = retrievePropValueOrNull("db_select", listExecResult, PROP_AVOIDING_CLASSES);
 
@@ -55,7 +46,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         EpeAppUtils.checkContains(new String[] { "true", "false" }, "footer", footerStr);
         boolean footer = footerStr.equals("true");
 
-        String resultAsEntityStr = this.retrievePropValueOrDefault("db_select", listExecResult, PROP_RESULT_AS_ENTITY,
+        String resultAsEntityStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_RESULT_AS_ENTITY,
                 "false");
         boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
 
@@ -64,12 +55,12 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                     avoidingClasses, header);
             // this.log(execParams, listEntity);
             List<String> listStr = new ArrayList<>();// for future usage
-            return this.createResult(listStr, listEntity);
+            return createResult(listStr, listEntity);
         } else {
             List<List<String>> listListStr = retrieveListListStr(listExecResult, postMessage, dataSource, limitStr,
                     avoidingClasses, header, footer);
-            this.log(execParams, listListStr, null);
-            return this.createResult(listListStr, null);
+            log(execParams, listListStr, null);
+            return createResult(listListStr, null);
         }
     }
 
@@ -81,8 +72,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         List<List<String>> listListStr = new ArrayList<>();
 
         for (int i = 1; i < listExecResult.size(); i++) {
-            if (!this.isPropAt(listExecResult, i, postMessage)) {
-                String select = this.getStringAt(listExecResult, i, postMessage);
+            if (!isPropAt(listExecResult, i, postMessage)) {
+                String select = getStringAt(listExecResult, i, postMessage);
                 readQueryAsString(dataSource, select, limitStr, avoidingClasses, listListStr, header, footer);
             }
         }
@@ -99,8 +90,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         int index = 0;
 
         for (int i = 1; i < listExecResult.size(); i++) {
-            if (!this.isPropAt(listExecResult, i, postMessage)) {
-                String select = this.getStringAt(listExecResult, i, postMessage);
+            if (!isPropAt(listExecResult, i, postMessage)) {
+                String select = getStringAt(listExecResult, i, postMessage);
 
                 EpeAppUtils.checkRange(index, 0, arrayTable.length, false, true);
                 String table = arrayTable[index++];
@@ -356,26 +347,30 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    // //////////////////////////////////////////////
-
-    // TODO test 4 tabs
-    public static void getCols(Connection connection) throws EpeAppException {
+    public static Map<String, List<String>> retrieveMapTableAndListColumn(Connection connection, String table)
+            throws EpeAppException {
         try {
-            DatabaseMetaData dmd = connection.getMetaData();
-            ResultSet rs = dmd.getTables(null, "SGE_MASTER", "C_DYQE%", null);
-            ResultSetMetaData rsmd = rs.getMetaData();
+            table = table == null ? "%" : table;
+            DatabaseMetaData md = connection.getMetaData();
+            List<String> listTable = new ArrayList<>();
+            ResultSet rs = md.getTables(null, md.getUserName(), table.toUpperCase(), null);
+            if (rs.next())
+                rs.beforeFirst();
+            else
+                rs = md.getTables(null, md.getUserName(), table.toLowerCase(), null);
+            while (rs.next())
+                listTable.add(rs.getString(3));
+            Map<String, List<String>> retrieveMapTableAndListColumn = new HashMap<>();
 
-            // for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-            // System.out.print(rsmd.getColumnName(i) + "\t");
-            // }
-
-            while (rs.next()) {
-                System.out.println();
-                // for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.print(rs.getObject(3));
-                // }
+            for (String tableI : listTable) {
+                List<String> listColumn = new ArrayList<>();
+                retrieveMapTableAndListColumn.put(tableI.toUpperCase(), listColumn);
+                rs = md.getColumns(null, md.getUserName(), tableI, null);
+                while (rs.next())
+                    listColumn.add(rs.getString("COLUMN_NAME").toUpperCase());
             }
-            System.out.println();
+
+            return retrieveMapTableAndListColumn;
         } catch (SQLException e) {
             throw new EpeAppException(e.getMessage(), e);
         }

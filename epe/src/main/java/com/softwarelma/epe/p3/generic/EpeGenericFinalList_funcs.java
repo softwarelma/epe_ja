@@ -24,10 +24,10 @@ public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "list_funcs, expected optionally the package (db, disk, echo, generic, print, xml, etc.";
-        String pack = this.getStringAt(listExecResult, 0, postMessage, null);
+        String pack = getStringAt(listExecResult, 0, postMessage, null);
         List<String> listFunc = pack == null ? retriveListFuncAll() : retriveListFunc(pack);
-        this.log(execParams, listFunc);
-        return this.createResult(listFunc);
+        log(execParams, listFunc);
+        return createResult(listFunc);
     }
 
     public static List<String> retriveListFuncAll() throws EpeAppException {
@@ -69,7 +69,8 @@ public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
     }
 
     /**
-     * Attempts to list all the classes in the specified package as determined by the context class loader
+     * Attempts to list all the classes in the specified package as determined
+     * by the context class loader
      * 
      * @param pckgname
      *            the package name to search
@@ -99,20 +100,20 @@ public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
                         try {
                             checkDirectory(new File(URLDecoder.decode(url.getPath(), "UTF-8")), pckgname, classes);
                         } catch (final UnsupportedEncodingException ex) {
-                            throw new ClassNotFoundException(pckgname
-                                    + " does not appear to be a valid package (Unsupported encoding)", ex);
+                            throw new ClassNotFoundException(
+                                    pckgname + " does not appear to be a valid package (Unsupported encoding)", ex);
                         }
                     } else
-                        throw new ClassNotFoundException(pckgname + " (" + url.getPath()
-                                + ") does not appear to be a valid package");
+                        throw new ClassNotFoundException(
+                                pckgname + " (" + url.getPath() + ") does not appear to be a valid package");
                 } catch (final IOException ioex) {
-                    throw new ClassNotFoundException("IOException was thrown when trying to get all resources for "
-                            + pckgname, ioex);
+                    throw new ClassNotFoundException(
+                            "IOException was thrown when trying to get all resources for " + pckgname, ioex);
                 }
             }
         } catch (final NullPointerException ex) {
-            throw new ClassNotFoundException(pckgname
-                    + " does not appear to be a valid package (Null pointer exception)", ex);
+            throw new ClassNotFoundException(
+                    pckgname + " does not appear to be a valid package (Null pointer exception)", ex);
         } catch (final IOException ioex) {
             throw new ClassNotFoundException("IOException was thrown when trying to get all resources for " + pckgname,
                     ioex);
@@ -127,7 +128,8 @@ public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
      * @param directory
      *            The directory to start with
      * @param pckgname
-     *            The package name to search for. Will be needed for getting the Class object.
+     *            The package name to search for. Will be needed for getting the
+     *            Class object.
      * @param classes
      *            if a file isn't loaded but still is in the directory
      * @throws ClassNotFoundException
@@ -162,7 +164,8 @@ public final class EpeGenericFinalList_funcs extends EpeGenericAbstract {
      * @param pckgname
      *            the package name to search for
      * @param classes
-     *            the current ArrayList of all classes. This method will simply add new classes.
+     *            the current ArrayList of all classes. This method will simply
+     *            add new classes.
      * @throws ClassNotFoundException
      *             if a file isn't loaded but still is in the jar file
      * @throws IOException
