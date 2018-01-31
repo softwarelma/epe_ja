@@ -360,17 +360,17 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                 rs = md.getTables(null, md.getUserName(), table.toLowerCase(), null);
             while (rs.next())
                 listTable.add(rs.getString(3));
-            Map<String, List<String>> retrieveMapTableAndListColumn = new HashMap<>();
+            Map<String, List<String>> mapTableAndListColumn = new HashMap<>();
 
             for (String tableI : listTable) {
                 List<String> listColumn = new ArrayList<>();
-                retrieveMapTableAndListColumn.put(tableI.toUpperCase(), listColumn);
+                mapTableAndListColumn.put(tableI.toUpperCase(), listColumn);
                 rs = md.getColumns(null, md.getUserName(), tableI, null);
                 while (rs.next())
                     listColumn.add(rs.getString("COLUMN_NAME").toUpperCase());
             }
 
-            return retrieveMapTableAndListColumn;
+            return mapTableAndListColumn;
         } catch (SQLException e) {
             throw new EpeAppException(e.getMessage(), e);
         }
