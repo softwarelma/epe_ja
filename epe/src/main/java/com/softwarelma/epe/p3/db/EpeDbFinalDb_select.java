@@ -51,8 +51,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
 
         if (resultAsEntity) {
-            List<EpeDbEntity> listEntity = retrieveListEntity(listExecResult, postMessage, dataSource, limitStr,
-                    avoidingClasses, header);
+            List<EpeDbEntity> listEntity = retrieveListEntity(listExecResult, postMessage, dataSource, limitStr);
             // this.log(execParams, listEntity);
             List<String> listStr = new ArrayList<>();// for future usage
             return createResult(listStr, listEntity);
@@ -82,7 +81,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     }
 
     public List<EpeDbEntity> retrieveListEntity(List<EpeExecResult> listExecResult, String postMessage,
-            DataSource dataSource, String limitStr, String avoidingClasses, boolean header) throws EpeAppException {
+            DataSource dataSource, String limitStr) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkEmpty("postMessage", postMessage);
         List<EpeDbEntity> listEntity = new ArrayList<>();
@@ -96,7 +95,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                 EpeAppUtils.checkRange(index, 0, arrayTable.length, false, true);
                 String table = arrayTable[index++];
 
-                readQueryAsEntity(dataSource, select, table, limitStr, avoidingClasses, listEntity, header);
+                readQueryAsEntity(dataSource, select, table, limitStr, listEntity);
             }
         }
 
@@ -127,7 +126,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     }
 
     public static void readQueryAsEntity(DataSource dataSource, String select, String table, String limitStr,
-            String avoidingClasses, List<EpeDbEntity> listEntity, boolean header) throws EpeAppException {
+            List<EpeDbEntity> listEntity) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
         EpeAppUtils.checkNull("select", select);
         EpeAppUtils.checkNull("listEntity", listEntity);
@@ -136,7 +135,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
-            readResultAsEntity(connection, table, resultSet, listEntity, avoidingClasses);
+            readResultAsEntity(connection, table, resultSet, listEntity);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
@@ -206,7 +205,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
     }
 
     public static void readResultAsEntity(Connection connection, String table, ResultSet resultSet,
-            List<EpeDbEntity> listEntity, String avoidingClasses) throws EpeAppException {
+            List<EpeDbEntity> listEntity) throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listEntity", listEntity);
 
