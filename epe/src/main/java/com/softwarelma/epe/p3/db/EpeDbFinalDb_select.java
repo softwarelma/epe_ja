@@ -177,7 +177,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     // listEmtpy.add("");
-                    colNames.add(resultSetMetaData.getColumnName(i + 1));
+                    colNames.add(resultSetMetaData.getColumnLabel(i + 1));
                 }
 
                 // listListStr.add(listEmtpy);
@@ -189,7 +189,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     Object obj = resultSet.getObject(i + 1);
-                    listStr.add(EpeDbFinalEntity_to_string.toString(resultSetMetaData.getColumnName(i + 1), obj,
+                    listStr.add(EpeDbFinalEntity_to_string.toString(resultSetMetaData.getColumnLabel(i + 1), obj,
                             avoidingClasses));
                 }
 
@@ -221,7 +221,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
                 for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
                     Object obj = resultSet.getObject(i + 1);
-                    attribute = resultSetMetaData.getColumnName(i + 1);
+                    attribute = resultSetMetaData.getColumnLabel(i + 1);
                     mapAttAndValue.put(attribute, obj);
                     metaData.setColumnClassNameIfNotNull(attribute, obj);
                 }
@@ -247,7 +247,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
         try {
             for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
-                atrribute = resultSetMetaData.getColumnName(i + 1);
+                atrribute = resultSetMetaData.getColumnLabel(i + 1);
                 listAtrribute.add(atrribute);
                 metaDataColumn = readResultMetaDataColumn(connection, table, resultSetMetaData, i + 1);
                 mapAttAndMetaAtt.put(atrribute, metaDataColumn);
@@ -267,14 +267,14 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         EpeAppUtils.checkNull("resultSetMetaData", resultSetMetaData);
 
         try {
-            String column = resultSetMetaData.getColumnName(ind1Based);
+            String column = resultSetMetaData.getColumnLabel(ind1Based);
             String className = null;// when retrieving the objects
             int precision = resultSetMetaData.getPrecision(ind1Based);
             int scale = resultSetMetaData.getScale(ind1Based);
             boolean nullable = resultSetMetaData.isNullable(ind1Based) == ResultSetMetaData.columnNullable;
             String[] columnDefaultAndComment = retrieveColumnDefaultAndComment(connection, table, column);
-            String defaultValue = columnDefaultAndComment[0];
-            String comment = columnDefaultAndComment[1];
+            String defaultValue = columnDefaultAndComment == null ? null : columnDefaultAndComment[0];
+            String comment = columnDefaultAndComment == null ? null : columnDefaultAndComment[1];
 
             EpeDbMetaDataColumn metaDataColumn = new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
                     defaultValue, comment);
@@ -339,7 +339,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             EpeAppLogger.log("col " + column);
 
             for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                EpeAppLogger.log("    " + rsmd.getColumnName(i + 1) + " = " + rs.getString(i + 1));
+                EpeAppLogger.log("    " + rsmd.getColumnLabel(i + 1) + " = " + rs.getString(i + 1));
             }
         } catch (SQLException e) {
             throw new EpeAppException("When printing metadata for " + table + "." + column, e);
