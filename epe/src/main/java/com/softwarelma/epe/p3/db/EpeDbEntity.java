@@ -13,192 +13,213 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public class EpeDbEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private boolean insert;
-    private final EpeDbMetaDataEntity metaData;
-    private final Map<String, Object> mapAttAndValue;
-    private final List<String> listAttUpdated;
+	private static final long serialVersionUID = 1L;
+	private boolean insert;
+	private final EpeDbMetaDataEntity metaData;
+	private final Map<String, Object> mapAttAndValue;
+	private final List<String> listAttUpdated;
 
-    public EpeDbEntity(EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue) throws EpeAppException {
-        EpeAppUtils.checkNull("metaData", metaData);
-        this.metaData = metaData;
-        this.mapAttAndValue = this.retrieveMapAttAndValueNorm(mapAttAndValue);
-        Set<String> setAtt = this.mapAttAndValue.keySet();
-        this.metaData.validateSetAttribute(setAtt);
-        boolean insert = this.get(EpeDbEntityColumns.ID) == null;
-        // boolean insert = this.getLong(EpeDbEntityColumns.ID) == null;
+	public static Map<String, Object> retrieveVoidMapAttAndValue(EpeDbMetaDataEntity metaData) throws EpeAppException {
+		Map<String, Object> mapAttAndValue = new HashMap<>();
+		for (int i = 0; i < metaData.getCols(); i++)
+			mapAttAndValue.put(metaData.getAttribute(i), null);
+		return mapAttAndValue;
+	}
 
-        if (!insert) {
-            Object value;
+	public EpeDbEntity(EpeDbMetaDataEntity metaData) throws EpeAppException {
+		this(metaData, retrieveVoidMapAttAndValue(metaData));
+	}
 
-            for (String attribute : setAtt) {
-                value = this.mapAttAndValue.get(attribute);
-                this.metaData.validateTypeAndNullable(attribute, value);
-            }
-        }
+	public EpeDbEntity(EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue) throws EpeAppException {
+		EpeAppUtils.checkNull("metaData", metaData);
+		this.metaData = metaData;
+		this.mapAttAndValue = this.retrieveMapAttAndValueNorm(mapAttAndValue);
+		Set<String> setAtt = this.mapAttAndValue.keySet();
+		this.metaData.validateSetAttribute(setAtt);
+		boolean insert = this.getOrNull(EpeDbEntityColumns.ID) == null;
+		// boolean insert = this.getLong(EpeDbEntityColumns.ID) == null;
 
-        this.insert = insert;
-        this.listAttUpdated = new ArrayList<>();
-    }
+		if (!insert) {
+			Object value;
 
-    private EpeDbEntity(boolean insert, EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue,
-            List<String> listAttUpdated) throws EpeAppException {
-        this.insert = insert;
-        this.metaData = metaData;
-        this.mapAttAndValue = this.retrieveMapAttAndValueNorm(mapAttAndValue);
-        this.listAttUpdated = listAttUpdated;
-    }
+			for (String attribute : setAtt) {
+				value = this.mapAttAndValue.get(attribute);
+				this.metaData.validateTypeAndNullable(attribute, value);
+			}
+		}
 
-    @Override
-    public String toString() {
-        return "\nEpeDbEntity [\n  insert=" + insert + ",\n  metaData=" + metaData + ",\n  mapAttAndValue="
-                + mapAttAndValue + ",\n  listAttUpdated=" + listAttUpdated + "]";
-    }
+		this.insert = insert;
+		this.listAttUpdated = new ArrayList<>();
+	}
 
-    public EpeDbEntity retrieveClone() throws EpeAppException {
-        Map<String, Object> mapAttAndValue = new HashMap<>(this.mapAttAndValue);
-        List<String> listAttOriginal = new ArrayList<>(this.listAttUpdated);
-        EpeDbEntity clone = new EpeDbEntity(this.insert, this.metaData, mapAttAndValue, listAttOriginal);
-        return clone;
-    }
+	private EpeDbEntity(boolean insert, EpeDbMetaDataEntity metaData, Map<String, Object> mapAttAndValue,
+			List<String> listAttUpdated) throws EpeAppException {
+		this.insert = insert;
+		this.metaData = metaData;
+		this.mapAttAndValue = this.retrieveMapAttAndValueNorm(mapAttAndValue);
+		this.listAttUpdated = listAttUpdated;
+	}
 
-    private Map<String, Object> retrieveMapAttAndValueNorm(Map<String, Object> mapAttAndValue) throws EpeAppException {
-        EpeAppUtils.checkEmptyMap("mapAttAndValue", mapAttAndValue);
-        Map<String, Object> mapAttAndValueNorm = new HashMap<>();
+	@Override
+	public String toString() {
+		return "\nEpeDbEntity [\n  insert=" + insert + ",\n  metaData=" + metaData + ",\n  mapAttAndValue="
+				+ mapAttAndValue + ",\n  listAttUpdated=" + listAttUpdated + "]";
+	}
 
-        for (String attribute : mapAttAndValue.keySet()) {
-            EpeAppUtils.checkEmpty("attribute", attribute);
-            mapAttAndValueNorm.put(attribute.toUpperCase(), mapAttAndValue.get(attribute));
-        }
+	public EpeDbEntity retrieveClone() throws EpeAppException {
+		Map<String, Object> mapAttAndValue = new HashMap<>(this.mapAttAndValue);
+		List<String> listAttOriginal = new ArrayList<>(this.listAttUpdated);
+		EpeDbEntity clone = new EpeDbEntity(this.insert, this.metaData, mapAttAndValue, listAttOriginal);
+		return clone;
+	}
 
-        return mapAttAndValueNorm;
-    }
+	private Map<String, Object> retrieveMapAttAndValueNorm(Map<String, Object> mapAttAndValue) throws EpeAppException {
+		EpeAppUtils.checkEmptyMap("mapAttAndValue", mapAttAndValue);
+		Map<String, Object> mapAttAndValueNorm = new HashMap<>();
 
-    public boolean isInsert() {
-        return insert;
-    }
+		for (String attribute : mapAttAndValue.keySet()) {
+			EpeAppUtils.checkEmpty("attribute", attribute);
+			mapAttAndValueNorm.put(attribute.toUpperCase(), mapAttAndValue.get(attribute));
+		}
 
-    public void setInsert(boolean insert) {
-        this.insert = insert;
-    }
+		return mapAttAndValueNorm;
+	}
 
-    public EpeDbMetaDataEntity getMetaData() {
-        return metaData;
-    }
+	public boolean isInsert() {
+		return insert;
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> T getWithType(String attribute, Class<T> clazz) throws EpeAppException {
-        Object value = this.get(attribute);
-        EpeAppUtils.checkInstanceOf(attribute, value, clazz);
-        return (T) value;
-    }
+	public void setInsert(boolean insert) {
+		this.insert = insert;
+	}
 
-    public Long getLong(String attribute) throws EpeAppException {
-        return this.getWithType(attribute, Long.class);
-    }
+	public EpeDbMetaDataEntity getMetaData() {
+		return metaData;
+	}
 
-    /**
-     * the type of the value must be String
-     */
-    public String getString(String attribute) throws EpeAppException {
-        return this.getWithType(attribute, String.class);
-    }
+	@SuppressWarnings("unchecked")
+	public <T> T getWithType(String attribute, Class<T> clazz) throws EpeAppException {
+		Object value = this.get(attribute);
+		EpeAppUtils.checkInstanceOf(attribute, value, clazz);
+		return (T) value;
+	}
 
-    /**
-     * The type of the value gets converted to String. Null becomes "".
-     */
-    public String getToString(String attribute) throws EpeAppException {
-        String className = this.metaData.getClassName(attribute);
-        Object value = this.get(attribute);
+	public Long getLong(String attribute) throws EpeAppException {
+		return this.getWithType(attribute, Long.class);
+	}
 
-        if (value == null) {
-            return "";
-        } else if (className.equals(String.class.getName())) {
-            return value.toString();
-        } else {
-            throw new EpeAppException("Unknown class " + className);
-        }
-    }
+	/**
+	 * the type of the value must be String
+	 */
+	public String getString(String attribute) throws EpeAppException {
+		return this.getWithType(attribute, String.class);
+	}
 
-    public Object get(String attribute) throws EpeAppException {
-        EpeAppUtils.checkEmpty("attribute", attribute);
-        attribute = attribute.toUpperCase();
-        EpeAppUtils.checkContains(this.mapAttAndValue.keySet(), "attribute", attribute);
-        Object value = this.mapAttAndValue.get(attribute);
-        this.metaData.validateTypeAndNullable(attribute, value);
-        return value;
-    }
+	/**
+	 * The type of the value gets converted to String. Null becomes "".
+	 */
+	public String getToString(String attribute) throws EpeAppException {
+		String className = this.metaData.getClassName(attribute);
+		Object value = this.get(attribute);
 
-    public void set(String attribute, Object value) throws EpeAppException {
-        EpeAppUtils.checkEmpty("attribute", attribute);
-        attribute = attribute.toUpperCase();
-        EpeAppUtils.checkContains(this.mapAttAndValue.keySet(), "attribute", attribute);
-        this.metaData.validateTypeAndNullable(attribute, value);
-        this.mapAttAndValue.put(attribute, value);
+		if (value == null) {
+			return "";
+		} else if (className.equals(String.class.getName())) {
+			return value.toString();
+		} else {
+			throw new EpeAppException("Unknown class " + className);
+		}
+	}
 
-        if (!this.listAttUpdated.contains(attribute)) {
-            this.listAttUpdated.add(attribute);
-        }
-    }
+	public Object getOrNull(String attribute) throws EpeAppException {
+		EpeAppUtils.checkEmpty("attribute", attribute);
+		attribute = attribute.toUpperCase();
+		EpeAppUtils.checkContains(this.mapAttAndValue.keySet(), "attribute", attribute);
+		return this.mapAttAndValue.get(attribute);
+	}
 
-    public void setFromString(String attribute, String valueStr) throws EpeAppException {
-        String className = this.metaData.getClassName(attribute);
-        Object value;
+	public Object get(String attribute) throws EpeAppException {
+		Object value = this.getOrNull(attribute);
+		this.metaData.validateTypeAndNullable(attribute, value);
+		return value;
+	}
 
-        if (valueStr == null) {
-            value = null;
-        } else if (className.equals(String.class.getName())) {
-            value = valueStr;
-        } else {
-            throw new EpeAppException("Unknown class " + className);
-        }
+	public void set(String attribute, Object value) throws EpeAppException {
+		EpeAppUtils.checkEmpty("attribute", attribute);
+		attribute = attribute.toUpperCase();
+		EpeAppUtils.checkContains(this.mapAttAndValue.keySet(), "attribute", attribute);
+		this.metaData.validateTypeAndNullable(attribute, value);
+		this.mapAttAndValue.put(attribute, value);
 
-        this.set(attribute, value);
-    }
+		if (!this.listAttUpdated.contains(attribute)) {
+			this.listAttUpdated.add(attribute);
+		}
+	}
 
-    private String retrieveDescriptionShortOrLong(boolean shortDescr, String descriptionTemplate,
-            String descriptionColumns) throws EpeAppException {
-        if (EpeAppUtils.isEmpty(descriptionTemplate) || EpeAppUtils.isEmpty(descriptionColumns)) {
-            return shortDescr ? this.getString(EpeDbEntityColumns.NAME)
-                    : "(" + this.get(EpeDbEntityColumns.ID) + ") " + this.getString(EpeDbEntityColumns.NAME);
-        }
+	public void setFromString(String attribute, String valueStr) throws EpeAppException {
+		String className = this.metaData.getClassName(attribute);
+		Object value;
 
-        String[] arrayAttribute = descriptionColumns.split(Pattern.quote(","));
-        String valueStr;
+		if (valueStr == null) {
+			value = null;
+		} else if (className.equals(String.class.getName())) {
+			value = valueStr;
+		} else if (className.equals(Integer.class.getName())) {
+			try {
+				value = Integer.parseInt(valueStr);
+			} catch (NumberFormatException e) {
+				throw new EpeAppException("Invalid integer " + valueStr);
+			}
+		} else {
+			throw new EpeAppException("Unknown class " + className);
+		}
 
-        for (String attribute : arrayAttribute) {
-            valueStr = this.getToString(attribute);
-            valueStr = valueStr == null ? "" : valueStr;
-            descriptionTemplate = descriptionTemplate.replace("{" + attribute + "}", valueStr);
-        }
+		this.set(attribute, value);
+	}
 
-        return descriptionTemplate;
-    }
+	private String retrieveDescriptionShortOrLong(boolean shortDescr, String descriptionTemplate,
+			String descriptionColumns) throws EpeAppException {
+		if (EpeAppUtils.isEmpty(descriptionTemplate) || EpeAppUtils.isEmpty(descriptionColumns)) {
+			return shortDescr ? this.getString(EpeDbEntityColumns.NAME)
+					: "(" + this.get(EpeDbEntityColumns.ID) + ") " + this.getString(EpeDbEntityColumns.NAME);
+		}
 
-    public String retrieveDescriptionShort() throws EpeAppException {
-        return this.retrieveDescriptionShortOrLong(true, EpeDbEntityColumns.DESCR_SHORT_TEMPL,
-                EpeDbEntityColumns.DESCR_SHORT_COLS);
-    }
+		String[] arrayAttribute = descriptionColumns.split(Pattern.quote(","));
+		String valueStr;
 
-    public String retrieveDescriptionLong() throws EpeAppException {
-        return this.retrieveDescriptionShortOrLong(false, EpeDbEntityColumns.DESCR_LONG_TEMPL,
-                EpeDbEntityColumns.DESCR_LONG_COLS);
-    }
+		for (String attribute : arrayAttribute) {
+			valueStr = this.getToString(attribute);
+			valueStr = valueStr == null ? "" : valueStr;
+			descriptionTemplate = descriptionTemplate.replace("{" + attribute + "}", valueStr);
+		}
 
-    public String retrieveDescription(String attribute) throws EpeAppException {
-        EpeAppUtils.checkEmpty("attribute", attribute);
+		return descriptionTemplate;
+	}
 
-        if (this.mapAttAndValue.containsKey(attribute.toUpperCase())) {
-            Object value = this.mapAttAndValue.get(attribute.toUpperCase());
-            // EpeAppUtils.checkNull("value", value);
-            return value == null ? "" : value + "";
-        } else if (attribute.equals("retrieveDescriptionShort()")) {
-            return this.retrieveDescriptionShort();
-        } else if (attribute.equals("retrieveDescriptionLong()")) {
-            return this.retrieveDescriptionLong();
-        } else {
-            throw new EpeAppException("Unknown attribute: " + attribute);
-        }
-    }
+	public String retrieveDescriptionShort() throws EpeAppException {
+		return this.retrieveDescriptionShortOrLong(true, EpeDbEntityColumns.DESCR_SHORT_TEMPL,
+				EpeDbEntityColumns.DESCR_SHORT_COLS);
+	}
+
+	public String retrieveDescriptionLong() throws EpeAppException {
+		return this.retrieveDescriptionShortOrLong(false, EpeDbEntityColumns.DESCR_LONG_TEMPL,
+				EpeDbEntityColumns.DESCR_LONG_COLS);
+	}
+
+	public String retrieveDescription(String attribute) throws EpeAppException {
+		EpeAppUtils.checkEmpty("attribute", attribute);
+
+		if (this.mapAttAndValue.containsKey(attribute.toUpperCase())) {
+			Object value = this.mapAttAndValue.get(attribute.toUpperCase());
+			// EpeAppUtils.checkNull("value", value);
+			return value == null ? "" : value + "";
+		} else if (attribute.equals("retrieveDescriptionShort()")) {
+			return this.retrieveDescriptionShort();
+		} else if (attribute.equals("retrieveDescriptionLong()")) {
+			return this.retrieveDescriptionLong();
+		} else {
+			throw new EpeAppException("Unknown attribute: " + attribute);
+		}
+	}
 
 }
