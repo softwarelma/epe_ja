@@ -30,12 +30,16 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 /**
  * see import com.sun.mail.pop3.POP3SSLStore;
  */
-public final class EpeEchoFinalEmail_send extends EpeEmailAbstract {
+public final class EpeEmailFinalEmail_send extends EpeEmailAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        // TODO Auto-generated method stub
-        return null;
+        String postMessage = "email_send, expected the subject and the body.";
+        String subject = this.getStringAt(listExecResult, 0, postMessage);
+        String body = this.getStringAt(listExecResult, 1, postMessage);
+        String str = sendEmail("EPE", subject, body) + "";
+        this.log(execParams, str);
+        return this.createResult(str);
     }
 
     public static boolean sendEmail(String username, String subject, String body) {
@@ -52,10 +56,10 @@ public final class EpeEchoFinalEmail_send extends EpeEmailAbstract {
         String cc = null;
         String bcc = null;
         File[] attachments = null;
-        boolean toStdOut = false;// for debug true;
+        boolean toStdOut = true;// for debug true; FIXME
 
         try {
-            if (sendMail(props, from, to, cc, bcc, subject, attachments, body, toStdOut) == 0) {
+            if (sendEmail(props, from, to, cc, bcc, subject, attachments, body, toStdOut) == 0) {
                 return true;
             }
         } catch (Exception e) {
@@ -114,7 +118,7 @@ public final class EpeEchoFinalEmail_send extends EpeEmailAbstract {
      * @throws javax.mail.MessagingException
      * @throws javax.mail.NoSuchProviderException
      */
-    private static int sendMail(final Properties props, String from, String to, String cc, String bcc, String subject,
+    private static int sendEmail(final Properties props, String from, String to, String cc, String bcc, String subject,
             File[] attachments, String body, boolean toStdOut) throws javax.mail.internet.AddressException,
             javax.mail.MessagingException, javax.mail.NoSuchProviderException {
         Session sess;

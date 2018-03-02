@@ -2,3 +2,5 @@ print_to_console("true");
 echo("hw!");
 //print_mem_guessing("mb");
 //print_mem_physical();
+
+email_send("sub", "bod");
