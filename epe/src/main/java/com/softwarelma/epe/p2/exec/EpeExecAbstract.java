@@ -2,6 +2,7 @@ package com.softwarelma.epe.p2.exec;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -285,7 +286,8 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
 
     /**
      * 
-     * @return null when there is not such prop, otherwise the found prop value which could be also empty ("prop=")
+     * @return null when there is not such prop, otherwise the found prop value
+     *         which could be also empty ("prop=")
      * @throws EpeAppException
      *             when a content is set as prop and has an invalid format
      */
@@ -355,6 +357,53 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         }
 
         return null;
+    }
+
+    public static Properties retrieveProps(List<EpeExecResult> listExecResult, String postMessage)
+            throws EpeAppException {
+        Properties props = new Properties();
+
+        for (int i = 0; i < listExecResult.size(); i++) {
+            if (!isPropAt(listExecResult, i, postMessage))
+                continue;
+            EpeExecResult result = listExecResult.get(i);
+            EpeAppUtils.checkNull("result", result);
+            EpeExecContent content = result.getExecContent();
+            EpeAppUtils.checkNull("content", content);
+            EpeExecContentInternal contentInternal = content.getContentInternal();
+            EpeAppUtils.checkNull("contentInternal", contentInternal);
+            List<String> listStr;
+
+            if (contentInternal.isString()) {
+                listStr = new ArrayList<>();
+                listStr.add(contentInternal.getStr());
+            } else if (contentInternal.isListString()) {
+                listStr = contentInternal.getListStr();
+            } else {
+                throw new EpeAppException("Invalid content for prop, string or list expected");
+            }
+
+            for (String str : listStr) {
+                if (!str.contains("="))
+                    throw new EpeAppException("Invalid property: " + str);
+                int ind = str.indexOf("=");
+                String propName = str.substring(0, ind);
+                String propVal = str.substring(ind + 1);
+                props.setProperty(propName, propVal);
+            }
+        }
+
+        return props;
+    }
+
+    public static void setProxy(Properties props) {
+        for (Object keyObj : props.keySet()) {
+            String key = keyObj.toString();
+            if (key.startsWith("http.proxy") || key.startsWith("http.nonProxy")) {
+                String val = props.getProperty(key);
+                System.setProperty(key, val);
+            }
+        }
     }
 
 }
