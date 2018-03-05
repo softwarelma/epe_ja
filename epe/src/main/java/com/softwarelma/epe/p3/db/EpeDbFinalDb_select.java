@@ -51,10 +51,12 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
 
         if (resultAsEntity) {
-            List<EpeDbEntity> listEntity = retrieveListEntity(listExecResult, postMessage, dataSource, limitStr);
+            List<EpeDbEntity> listEntity = new ArrayList<>();
+            List<EpeDbMetaDataEntity> ListMetaData = retrieveListEntityFromExecResult(listExecResult, postMessage,
+                    dataSource, limitStr, listEntity);
             // this.log(execParams, listEntity);
             List<String> listStr = new ArrayList<>();// for future usage
-            return createResult(listStr, listEntity);
+            return createResult(listStr, ListMetaData, listEntity);
         } else {
             List<List<String>> listListStr = retrieveListListStr(listExecResult, postMessage, dataSource, limitStr,
                     avoidingClasses, header, footer);
@@ -80,26 +82,42 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         return listListStr;
     }
 
-    public List<EpeDbEntity> retrieveListEntity(List<EpeExecResult> listExecResult, String postMessage,
-            DataSource dataSource, String limitStr) throws EpeAppException {
+    public List<EpeDbMetaDataEntity> retrieveListEntityFromExecResult(List<EpeExecResult> listExecResult,
+            String postMessage, DataSource dataSource, String limitStr, List<EpeDbEntity> listEntity)
+            throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkEmpty("postMessage", postMessage);
-        List<EpeDbEntity> listEntity = new ArrayList<>();
         String[] arrayTable = this.retrieveTables(listExecResult);
         int index = 0;
+        List<EpeDbMetaDataEntity> ListMetaData = new ArrayList<>();
+        List<String> listSelect = new ArrayList<>();
 
-        for (int i = 1; i < listExecResult.size(); i++) {
-            if (!isPropAt(listExecResult, i, postMessage)) {
+        for (int i = 1; i < listExecResult.size(); i++) {// 0 for props
+            if (!isPropAt(listExecResult, i, postMessage)) {// other props
                 String select = getStringAt(listExecResult, i, postMessage);
-
-                EpeAppUtils.checkRange(index, 0, arrayTable.length, false, true);
-                String table = arrayTable[index++];
-
-                readQueryAsEntity(dataSource, select, table, limitStr, listEntity);
+                listSelect.add(select);
             }
         }
 
-        return listEntity;
+        retrieveListEntity(listSelect, arrayTable, postMessage, dataSource, limitStr, listEntity);
+        return ListMetaData;
+    }
+
+    public List<EpeDbMetaDataEntity> retrieveListEntity(List<String> listSelect, String[] arrayTable,
+            String postMessage, DataSource dataSource, String limitStr, List<EpeDbEntity> listEntity)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listSelect", listSelect);
+        EpeAppUtils.checkEmpty("postMessage", postMessage);
+        List<EpeDbMetaDataEntity> ListMetaData = new ArrayList<>();
+
+        for (int i = 0; i < listSelect.size(); i++) {
+            String select = listSelect.get(i);
+            EpeAppUtils.checkRange(i, 0, arrayTable.length, false, true);
+            String table = arrayTable[i];
+            ListMetaData.add(readQueryAsEntity(dataSource, select, table, limitStr, listEntity));
+        }
+
+        return ListMetaData;
     }
 
     public String[] retrieveTables(List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -125,20 +143,23 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static void readQueryAsEntity(DataSource dataSource, String select, String table, String limitStr,
-            List<EpeDbEntity> listEntity) throws EpeAppException {
+    public static EpeDbMetaDataEntity readQueryAsEntity(DataSource dataSource, String select, String table,
+            String limitStr, List<EpeDbEntity> listEntity) throws EpeAppException {
         EpeAppUtils.checkNull("dataSource", dataSource);
         EpeAppUtils.checkNull("select", select);
         EpeAppUtils.checkNull("listEntity", listEntity);
         select = addLimits(dataSource, select, limitStr);
+        EpeDbMetaDataEntity metaData;
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(select);
             ResultSet resultSet = preparedStatement.executeQuery();
-            readResultAsEntity(connection, table, resultSet, listEntity);
+            metaData = readResultAsEntity(connection, table, resultSet, listEntity);
         } catch (Exception e) {
             throw new EpeAppException("retrieveResult with select: " + select, e);
         }
+
+        return metaData;
     }
 
     public static String addLimits(DataSource dataSource, String select, String limitStr) throws EpeAppException {
@@ -204,14 +225,15 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static void readResultAsEntity(Connection connection, String table, ResultSet resultSet,
+    public static EpeDbMetaDataEntity readResultAsEntity(Connection connection, String table, ResultSet resultSet,
             List<EpeDbEntity> listEntity) throws EpeAppException {
         EpeAppUtils.checkNull("resultSet", resultSet);
         EpeAppUtils.checkNull("listEntity", listEntity);
+        EpeDbMetaDataEntity metaData;
 
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            EpeDbMetaDataEntity metaData = readResultMetaData(connection, table, resultSetMetaData);
+            metaData = readResultMetaData(connection, table, resultSetMetaData);
             String attribute;
             Map<String, Object> mapAttAndValue;
             EpeDbEntity entity;
@@ -234,6 +256,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         } catch (Exception e) {
             throw new EpeAppException("Reading result set", e);
         }
+
+        return metaData;
     }
 
     public static EpeDbMetaDataEntity readResultMetaData(Connection connection, String table,

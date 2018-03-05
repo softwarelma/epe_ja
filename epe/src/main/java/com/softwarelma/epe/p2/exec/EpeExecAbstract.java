@@ -11,6 +11,7 @@ import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p3.db.EpeDbContentInternalDb;
 import com.softwarelma.epe.p3.db.EpeDbEntity;
+import com.softwarelma.epe.p3.db.EpeDbMetaDataEntity;
 
 public abstract class EpeExecAbstract implements EpeExecInterface {
 
@@ -78,10 +79,10 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return execResult;
     }
 
-    public static EpeExecResult createResult(List<String> listStr, List<EpeDbEntity> listEntity)
-            throws EpeAppException {
+    public static EpeExecResult createResult(List<String> listStr, List<EpeDbMetaDataEntity> ListMetaData,
+            List<EpeDbEntity> listEntity) throws EpeAppException {
         EpeExecResult execResult = new EpeExecResult();
-        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr, listEntity);
+        EpeDbContentInternalDb contentInternalDb = new EpeDbContentInternalDb(listStr, ListMetaData, listEntity);
         execResult.setExecContent(new EpeExecContent(contentInternalDb));
         return execResult;
     }
