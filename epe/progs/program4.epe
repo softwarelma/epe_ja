@@ -1,0 +1,31 @@
+print_to_console("true");
+//echo("hw!");
+//print_mem_guessing("mb");
+//print_mem_physical();
+
+props = prop(
+	// "http.proxyHost=10.10.49.2
+	// "http.proxyHost=proxy.ee.com
+	// "http.proxyPort=8080
+	// "http.proxyUser=*
+	// "http.proxyPassword=*
+	// "http.nonProxyHosts=127.0.0.1|localhost|10.10.49.254|site-no-www.com
+	"mail.smtp.user=*", 
+	"mail.smtp.passwd=*", 
+	"mail.smtp.connectiontimeout=5000", 
+	"mail.smtp.timeout=5000", 
+	"mail.transport.protocol=smtp", 
+	"mail.smtp.ssl=true", 
+	"mail.smtp.auth=true", 
+	"mail.smtp.starttls.enable=true", 
+	"mail.smtp.port=587", 
+	"mail.smtp.host=smtp.gmail.com");
+
+to = "*";// required
+//cc = "";
+//bcc = "";
+subject = "subject 4";// required
+body = "body 4";// required
+//attachments = ?;
+
+email_send(props, to, cc, bcc, subject, body, attachments);

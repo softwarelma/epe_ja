@@ -19,26 +19,40 @@ import com.softwarelma.epe.p3.print.EpePrintFinalPrint_wrapped_command;
 
 public final class EpeGenericFinalExec extends EpeGenericAbstract {
 
+    enum WRAP_TYPE {
+        wrap, nowrap, file
+    }
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "exec, expected the command, the wrapping option (wrap|nowrap) and optionally the "
                 + "file name and the encoding of the file.";
         String command = this.getStringAt(listExecResult, 0, postMessage);
         String wrapStr = this.getStringAt(listExecResult, 1, postMessage);
-        EpeAppUtils.checkContains(new String[] { "wrap", "nowrap" }, "wrapping option", wrapStr);
-        boolean wrap = wrapStr.equals("wrap");
+        EpeAppUtils.checkContains(new String[] { "wrap", "nowrap", "file" }, "wrapping option", wrapStr);
+        WRAP_TYPE wrapType = WRAP_TYPE.valueOf(wrapStr);
+        // boolean wrap = wrapStr.equals("wrap");
         String execFilename = listExecResult.size() > 2 ? this.getStringAt(listExecResult, 2, postMessage)
                 : EpePrintFinalPrint_default_exec_file_name.retrieveDefaultExecFilename();
         String encoding = listExecResult.size() > 3 ? this.getStringAt(listExecResult, 3, postMessage)
                 : EpeAppConstants.ENCODING_DEFAULT;
+        boolean doLog = execParams.getGlobalParams().isPrintToConsole();
         Map.Entry<Integer, String> exitAndOutput;
 
-        if (wrap) {
+        switch (wrapType) {
+        case wrap:
             String wrappedCommand = EpePrintFinalPrint_wrapped_command.retrieveWrappedCommand(command);
-            exitAndOutput = execWrappedCommand(execParams.getGlobalParams().isPrintToConsole(), wrappedCommand,
-                    execFilename, encoding);
-        } else {
-            exitAndOutput = execCommand(execParams.getGlobalParams().isPrintToConsole(), command);
+            exitAndOutput = execWrappedCommand(doLog, wrappedCommand, execFilename, encoding);
+            break;
+        case nowrap:
+            exitAndOutput = execCommand(doLog, command);
+            break;
+        case file:
+            wrappedCommand = command;
+            exitAndOutput = execWrappedCommand(doLog, wrappedCommand, execFilename, encoding);
+            break;
+        default:
+            throw new EpeAppException("Unknown wrapping type: " + wrapType);
         }
 
         String errorCode = exitAndOutput.getKey().toString().equals("0") ? " (no error)" : " (error)";
@@ -95,6 +109,12 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
         String osCommand = EpePrintFinalPrint_os_command.retrieveExecOSCommand(execFilename);
         Map.Entry<Integer, String> exitAndOutput = execCommand(doLog, osCommand);
         return exitAndOutput;
+    }
+
+    // TODO ?
+    public static Map.Entry<Integer, String> execFileCommand(boolean doLog, String command, String execFilename,
+            String encoding) throws EpeAppException {
+        return null;
     }
 
 }
