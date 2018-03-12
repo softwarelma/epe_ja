@@ -1,7 +1,1 @@
 print_to_console("true");
-command = "
-	pwd
-	cd progs
-	pwd
-";
-exec(command, "file");

@@ -10,7 +10,7 @@ dir = for(list_dirs);
 		file_full = echo(dir, "/", file);
 		content = fread(file_full);
 		//content = replace(content, "aaaaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbbbbbbbb");
-		//fwrite(file, content, "UTF-8");
+		//fwrite(file_full, content, "UTF-8");
 		print_to_console("true");
 		echo("processing: ", file_full);
 		//echo(content);
