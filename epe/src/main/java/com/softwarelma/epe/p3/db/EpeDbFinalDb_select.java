@@ -89,7 +89,6 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         EpeAppUtils.checkEmpty("postMessage", postMessage);
         String[] arrayTable = this.retrieveTables(listExecResult);
         int index = 0;
-        List<EpeDbMetaDataEntity> ListMetaData = new ArrayList<>();
         List<String> listSelect = new ArrayList<>();
 
         for (int i = 1; i < listExecResult.size(); i++) {// 0 for props
@@ -99,7 +98,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             }
         }
 
-        retrieveListEntity(listSelect, arrayTable, postMessage, dataSource, limitStr, listEntity);
+        List<EpeDbMetaDataEntity> ListMetaData = retrieveListEntity(listSelect, arrayTable, postMessage, dataSource,
+                limitStr, listEntity);
         return ListMetaData;
     }
 
@@ -245,7 +245,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
                     Object obj = resultSet.getObject(i + 1);
                     attribute = resultSetMetaData.getColumnLabel(i + 1);
                     mapAttAndValue.put(attribute, obj);
-                    metaData.setColumnClassNameIfNotNull(attribute, obj);
+                    metaData.validateClassNameIfNotNull(attribute, obj);
                 }
 
                 entity = new EpeDbEntity(metaData, mapAttAndValue);
@@ -292,13 +292,14 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
         try {
             String column = resultSetMetaData.getColumnLabel(ind1Based);
-            String className = null;// when retrieving the objects
             int precision = resultSetMetaData.getPrecision(ind1Based);
             int scale = resultSetMetaData.getScale(ind1Based);
             boolean nullable = resultSetMetaData.isNullable(ind1Based) == ResultSetMetaData.columnNullable;
-            String[] columnDefaultAndComment = retrieveColumnDefaultAndComment(connection, table, column);
-            String defaultValue = columnDefaultAndComment == null ? null : columnDefaultAndComment[0];
-            String comment = columnDefaultAndComment == null ? null : columnDefaultAndComment[1];
+            String[] columnDefaultAndCommentAndType = retrieveColumnDefaultAndCommentAndType(connection, table, column);
+            String defaultValue = columnDefaultAndCommentAndType == null ? null : columnDefaultAndCommentAndType[0];
+            String comment = columnDefaultAndCommentAndType == null ? null : columnDefaultAndCommentAndType[1];
+            String className = columnDefaultAndCommentAndType == null ? null
+                    : normFromDbToJava(columnDefaultAndCommentAndType[2]);
 
             EpeDbMetaDataColumn metaDataColumn = new EpeDbMetaDataColumn(column, className, precision, scale, nullable,
                     defaultValue, comment);
@@ -308,50 +309,54 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         }
     }
 
-    public static String[] retrieveColumnDefaultAndComment(Connection connection, String table, String column)
+    private static String normFromDbToJava(String colType) throws EpeAppException {
+        EpeAppUtils.checkEmpty("colType", colType);
+
+        switch (colType) {
+        case "INT":
+            return "java.lang.Long";
+        case "VARCHAR":
+            return "java.lang.String";
+        default:
+            throw new EpeAppException("Unknown colType: " + colType);
+        }
+    }
+
+    public static String[] retrieveColumnDefaultAndCommentAndType(Connection connection, String table, String column)
             throws EpeAppException {
         try {
             DatabaseMetaData md = connection.getMetaData();
+            boolean enablePrintingMetaCol = false;
+
             ResultSet rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toLowerCase(),
                     column.toLowerCase());
-            boolean printEnable = false;
-
-            if (rs.next()) {
-                if (printEnable) {
-                    printResultSetRecord(table, column, rs);
-                }
-
-                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
-            }
+            if (rs.next())
+                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toLowerCase(), column.toUpperCase());
-            if (rs.next()) {
-                if (printEnable) {
-                    printResultSetRecord(table, column, rs);
-                }
-
-                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
-            }
+            if (rs.next())
+                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toUpperCase(), column.toLowerCase());
-            if (rs.next()) {
-                if (printEnable) {
-                    printResultSetRecord(table, column, rs);
-                }
-
-                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
-            }
+            if (rs.next())
+                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toUpperCase(), column.toUpperCase());
-            if (rs.next()) {
-                if (printEnable) {
-                    printResultSetRecord(table, column, rs);
-                }
-
-                return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS") };
-            }
+            if (rs.next())
+                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             return null;
+        } catch (SQLException e) {
+            throw new EpeAppException("When retrieving metadata for " + table + "." + column, e);
+        }
+    }
+
+    private static String[] retrieveColumnDefaultAndCommentAndTypeInternal(boolean enablePrintingMetaCol, ResultSet rs,
+            String table, String column) throws EpeAppException {
+        if (enablePrintingMetaCol)
+            printResultSetRecord(table, column, rs);
+        try {
+            return new String[] { rs.getString("COLUMN_DEF"), rs.getString("REMARKS"), rs.getString("TYPE_NAME") };
         } catch (SQLException e) {
             throw new EpeAppException("When retrieving metadata for " + table + "." + column, e);
         }
