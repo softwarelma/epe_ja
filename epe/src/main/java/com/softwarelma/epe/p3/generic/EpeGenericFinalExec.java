@@ -95,9 +95,10 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
 
     public static Map.Entry<Integer, String> execWrappedCommand(boolean doLog, String wrappedCommand,
             String execFilename, String encoding) throws EpeAppException {
-        if (doLog) {
+        wrappedCommand = execFilename.toLowerCase().endsWith(".sh") ? "#!/bin/sh\n\n" + wrappedCommand : wrappedCommand;
+
+        if (doLog)
             EpeAppLogger.log("echo \"" + wrappedCommand.replace("\"", "\\\"") + "\" > " + execFilename);
-        }
 
         try {
             EpeEncodings ela = new EpeEncodings();

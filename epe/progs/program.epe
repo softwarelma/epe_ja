@@ -1,1 +1,6 @@
+mem = print_mem_guessing("mb");
+echo(mem);
+test = print_java_test(mem);
 print_to_console("true");
+echo(test);
+print_wrapped_command(test);
