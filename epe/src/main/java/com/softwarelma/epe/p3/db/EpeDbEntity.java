@@ -175,6 +175,7 @@ public class EpeDbEntity implements Serializable {
 
     public void setFromString(String attribute, String valueStr) throws EpeAppException {
         String className = this.metaData.getClassName(attribute);
+        EpeAppUtils.checkEmpty("className", className);
         Object value;
 
         if (valueStr == null || valueStr.isEmpty()) {

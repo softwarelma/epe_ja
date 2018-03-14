@@ -274,7 +274,16 @@ public class EpeDbMetaDataEntity implements Serializable {
             return;
         String className = this.getClassName(attribute);
         String classNameObj = obj.getClass().getName();
-        EpeAppUtils.checkEquals("className", "classNameObj", className, classNameObj);
+
+        if (className == null) {
+            EpeDbMetaDataColumn metaAtt = this.mapAttAndMetaAtt.get(attribute.toUpperCase());
+            EpeAppUtils.checkNull("metaAtt", metaAtt);
+            metaAtt.setClassName(classNameObj);
+            return;
+        }
+
+        EpeAppUtils.checkEquals("className (" + className + ")", "classNameObj (" + classNameObj + ")", className,
+                classNameObj);
     }
 
 }

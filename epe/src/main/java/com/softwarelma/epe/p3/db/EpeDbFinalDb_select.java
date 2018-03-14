@@ -314,7 +314,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
         switch (colType) {
         case "INT":
-            return "java.lang.Long";
+            // return "java.lang.Long";
+            return "java.lang.Integer";
         case "VARCHAR":
             return "java.lang.String";
         default:
@@ -331,19 +332,19 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
             ResultSet rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toLowerCase(),
                     column.toLowerCase());
             if (rs.next())
-                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
+                return retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toLowerCase(), column.toUpperCase());
             if (rs.next())
-                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
+                return retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toUpperCase(), column.toLowerCase());
             if (rs.next())
-                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
+                return retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             rs = md.getColumns(connection.getCatalog(), md.getUserName(), table.toUpperCase(), column.toUpperCase());
             if (rs.next())
-                retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
+                return retrieveColumnDefaultAndCommentAndTypeInternal(enablePrintingMetaCol, rs, table, column);
 
             return null;
         } catch (SQLException e) {
