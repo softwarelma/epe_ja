@@ -52,11 +52,18 @@ public class EpeEncodings {
 
     public String cleanSpecialChars(String text) throws EpeAppException {
         EpeAppUtils.checkNull("text", text);
-        // 144 e 201 sono E con accento acuto
+
+        // 144 e 201 are E with acute accent
         String target = "" + (char) 144;
         String replacement = "" + (char) 201;
-        return text == null ? null : text.replace(target, replacement);
-        // return text;
+        text = text == null ? null : text.replace(target, replacement);
+
+        // 216 is a kind of 0
+        target = "" + (char) 216;
+        replacement = "0";
+        text = text == null ? null : text.replace(target, replacement);
+
+        return text;
     }
 
     /**
@@ -412,7 +419,8 @@ public class EpeEncodings {
                 158, // "?", quello normale e' 63
                 176, // zero piccolo, d'ordine
                 209, // Ñ
-                216, // uno zero strano
+                // 144, // 144 is an E with acute accent, it must be replaced
+                // 216, // 216 is a kind of 0, it must be replaced
                 241, // ñ
                      // 65533,//non usare, char di sostituzione
                 '\u20AC' // euro, per ultimo, puo' creare ambiguita'

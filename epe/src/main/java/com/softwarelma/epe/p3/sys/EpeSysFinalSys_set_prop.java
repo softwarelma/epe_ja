@@ -1,14 +1,13 @@
-package com.softwarelma.epe.p3.generic;
+package com.softwarelma.epe.p3.sys;
 
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
-public final class EpeGenericFinalSystem_prop extends EpeGenericAbstract {
+public final class EpeSysFinalSys_set_prop extends EpeSysAbstract {
 
     // non proxy syntax: localhost|127.0.0.1
 

@@ -24,6 +24,10 @@ public final class EpeGenericFinalTo_unicode extends EpeGenericAbstract {
 
         for (int i = 0; i < text.length(); i++) {
             c = text.charAt(i);
+            
+            System.out.println("int val: " + c);
+            
+            
             s = Integer.toHexString(c);
             s = "\\u" + "0000".substring(s.length()) + s;
             str.append(s);
