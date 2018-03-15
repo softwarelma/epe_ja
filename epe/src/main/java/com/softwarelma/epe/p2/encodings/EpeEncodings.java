@@ -396,6 +396,10 @@ public class EpeEncodings {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
 
+            if (((int) c) == 216) {
+                System.out.println("****************");
+            }
+
             if (allChars.contains(c + "")) {
                 continue;
             }

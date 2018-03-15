@@ -1,5 +1,7 @@
 print_to_console("true");
-echo("aØaØb");
-to_unicode("Ø");
-to_unicode("Ø");
 
+/*echo("aØaØb");
+to_unicode("Ø");
+to_unicode("Ø");*/
+
+fread("/home/ellison/Downloads/TCM/IMUTASI.H223.A201214.P0001-M2106196.RUN");
