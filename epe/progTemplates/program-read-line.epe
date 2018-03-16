@@ -1,0 +1,12 @@
+line = read_line("it will be chosen de", "*de", "", "true", "true");
+print_to_console("true");
+echo("chosen: ", line, "\n");
+
+line = read_line("insert the input (everything is valid): ", "*", "", "true", "true");
+echo("chosen: ", line, "\n");
+
+line = read_line("insert the input (must be abc): ", "abc", "", "true", "true");
+echo("chosen: ", line, "\n");
+
+line = read_line("insert the input ", "a|b|c", ": ", "true", "true");
+echo("chosen: ", line, "\n");
