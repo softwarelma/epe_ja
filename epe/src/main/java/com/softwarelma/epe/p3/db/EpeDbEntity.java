@@ -245,6 +245,31 @@ public class EpeDbEntity implements Serializable {
         return "INSERT INTO " + table.toLowerCase() + " (name) VALUES ('???')";
     }
 
+    public String retrieveInsert() throws EpeAppException {
+        StringBuilder sb = new StringBuilder("INSERT INTO ");
+        sb.append(this.metaData.getTable());
+        sb.append(" (");
+        String sep = "";
+
+        for (int i = 0; i < this.metaData.getCols(); i++) {
+            sb.append(sep);
+            sep = ", ";
+            sb.append(this.metaData.getAttribute(i));
+        }
+
+        sb.append(") VALUES (");
+        sep = "";
+
+        for (int i = 0; i < this.metaData.getCols(); i++) {
+            sb.append(sep);
+            sep = ", ";
+            sb.append(this.getToStringForDb(this.metaData.getAttribute(i)));
+        }
+
+        sb.append(")");
+        return sb.toString();
+    }
+
     public String retrieveUpdate() throws EpeAppException {
         if (this.insert)
             throw new EpeAppException("Entity not valid for update");
