@@ -1,4 +1,0 @@
-decrypted = decrypt("password_db", "6ngwPA7NoDL33UEDQsjk/Q==");
-encrypted = encrypt("password_db", decrypted);
-print_to_console("true");
-echo("decrypted=", decrypted, ", encrypted=", encrypted);
