@@ -17,13 +17,13 @@ public final class EpeEchoFinalEcho_to_list extends EpeEchoAbstract {
         List<String> listStr = new ArrayList<>();
 
         for (int i = 0; i < listExecResult.size(); i++) {
-            String str = this.getStringAt(listExecResult, i, postMessage);
+            String str = getStringAt(listExecResult, i, postMessage);
             // str = EpeEchoFinalEcho.retrieveEchoed(str, false);
             listStr.add(str);
         }
 
-        this.log(execParams, listStr);
-        return this.createResult(listStr);
+        log(execParams, listStr);
+        return createResult(listStr);
     }
 
 }

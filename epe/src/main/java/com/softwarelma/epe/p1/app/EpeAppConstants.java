@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.softwarelma.epe.p1.app.EpeAppLogger.LEVEL;
+
 public abstract class EpeAppConstants {
 
     public static final List<String> listReservedWords = new ArrayList<>();
@@ -32,6 +34,14 @@ public abstract class EpeAppConstants {
     public static final String ENCODING_UTF_8 = "UTF-8";
     public static final String ENCODING_DEFAULT = ENCODING_UTF_8;
     public static final String ENCODING_ISO_8859_15 = "ISO-8859-15";
+
+    // LOG
+    public static String LOG_FILE_NAME = "log/epe.log";
+    public static String LOG_FILE_ENCODING = ENCODING_DEFAULT;
+    public static boolean LOG_FILE_APPEND = false;
+    public static boolean LOG_CONSOLE = true;
+    public static final LEVEL LOG_LEVEL_DEFAULT = LEVEL.INFO;
+    public static LEVEL LOG_LEVEL = LOG_LEVEL_DEFAULT;
 
     /*
      * OPERATION MODES

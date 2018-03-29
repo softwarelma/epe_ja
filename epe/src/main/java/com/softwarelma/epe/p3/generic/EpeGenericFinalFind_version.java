@@ -12,10 +12,10 @@ public final class EpeGenericFinalFind_version extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "find_version, expected text.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
+        String text = getStringAt(listExecResult, 0, postMessage);
         String str = retrieveVersion(text);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveVersion(String str) throws EpeAppException {

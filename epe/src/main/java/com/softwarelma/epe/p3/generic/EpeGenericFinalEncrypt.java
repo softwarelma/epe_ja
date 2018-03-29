@@ -19,13 +19,13 @@ public final class EpeGenericFinalEncrypt extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "encrypt, expected the key, the value-to-encrypt and optionally the init vector and the key suffix.";
-        String key = this.getStringAt(listExecResult, 0, postMessage);
-        String decrypted = this.getStringAt(listExecResult, 1, postMessage);
-        String initVector = this.getStringAt(listExecResult, 2, postMessage, null);
-        String keySuffix = this.getStringAt(listExecResult, 3, postMessage, null);
+        String key = getStringAt(listExecResult, 0, postMessage);
+        String decrypted = getStringAt(listExecResult, 1, postMessage);
+        String initVector = getStringAt(listExecResult, 2, postMessage, null);
+        String keySuffix = getStringAt(listExecResult, 3, postMessage, null);
         String str = encrypt(key, decrypted, initVector, keySuffix);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     /**

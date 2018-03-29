@@ -21,19 +21,19 @@ public final class EpeDiskFinalFwrite extends EpeDiskAbstract {
         EpeAppUtils.checkRange(listExecResult.size(), 2, 4, false, false, postMessage);
 
         boolean doLog = execParams.getGlobalParams().isPrintToConsole();
-        String filename = this.getStringAt(listExecResult, 0, postMessage);
-        String content = this.getStringAtForce(listExecResult, 1, postMessage);
-        String encoding = this.getStringAt(listExecResult, 2, postMessage);
+        String filename = getStringAt(listExecResult, 0, postMessage);
+        String content = getStringAtForce(listExecResult, 1, postMessage);
+        String encoding = getStringAt(listExecResult, 2, postMessage);
         boolean appendBool = false;
 
         if (listExecResult.size() > 3) {
-            String appendStr = this.getStringAt(listExecResult, 3, postMessage);
+            String appendStr = getStringAt(listExecResult, 3, postMessage);
             EpeAppUtils.checkEquals("fwrite-4th-param", "append", appendStr, "append");
             appendBool = true;
         }
 
         fWrite(doLog, filename, content, encoding, appendBool);
-        return this.createEmptyResult();
+        return createEmptyResult();
     }
 
     public static void fWrite(boolean doLog, String filename, String content, String encoding, boolean appendBool)

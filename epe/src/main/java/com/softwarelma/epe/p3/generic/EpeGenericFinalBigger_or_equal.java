@@ -11,11 +11,11 @@ public final class EpeGenericFinalBigger_or_equal extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "bigger_or_equal, expected an integer or list and another integer or list.";
-        int i1 = this.getIntOrSizeAt(listExecResult, 0, postMessage);
-        int i2 = this.getIntOrSizeAt(listExecResult, 1, postMessage);
+        int i1 = getIntOrSizeAt(listExecResult, 0, postMessage);
+        int i2 = getIntOrSizeAt(listExecResult, 1, postMessage);
         String str = (i1 >= i2) + "";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

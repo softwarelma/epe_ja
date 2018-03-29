@@ -2,16 +2,16 @@
 CREAZIONE DELLA CARTELLA DI LAVORO CON I PACCHETTI INDICATI DA ACCORPARE
 ***************************************************************************/
 
-//DA ECLIPSE LANCIARE COME: -f progs/program-installazione-db-completa.epe progs/program-installazione-db-comuni-ambienti.epe
-
-zip_dir = read_line("\tInserire il path contenente i pacchetti (zip) della release da installare\n", "*", "true", "true");
+zip_dir = read_line("\tInserire il path contenente i pacchetti (zip) 
+\tdella release da installare\n", "*", "true", "true", "true");
 // /org/company/workspaces/luna-SR2/db-rilasci-4.1/
 zip_dir = clean_dir_name(zip_dir);
 fwrite("resources/temp/temp.tmp", zip_dir, print_default_encoding());
 
-list_range_zip = read_line("\n\tInserire i range delle versioni dei pacchetti (zip) da accorpare che compongono l'installazione della release,
+list_range_zip = read_line("\n\tInserire i range delle versioni dei pacchetti (zip) da accorpare 
+\tche compongono l'installazione della release,
 \tseparati da virgola (nel range) e da punto e virgola (tra i range),
-\tes. 4.1.0,4.1.10;4.1.11,4.1.20\n", "*", "true", "true");
+\tes. 4.1.0,4.1.10;4.1.11,4.1.20\n", "*", "true", "true", "true");
 list_range_zip = split(list_range_zip, "\\;");
 //4.1.0,4.1.2;4.1.3,4.1.6;4.1.7,4.1.8;4.1.9,4.1.21
 
@@ -26,7 +26,7 @@ range_zip = for(list_range_zip);
 		"Versioni diverse non esclusivamente nella minor. Procedere manualmente valorizzando list_range nel programma .epe.");
 	//es. list_range = "4.1.0,4.1.1,4.1.2"
 	
-	//unzipped_dir = read_line("Inserire il path di lavoro", "*", "true", "true");
+	//unzipped_dir = read_line("Inserire il path di lavoro", "*", "true", "true", "true");
 	// /home/ellison/Downloads/epe-install/upzipped/
 	unzipped_dir = echo(zip_dir, "temp/");
 	
@@ -89,6 +89,12 @@ range_zip = for(list_range_zip);
 			password_acsor = find_between(content, "<password_acsor>", "</password_acsor>");
 			upgrade_sge = replace(upgrade_sge, "\nDEFINE ACSOR_PASSWORD =", echo("\nDEFINE ACSOR_PASSWORD = ", password_acsor));
 			
+			username_acsor_ext = find_between(content, "<username_acsor_ext>", "</username_acsor_ext>");
+			upgrade_sge = replace(upgrade_sge, "\nDEFINE ACSOR_EXT =", echo("\nDEFINE ACSOR_EXT = ", username_acsor_ext));
+			
+			password_acsor_ext = find_between(content, "<password_acsor_ext>", "</password_acsor_ext>");
+			upgrade_sge = replace(upgrade_sge, "\nDEFINE ACSOR_EXT_PASSWORD =", echo("\nDEFINE ACSOR_EXT_PASSWORD = ", password_acsor_ext));
+			
 			username_scheduler = find_between(content, "<username_scheduler>", "</username_scheduler>");
 			upgrade_sge = replace(upgrade_sge, "\nDEFINE SCHEDULER =", echo("\nDEFINE SCHEDULER = ", username_scheduler));
 			
@@ -109,6 +115,8 @@ range_zip = for(list_range_zip);
 			
 			applicazione_pman_portale = find_between(content, "<applicazione_pman_portale>", "</applicazione_pman_portale>");
 			upgrade_sge = replace(upgrade_sge, "\nDEFINE APPLICAZIONE_PMAN_PORTALE =", echo("\nDEFINE APPLICAZIONE_PMAN_PORTALE = '''", applicazione_pman_portale, "'''"));
+
+			upgrade_sge = replace(upgrade_sge, "\nDEFINE MODALITA_ESECUZIONE = CONTINUE", echo("\nDEFINE MODALITA_ESECUZIONE = ", "EXIT"));
 			
 			upgrade_sge = replace(upgrade_sge, "\nACCEPT TICKET     		PROMPT 'TICKET : '", echo("\nDEFINE TICKET = &1"));
 			upgrade_sge = replace(upgrade_sge, "\nACCEPT USER_NAME 		PROMPT 'USER_NAME : '", echo("\nDEFINE USER_NAME = &2"));
@@ -123,9 +131,9 @@ range_zip = for(list_range_zip);
 		
 		list_dirs = list_dirs(dir_ambiente);
 		content = order(list_dirs, "version");
-		content = replace("echo [DIR]\ncd [DIR]\nsqlplus /nolog @upgrade_sge.sql %TICKET% %USER_NAME% %NOTE% \ncd..\n\n", "[DIR]", content);
+		content = replace("echo [DIR]\ncd [DIR]\nsqlplus /nolog @upgrade_sge.sql '''%TICKET%''' '''%USER_NAME%''' '''%NOTE%''' EXIT \ncd..\n\nECHO PREMERE INVIO PER CONTINUARE CTRL+C PER ABORTIRE\npause\n\n", "[DIR]", content);
 		content = echo(content);
-		content = echo("@echo off\n\nset /p TICKET=TICKET:\nset /p USER_NAME=USER_NAME:\nset /p NOTE=EVENTUALI NOTE:\n\n", content, "pause\nexit");
+		content = echo("@echo off\n\nset /p TICKET=TICKET:\nset /p USER_NAME=USER_NAME:\nset /p NOTE=EVENTUALI NOTE:\n", content);
 		fwrite(echo(dir_ambiente, "upgrade_main.bat"), content, "ISO-8859-15");
 		
 	goto(label2, not(empty(list_props)));

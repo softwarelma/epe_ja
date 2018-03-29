@@ -12,11 +12,11 @@ public final class EpeGenericFinalExport extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "export, expected the var name to use to export and the content.";
-        String varName = this.getStringAt(listExecResult, 0, postMessage);
-        EpeExecContent content = this.getContentAt(listExecResult, 1, postMessage);
+        String varName = getStringAt(listExecResult, 0, postMessage);
+        EpeExecContent content = getContentAt(listExecResult, 1, postMessage);
         execParams.getGlobalParams().getMapVarNameExecContent().put(varName, content);
-        this.log(execParams, "exporting: " + varName + "=" + content.toString());
-        return this.createEmptyResult();
+        log(execParams, "exporting: " + varName + "=" + content.toString());
+        return createEmptyResult();
     }
 
 }

@@ -1,2 +1,4 @@
+echo("hidden");
+line = read_line("insert the input (must be abc): ", "abc", "", "true", "true");
+echo("chosen: ", line, "\n");
 print_to_console("true");
-print_java_jar("myjar", "4096");

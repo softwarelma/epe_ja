@@ -12,17 +12,17 @@ public final class EpeGenericFinalEmpty extends EpeGenericAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "empty, expected str or list.";
 
-        if (this.isStringAt(listExecResult, 0, postMessage)) {
-            String text = this.getStringAt(listExecResult, 0, postMessage);
+        if (isStringAt(listExecResult, 0, postMessage)) {
+            String text = getStringAt(listExecResult, 0, postMessage);
             String str = text.isEmpty() ? "true" : "false";
-            this.log(execParams, str);
-            return this.createResult(str);
+            log(execParams, str);
+            return createResult(str);
         }
 
-        List<String> list = this.getListStringAt(listExecResult, 0, postMessage);
+        List<String> list = getListStringAt(listExecResult, 0, postMessage);
         String str = list.isEmpty() ? "true" : "false";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

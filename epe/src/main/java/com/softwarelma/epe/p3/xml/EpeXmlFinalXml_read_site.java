@@ -35,20 +35,20 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "xml_read_site, expected the URL.";
-        String host = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_HOST);
-        String port = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PORT);
-        String username = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_USER);
-        String password = this.retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PASSWORD);
-        List<String> listSite = this.readSite(execParams, listExecResult, postMessage, host, port, username, password);
+        String host = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_HOST);
+        String port = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PORT);
+        String username = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_USER);
+        String password = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PASSWORD);
+        List<String> listSite = readSite(execParams, listExecResult, postMessage, host, port, username, password);
 
         if (listSite.size() == 1) {
             String str = listSite.get(0);
-            this.log(execParams, str);
-            return this.createResult(str);
+            log(execParams, str);
+            return createResult(str);
         }
 
-        this.log(execParams, listSite);
-        return this.createResult(listSite);
+        log(execParams, listSite);
+        return createResult(listSite);
     }
 
     public List<String> readSite(EpeExecParams execParams, List<EpeExecResult> listExecResult, String postMessage,
@@ -58,20 +58,25 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
         String url;
 
         for (int i = 0; i < listExecResult.size(); i++) {
-            if (this.isPropAt(listExecResult, i, postMessage)) {
+            if (isPropAt(listExecResult, i, postMessage)) {
                 continue;
             }
 
-            url = this.getStringAt(listExecResult, i, postMessage);
-            this.log(execParams, "URL: " + url);
-            String site = this.readSite(url, host, port, username, password);
-            this.log(execParams, "Content:");
-            this.log(execParams, site);
+            url = getStringAt(listExecResult, i, postMessage);
+            log(execParams, "URL: " + url);
+            String site = readSite(url, host, port, username, password);
+            log(execParams, "Content:");
+            log(execParams, site);
             listSite.add(site);
         }
 
         return listSite;
     }
+
+    // TODO post, from:
+    // https://stackoverflow.com/questions/4205980/java-sending-http-parameters-via-post-method-easily
+    // or:
+    // https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
 
     /*
      * from:

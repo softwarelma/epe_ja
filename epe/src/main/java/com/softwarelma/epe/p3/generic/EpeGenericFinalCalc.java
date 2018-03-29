@@ -18,10 +18,10 @@ public final class EpeGenericFinalCalc extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "calc, expected the text.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
+        String text = getStringAt(listExecResult, 0, postMessage);
         String str = retrieveCalc(text);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveCalc(String text) throws EpeAppException {

@@ -14,13 +14,13 @@ public final class EpeGenericFinalFill_minor_version extends EpeGenericAbstract 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fill_minor_version, expected text.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
-        String excepMessage = this.getStringAt(listExecResult, 1, postMessage, null);
+        String text = getStringAt(listExecResult, 0, postMessage);
+        String excepMessage = getStringAt(listExecResult, 1, postMessage, null);
         String[] versionsRange = text.split(",");
         EpeAppUtils.checkRange(versionsRange.length, 2, 2, false, false, postMessage);
         List<String> listStr = retrieveListFullRange(versionsRange[0], versionsRange[1], excepMessage);
-        this.log(execParams, listStr);
-        return this.createResult(listStr);
+        log(execParams, listStr);
+        return createResult(listStr);
     }
 
     private static List<String> retrieveListFullRange(String versionStart, String versionEnd, String excepMessage)
@@ -30,8 +30,9 @@ public final class EpeGenericFinalFill_minor_version extends EpeGenericAbstract 
         List<String> listFullRange = new ArrayList<>();
         Map.Entry<String, String> filePathAndLast1 = EpeAppUtils.retrievePathAndLast(versionStart, "\\.");
         Map.Entry<String, String> filePathAndLast2 = EpeAppUtils.retrievePathAndLast(versionEnd, "\\.");
-        String message = excepMessage == null ? "The value " + filePathAndLast1.getKey() + " should be equal to "
-                + filePathAndLast2.getKey() + "." : excepMessage;
+        String message = excepMessage == null
+                ? "The value " + filePathAndLast1.getKey() + " should be equal to " + filePathAndLast2.getKey() + "."
+                : excepMessage;
         EpeAppUtils.checkEquals("path prefix-version start", "path prefix-version end", filePathAndLast1.getKey(),
                 filePathAndLast2.getKey(), message);
         int minorStart = EpeAppUtils.parseInt(filePathAndLast1.getValue());

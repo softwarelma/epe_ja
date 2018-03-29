@@ -27,14 +27,14 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "exec, expected the command, the wrapping option (wrap|nowrap) and optionally the "
                 + "file name and the encoding of the file.";
-        String command = this.getStringAt(listExecResult, 0, postMessage);
-        String wrapStr = this.getStringAt(listExecResult, 1, postMessage);
+        String command = getStringAt(listExecResult, 0, postMessage);
+        String wrapStr = getStringAt(listExecResult, 1, postMessage);
         EpeAppUtils.checkContains(new String[] { "wrap", "nowrap", "file" }, "wrapping option", wrapStr);
         WRAP_TYPE wrapType = WRAP_TYPE.valueOf(wrapStr);
         // boolean wrap = wrapStr.equals("wrap");
-        String execFilename = listExecResult.size() > 2 ? this.getStringAt(listExecResult, 2, postMessage)
+        String execFilename = listExecResult.size() > 2 ? getStringAt(listExecResult, 2, postMessage)
                 : EpePrintFinalPrint_default_exec_file_name.retrieveDefaultExecFilename();
-        String encoding = listExecResult.size() > 3 ? this.getStringAt(listExecResult, 3, postMessage)
+        String encoding = listExecResult.size() > 3 ? getStringAt(listExecResult, 3, postMessage)
                 : EpeAppConstants.ENCODING_DEFAULT;
         boolean doLog = execParams.getGlobalParams().isPrintToConsole();
         Map.Entry<Integer, String> exitAndOutput;
@@ -59,8 +59,8 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
         String logStr = "Command exit-value error-code: " + exitAndOutput.getKey() + errorCode;
         String str = exitAndOutput.getValue();
         logStr += "\nCommand output:\n" + str;
-        this.log(execParams, logStr);
-        return this.createResult(str);
+        log(execParams, logStr);
+        return createResult(str);
     }
 
     public static Map.Entry<Integer, String> execCommand(boolean doLog, String command) throws EpeAppException {

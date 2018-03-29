@@ -11,12 +11,12 @@ public final class EpeGenericFinalFind_between extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "find_between, expected text, prefix and suffix.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
-        String prefix = this.getStringAt(listExecResult, 1, postMessage);
-        String suffix = this.getStringAt(listExecResult, 2, postMessage);
-        String str = this.findBetween(text, prefix, suffix);
-        this.log(execParams, str);
-        return this.createResult(str);
+        String text = getStringAt(listExecResult, 0, postMessage);
+        String prefix = getStringAt(listExecResult, 1, postMessage);
+        String suffix = getStringAt(listExecResult, 2, postMessage);
+        String str = findBetween(text, prefix, suffix);
+        log(execParams, str);
+        return createResult(str);
     }
 
     private String findBetween(String text, String prefix, String suffix) {

@@ -7,17 +7,16 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
-import com.softwarelma.epe.p3.generic.EpeGenericFinalList_funcs;
 
 public final class EpePrintFinalPrint_timestamp extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_timestamp, expected optionally the format.";
-        String format = this.getStringAt(listExecResult, 0, postMessage, EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT);
+        String format = getStringAt(listExecResult, 0, postMessage, EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT);
         String str = EpeAppUtils.retrieveTimestamp(format);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

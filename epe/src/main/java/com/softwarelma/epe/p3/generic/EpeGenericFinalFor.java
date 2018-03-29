@@ -22,20 +22,20 @@ public final class EpeGenericFinalFor extends EpeGenericAbstract {
         String postMessage = "for, expected list and optionally index.";
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkRange(listExecResult.size(), 1, 2, false, false, postMessage);
-        List<String> listStr = this.getListStringAt(listExecResult, 0, postMessage);
+        List<String> listStr = getListStringAt(listExecResult, 0, postMessage);
 
         if (listExecResult.size() == 1) {
             String str = listStr.remove(0);
-            this.log(execParams, str);
-            return this.createResult(str);
+            log(execParams, str);
+            return createResult(str);
         }
 
-        String ind = this.getStringAt(listExecResult, 1, postMessage);
+        String ind = getStringAt(listExecResult, 1, postMessage);
         int i = EpeAppUtils.parseInt(ind);
         EpeAppUtils.checkRange(i, 0, listStr.size(), false, true, postMessage);
         String str = listStr.get(i);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }
