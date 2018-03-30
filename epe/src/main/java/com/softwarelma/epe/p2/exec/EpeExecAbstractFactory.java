@@ -61,10 +61,18 @@ public abstract class EpeExecAbstractFactory implements EpeExecFactoryInterface 
         }
 
         String className = funcName.substring(0, 1).toUpperCase() + funcName.substring(1);
-        className = this.getClassNamPrefix() + className;
+        className = this.getClassNamePrefix() + className;
         return className;
     }
 
-    public abstract String getClassNamPrefix();
+    @Override
+    public String getClassNamePrefix() {
+        String[] arrayClassName = this.getClass().getName().split("\\.");
+        String className = arrayClassName[arrayClassName.length - 1];// e.g. EpePackGenericFactory
+        String packageName = className.substring("EpePack".length());
+        packageName = packageName.substring(0, packageName.length() - "Factory".length());// e.g. Generic
+        String classNamePrefix = "com.softwarelma.epe.p3." + packageName.toLowerCase() + ".Epe" + packageName + "Final";
+        return classNamePrefix;// e.g. com.softwarelma.epe.p3.generic.EpeGenericFinal
+    }
 
 }

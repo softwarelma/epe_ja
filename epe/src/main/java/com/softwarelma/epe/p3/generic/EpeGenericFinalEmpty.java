@@ -10,19 +10,29 @@ public final class EpeGenericFinalEmpty extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "empty, expected str or list.";
+        String postMessage = "empty, expected str, list or list of list.";
+        String str = isEmpty(listExecResult, postMessage) + "";
+        log(execParams, str);
+        return createResult(str);
+    }
+
+    public static boolean isEmpty(List<EpeExecResult> listExecResult, String postMessage) throws EpeAppException {
+        boolean empty;
 
         if (isStringAt(listExecResult, 0, postMessage)) {
             String text = getStringAt(listExecResult, 0, postMessage);
-            String str = text.isEmpty() ? "true" : "false";
-            log(execParams, str);
-            return createResult(str);
+            empty = text.isEmpty();
+        } else if (isListStringAt(listExecResult, 0, postMessage)) {
+            List<String> list = getListStringAt(listExecResult, 0, postMessage);
+            empty = list.isEmpty();
+        } else if (isListListStringAt(listExecResult, 0, postMessage)) {
+            List<List<String>> listList = getListListStringAt(listExecResult, 0, postMessage);
+            empty = listList.isEmpty();
+        } else {
+            throw new EpeAppException(postMessage);
         }
 
-        List<String> list = getListStringAt(listExecResult, 0, postMessage);
-        String str = list.isEmpty() ? "true" : "false";
-        log(execParams, str);
-        return createResult(str);
+        return empty;
     }
 
 }

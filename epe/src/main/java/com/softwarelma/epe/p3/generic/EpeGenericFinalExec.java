@@ -25,7 +25,7 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "exec, expected the command, the wrapping option (wrap|nowrap) and optionally the "
+        String postMessage = "exec, expected the command, the wrapping option (wrap|nowrap|file) and optionally the "
                 + "file name and the encoding of the file.";
         String command = getStringAt(listExecResult, 0, postMessage);
         String wrapStr = getStringAt(listExecResult, 1, postMessage);
@@ -73,6 +73,7 @@ public final class EpeGenericFinalExec extends EpeGenericAbstract {
 
         try {
             ProcessBuilder pb = new ProcessBuilder(command.split(" "));
+            // ProcessBuilder pb = new ProcessBuilder("ls", "|", "grep", "p");
             pb.redirectErrorStream(true);
             Process p = pb.start();
             // Process p = Runtime.getRuntime().exec(command);

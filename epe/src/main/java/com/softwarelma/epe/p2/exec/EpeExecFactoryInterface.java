@@ -8,4 +8,6 @@ public interface EpeExecFactoryInterface {
 
     public EpeExecInterface getNewFuncInstance(String funcName) throws EpeAppException;
 
+    public String getClassNamePrefix();
+
 }
