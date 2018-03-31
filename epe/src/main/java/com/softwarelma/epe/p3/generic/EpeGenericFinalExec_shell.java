@@ -17,7 +17,7 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
         // String postMessage = "exec_shell.";
         String str = "ok";
         execShell();
-        log(execParams, str);
+        // log(execParams, str);
         return createResult(str);
     }
 
@@ -30,6 +30,34 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
         }
     }
 
+    private static String readAll(Process process, InputStream out, byte[] buffer) throws EpeAppException {
+        try {
+            StringBuilder sb = new StringBuilder();
+
+            while (isAlive(process)) {
+                int no = out.available();
+
+                if (no > 0) {
+                    // buffer = new byte[4000];
+                    int n = out.read(buffer, 0, Math.min(no, buffer.length));
+                    String output = new String(buffer, 0, n);
+                    sb.append(output);
+                } else {
+                    break;
+                }
+
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                }
+            }
+
+            return sb.toString();
+        } catch (IOException e) {
+            throw new EpeAppException("exec_shell", e);
+        }
+    }
+
     public static void execShell() throws EpeAppException {
         try {
             ProcessBuilder builder = new ProcessBuilder("bash", "-i");
@@ -37,26 +65,26 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
             Process process = builder.start();
             InputStream out = process.getInputStream();
             OutputStream in = process.getOutputStream();
-            String typed = "";
-            int ind = 0;
-
             byte[] buffer = new byte[4000];
+            boolean first = true;
+
             while (isAlive(process)) {
                 int no = out.available();
-                if (no > 0) {
-                    // buffer = new byte[4000];
-                    int n = out.read(buffer, 0, Math.min(no, buffer.length));
-                    String output = new String(buffer, 0, n);
 
-                    if (output.contains("\n")) {// FIXME or endsWith?
-                        typed = output.substring(0, output.indexOf("\n"));
-                        if (ind > 0)
-                            EpeAppLogger.log(typed, null, null, false, true);
-                        else if (output.contains("no job control in this shell"))
-                            ind = -1;
-                        ind = ind < 1 ? ind + 1 : ind;
-                        EpeAppLogger.log(output);
-                        // System.out.println(output);
+                if (no > 0) {
+                    String output = readAll(process, out, buffer);
+
+                    if (output.contains("\n")) {
+                        String typed = output.substring(0, output.indexOf("\n"));
+                        String consoleOutput = output.substring(typed.length() + 1);
+                        // only file:
+                        EpeAppLogger.log(output, null, null, false, true, false);
+                        // only console:
+                        EpeAppLogger.logSystemOutPrint(first ? output : consoleOutput);
+                        first = false;
+                    } else {
+                        // file and console
+                        EpeAppLogger.log(output, null, null, true, true, false);
                     }
                 }
 
@@ -72,7 +100,7 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
                 }
 
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                 }
             }
@@ -80,7 +108,8 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
             String exit = process.exitValue() + "";
             // EpeAppLogger.log(typed, null, null, false, true);
             // System.out.println(exit);
-            EpeAppLogger.log(exit);
+            // EpeAppLogger.log(exit);
+            EpeAppLogger.log(exit, null, null, true, true, false);
         } catch (IOException e) {
             throw new EpeAppException("exec_shell", e);
         }

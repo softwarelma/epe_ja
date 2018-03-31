@@ -51,6 +51,11 @@ public abstract class EpeAppLogger {
     }
 
     public static void log(String message, Throwable t, LEVEL level, boolean console, boolean messageAsIs) {
+        log(message, t, level, console, messageAsIs, true);
+    }
+
+    public static void log(String message, Throwable t, LEVEL level, boolean console, boolean messageAsIs,
+            boolean println) {
         if (!EpeAppConstants.SHOW_EXCEPTIONS && t != null)
             return;
         String timestamp = "???";
@@ -72,7 +77,11 @@ public abstract class EpeAppLogger {
             return;
 
         if (EpeAppConstants.LOG_CONSOLE && console) {
-            logSystemOutPrintln(message);
+            if (println)
+                logSystemOutPrintln(message);
+            else
+                logSystemOutPrint(message);
+
             if (t != null)
                 t.printStackTrace();
         }
@@ -80,7 +89,8 @@ public abstract class EpeAppLogger {
         if (EpeAppConstants.LOG_FILE_NAME != null) {
             EpeEncodings enc = new EpeEncodings();
             StringBuilder sb = new StringBuilder(message);
-            sb.append("\n");
+            if (println && t == null)
+                sb.append("\n");
 
             if (t != null) {
                 sb.append(t.getClass().getName());
