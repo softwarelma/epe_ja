@@ -13,12 +13,12 @@ public final class EpeGenericFinalImport extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "import, expected the var name to import.";
-        String varName = this.getStringAt(listExecResult, 0, postMessage);
+        String varName = getStringAt(listExecResult, 0, postMessage);
         EpeExecContent content = execParams.getGlobalParams().getMapVarNameExecContent().get(varName);
         EpeAppUtils.checkNull("content", content);
         execParams.getGlobalParams().getMapVarNameExecContent().remove(varName);
-        this.log(execParams, "importing: " + varName + "=" + content.toString());
-        return this.createResult(content);
+        log(execParams, "importing: " + varName + "=" + content.toString());
+        return createResult(content);
     }
 
 }

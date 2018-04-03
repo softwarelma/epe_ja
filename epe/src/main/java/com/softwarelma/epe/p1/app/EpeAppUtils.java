@@ -361,6 +361,32 @@ public abstract class EpeAppUtils {
                 || param.trim().replace("\t", "").replace("\r\n", "").replace("\n", "").isEmpty();
     }
 
+    public static String retrieveVisualTrim(String param) {
+        if (param == null || param.isEmpty())
+            return param;
+        int i0 = 0;
+        int i1 = param.length();
+        char c;
+
+        for (int i = 0; i < param.length() + 1; i++) {
+            i0 = i;
+            if (i0 == param.length())
+                break;
+            c = param.charAt(i);
+            if (c != ' ' && c != '\t' && c != '\r' && c != '\n')
+                break;
+        }
+
+        for (int i = param.length(); i > 0 && i >= i0; i--) {
+            i1 = i;
+            c = param.charAt(i - 1);
+            if (c != ' ' && c != '\t' && c != '\r' && c != '\n')
+                break;
+        }
+
+        return param.substring(i0, i1);
+    }
+
     public static String getNotContainedString(String text, String open, String close) throws EpeAppException {
         EpeAppUtils.checkNull("text", text);
         EpeAppUtils.checkNull("open", open);
@@ -408,8 +434,15 @@ public abstract class EpeAppUtils {
                 "fullprop not valid \"" + fullprop + "\", should be like key=value");
         checkEmpty("key", array[0]);
         checkNull("value", array[1]);
-        Map.Entry<String, String> filePathAndLast = new AbstractMap.SimpleEntry<>(array[0], array[1]);
-        return filePathAndLast;
+        Map.Entry<String, String> keyValue = new AbstractMap.SimpleEntry<>(array[0], array[1]);
+        return keyValue;
+    }
+
+    public static Map.Entry<String, String> retrieveKeyAndValueVisualTrim(String fullprop) throws EpeAppException {
+        Map.Entry<String, String> keyValue = retrieveKeyAndValue(fullprop);
+        Map.Entry<String, String> keyValueVisualTrim = new AbstractMap.SimpleEntry<>(
+                retrieveVisualTrim(keyValue.getKey()), retrieveVisualTrim(keyValue.getValue()));
+        return keyValueVisualTrim;
     }
 
     public static Map.Entry<String, String> retrieveFilePathAndName(String fullFileName) throws EpeAppException {

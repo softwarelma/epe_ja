@@ -97,7 +97,6 @@ public final class EpeProgParserSearch {
         // || patternStr.equals(EpeAppConstants.REGEX_STR)
         // || patternStr.equals(EpeAppConstants.REGEX_COMMENT_BLOCK);
         Pattern pattern = this.mapPatternNameAndPattern.get(patternName);
-        long ts0 = System.currentTimeMillis();
 
         if (pattern == null) {
             pattern = Pattern.compile(patternStr);

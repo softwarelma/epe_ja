@@ -3,10 +3,8 @@ package com.softwarelma.epe.p3.print;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
-import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
-import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -15,8 +13,8 @@ public final class EpePrintFinalPrint extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String str = retrievePrintableStr(listExecResult);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrievePrintableStr(List<EpeExecResult> listExecResult) throws EpeAppException {

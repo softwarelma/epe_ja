@@ -13,15 +13,15 @@ public final class EpeProgFactory {
     private static EpeProgFactory factory;
 
     public static EpeProgInterface getInstanceFromProgramPath(String filePath,
-            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+            Map<String, String> mapNotContainedReplaced, Map<String, String> mapComments) throws EpeAppException {
         EpeProgFactory factory = getFactory();
-        return factory.initFromProgramPath(filePath, mapNotContainedReplaced);
+        return factory.initFromProgramPath(filePath, mapNotContainedReplaced, mapComments);
     }
 
     public static EpeProgInterface getInstanceFromProgramContent(String programContent,
-            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+            Map<String, String> mapNotContainedReplaced, Map<String, String> mapComments) throws EpeAppException {
         EpeProgFactory factory = getFactory();
-        return factory.initFromProgramContent(programContent, mapNotContainedReplaced);
+        return factory.initFromProgramContent(programContent, mapNotContainedReplaced, mapComments);
     }
 
     private static EpeProgFactory getFactory() throws EpeAppException {
@@ -43,8 +43,8 @@ public final class EpeProgFactory {
     private EpeProgFactory() throws EpeAppException {
     }
 
-    private EpeProgInterface initFromProgramPath(String filePath, Map<String, String> mapNotContainedReplaced)
-            throws EpeAppException {
+    private EpeProgInterface initFromProgramPath(String filePath, Map<String, String> mapNotContainedReplaced,
+            Map<String, String> mapComments) throws EpeAppException {
         EpeAppUtils.checkNull("filePath", filePath);
         EpeAppUtils.checkNull("mapNotContainedReplaced", mapNotContainedReplaced);
         EpeEncodingsResponse response;
@@ -56,16 +56,16 @@ public final class EpeProgFactory {
             throw new EpeAppException("Wrong file " + filePath, e);
         }
 
-        return this.initFromProgramContent(response.getFileContent(), mapNotContainedReplaced);
+        return this.initFromProgramContent(response.getFileContent(), mapNotContainedReplaced, mapComments);
     }
 
-    private EpeProgInterface initFromProgramContent(String programContent, Map<String, String> mapNotContainedReplaced)
-            throws EpeAppException {
+    private EpeProgInterface initFromProgramContent(String programContent, Map<String, String> mapNotContainedReplaced,
+            Map<String, String> mapComments) throws EpeAppException {
         EpeAppUtils.checkNull("programContent", programContent);
         EpeAppUtils.checkNull("mapNotContainedReplaced", mapNotContainedReplaced);
         EpeProgParser progParser = new EpeProgParser();
         List<EpeProgSentInterface> listProgSent = progParser.retrieveProgSentList(programContent,
-                mapNotContainedReplaced);
+                mapNotContainedReplaced, mapComments);
         EpeProgInterface prog = new EpeProgDefault(listProgSent);
         return prog;
     }

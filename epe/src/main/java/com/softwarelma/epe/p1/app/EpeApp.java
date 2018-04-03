@@ -154,8 +154,7 @@ public final class EpeApp {
 
     /**
      * @param path
-     *            true means a program full file name, false means a program
-     *            content
+     *            true means a program full file name, false means a program content
      */
     private EpeExecResult startByProgram(EpeAppGlobalParams globalParams, EpeAppProgram program)
             throws EpeAppException {
@@ -163,6 +162,7 @@ public final class EpeApp {
         EpeAppUtils.checkNull("program", program);
         globalParams.setPrintToConsole(false);
         globalParams.setSentIndex(0);
+        globalParams.getMapComments().clear();
         StringBuilder step = new StringBuilder("retrieving the PROGRAM " + program.getProgramName());
         EpeExecResult result = null;
 
@@ -172,10 +172,11 @@ public final class EpeApp {
             EpeProgInterface prog;
 
             if (program.isPath()) {
-                prog = EpeProgFactory.getInstanceFromProgramPath(program.getProgramPath(), mapNotContainedReplaced);
+                prog = EpeProgFactory.getInstanceFromProgramPath(program.getProgramPath(), mapNotContainedReplaced,
+                        globalParams.getMapComments());
             } else {
                 prog = EpeProgFactory.getInstanceFromProgramContent(program.getProgramContent(),
-                        mapNotContainedReplaced);
+                        mapNotContainedReplaced, globalParams.getMapComments());
             }
 
             String step0 = "executing from program " + program.getProgramName() + " the SENTENCE ";

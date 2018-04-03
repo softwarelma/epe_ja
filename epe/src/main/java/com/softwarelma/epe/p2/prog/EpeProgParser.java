@@ -19,7 +19,7 @@ public final class EpeProgParser {
     }
 
     public List<EpeProgSentInterface> retrieveProgSentList(String programContent,
-            Map<String, String> mapNotContainedReplaced) throws EpeAppException {
+            Map<String, String> mapNotContainedReplaced, Map<String, String> mapComments) throws EpeAppException {
         EpeAppUtils.checkNull("programContent", programContent);
         EpeAppUtils.checkNull("mapNotContainedReplaced", mapNotContainedReplaced);
         List<EpeProgSentInterface> listProgSent = new ArrayList<>();
@@ -30,7 +30,7 @@ public final class EpeProgParser {
         String sDoubleBackSlash = EpeAppUtils.getNotContainedString(ncs, 0, "]");
         String sBackSlashedQuote = EpeAppUtils.getNotContainedString(ncs, 1, "]");
         programContent = this.parserCleaner.cleanProgramContent(programContent, mapNotContainedReplaced,
-                sDoubleBackSlash, sBackSlashedQuote);
+                sDoubleBackSlash, sBackSlashedQuote, mapComments);
         String[] sSplit = programContent.split(";");
 
         for (String token : sSplit) {

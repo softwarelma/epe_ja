@@ -1,8 +1,6 @@
 package com.softwarelma.epe.p2.prog;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -17,13 +15,13 @@ public final class EpeProgParserCleaner {
     }
 
     protected String cleanProgramContent(String programContent, Map<String, String> mapNotContainedReplaced,
-            String sDoubleBackSlash, String sBackSlashedQuote) throws EpeAppException {
+            String sDoubleBackSlash, String sBackSlashedQuote, Map<String, String> mapComments) throws EpeAppException {
         programContent = programContent.replace("\r\n", "\n");
         programContent = programContent.replace("\r", "");
         // programContent = cleanCommentOrString(programContent, true, mapNotContainedReplaced);
         programContent = programContent.replace("\\\\", sDoubleBackSlash);
         programContent = programContent.replace("\\\"", sBackSlashedQuote);
-        programContent = cleanCommentOrString(programContent, mapNotContainedReplaced);
+        programContent = cleanCommentOrString(programContent, mapNotContainedReplaced, mapComments);
         cleanProgramContentValidation(programContent);
         return programContent;
     }
@@ -40,8 +38,8 @@ public final class EpeProgParserCleaner {
         }
     }
 
-    private String cleanCommentOrString(String text, Map<String, String> mapNotContainedReplaced)
-            throws EpeAppException {
+    private String cleanCommentOrString(String text, Map<String, String> mapNotContainedReplaced,
+            Map<String, String> mapComments) throws EpeAppException {
         String text2 = text;
         int iter = 0;
         String notContained = EpeAppUtils.getNotContainedString(text);
@@ -55,7 +53,7 @@ public final class EpeProgParserCleaner {
             }
 
             if (iscomment) {
-                text2 = cleanCommentOnce(text);
+                text2 = cleanCommentOnce(text, mapComments);
             } else {
                 text2 = cleanStringOnce(text, notContained, iter++, mapNotContainedReplaced);
             }
@@ -120,17 +118,12 @@ public final class EpeProgParserCleaner {
         return text;
     }
 
-    private String cleanCommentOnce(String text) throws EpeAppException {
-
+    private String cleanCommentOnce(String text, Map<String, String> mapComments) throws EpeAppException {
         int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE, "COMMENT_LINE");
         posLineComment[1] = posLineComment[0] == -1 ? -1 : posLineComment[1] - 1;
-        // println("posLineComment " + posLineComment[0] + ", " +
-        // posLineComment[1]);
         int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK, "COMMENT_BLOCK");
-        // println("posBlockComment " + posBlockComment[0] + ", " +
-        // posBlockComment[1]);
-
         int[] posComment;
+
         if (posLineComment[0] == -1 && posBlockComment[0] == -1) {
             posComment = posLineComment;
         } else if (posLineComment[0] != -1 && posBlockComment[0] != -1) {
@@ -138,15 +131,29 @@ public final class EpeProgParserCleaner {
         } else {
             posComment = posLineComment[0] > posBlockComment[0] ? posLineComment : posBlockComment;
         }
-        // println("posComment " + posComment[0] + ", " +
-        // posComment[1]);
 
-        if (posComment[0] == -1) {
+        if (posComment[0] == -1)
             return null;
-        }
+
+        this.loadComment(text, posComment, mapComments);
         text = text.substring(0, posComment[0]) + text.substring(posComment[1], text.length());
-        // println(text);
         return text;
+    }
+
+    private void loadComment(String text, int[] posComment, Map<String, String> mapComments) throws EpeAppException {
+        EpeAppUtils.checkNull("mapComments", mapComments);
+        String comment = text.substring(posComment[0], posComment[1]);
+        comment = comment.startsWith("//") ? comment.substring(2) : comment.substring(2, comment.length() - 2);
+        comment = EpeAppUtils.retrieveVisualTrim(comment);
+        if (!comment.contains("="))
+            return;
+        Map.Entry<String, String> keyValueVisualTrim = EpeAppUtils.retrieveKeyAndValueVisualTrim(comment);
+
+        // if the key is a valid id
+        String key = keyValueVisualTrim.getKey();
+        int[] posString = this.parserSearch.indexOf(key, EpeAppConstants.REGEX_ID, "ID");
+        if (posString[0] == 0 && posString[1] == key.length())
+            mapComments.put(key, keyValueVisualTrim.getValue());
     }
 
 }
