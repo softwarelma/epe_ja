@@ -34,7 +34,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // FIRST OPERAND DIR
 
-        String firstDirStr = this.getStringAt(listExecResult, 0, postMessage);
+        String firstDirStr = getStringAt(listExecResult, 0, postMessage);
         firstDirStr = EpeAppUtils.cleanFilename(firstDirStr);
         File firstDirFile = new File(firstDirStr);
 
@@ -48,7 +48,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // SECOND OPERAND DIR
 
-        String secondDirStr = this.getStringAt(listExecResult, 1, postMessage);
+        String secondDirStr = getStringAt(listExecResult, 1, postMessage);
         secondDirStr = EpeAppUtils.cleanFilename(secondDirStr);
         File secondDirFile = new File(secondDirStr);
 
@@ -62,7 +62,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // DESTINATION DIR
 
-        String destinationDirStr = this.getStringAt(listExecResult, 2, postMessage);
+        String destinationDirStr = getStringAt(listExecResult, 2, postMessage);
         destinationDirStr = EpeAppUtils.cleanFilename(destinationDirStr);
         File destinationDirFile = new File(destinationDirStr);
 
@@ -76,7 +76,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         // OPERATION MODE (NAME, CONTENT)
 
-        String operationModeStr = this.getStringAt(listExecResult, 3, postMessage);
+        String operationModeStr = getStringAt(listExecResult, 3, postMessage);
         EpeAppUtils.checkContains(
                 Arrays.asList(
                         new String[] { EpeAppConstants.OPERATION_MODE_NAME, EpeAppConstants.OPERATION_MODE_CONTENT }),
@@ -93,7 +93,7 @@ public final class EpeDiskFinalDminus extends EpeDiskAbstract {
 
         destinationDirStr = destinationDirStr.endsWith("/") ? destinationDirStr : destinationDirStr + "/";
         this.copyListFileToDestination(modelDir, destinationDirStr, destinationDirStr, firstDirStr);
-        return this.createEmptyResult();
+        return createEmptyResult();
     }
 
     private void copyListFileToDestination(EpeDiskModelDir modelDir, String destinationDirStrOri,

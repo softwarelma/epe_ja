@@ -12,13 +12,13 @@ public final class EpePrintFinalPrint_java_jar extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_java_jar, expected the java jar name, the physical RAM in MB and optionally the args.";
-        String javaJarName = this.getStringAt(listExecResult, 0, postMessage);
-        String physicalRamStr = this.getStringAt(listExecResult, 1, postMessage);
+        String javaJarName = getStringAt(listExecResult, 0, postMessage);
+        String physicalRamStr = getStringAt(listExecResult, 1, postMessage);
         long physicalRamInMB = Long.valueOf(physicalRamStr);
-        String args = this.getStringAt(listExecResult, 2, postMessage, null);
+        String args = getStringAt(listExecResult, 2, postMessage, null);
         String str = retrieveJavaJarCommand(javaJarName, physicalRamInMB, args);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     /**

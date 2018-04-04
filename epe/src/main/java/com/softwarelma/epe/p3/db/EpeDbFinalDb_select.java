@@ -88,6 +88,7 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         EpeAppUtils.checkEmpty("postMessage", postMessage);
         String[] arrayTable = this.retrieveTables(listExecResult);
+        @SuppressWarnings("unused")
         int index = 0;
         List<String> listSelect = new ArrayList<>();
 

@@ -15,8 +15,8 @@ public final class EpePrintFinalPrint_mem_physical extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String str = retrievePhysicalRam() + "";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     /**

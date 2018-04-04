@@ -15,11 +15,11 @@ public final class EpeDiskFinalFdmove extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fdmove, expected the source file/dir name and the destination file/dir name.";
-        String filenameOriginStr = this.getStringAt(listExecResult, 0, postMessage);
-        String filenameDestinationStr = this.getStringAt(listExecResult, 1, postMessage);
-        this.doFdmove(filenameOriginStr, filenameDestinationStr);
-        this.log(execParams, "moving \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"");
-        return this.createEmptyResult();
+        String filenameOriginStr = getStringAt(listExecResult, 0, postMessage);
+        String filenameDestinationStr = getStringAt(listExecResult, 1, postMessage);
+        doFdmove(filenameOriginStr, filenameDestinationStr);
+        log(execParams, "moving \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"");
+        return createEmptyResult();
     }
 
     public static void doFdmove(String filenameOriginStr, String filenameDestinationStr) throws EpeAppException {
@@ -36,12 +36,12 @@ public final class EpeDiskFinalFdmove extends EpeDiskAbstract {
             } else if (fileOrigin.isFile()) {
                 FileUtils.moveFile(fileOrigin, fileDestination);
             } else {
-                throw new EpeAppException("fdmove from \"" + filenameOriginStr
-                        + "\" is neither a directory nor a normal file");
+                throw new EpeAppException(
+                        "fdmove from \"" + filenameOriginStr + "\" is neither a directory nor a normal file");
             }
         } catch (IOException e) {
-            throw new EpeAppException(
-                    "fdcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"", e);
+            throw new EpeAppException("fdcopy from \"" + filenameOriginStr + "\" to \"" + filenameDestinationStr + "\"",
+                    e);
         }
     }
 

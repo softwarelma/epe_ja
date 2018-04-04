@@ -11,10 +11,10 @@ public final class EpeGenericFinalTo_unicode extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "to_unicode, expected the text.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
+        String text = getStringAt(listExecResult, 0, postMessage);
         String str = retrieveToUnicode(text);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveToUnicode(String text) {

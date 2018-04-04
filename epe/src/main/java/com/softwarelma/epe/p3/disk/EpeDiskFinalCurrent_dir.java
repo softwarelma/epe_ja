@@ -16,8 +16,8 @@ public final class EpeDiskFinalCurrent_dir extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String prop = System.getProperty("user.dir");
         prop = EpeAppUtils.cleanDirName(prop);
-        this.log(execParams, prop);
-        return this.createResult(prop);
+        log(execParams, prop);
+        return createResult(prop);
     }
 
 }

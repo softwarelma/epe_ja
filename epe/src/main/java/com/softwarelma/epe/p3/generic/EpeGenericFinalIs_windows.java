@@ -14,8 +14,8 @@ public final class EpeGenericFinalIs_windows extends EpeGenericAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         String str = isWindows() + "";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static boolean isWindows() {

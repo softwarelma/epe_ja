@@ -11,11 +11,11 @@ public final class EpePrintFinalPrint_java_test extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_java_test, expected the physical ram.";
-        String physicalRamStr = this.getStringAt(listExecResult, 0, postMessage);
+        String physicalRamStr = getStringAt(listExecResult, 0, postMessage);
         long physicalRam = Long.valueOf(physicalRamStr);
         String str = retrieveJavaTestCommand(physicalRam);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     /**

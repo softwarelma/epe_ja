@@ -17,10 +17,10 @@ public final class EpePrintFinalPrint_wrapped_command extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_wrapped_command, expected the command to wrap.";
-        String command = this.getStringAt(listExecResult, 0, postMessage);
+        String command = getStringAt(listExecResult, 0, postMessage);
         String str = retrieveWrappedCommand(command);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveWrappedCommand(String command) throws EpeAppException {

@@ -17,10 +17,10 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fdcopy, expected the source file/dir name and the destination file/dir name.";
         EpeAppUtils.checkRange(2, 2, 2, false, false, "fdcopy params should be 2, file name and destination");
-        String sourceFilename = this.getStringAt(listExecResult, 0, postMessage);
-        String destinationFilename = this.getStringAt(listExecResult, 1, postMessage);
-        this.doFdCopy(sourceFilename, destinationFilename);
-        return this.createEmptyResult();
+        String sourceFilename = getStringAt(listExecResult, 0, postMessage);
+        String destinationFilename = getStringAt(listExecResult, 1, postMessage);
+        doFdCopy(sourceFilename, destinationFilename);
+        return createEmptyResult();
     }
 
     public static void doFdCopy(String sourceFilename, String destinationFilename) throws EpeAppException {
@@ -63,8 +63,8 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
                     FileUtils.copyFile(fileOrigin, fileDestination);
                 }
             } else {
-                throw new EpeAppException("fdcopy from \"" + sourceFilename
-                        + "\" is neither a directory nor a normal file");
+                throw new EpeAppException(
+                        "fdcopy from \"" + sourceFilename + "\" is neither a directory nor a normal file");
             }
         } catch (IOException e) {
             throw new EpeAppException("fdcopy from \"" + sourceFilename + "\" to \"" + destinationFilename + "\"", e);

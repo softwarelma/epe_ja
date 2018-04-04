@@ -14,14 +14,15 @@ public final class EpeDiskFinalFread extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "fread, expected the file name and optionally the encoding.";
-        String filenameStr = this.getStringAt(listExecResult, 0, postMessage);
-        String encodingStr = this.getStringAt(listExecResult, 1, postMessage, null);
+        String filenameStr = getStringAt(listExecResult, 0, postMessage);
+        String encodingStr = getStringAt(listExecResult, 1, postMessage, null);
 
         EpeEncodings enc = new EpeEncodings();
+        @SuppressWarnings("unused")
         EpeEncodingsResponse response = encodingStr == null ? enc.readGuessing(filenameStr)
                 : enc.read(filenameStr, encodingStr);
         String str = fReadAsString(execParams.getGlobalParams().isPrintToConsole(), filenameStr, encodingStr);
-        return this.createResult(str);
+        return createResult(str);
     }
 
     public static String fReadAsString(boolean doLog, String filenameStr, String encodingStr) throws EpeAppException {

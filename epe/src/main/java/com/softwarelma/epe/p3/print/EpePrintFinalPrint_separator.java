@@ -1,13 +1,10 @@
 package com.softwarelma.epe.p3.print;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
-import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
-import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -17,13 +14,13 @@ public final class EpePrintFinalPrint_separator extends EpePrintAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_separator, expected a list with the param, external and internal separators "
                 + "and the contents to print.";
-        List<String> listStr = this.getListStringAt(listExecResult, 0, postMessage);
+        List<String> listStr = getListStringAt(listExecResult, 0, postMessage);
         String sepParam = listStr.size() > 0 ? listStr.get(0) : "";
         String sepExternal = listStr.size() > 1 ? listStr.get(1) : "";
         String sepInternal = listStr.size() > 2 ? listStr.get(2) : "";
         String str = retrievePrintableStrWithSeparators(sepParam, sepExternal, sepInternal, listExecResult, 1);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrievePrintableStrWithSeparators(String sepParam, String sepExternal, String sepInternal,

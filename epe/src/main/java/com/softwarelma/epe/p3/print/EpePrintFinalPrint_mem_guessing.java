@@ -15,13 +15,13 @@ public final class EpePrintFinalPrint_mem_guessing extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_mem_guessing, expected the unit (B|MB), Btyes or MBytes, case insensitive.";
-        String unit = this.getStringAt(listExecResult, 0, postMessage).toUpperCase();
+        String unit = getStringAt(listExecResult, 0, postMessage).toUpperCase();
         EpeAppUtils.checkContains(new String[] { "B", "MB" }, "unit", unit);
         boolean isBytes = unit.equals("B");
         long memBytesGuessing = retrieveMemBytesGuessing(execParams.getGlobalParams().isPrintToConsole(), isBytes);
         String str = memBytesGuessing + "";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     /**

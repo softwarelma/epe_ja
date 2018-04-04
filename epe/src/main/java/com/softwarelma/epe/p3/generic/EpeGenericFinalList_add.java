@@ -16,11 +16,11 @@ public final class EpeGenericFinalList_add extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "list_add, expected the list and the text to add.";
-        List<String> listStr = this.getListStringAt(listExecResult, 0, postMessage);
-        String text = this.getStringAt(listExecResult, 1, postMessage);
+        List<String> listStr = getListStringAt(listExecResult, 0, postMessage);
+        String text = getStringAt(listExecResult, 1, postMessage);
         listStr.add(text);
-        this.log(execParams, listStr);
-        return this.createResult(listStr);
+        log(execParams, listStr);
+        return createResult(listStr);
     }
 
 }

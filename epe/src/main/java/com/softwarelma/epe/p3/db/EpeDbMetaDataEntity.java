@@ -2,7 +2,6 @@ package com.softwarelma.epe.p3.db;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Set;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p3.db.EpeDbMetaDataColumn;
 
 public class EpeDbMetaDataEntity implements Serializable {
 

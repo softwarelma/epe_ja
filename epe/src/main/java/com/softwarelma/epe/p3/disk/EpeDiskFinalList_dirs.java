@@ -20,12 +20,12 @@ public final class EpeDiskFinalList_dirs extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "list_dirs, expected dir name.";
-        String dirName = this.getStringAt(listExecResult, 0, postMessage);
+        String dirName = getStringAt(listExecResult, 0, postMessage);
         File dir = new File(dirName);
         EpeAppUtils.checkDir(dir);
         List<String> list = this.listDirs(dir);
-        this.log(execParams, list);
-        return this.createResult(list);
+        log(execParams, list);
+        return createResult(list);
     }
 
     private List<String> listDirs(File dir) {

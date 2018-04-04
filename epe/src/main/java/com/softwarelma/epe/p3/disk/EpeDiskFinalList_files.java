@@ -2,7 +2,6 @@ package com.softwarelma.epe.p3.disk;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +23,13 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
         String postMessage = "list_files, expected dir name and optionally one or more of the following params "
                 + "in any order and respecting the keys of the properties:\n\"prefix=some prefix\", "
                 + "\"contained=some contained string\", \"suffix=some suffix\".";
-        String dirName = this.getStringAt(listExecResult, 0, postMessage);
+        String dirName = getStringAt(listExecResult, 0, postMessage);
         File dir = new File(dirName);
         EpeAppUtils.checkDir(dir);
 
-        String str1 = this.getStringAt(listExecResult, 1, postMessage, null);
-        String str2 = this.getStringAt(listExecResult, 2, postMessage, null);
-        String str3 = this.getStringAt(listExecResult, 3, postMessage, null);
+        String str1 = getStringAt(listExecResult, 1, postMessage, null);
+        String str2 = getStringAt(listExecResult, 2, postMessage, null);
+        String str3 = getStringAt(listExecResult, 3, postMessage, null);
         String[] prefixContainedAndSuffix = retrievePrefixContainedAndSuffix(str1, str2, str3);
         String prefix = prefixContainedAndSuffix[0];
         String contained = prefixContainedAndSuffix[1];
@@ -55,8 +54,8 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
             list.add(fileName);
         }
 
-        this.log(execParams, list);
-        return this.createResult(list);
+        log(execParams, list);
+        return createResult(list);
     }
 
     public static String[] retrievePrefixContainedAndSuffix(String str1, String str2, String str3)

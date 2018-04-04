@@ -11,10 +11,10 @@ public final class EpeGenericFinalTrim extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "trim, expected text.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
+        String text = getStringAt(listExecResult, 0, postMessage);
         String str = text.trim();
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

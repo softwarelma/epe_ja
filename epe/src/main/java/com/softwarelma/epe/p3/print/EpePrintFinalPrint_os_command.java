@@ -17,10 +17,10 @@ public final class EpePrintFinalPrint_os_command extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_os_command, expected the exec file name.";
-        String execFilename = this.getStringAt(listExecResult, 0, postMessage);
+        String execFilename = getStringAt(listExecResult, 0, postMessage);
         String str = retrieveExecOSCommand(execFilename);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveExecOSCommand(String execFilename) throws EpeAppException {

@@ -18,10 +18,10 @@ public final class EpeDiskFinalClean_dir_name extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "clean_dir_name, expected dir name.";
-        String dirName = this.getStringAt(listExecResult, 0, postMessage);
+        String dirName = getStringAt(listExecResult, 0, postMessage);
         dirName = EpeAppUtils.cleanDirName(dirName);
-        this.log(execParams, dirName);
-        return this.createResult(dirName);
+        log(execParams, dirName);
+        return createResult(dirName);
     }
 
 }

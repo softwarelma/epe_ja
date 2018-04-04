@@ -18,8 +18,8 @@ public final class EpePrintFinalPrint_default_exec_file_name extends EpePrintAbs
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String str = retrieveDefaultExecFilename();
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveDefaultExecFilename() throws EpeAppException {

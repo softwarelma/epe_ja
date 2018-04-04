@@ -23,15 +23,15 @@ public final class EpeDbFinalDb_datasource extends EpeDbAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "db_datasource, expected the URL, the username and the password.";
-        String url = this.getStringAt(listExecResult, 0, postMessage);
-        String username = this.getStringAt(listExecResult, 1, postMessage);
-        String password = this.getStringAt(listExecResult, 2, postMessage);
+        String url = getStringAt(listExecResult, 0, postMessage);
+        String username = getStringAt(listExecResult, 1, postMessage);
+        String password = getStringAt(listExecResult, 2, postMessage);
         DataSource dataSource = retrieveOrCreateDataSource(url, username, password);
         List<String> listStr = new ArrayList<>();
         listStr.add("URL=" + url);
         listStr.add("username=" + username);
-        this.log(execParams, listStr);
-        return this.createResult(listStr, dataSource);
+        log(execParams, listStr);
+        return createResult(listStr, dataSource);
     }
 
     /**

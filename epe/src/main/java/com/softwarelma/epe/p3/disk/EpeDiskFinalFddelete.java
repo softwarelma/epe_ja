@@ -19,17 +19,17 @@ public final class EpeDiskFinalFddelete extends EpeDiskAbstract {
         String postMessage = "fddelete, expected the file/dir name to delete and optionally one or more of the following params "
                 + "in any order and respecting the keys of the properties:\n\"prefix=some prefix\", "
                 + "\"contained=some contained string\", \"suffix=some suffix\".";
-        String fdNameStr = this.getStringAt(listExecResult, 0, postMessage);
+        String fdNameStr = getStringAt(listExecResult, 0, postMessage);
         fdNameStr = EpeAppUtils.cleanFilename(fdNameStr);
         File fdToDelete = new File(fdNameStr);
 
         if (!fdToDelete.exists()) {
-            return this.createEmptyResult();
+            return createEmptyResult();
         }
 
-        String str1 = this.getStringAt(listExecResult, 1, postMessage, null);
-        String str2 = this.getStringAt(listExecResult, 2, postMessage, null);
-        String str3 = this.getStringAt(listExecResult, 3, postMessage, null);
+        String str1 = getStringAt(listExecResult, 1, postMessage, null);
+        String str2 = getStringAt(listExecResult, 2, postMessage, null);
+        String str3 = getStringAt(listExecResult, 3, postMessage, null);
         String[] prefixContainedAndSuffix = EpeDiskFinalList_files.retrievePrefixContainedAndSuffix(str1, str2, str3);
         String prefix = prefixContainedAndSuffix[0];
         String contained = prefixContainedAndSuffix[1];
@@ -39,15 +39,15 @@ public final class EpeDiskFinalFddelete extends EpeDiskAbstract {
         String fileName = filePathAndName.getValue();
 
         if (!EpeAppUtils.isEmpty(prefix) && !fileName.startsWith(prefix)) {
-            return this.createEmptyResult();
+            return createEmptyResult();
         }
 
         if (!EpeAppUtils.isEmpty(contained) && !fileName.startsWith(contained)) {
-            return this.createEmptyResult();
+            return createEmptyResult();
         }
 
         if (!EpeAppUtils.isEmpty(suffix) && !fileName.startsWith(suffix)) {
-            return this.createEmptyResult();
+            return createEmptyResult();
         }
 
         if (fdToDelete.isDirectory()) {
@@ -62,7 +62,7 @@ public final class EpeDiskFinalFddelete extends EpeDiskAbstract {
             throw new EpeAppException("The file/dir \"" + fdNameStr + "\" is neither a directory nor a file.");
         }
 
-        return this.createEmptyResult();
+        return createEmptyResult();
     }
 
 }

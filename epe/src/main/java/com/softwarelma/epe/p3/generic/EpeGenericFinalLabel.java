@@ -11,8 +11,8 @@ public final class EpeGenericFinalLabel extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String str = execParams.getGlobalParams().getSentIndex() + "";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

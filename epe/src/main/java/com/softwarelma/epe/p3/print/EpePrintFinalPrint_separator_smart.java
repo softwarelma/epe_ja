@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
-import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecContent;
 import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
@@ -17,14 +16,15 @@ public final class EpePrintFinalPrint_separator_smart extends EpePrintAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
+        @SuppressWarnings("unused")
         String postMessage = "print_separator_smart, expected a list with the param, external and internal separators "
                 + "and the contents to print.";
         String sepParam = "\n";// "\n\n";
         String sepExternal = "\n";
         String colSuffix = retrievePropValueOrNull("print_separator_smart", listExecResult, PROP_COL_SUFFIX);
         String str = retrievePrintableStrWithSeparatorsSmart(sepParam, sepExternal, listExecResult, colSuffix);
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrievePrintableStrWithSeparatorsSmart(String sepParam, String sepExternal,

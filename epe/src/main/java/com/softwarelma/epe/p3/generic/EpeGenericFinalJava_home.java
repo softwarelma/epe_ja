@@ -13,8 +13,8 @@ public final class EpeGenericFinalJava_home extends EpeGenericAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String prop = System.getProperty("java.home");
         prop = EpeAppUtils.cleanDirName(prop);
-        this.log(execParams, prop);
-        return this.createResult(prop);
+        log(execParams, prop);
+        return createResult(prop);
     }
 
 }

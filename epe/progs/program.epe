@@ -1,12 +1,46 @@
-v1 = import_comment("v1");
-print_to_console("true");
+//INPUTS
 
-exec_shell();
+script = import_comment("script");
+//dmkdir("tmp-sge");
+version = "3.0.9";//read_line("Versione delle catene da scaricare (es. 3.0.9): ", "*", "", "true", "true");
+urlCatene = echo("http://svn-tributi-bologna.bo.eng.it/svn/tributi/Progetti/ELISA/ACSOR/CATENE_CHRONOS_SGE/tags/",
+	version);
+usernameSvn = "usr";//read_line("Username SVN: ", "*", "", "true", "true");
+passwordSvn = "pwd";//read_line("Password SVN: ", "*", "", "true", "true", "true");
+propFile = "A182--alessandria--preprod";//read_line("Nome del file di properties (es. A182--alessandria--preprod): ", "*", "", "true", "true");
+propFile = echo(propFile, ".properties");
+
+//SVN DOWNLOAD
+
+script = replace(script, "${usernameSvn}", usernameSvn);
+script = replace(script, "${urlCatene}", urlCatene);
+script = replace(script, "${passwordSvn}", passwordSvn);
+listPassword = echo_to_list(passwordSvn);
+print_to_console("true");
+echo(script);//exec_shell(script, listPassword);
+print_to_console("false");
+
+//COPIANDO LE RISORSE DA ZIPPARE
+
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/jobs"), "tmp-sge/da-zippare/jobs/");
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/bin"), "tmp-sge/da-zippare/bin/");
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/conf/ente/Default.properties"), "tmp-sge/da-zippare/Default.properties");
+template = fread("tmp-sge/da-zippare/Default.properties");
+allProperties = fread(echo("tmp-sge/", version, "/install/", propFile, ".properties"));
+allProperties = prop_text_to_list_list(allProperties);
+template = replace(template, allProperties);
+fwrite("tmp-sge/da-zippare/Default.properties", template);
+
+//ZIPPANDO
+
+fdzip("tmp-sge/completo.zip", "tmp-sge/da-zippare");
+
+//NON CANCELLARE - SCRIPT PER SCARICARE DA SVN
 
 /*
-v1= 
-pwd
-cd "log"
-pwd
+script = 
+cd tmp-sge
+svn co --username ${usernameSvn} ${urlCatene}
+${passwordSvn}
 exit
 */

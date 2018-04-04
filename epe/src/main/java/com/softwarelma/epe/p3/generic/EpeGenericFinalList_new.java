@@ -17,8 +17,8 @@ public final class EpeGenericFinalList_new extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         List<String> listStr = new ArrayList<>();
-        this.log(execParams, listStr);
-        return this.createResult(listStr);
+        log(execParams, listStr);
+        return createResult(listStr);
     }
 
 }

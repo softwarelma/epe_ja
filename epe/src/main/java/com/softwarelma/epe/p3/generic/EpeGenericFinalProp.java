@@ -16,7 +16,7 @@ public final class EpeGenericFinalProp extends EpeGenericAbstract {
         // String postMessage = "prop, expected...";
         listExecResult = this.toListStrIfPossible(listExecResult);
         setProp(listExecResult, true);
-        return listExecResult.size() == 1 ? listExecResult.get(0) : this.createEmptyResult();
+        return listExecResult.size() == 1 ? listExecResult.get(0) : createEmptyResult();
     }
 
     private List<EpeExecResult> toListStrIfPossible(List<EpeExecResult> listExecResult) throws EpeAppException {
@@ -35,7 +35,7 @@ public final class EpeGenericFinalProp extends EpeGenericAbstract {
             listStr.add(content.getStr());
         }
 
-        EpeExecResult execResult = this.createResult(listStr);
+        EpeExecResult execResult = createResult(listStr);
         List<EpeExecResult> listExecResultRet = new ArrayList<>();
         listExecResultRet.add(execResult);
         return listExecResultRet;

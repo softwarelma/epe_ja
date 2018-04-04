@@ -13,18 +13,21 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
 
+    private static final String PASSWORD_MASK = "*********";
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "exec_shell, expected no param or str (contaning the shell script).";
         String shellScript = getStringAt(listExecResult, 0, postMessage, null);
-        String exit = execShellScript(shellScript);
+        List<String> listPassword = getListStringAt(listExecResult, 1, postMessage, new ArrayList<>());
+        String exit = execShellScript(shellScript, listPassword);
         log(execParams, exit);
         return createResult(exit);
     }
 
-    public static String execShellScript(String shellScript) throws EpeAppException {
+    public static String execShellScript(String shellScript, List<String> listPassword) throws EpeAppException {
         if (shellScript == null || shellScript.trim().isEmpty())
-            return execShellCommands(null);
+            return execShellCommands(null, listPassword);
 
         List<String> listCommands = new ArrayList<>();
         String[] arrayCommands = shellScript.split("\n");
@@ -33,10 +36,11 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
             listCommands.add(command);
         }
 
-        return execShellCommands(listCommands);
+        return execShellCommands(listCommands, listPassword);
     }
 
-    public static String execShellCommands(List<String> listCommands) throws EpeAppException {
+    public static String execShellCommands(List<String> listCommands, List<String> listPassword)
+            throws EpeAppException {
         listCommands = listCommands == null ? new ArrayList<>() : listCommands;
 
         try {
@@ -59,12 +63,16 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
                         String typed = output.substring(0, output.indexOf("\n"));
                         String consoleOutput = output.substring(typed.length() + 1);
                         String forFile = lastExecuted == null ? output : lastExecuted + "\n" + consoleOutput;
+                        forFile = cleanPasswords(forFile, listPassword);
+                        String forConsole = first ? output : consoleOutput;
+                        forConsole = cleanPasswords(forConsole, listPassword);
                         // only file:
                         EpeAppLogger.log(forFile, null, null, false, true, false);
                         // only console:
-                        EpeAppLogger.logSystemOutPrint(first ? output : consoleOutput);
+                        EpeAppLogger.logSystemOutPrint(forConsole);
                         first = false;
                     } else {
+                        output = cleanPasswords(output, listPassword);
                         // file and console
                         EpeAppLogger.log(output, null, null, true, true, false);
                     }
@@ -87,8 +95,9 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
                     String input = listCommands.remove(0);
                     lastExecuted = input;
                     input += "\n";
+                    String forConsole = cleanPasswords(input, listPassword);
                     // only console:
-                    EpeAppLogger.logSystemOutPrint(input);
+                    EpeAppLogger.logSystemOutPrint(forConsole);
                     if (input.startsWith("exit")) {
                         // only file:
                         EpeAppLogger.log("exit", null, null, false, true);
@@ -150,6 +159,12 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
         } catch (IOException e) {
             throw new EpeAppException("exec_shell", e);
         }
+    }
+
+    private static String cleanPasswords(String str, List<String> listPassword) {
+        for (String password : listPassword)
+            str = str.replace(password, PASSWORD_MASK);
+        return str;
     }
 
     private static String cleanForConsole(String str) {

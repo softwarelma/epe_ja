@@ -11,9 +11,9 @@ public final class EpeGenericFinalInc extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "inc, expected an integer to increment.";
-        String str = this.getIntAt(listExecResult, 0, postMessage) + 1 + "";
-        this.log(execParams, str);
-        return this.createResult(str);
+        String str = getIntAt(listExecResult, 0, postMessage) + 1 + "";
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

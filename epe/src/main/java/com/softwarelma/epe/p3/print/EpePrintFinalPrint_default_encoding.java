@@ -12,8 +12,8 @@ public final class EpePrintFinalPrint_default_encoding extends EpePrintAbstract 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String str = EpeAppConstants.ENCODING_DEFAULT;
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

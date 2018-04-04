@@ -12,13 +12,14 @@ public final class EpeSysFinalSys_get_all_props extends EpeSysAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
+        @SuppressWarnings("unused")
         String postMessage = "sys_get_all_props.";
         List<String> listStr = new ArrayList<>();
         Properties props = System.getProperties();
         for (Object key : props.keySet())
             listStr.add(key + "=" + props.get(key));
-        this.log(execParams, listStr);
-        return this.createResult(listStr);
+        log(execParams, listStr);
+        return createResult(listStr);
     }
 
 }

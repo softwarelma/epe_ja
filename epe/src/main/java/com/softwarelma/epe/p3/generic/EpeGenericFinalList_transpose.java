@@ -18,10 +18,10 @@ public final class EpeGenericFinalList_transpose extends EpeDiskAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "list_transpose, expected the list of lists.";
-        List<List<String>> listListStr = this.getListListStringAt(listExecResult, 0, postMessage);
+        List<List<String>> listListStr = getListListStringAt(listExecResult, 0, postMessage);
         listListStr = transpose(listListStr);
-        this.log(execParams, listListStr, null);
-        return this.createResult(listListStr, null);
+        log(execParams, listListStr, null);
+        return createResult(listListStr, null);
     }
 
     public static List<List<String>> transpose(List<List<String>> listListStr) throws EpeAppException {

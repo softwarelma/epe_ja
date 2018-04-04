@@ -12,11 +12,11 @@ public final class EpeGenericFinalNot extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "replace_regex, expected text, regex and replacement.";
-        String text = this.getStringAt(listExecResult, 0, postMessage);
+        String text = getStringAt(listExecResult, 0, postMessage);
         EpeAppUtils.checkContains(new String[] { "true", "false" }, "boolean", text);
         String str = text.equals("true") ? "false" : "true";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

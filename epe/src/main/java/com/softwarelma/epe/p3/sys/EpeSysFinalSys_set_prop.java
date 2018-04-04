@@ -17,21 +17,21 @@ public final class EpeSysFinalSys_set_prop extends EpeSysAbstract {
         checkProp(listExecResult, postMessage);
 
         for (int i = 0; i < listExecResult.size(); i++) {
-            String prop = this.getStringAt(listExecResult, i, postMessage);
+            String prop = getStringAt(listExecResult, i, postMessage);
             int ind = prop.indexOf("=");
             String propKey = prop.substring(0, ind);
             String propVal = prop.substring(ind + 1);
             System.setProperty(propKey, propVal);
         }
 
-        return this.createEmptyResult();
+        return createEmptyResult();
     }
 
     public void checkProp(List<EpeExecResult> listExecResult, String postMessage) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
 
         for (int i = 0; i < listExecResult.size(); i++) {
-            String prop = this.getStringAt(listExecResult, i, postMessage);
+            String prop = getStringAt(listExecResult, i, postMessage);
 
             if (!prop.contains("=")) {
                 throw new EpeAppException(postMessage + " Found: \"" + prop + "\".");

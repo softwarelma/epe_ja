@@ -151,10 +151,8 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         EpeAppUtils.checkNull("content", content);
         String str = content.getStr();
 
-        if (checkNull) {
+        if (checkNull)
             EpeAppUtils.checkNull("str", str);
-        }
-
         return str;
     }
 
@@ -174,6 +172,32 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         }
 
         throw new EpeAppException("Content not valid. " + postMessage);
+    }
+
+    public static List<String> getListStringAt(List<EpeExecResult> listExecResult, int index, String postMessage,
+            boolean checkNull) throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        EpeAppUtils.checkRange(index, 0, listExecResult.size() - 1, false, false, postMessage);
+
+        EpeExecResult result = listExecResult.get(index);
+        EpeAppUtils.checkNull("result", result);
+        EpeExecContent content = result.getExecContent();
+        EpeAppUtils.checkNull("content", content);
+        List<String> listStr = content.getListStr();
+
+        if (checkNull)
+            EpeAppUtils.checkNull("listStr", listStr);
+        return listStr;
+    }
+
+    public static List<String> getListStringAt(List<EpeExecResult> listExecResult, int index, String postMessage,
+            List<String> defaultListStr) throws EpeAppException {
+        if (listExecResult.size() > index) {
+            List<String> listStr = getListStringAt(listExecResult, index, postMessage, false);
+            return listStr == null ? defaultListStr : listStr;
+        } else {
+            return defaultListStr;
+        }
     }
 
     public static List<String> getListStringAt(List<EpeExecResult> listExecResult, int index, String postMessage)
@@ -287,8 +311,7 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
 
     /**
      * 
-     * @return null when there is not such prop, otherwise the found prop value
-     *         which could be also empty ("prop=")
+     * @return null when there is not such prop, otherwise the found prop value which could be also empty ("prop=")
      * @throws EpeAppException
      *             when a content is set as prop and has an invalid format
      */

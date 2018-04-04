@@ -40,6 +40,7 @@ public final class EpeMem {
     /**
      * because of consuming funcs like for(), which consume and also enable assignment
      */
+    @SuppressWarnings("unused")
     @Deprecated
     private EpeExecContent rewrap(EpeExecContent content) throws EpeAppException {
         EpeExecContentInternal contentInternal;

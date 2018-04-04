@@ -14,12 +14,12 @@ public final class EpeGenericFinalOrder extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "order, expected list.";
-        List<String> list = this.getListStringAt(listExecResult, 0, postMessage);
+        List<String> list = getListStringAt(listExecResult, 0, postMessage);
 
         if (listExecResult.size() == 1) {
             list = this.order(list);
         } else {
-            String orderMode = this.getStringAt(listExecResult, 1, postMessage);
+            String orderMode = getStringAt(listExecResult, 1, postMessage);
             EpeAppUtils.checkEquals("order mode", "version", orderMode, "version");
 
             try {
@@ -29,8 +29,8 @@ public final class EpeGenericFinalOrder extends EpeGenericAbstract {
             }
         }
 
-        this.log(execParams, list);
-        return this.createResult(list);
+        log(execParams, list);
+        return createResult(list);
 
     }
 

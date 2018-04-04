@@ -3,13 +3,9 @@ package com.softwarelma.epe.p3.generic;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
-import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecAbstract;
-import com.softwarelma.epe.p2.exec.EpeExecFactoryInterface;
-import com.softwarelma.epe.p2.exec.EpeExecInterface;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
-import com.softwarelma.epe.p2.pack.EpePackGenericFactory;
 
 public final class EpeGenericFinalList_get_at extends EpeGenericAbstract {
 
@@ -20,15 +16,15 @@ public final class EpeGenericFinalList_get_at extends EpeGenericAbstract {
         // String index = this.getStringAt(listExecResult, 1, postMessage);
         // int ind = EpeAppUtils.parseInt(index);
 
-        if (this.isStringAt(listExecResult, 0, postMessage)) {
-            this.getListStringAt(listExecResult, 0, postMessage);// throwing
+        if (isStringAt(listExecResult, 0, postMessage)) {
+            getListStringAt(listExecResult, 0, postMessage);// throwing
             return null;// unreachable
         }
 
-        if (this.isListStringAt(listExecResult, 0, postMessage)) {
+        if (isListStringAt(listExecResult, 0, postMessage)) {
             String str = EpeGenericFinalList_get_str_at.doGetStrAt(execParams, listExecResult);
             return EpeExecAbstract.createResult(str);
-        } else if (this.isListListStringAt(listExecResult, 0, postMessage)) {
+        } else if (isListListStringAt(listExecResult, 0, postMessage)) {
             List<String> listStr = EpeGenericFinalList_get_list_at.doGetListAt(execParams, listExecResult);
             return EpeExecAbstract.createResult(listStr);
         } else {

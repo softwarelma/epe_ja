@@ -12,7 +12,7 @@ public final class EpePrintFinalPrint_funcs extends EpePrintAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "print_funcs, expected optionally the package (db, disk, echo, generic, print, xml, etc.).";
-        String pack = this.getStringAt(listExecResult, 0, postMessage, null);
+        String pack = getStringAt(listExecResult, 0, postMessage, null);
         List<String> listFunc = pack == null ? EpeGenericFinalList_funcs.retriveListFuncAll()
                 : EpeGenericFinalList_funcs.retriveListFunc(pack);
         StringBuilder sb = new StringBuilder();
@@ -23,8 +23,8 @@ public final class EpePrintFinalPrint_funcs extends EpePrintAbstract {
         }
 
         String str = sb.toString();
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
 }

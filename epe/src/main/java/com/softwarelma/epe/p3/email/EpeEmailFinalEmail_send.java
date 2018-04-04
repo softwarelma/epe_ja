@@ -2,11 +2,8 @@ package com.softwarelma.epe.p3.email;
 
 import java.io.File;
 import java.security.Security;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 import javax.activation.DataHandler;
@@ -28,8 +25,6 @@ import javax.mail.internet.MimeMultipart;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
-import com.softwarelma.epe.p2.exec.EpeExecContent;
-import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -57,8 +52,8 @@ public final class EpeEmailFinalEmail_send extends EpeEmailAbstract {
         Properties props = retrieveProps(listExecResult, postMessage);
         sendEmail(props, to, cc, bcc, subject, body, attachments, doLog);
         String str = "true";
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static void sendEmail(final Properties props, String to, String cc, String bcc, String subject, String body,

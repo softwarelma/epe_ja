@@ -1,6 +1,5 @@
 package com.softwarelma.epe.p3.generic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -14,7 +13,7 @@ public final class EpeGenericFinalList_get_str_at extends EpeGenericAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String str = doGetStrAt(execParams, listExecResult);
-        this.log(execParams, str);
+        log(execParams, str);
         return EpeExecAbstract.createResult(str);
     }
 

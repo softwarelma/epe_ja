@@ -147,7 +147,17 @@ public final class EpeProgParserCleaner {
         comment = EpeAppUtils.retrieveVisualTrim(comment);
         if (!comment.contains("="))
             return;
-        Map.Entry<String, String> keyValueVisualTrim = EpeAppUtils.retrieveKeyAndValueVisualTrim(comment);
+        Map.Entry<String, String> keyValueVisualTrim;
+
+        boolean showExceptions = EpeAppConstants.SHOW_EXCEPTIONS;
+        EpeAppConstants.SHOW_EXCEPTIONS = false;
+        try {
+            keyValueVisualTrim = EpeAppUtils.retrieveKeyAndValueVisualTrim(comment);
+        } catch (EpeAppException e) {
+            EpeAppConstants.SHOW_EXCEPTIONS = showExceptions;
+            return;
+        }
+        EpeAppConstants.SHOW_EXCEPTIONS = showExceptions;
 
         // if the key is a valid id
         String key = keyValueVisualTrim.getKey();

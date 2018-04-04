@@ -13,8 +13,8 @@ public final class EpePrintFinalPrint_os_name extends EpePrintAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
         String str = retrieveOsName();
-        this.log(execParams, str);
-        return this.createResult(str);
+        log(execParams, str);
+        return createResult(str);
     }
 
     public static String retrieveOsName() {

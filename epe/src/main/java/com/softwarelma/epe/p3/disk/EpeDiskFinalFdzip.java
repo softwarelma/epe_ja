@@ -25,20 +25,20 @@ public class EpeDiskFinalFdzip extends EpeDiskAbstract {
         EpeAppUtils.checkEmptyList("listExecResult", listExecResult);
         EpeAppUtils.checkRange(listExecResult.size(), 2, Integer.MAX_VALUE, false, true,
                 "fdzip, indicate at least the zip file and the file to zip.");
-        String zipStr = this.getStringAt(listExecResult, 0, postMessage);
+        String zipStr = getStringAt(listExecResult, 0, postMessage);
         List<String> listFullFileName = new ArrayList<>();
 
-        if (this.isListStringAt(listExecResult, 1, postMessage)) {
-            listFullFileName = this.getListStringAt(listExecResult, 1, postMessage);
+        if (isListStringAt(listExecResult, 1, postMessage)) {
+            listFullFileName = getListStringAt(listExecResult, 1, postMessage);
         } else {
             for (int i = 1; i < listExecResult.size(); i++) {
-                String fileToZipStr = this.getStringAt(listExecResult, i, postMessage);
+                String fileToZipStr = getStringAt(listExecResult, i, postMessage);
                 listFullFileName.add(fileToZipStr);
             }
         }
 
         createZip(execParams.getGlobalParams().isPrintToConsole(), listFullFileName, zipStr);
-        return this.createEmptyResult();
+        return createEmptyResult();
     }
 
     public static void createDirIfNotExisting(String dirName) throws EpeAppException {
