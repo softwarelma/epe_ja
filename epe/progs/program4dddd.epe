@@ -1,0 +1,82 @@
+//INPUTS
+
+//dmkdir("tmp-sge");
+version = "3.0.9";//read_line("Versione delle catene da scaricare (es. 3.0.9): ", "*", "", "true", "true");
+urlCatene = echo("http://svn-tributi-bologna.bo.eng.it/svn/tributi/Progetti/ELISA/ACSOR/CATENE_CHRONOS_SGE/tags/",
+	version);
+usernameSvn = "usr";//read_line("Username SVN: ", "*", "", "true", "true");
+passwordSvn = "pwd";//read_line("Password SVN: ", "*", "", "true", "true", "true");
+propFile = "A182--alessandria--preprod";//read_line("Nome del file di properties (es. A182--alessandria--preprod): ", "*", "", "true", "true");
+propFilePath = echo("tmp-sge/", version, "/install/", propFile, ".properties");
+
+//SVN: DOWNLOAD DEL TAG
+
+script_svn = import_comment("script_svn");
+script_svn = replace(script_svn, echo_to_list("usernameSvn", "urlCatene", "passwordSvn"), 
+	echo_to_list(usernameSvn, urlCatene, passwordSvn), "true");
+listPassword = echo_to_list(passwordSvn);
+print_to_console("true");
+echo(script_svn);//exec_shell(script_svn, listPassword);
+print_to_console("false");
+
+//COPIANDO LE RISORSE DA ZIPPARE
+
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/jobs"), "tmp-sge/da-zippare/jobs/");
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/bin"), "tmp-sge/da-zippare/bin/");
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/conf/ente/Default.properties"), 
+	"tmp-sge/da-zippare/Default.properties");
+fdcopy(echo("tmp-sge/", version, "/CATENE/installazione_programmi/variabili.sql"), 
+	"tmp-sge/da-zippare/variabili.sql");
+fdcopy(echo("tmp-sge/", version, "/TCM"), "tmp-sge/da-zippare/TCM/");
+	
+
+//INIETTANDO LE PROPERTIES
+
+template = fread_encoding("tmp-sge/da-zippare/Default.properties", prop(echo("prop_file=", propFilePath)), "true");
+fwrite("tmp-sge/da-zippare/Default.properties", list_get_at(template, "0"), list_get_at(template, "1"));
+template = fread_encoding("tmp-sge/da-zippare/variabili.sql", prop(echo("prop_file=", propFilePath)), "true");
+fwrite("tmp-sge/da-zippare/variabili.sql", list_get_at(template, "0"), list_get_at(template, "1"));
+
+//BUILD TCM
+
+script_tcm = import_comment("script_tcm");
+print_to_console("true");
+exec_shell(script_tcm);
+print_to_console("false");
+
+//ZIP COMPLETO
+
+fdzip("tmp-sge/completo.zip", "tmp-sge/da-zippare");
+
+//UPLOAD SU SERVER
+
+script_upload = import_comment("script_upload");
+print_to_console("true");
+exec_shell(script_upload);
+print_to_console("false");
+
+//NON CANCELLARE - SHELL SCRIPTS
+
+/*
+script_svn = 
+cd tmp-sge
+svn co --username ${usernameSvn} ${urlCatene}
+${passwordSvn}
+exit
+*/
+
+/*
+script_tcm = 
+cd tmp-sge/da-zippare/TCM
+mvn clean install
+exit
+*/
+
+/*
+script_upload = 
+sftp nettuno....
+cd tmp_2
+put /org/company/repositories/utils/epe/tmp-sge/da-zippare/Default.properties
+exit
+exit
+*/
