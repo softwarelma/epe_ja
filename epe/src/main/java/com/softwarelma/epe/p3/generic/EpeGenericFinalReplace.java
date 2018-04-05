@@ -12,9 +12,9 @@ public final class EpeGenericFinalReplace extends EpeGenericAbstract {
 
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
-        String postMessage = "replace, expected the text (list or str) and {the list-list target-replacement} or "
-                + "{the target (list or str), the replacement (list or str) and optionally the maven-like bool "
-                + "(default false)}.";
+        String postMessage = "replace, expected the text (list or str) and {the list-list target-replacement and \n"
+                + "optionally the maven-like bool (default false)} or {the target (list or str), the replacement \n"
+                + "(list or str) and optionally the maven-like bool (default false)}.";
 
         if (isListListStringAt(listExecResult, 1, postMessage)) {
             EpeGenericFinalList_get_list_at list_get_list_at = new EpeGenericFinalList_get_list_at();

@@ -303,10 +303,29 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return content.isProp();
     }
 
+    public static List<EpeExecResult> retrieveNoProps(List<EpeExecResult> listExecResult, String postMessage)
+            throws EpeAppException {
+        List<EpeExecResult> listExecResultNew = new ArrayList<>();
+
+        for (int i = 0; i < listExecResult.size(); i++) {
+            if (!isPropAt(listExecResult, i, postMessage))
+                listExecResultNew.add(listExecResult.get(i));
+        }
+
+        return listExecResultNew;
+    }
+
     public static String retrievePropValueOrDefault(String funcNameCaller, List<EpeExecResult> listExecResult,
             String propName, String defaultValue) throws EpeAppException {
         String propValue = retrievePropValueOrNull(funcNameCaller, listExecResult, propName);
         return propValue == null ? defaultValue : propValue;
+    }
+
+    public static String retrievePropValueNotNull(String funcNameCaller, List<EpeExecResult> listExecResult,
+            String propName) throws EpeAppException {
+        String value = retrievePropValueOrNull(funcNameCaller, listExecResult, propName);
+        EpeAppUtils.checkNull("value", value);
+        return value;
     }
 
     /**

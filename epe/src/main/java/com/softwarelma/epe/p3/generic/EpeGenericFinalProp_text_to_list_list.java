@@ -30,6 +30,8 @@ public final class EpeGenericFinalProp_text_to_list_list extends EpeGenericAbstr
 
         for (String prop : arrayProp) {
             prop = EpeAppUtils.retrieveVisualTrim(prop);
+            if (prop.isEmpty() || prop.startsWith("#"))
+                continue;
             Map.Entry<String, String> keyValueVisualTrim = EpeAppUtils.retrieveKeyAndValueVisualTrim(prop);
             listTarget.add(keyValueVisualTrim.getKey());
             listReplacement.add(keyValueVisualTrim.getValue());
