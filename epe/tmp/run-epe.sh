@@ -1,1 +1,1 @@
-gnome-terminal -x sh -c "ls | grep p; bash"
+gnome-terminal -x sh -c "gnome-terminal -x sh -c "ls; bash"; bash"

@@ -10,6 +10,7 @@ import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppLogger;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
+import com.softwarelma.epe.p3.print.EpePrintFinalPrint_os_name;
 
 public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
 
@@ -44,7 +45,7 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
         listCommands = listCommands == null ? new ArrayList<>() : listCommands;
 
         try {
-            ProcessBuilder builder = new ProcessBuilder("bash", "-i");
+            ProcessBuilder builder = retrieveProcessBuilder();
             builder.redirectErrorStream(true); // so we can ignore the error stream
             Process process = builder.start();
             InputStream out = process.getInputStream();
@@ -120,6 +121,20 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
             return exit;
         } catch (IOException e) {
             throw new EpeAppException("exec_shell", e);
+        }
+    }
+
+    private static ProcessBuilder retrieveProcessBuilder() throws EpeAppException {
+        if (EpeGenericFinalIs_windows.isWindows()) {
+            return new ProcessBuilder("CMD");
+        } else if (EpeGenericFinalIs_unix.isUnix()) {
+            return new ProcessBuilder("bash", "-i");
+        } else if (EpeGenericFinalIs_mac.isMac()) {
+            return new ProcessBuilder("bash", "-i");
+        } else if (EpeGenericFinalIs_solaris.isSolaris()) {
+            return new ProcessBuilder("bash", "-i");
+        } else {
+            throw new EpeAppException("Unknown operating system: " + EpePrintFinalPrint_os_name.retrieveOsName());
         }
     }
 

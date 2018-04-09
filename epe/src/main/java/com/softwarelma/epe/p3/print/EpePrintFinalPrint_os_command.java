@@ -34,6 +34,8 @@ public final class EpePrintFinalPrint_os_command extends EpePrintAbstract {
             execCommand = EpeAppConstants.EXEC_COMMAND_LIN;
         } else if (EpeGenericFinalIs_solaris.isSolaris()) {
             execCommand = EpeAppConstants.EXEC_COMMAND_LIN;
+        } else {
+            throw new EpeAppException("Unknown operating system: " + EpePrintFinalPrint_os_name.retrieveOsName());
         }
 
         EpeAppUtils.checkNull("execCommand (OS: " + EpePrintFinalPrint_os_name.retrieveOsName() + ")", execCommand);
