@@ -18,11 +18,15 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
  */
 public final class EpeDiskFinalList_files extends EpeDiskAbstract {
 
+    public static final String PROP_PREFIX = "prefix";
+    public static final String PROP_CONTAINED = "contained";
+    public static final String PROP_SUFFIX = "suffix";
+
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "list_files, expected dir name and optionally one or more of the following params "
-                + "in any order and respecting the keys of the properties:\n\"prefix=some prefix\", "
-                + "\"contained=some contained string\", \"suffix=some suffix\".";
+                + "in any order and respecting the keys of the properties:\n\"" + PROP_PREFIX + "=some prefix\", "
+                + "\"" + PROP_CONTAINED + "=some contained string\", \"" + PROP_SUFFIX + "=some suffix\".";
         String dirName = getStringAt(listExecResult, 0, postMessage);
         File dir = new File(dirName);
         EpeAppUtils.checkDir(dir);
@@ -75,11 +79,11 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
 
         Map.Entry<String, String> filePathAndLast = EpeAppUtils.retrieveKeyAndValue(str);
 
-        if (filePathAndLast.getKey().equals("prefix")) {
+        if (filePathAndLast.getKey().equals(PROP_PREFIX)) {
             prefixContainedAndSuffix[0] = filePathAndLast.getValue();
-        } else if (filePathAndLast.getKey().equals("contained")) {
+        } else if (filePathAndLast.getKey().equals(PROP_CONTAINED)) {
             prefixContainedAndSuffix[1] = filePathAndLast.getValue();
-        } else if (filePathAndLast.getKey().equals("suffix")) {
+        } else if (filePathAndLast.getKey().equals(PROP_SUFFIX)) {
             prefixContainedAndSuffix[2] = filePathAndLast.getValue();
         } else {
             throw new EpeAppException("Unknown key: " + filePathAndLast.getKey());

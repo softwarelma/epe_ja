@@ -30,7 +30,6 @@ variabiliFilePath = echo("tmp-sge/", version, "/install/", propFile, ".sql");
 
 //3. SVN: DOWNLOAD DEL TAG
 
-//fddelete("tmp-sge/");//////////cancellazione cartella di lavoro
 //dmkdir("tmp-sge");//////////creazione cartella di lavoro
 script_svn = import_comment("script_svn");
 script_svn = replace(script_svn, echo_to_list("usernameSvn", "urlCatene", "passwordSvn"), 
@@ -43,12 +42,11 @@ print_to_console("false");
 
 //4. COPIANDO LE RISORSE DA ZIPPARE
 
-fdcopy(echo("tmp-sge/", version, "/CATENE"), "tmp-sge/da-zippare/CATENE/");
-fdcopy(variabiliFilePath, "tmp-sge/da-zippare/CATENE/installazione_programmi/variabili.sql");
 fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/jobs"), "tmp-sge/da-zippare/jobs/");
 fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/bin"), "tmp-sge/da-zippare/bin/");
 fdcopy(echo("tmp-sge/", version, "/TCM"), "tmp-sge/da-zippare/TCM-completo/");
-fdcopy(propFilePath, echo("tmp-sge/da-zippare/Default-", codiceEnte, ".properties"));
+fdcopy(propFilePath, "tmp-sge/da-zippare/Default.properties");
+fdcopy(variabiliFilePath, "tmp-sge/da-zippare/variabili.sql");
 
 //5. BUILD TCM
 
@@ -88,9 +86,6 @@ print_to_console("false");
 
 fdzip("tmp-sge/completo.zip", "tmp-sge/da-zippare");
 labelEnd = label();
-
-//10. CANCELLAZIONE DATI DI APPOGGIO
-
 fddelete("tmp-sge/da-zippare/");
 
 //NON CANCELLARE - SHELL SCRIPTS

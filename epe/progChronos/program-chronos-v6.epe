@@ -1,24 +1,12 @@
-//1. INPUTS
+//INPUTS
 
-consoleMode = "false";//console/manual
-
-goto(labelManualMode, not(consoleMode));
-version = read_line("Versione delle catene da scaricare (es. 3.0.9): ", "*", "", "true", "true");
-usernameSvn = read_line("Username SVN: ", "*", "", "true", "true");
-passwordSvn = read_line("Password SVN: ", "*", "", "true", "true", "true");
-propFile = read_line("Nome del file di properties senza estenzione (es. A182-Alessandria-test): ", "*", "", "true", "true");
-goto(labelInitVars);
-
-labelManualMode = label();
-version = "3.0.9";
-usernameSvn = "guiellis";
-passwordSvn = "pwd";
-propFile = "F205-Milano-coll-innovazione";
-
-//2. INIZIALIZZAZIONE VARIABILI
-
-labelInitVars = label();
-urlCatene = echo("http://svn-tributi-bologna.bo.eng.it/svn/tributi/Progetti/ELISA/ACSOR/CATENE_CHRONOS_SGE/tags/", version);
+//dmkdir("tmp-sge");
+version = "3.0.9";//read_line("Versione delle catene da scaricare (es. 3.0.9): ", "*", "", "true", "true");
+urlCatene = echo("http://svn-tributi-bologna.bo.eng.it/svn/tributi/Progetti/ELISA/ACSOR/CATENE_CHRONOS_SGE/tags/",
+	version);
+usernameSvn = "usr";//read_line("Username SVN: ", "*", "", "true", "true");
+passwordSvn = "pwd";//read_line("Password SVN: ", "*", "", "true", "true", "true");
+propFile = "F205-Milano-coll-innovazione";//read_line("Nome del file di properties (es. A182-Alessandria-test): ", "*", "", "true", "true");
 arrayPropFile = split(propFile, "\-");
 codiceEnte = list_get_at(arrayPropFile, "0");
 comuneLower = lower(list_get_at(arrayPropFile, "1"));
@@ -28,36 +16,33 @@ ambiente = decode(ambiente, "prod", "prod", "test", "preprod", "coll", "inno");
 propFilePath = echo("tmp-sge/", version, "/install/", propFile, ".properties");
 variabiliFilePath = echo("tmp-sge/", version, "/install/", propFile, ".sql");
 
-//3. SVN: DOWNLOAD DEL TAG
+//SVN: DOWNLOAD DEL TAG
 
-//fddelete("tmp-sge/");//////////cancellazione cartella di lavoro
-//dmkdir("tmp-sge");//////////creazione cartella di lavoro
 script_svn = import_comment("script_svn");
 script_svn = replace(script_svn, echo_to_list("usernameSvn", "urlCatene", "passwordSvn"), 
 	echo_to_list(usernameSvn, urlCatene, passwordSvn), "true");
 listPassword = echo_to_list(passwordSvn);
 print_to_console("true");
-//exec_shell(script_svn, listPassword);//////////download da SVN
+//exec_shell(script_svn, listPassword);
 echo(script_svn);
 print_to_console("false");
 
-//4. COPIANDO LE RISORSE DA ZIPPARE
+//COPIANDO LE RISORSE DA ZIPPARE
 
-fdcopy(echo("tmp-sge/", version, "/CATENE"), "tmp-sge/da-zippare/CATENE/");
-fdcopy(variabiliFilePath, "tmp-sge/da-zippare/CATENE/installazione_programmi/variabili.sql");
 fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/jobs"), "tmp-sge/da-zippare/jobs/");
 fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/bin"), "tmp-sge/da-zippare/bin/");
 fdcopy(echo("tmp-sge/", version, "/TCM"), "tmp-sge/da-zippare/TCM-completo/");
-fdcopy(propFilePath, echo("tmp-sge/da-zippare/Default-", codiceEnte, ".properties"));
+fdcopy(propFilePath, "tmp-sge/da-zippare/Default.properties");
+fdcopy(variabiliFilePath, "tmp-sge/da-zippare/variabili.sql");
 
-//5. BUILD TCM
+//BUILD TCM
 
 script_tcm = import_comment("script_tcm");
 print_to_console("true");
 exec_shell(script_tcm);
 print_to_console("false");
 
-//6. CONTROLLI
+//CONTROLLI
 
 log = fread("log/epe.log");
 success = contains(log, "[INFO] ------------------------------------------------------------------------
@@ -67,14 +52,13 @@ goto(labelEnd, not(success));
 error = contains(log, "[INFO] No sources to compile");
 goto(labelEnd, error);
 
-//7. COPIANDO LA BUILD DEL TCM
+//COPIANDO LA BUILD DEL TCM
 
 tcmPomPath =  "tmp-sge/da-zippare/TCM-completo/pom.xml";
 tcmVers = find_between(fread(tcmPomPath), "<it.eng.tributi.tcm.version>", "</it.eng.tributi.tcm.version>");
 fdcopy(echo("tmp-sge/da-zippare/TCM-completo/target/tcm-", tcmVers), "tmp-sge/da-zippare/TCM/");
-fddelete("tmp-sge/da-zippare/TCM-completo/");
 
-//8. CANCELLA-TRANNE
+//CANCELLA-TRANNE
 
 script_cancella_tranne = import_comment("script_cancella_tranne");
 script_cancella_tranne = replace(script_cancella_tranne, "tcmVers", tcmVers, "true");
@@ -84,13 +68,10 @@ print_to_console("true");
 exec_shell(script_cancella_tranne);
 print_to_console("false");
 
-//9. ZIP COMPLETO
+//ZIP COMPLETO
 
 fdzip("tmp-sge/completo.zip", "tmp-sge/da-zippare");
 labelEnd = label();
-
-//10. CANCELLAZIONE DATI DI APPOGGIO
-
 fddelete("tmp-sge/da-zippare/");
 
 //NON CANCELLARE - SHELL SCRIPTS

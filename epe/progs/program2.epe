@@ -1,22 +1,52 @@
-/*
+//1. UNZIP COMPLETO
+
+zipFolder = "tmp-sge/";
+fdunzip(echo(zipFolder, "completo.zip"), zipFolder);
+
+//2. INIZIALIZZAZIONE VARIABILI
+
+centroservizi = "tmp-sge/appl/nettuno/centroservizi/";/////////// assoluto
+	codiceEnte = list_files(echo(zipFolder, "da-zippare/"), "prefix=Default-", "suffix=.properties");
+	codiceEnte = list_get_at(codiceEnte, "0");
+	codiceEnte = find_between(codiceEnte, "Default-", ".properties");
+	print_to_console("true");
+	echo("codiceEnte=", codiceEnte);
+	print_to_console("false");
+
+//3. COPIANDO LE RISORSE DA UNZIPPATE
+
+fdcopy(echo(zipFolder, "da-zippare/CATENE"), echo(centroservizi, "CATENE/"));
+fdcopy(echo(zipFolder, "da-zippare/jobs"), echo(centroservizi, "SGE/jobs/"));
+fdcopy(echo(zipFolder, "da-zippare/bin"), echo(centroservizi, "SGE/bin/"));
+fdcopy(echo(zipFolder, "da-zippare/TCM"), echo(centroservizi, "TCM/"));
+fdcopy(echo(zipFolder, "da-zippare/Default-", codiceEnte, ".properties"), echo(centroservizi, "SGE/conf/", codiceEnte, "/Default.properties"));
+
+//4. ESECUZIONE SQLPLUS
+
+script_sqlplus = import_comment("script_sqlplus");
+print_to_console("true");
+exec_shell(script_sqlplus);
 print_to_console("false");
-unicode = to_unicode("@Δ 0¡P¿p£_!1AQaq$Φ2BRbr¥Γ#3CScsèΛ¤4DTdtéΩ%5EUeuùΠ&6FVfvìΨ'7GWgwòΣ(8HXhxÇΘ)9IYiyΞ*:JZjzØ[ESC]+;KÄkäøÆ,<LÖlöæ-=MÑmñÅß.>NÜnüåÉ/?O§oà");
-testo = from_unicode(unicode);
-print_to_console("true");
-echo(unicode);
-echo_reverse(testo);
-*/
+//sqlplus &CHRONOS_USR./&CHRONOS_PWD.@&SID. 
 
-print_to_console("true");
-//decrypt("password_db", "6ngwPA7NoDL33UEDQsjk/Q==");//ET0p02k466
-//decrypt("password_db", "hMjr4UfacMDbi5VUackbKw==");"sge_master_prod"
+//5. UPLOAD IN POST DEI FILE PAR
+
+//6. CANCELLAZIONE DATI DI APPOGGIO
+
+fddelete(echo(zipFolder, "da-zippare/"));
+fddelete(echo(zipFolder, "completo.zip"));
+
+//NON CANCELLARE - SHELL SCRIPTS
 
 /*
-ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/neta944", "SGE_MASTER", "SGE_MASTER");
-rs1 = db_select(ds, "select * from c_dyqe_gruppo");
-rs2 = db_select(ds, "select * from tcan where cod_ano like '%:PARAM'");
-list_sep = echo_to_list("\n\n", "\n", "\t\t");
-print_to_console("true");
-//print_separator(list_sep, rs, rs);
-print_separator_smart(rs1, rs2);
+script_sqlplus =
+sqlplus sge_master/sge_master@H223_REGGIOEMILIA_LAB_PLUTO
+
+insert into aaa (id, text) values (2, sysdate)
+
+commit
+
+exit
+
+exit
 */

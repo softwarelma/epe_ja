@@ -21,12 +21,6 @@ public final class EpeDiskFinalFddelete extends EpeDiskAbstract {
                 + "\"contained=some contained string\", \"suffix=some suffix\".";
         String fdNameStr = getStringAt(listExecResult, 0, postMessage);
         fdNameStr = EpeAppUtils.cleanFilename(fdNameStr);
-        File fdToDelete = new File(fdNameStr);
-
-        if (!fdToDelete.exists()) {
-            return createEmptyResult();
-        }
-
         String str1 = getStringAt(listExecResult, 1, postMessage, null);
         String str2 = getStringAt(listExecResult, 2, postMessage, null);
         String str3 = getStringAt(listExecResult, 3, postMessage, null);
@@ -34,35 +28,36 @@ public final class EpeDiskFinalFddelete extends EpeDiskAbstract {
         String prefix = prefixContainedAndSuffix[0];
         String contained = prefixContainedAndSuffix[1];
         String suffix = prefixContainedAndSuffix[2];
+        fddelete(postMessage, fdNameStr, prefix, contained, suffix);
+        log(execParams, "Deleted: " + fdNameStr);
+        return createEmptyResult();
+    }
 
+    public static void fddelete(String postMessage, String fdNameStr, String prefix, String contained, String suffix)
+            throws EpeAppException {
+        File fdToDelete = new File(fdNameStr);
+        if (!fdToDelete.exists())
+            return;
         Map.Entry<String, String> filePathAndName = EpeAppUtils.retrieveFilePathAndName(fdToDelete.getAbsolutePath());
         String fileName = filePathAndName.getValue();
-
-        if (!EpeAppUtils.isEmpty(prefix) && !fileName.startsWith(prefix)) {
-            return createEmptyResult();
-        }
-
-        if (!EpeAppUtils.isEmpty(contained) && !fileName.startsWith(contained)) {
-            return createEmptyResult();
-        }
-
-        if (!EpeAppUtils.isEmpty(suffix) && !fileName.startsWith(suffix)) {
-            return createEmptyResult();
-        }
+        if (!EpeAppUtils.isEmpty(prefix) && !fileName.startsWith(prefix))
+            return;
+        if (!EpeAppUtils.isEmpty(contained) && !fileName.startsWith(contained))
+            return;
+        if (!EpeAppUtils.isEmpty(suffix) && !fileName.startsWith(suffix))
+            return;
 
         if (fdToDelete.isDirectory()) {
             try {
                 FileUtils.deleteDirectory(fdToDelete);
             } catch (IOException e) {
-                new EpeAppException(postMessage, e);
+                throw new EpeAppException(postMessage, e);
             }
         } else if (fdToDelete.isFile()) {
             fdToDelete.delete();
         } else {
             throw new EpeAppException("The file/dir \"" + fdNameStr + "\" is neither a directory nor a file.");
         }
-
-        return createEmptyResult();
     }
 
 }

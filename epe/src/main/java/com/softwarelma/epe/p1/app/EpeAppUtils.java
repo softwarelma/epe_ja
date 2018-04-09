@@ -423,7 +423,7 @@ public abstract class EpeAppUtils {
     public static String cleanDirName(String dirName) throws EpeAppException {
         checkNull("dirName", dirName);
         dirName = cleanFilename(dirName);
-        dirName = dirName.endsWith("/") ? dirName : dirName + "/";
+        dirName = dirName.endsWith("/") || dirName.isEmpty() ? dirName : dirName + "/";
         return dirName;
     }
 

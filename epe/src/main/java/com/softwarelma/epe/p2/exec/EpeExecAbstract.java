@@ -230,6 +230,24 @@ public abstract class EpeExecAbstract implements EpeExecInterface {
         return listListStr;
     }
 
+    public static List<String> getAsListString(List<EpeExecResult> listExecResult, String postMessage,
+            boolean checkNull) throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        List<String> listStr = new ArrayList<>();
+        for (int i = 0; i < listExecResult.size(); i++)
+            listStr.add(getStringAt(listExecResult, i, postMessage, checkNull));
+        return listStr;
+    }
+
+    public static List<String> getAsListString(List<EpeExecResult> listExecResult, String postMessage)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("listExecResult", listExecResult);
+        List<String> listStr = new ArrayList<>();
+        for (int i = 0; i < listExecResult.size(); i++)
+            listStr.add(getStringAt(listExecResult, i, postMessage));
+        return listStr;
+    }
+
     public static DataSource getDataSourceAt(List<EpeExecResult> listExecResult, int index, String postMessage)
             throws EpeAppException {
         EpeAppUtils.checkNull("listExecResult", listExecResult);
