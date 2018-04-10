@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.softwarelma.epe.p2.exec.EpeExec;
+import com.softwarelma.epe.p2.exec.EpeExecContent;
+import com.softwarelma.epe.p2.exec.EpeExecContentInternal;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 import com.softwarelma.epe.p2.prog.EpeProgFactory;
 import com.softwarelma.epe.p2.prog.EpeProgInterface;
@@ -62,7 +64,11 @@ class EpeAppProgram {
 public final class EpeApp {
 
     public EpeExecResult start(String[] args) throws EpeAppException {
+        String[][] arrayArgAndVar = retrieveAndRemoveExportVars(args);
+        args = arrayArgAndVar[0];
+        String[] vars = arrayArgAndVar[1];
         EpeAppGlobalParams globalParams = new EpeAppGlobalParams();
+        exportVars(globalParams, vars);
         String programPath = null;
         EpeAppProgram program;
         List<EpeAppProgram> listProgram = new ArrayList<>();
@@ -83,19 +89,15 @@ public final class EpeApp {
             arg = args[i];
 
             if (this.isNewArg(arg)) {
-                if (programName != null) {
+                if (programName != null)
                     throw new EpeAppException(exceptionMessage);
-                }
-
                 path = this.isPath(arg, exceptionMessage);
                 continue;
             }
 
             if (path) {
-                if (programName != null) {
+                if (programName != null)
                     throw new EpeAppException(exceptionMessage);
-                }
-
                 programPath = arg;
                 programName = "\"" + programPath + "\"";
                 program = new EpeAppProgram(true, programName, programPath);
@@ -128,6 +130,48 @@ public final class EpeApp {
         return result;
     }
 
+    private void exportVars(EpeAppGlobalParams globalParams, String[] vars) throws EpeAppException {
+        EpeAppUtils.checkNull("globalParams", globalParams);
+        EpeAppUtils.checkNull("vars", vars);
+        if (vars.length % 2 != 0)
+            throw new EpeAppException("The vars following -v must be pairs of name and value");
+
+        for (int i = 1; i < vars.length; i++) {
+            String varName = vars[i - 1];
+            EpeAppUtils.checkNull("varName", varName);
+            String varValue = vars[i];
+            EpeAppUtils.checkNull("varValue", varValue);
+            EpeExecContent content = new EpeExecContent(new EpeExecContentInternal(varValue));
+            globalParams.getMapVarNameExecContent().put(varName, content);
+        }
+    }
+
+    private String[][] retrieveAndRemoveExportVars(String[] args) throws EpeAppException {
+        EpeAppUtils.checkNull("args", args);
+        List<String> listArg = new ArrayList<>();
+        List<String> listVar = new ArrayList<>();
+        boolean readingVar = false;
+
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            EpeAppUtils.checkNull("arg", arg);
+
+            if (arg.equals("-v")) {
+                readingVar = true;
+            } else if ("-p".equals(arg) || "-f".equals(arg)) {
+                listArg.add(arg);
+                readingVar = false;
+            } else if (readingVar) {
+                listVar.add(arg);
+            } else {
+                listArg.add(arg);
+            }
+        }
+
+        String[][] arrayArgAndVar = new String[][] { listArg.toArray(new String[0]), listVar.toArray(new String[0]) };
+        return arrayArgAndVar;
+    }
+
     private String retrieveExceptionMessage(String[] args) throws EpeAppException {
         EpeAppUtils.checkNull("args", args);
         List<String> list = Arrays.asList(args);
@@ -138,11 +182,14 @@ public final class EpeApp {
         return exceptionMessage;
     }
 
-    private boolean isNewArg(String arg) {
+    private boolean isNewArg(String arg) throws EpeAppException {
+        EpeAppUtils.checkNull("arg", arg);
         return "-p".equals(arg) || "-f".equals(arg);
     }
 
     private boolean isPath(String arg, String exceptionMessage) throws EpeAppException {
+        EpeAppUtils.checkNull("arg", arg);
+
         if ("-p".equals(arg)) {
             return false;
         } else if ("-f".equals(arg)) {
@@ -154,7 +201,8 @@ public final class EpeApp {
 
     /**
      * @param path
-     *            true means a program full file name, false means a program content
+     *            true means a program full file name, false means a program
+     *            content
      */
     private EpeExecResult startByProgram(EpeAppGlobalParams globalParams, EpeAppProgram program)
             throws EpeAppException {
