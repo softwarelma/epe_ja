@@ -1,15 +1,19 @@
 package com.softwarelma.epe.p3.xml;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.Authenticator;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +39,14 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
     @Override
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "xml_read_site, expected the URL.";
-        String host = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_HOST);
-        String port = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PORT);
-        String username = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_USER);
-        String password = retrievePropValueOrNull("xml_read_site", listExecResult, PROP_PROXY_PASSWORD);
+        String host = retrievePropValueOrNull("xml_read_site", listExecResult,
+                EpeXmlFinalXml_read_site.PROP_PROXY_HOST);
+        String port = retrievePropValueOrNull("xml_read_site", listExecResult,
+                EpeXmlFinalXml_read_site.PROP_PROXY_PORT);
+        String username = retrievePropValueOrNull("xml_read_site", listExecResult,
+                EpeXmlFinalXml_read_site.PROP_PROXY_USER);
+        String password = retrievePropValueOrNull("xml_read_site", listExecResult,
+                EpeXmlFinalXml_read_site.PROP_PROXY_PASSWORD);
         List<String> listSite = readSite(execParams, listExecResult, postMessage, host, port, username, password);
 
         if (listSite.size() == 1) {
@@ -104,6 +112,41 @@ public final class EpeXmlFinalXml_read_site extends EpeXmlAbstract {
             return sb.toString();
         } catch (IOException e) {
             throw new EpeAppException("readSite url: " + url, e);
+        }
+    }
+
+    // FIXME ko
+    public static String writeSite(String urlStr, String host, String port, String username, String password)
+            throws EpeAppException {
+        try {
+            String urlParameters = "text1=abc&text2=def";
+            byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+            int postDataLength = postData.length;
+            URL url = new URL(urlStr);
+            Proxy proxy = retrieveProxy(host, port, username, password);
+            URLConnection conn0 = proxy == null ? new URL(urlStr).openConnection()
+                    : new URL(urlStr).openConnection(proxy);
+            HttpURLConnection conn = (HttpURLConnection) conn0;
+            conn.setDoOutput(true);
+            conn.setInstanceFollowRedirects(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("charset", "UTF-8");
+            conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            conn.setUseCaches(false);
+            StringBuilder sb = new StringBuilder();
+
+            try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+                wr.write(postData);
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                for (int c; (c = in.read()) >= 0;)
+                    sb.append((char) c);
+                // System.out.println(sb);
+            }
+
+            return sb.toString();
+        } catch (Exception e) {
+            throw new EpeAppException("???", e);
         }
     }
 

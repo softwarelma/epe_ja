@@ -1,3 +1,73 @@
+//1. UNZIP COMPLETO
+
 print_to_console("true");
-command = print_wrapped_command("ls");
-exec(command, "wrap");
+echo("PROGRAMMA 2");
+fddelete("log/epe-step.log");
+print_to_console("false");
+fwrite("log/epe.log",      "programma 2 - step 1/6 - UNZIP COMPLETO                         OK\n", "UTF-8", "append");
+fwrite("log/epe-step.log", "PROGRAMMA 2\nprogramma 2 - step 1/6 - UNZIP COMPLETO                         OK\n", "UTF-8", "append");
+zipFolder = "tmp-sge/";
+fdunzip(echo(zipFolder, "completo.zip"), zipFolder);
+
+//2. INIZIALIZZAZIONE VARIABILI
+
+fwrite("log/epe.log",      "programma 2 - step 2/6 - INIZIALIZZAZIONE VARIABILI             OK\n", "UTF-8", "append");
+fwrite("log/epe-step.log", "programma 2 - step 2/6 - INIZIALIZZAZIONE VARIABILI             OK\n", "UTF-8", "append");
+centroservizi = "tmp-sge/appl/nettuno/centroservizi/";/////////// path assoluto                                         TODO
+	codiceEnte = list_files(echo(zipFolder, "da-zippare/"), "prefix=Default-", "suffix=.properties");
+	codiceEnte = list_get_at(codiceEnte, "0");
+	codiceEnte = find_between(codiceEnte, "Default-", ".properties");
+	print_to_console("true");
+	echo("codiceEnte=", codiceEnte);
+	print_to_console("false");
+
+//3. COPIANDO LE RISORSE DA UNZIPPATE
+
+fwrite("log/epe.log",      "programma 2 - step 3/6 - COPIANDO LE RISORSE DA UNZIPPATE       OK\n", "UTF-8", "append");
+fwrite("log/epe-step.log", "programma 2 - step 3/6 - COPIANDO LE RISORSE DA UNZIPPATE       OK\n", "UTF-8", "append");
+fdcopy(echo(zipFolder, "da-zippare/CATENE"), echo(centroservizi, "CATENE/"));
+fdcopy(echo(zipFolder, "da-zippare/jobs"), echo(centroservizi, "SGE/jobs/"));
+fdcopy(echo(zipFolder, "da-zippare/bin"), echo(centroservizi, "SGE/bin/"));
+fdcopy(echo(zipFolder, "da-zippare/TCM"), echo(centroservizi, "TCM/"));
+fdcopy(echo(zipFolder, "da-zippare/Default-", codiceEnte, ".properties"), echo(centroservizi, "SGE/conf/", codiceEnte, "/Default.properties"));
+
+//4. ESECUZIONE SQLPLUS
+
+fwrite("log/epe.log",      "programma 2 - step 4/6 - ESECUZIONE SQLPLUS                     OK\n", "UTF-8", "append");
+fwrite("log/epe-step.log", "programma 2 - step 4/6 - ESECUZIONE SQLPLUS                     OK\n", "UTF-8", "append");
+script_sqlplus = import_comment("script_sqlplus");
+print_to_console("true");
+//exec_shell(script_sqlplus);
+echo(script_sqlplus);
+print_to_console("false");
+//sqlplus &CHRONOS_USR./&CHRONOS_PWD.@&SID. 
+
+//5. UPLOAD IN POST DEI FILE PAR
+
+fwrite("log/epe.log",      "programma 2 - step 5/6 - UPLOAD IN POST DEI FILE PAR            OK\n", "UTF-8", "append");
+fwrite("log/epe-step.log", "programma 2 - step 5/6 - UPLOAD IN POST DEI FILE PAR            OK\n", "UTF-8", "append");
+//login?
+
+//6. CANCELLAZIONE DATI DI APPOGGIO
+
+fwrite("log/epe.log",      "programma 2 - step 6/6 - CANCELLAZIONE DATI DI APPOGGIO         OK\n", "UTF-8", "append");
+fwrite("log/epe-step.log", "programma 2 - step 6/6 - CANCELLAZIONE DATI DI APPOGGIO         OK\n", "UTF-8", "append");
+print_to_console("true");
+fddelete(echo(zipFolder, "da-zippare/"));
+fddelete(echo(zipFolder, "completo.zip"));
+print_to_console("false");
+
+//NON CANCELLARE - SHELL SCRIPTS
+
+/*
+script_sqlplus =
+sqlplus sge_master/sge_master@H223_REGGIOEMILIA_LAB_PLUTO
+
+insert into aaa (id, text) values (2, sysdate)
+
+commit
+
+exit
+
+exit
+*/
