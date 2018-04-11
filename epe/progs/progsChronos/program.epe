@@ -6,20 +6,21 @@ print_to_console("false");
 fddelete("log/epe-step.log");
 fwrite("log/epe.log",      "programma 1 - step 1/10 - INPUTS                                OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "PROGRAMMA 1\nprogramma 1 - step 1/10 - INPUTS                                OK\n", "UTF-8", "append");
-consoleMode = "false";///////console/manual                   TODO
+consoleMode = "true";///////console/manual                   TODO
 
 goto(labelManualMode, not(consoleMode));
 version = read_line("Versione delle catene da scaricare (es. 3.0.9): ", "*", "", "true", "true");
 usernameSvn = read_line("Username SVN: ", "*", "", "true", "true");
 passwordSvn = read_line("Password SVN: ", "*", "", "true", "true", "true");
-propFile = read_line("Nome del file di properties senza estenzione (es. A182-Alessandria-test): ", "*", "", "true", "true");
+propFile = read_line("Nome del file di properties senza estenzione 
+	(es. A182-Alessandria-test o F205-Milano-coll-innovazione): ", "*", "", "true", "true");
 goto(labelInitVars);
 
 labelManualMode = label();
-version = import("versione");//"3.0.9";
+version = import("versione");
 usernameSvn = import("username");
-passwordSvn = import("password");////////////               TODO
-propFile = import("ambiente");//"F205-Milano-coll-innovazione";
+passwordSvn = import("password");
+propFile = import("ambiente");
 
 //2. INIZIALIZZAZIONE VARIABILI
 
@@ -48,19 +49,19 @@ script_svn = replace(script_svn, echo_to_list("usernameSvn", "urlCatene", "passw
 listPassword = echo_to_list(passwordSvn);
 print_to_console("true");
 exec_shell(script_svn, listPassword);//////////download da SVN             TODO
-//echo(script_svn);
 print_to_console("false");
 
 //4. COPIANDO LE RISORSE DA ZIPPARE
 
 fwrite("log/epe.log",      "programma 1 - step 4/10 - COPIANDO LE RISORSE DA ZIPPARE        OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 4/10 - COPIANDO LE RISORSE DA ZIPPARE        OK\n", "UTF-8", "append");
-fdcopy(echo("tmp-sge/", version, "/CATENE"), "tmp-sge/da-zippare/CATENE/");
-fdcopy(variabiliFilePath, "tmp-sge/da-zippare/CATENE/installazione_programmi/variabili.sql");
-fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/jobs"), "tmp-sge/da-zippare/jobs/");
-fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/bin"), "tmp-sge/da-zippare/bin/");
-fdcopy(echo("tmp-sge/", version, "/TCM"), "tmp-sge/da-zippare/TCM-completo/");
-fdcopy(propFilePath, echo("tmp-sge/da-zippare/Default-", codiceEnte, ".properties"));
+fdcopy(echo("tmp-sge/", version, "/CATENE"), "tmp-sge/centroservizi/CATENE/");
+fdcopy(variabiliFilePath, "tmp-sge/centroservizi/CATENE/installazione_programmi/variabili.sql");
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/jobs"), "tmp-sge/centroservizi/SGE/jobs/");
+fdcopy(echo("tmp-sge/", version, "/JOB_TALEND/compilato/bin"), "tmp-sge/centroservizi/SGE/bin/");
+fdcopy(echo("tmp-sge/", version, "/TCM"), "tmp-sge/centroservizi/TCM-completo/");
+fdcopy(propFilePath, echo("tmp-sge/centroservizi/SGE/conf/", codiceEnte, "/Default.properties"));
+fdcopy(propFilePath, echo("tmp-sge/centroservizi/Default-", codiceEnte, ".properties"));
 
 //5. BUILD TCM
 
@@ -87,10 +88,10 @@ goto(labelEnd, error);
 
 fwrite("log/epe.log",      "programma 1 - step 7/10 - COPIANDO LA BUILD DEL TCM             OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 7/10 - COPIANDO LA BUILD DEL TCM             OK\n", "UTF-8", "append");
-tcmPomPath =  "tmp-sge/da-zippare/TCM-completo/pom.xml";
+tcmPomPath =  "tmp-sge/centroservizi/TCM-completo/pom.xml";
 tcmVers = find_between(fread(tcmPomPath), "<it.eng.tributi.tcm.version>", "</it.eng.tributi.tcm.version>");
-fdcopy(echo("tmp-sge/da-zippare/TCM-completo/target/tcm-", tcmVers), "tmp-sge/da-zippare/TCM/");
-fddelete("tmp-sge/da-zippare/TCM-completo/");
+fdcopy(echo("tmp-sge/centroservizi/TCM-completo/target/tcm-", tcmVers), "tmp-sge/centroservizi/TCM/");
+fddelete("tmp-sge/centroservizi/TCM-completo/");
 
 //8. CANCELLA-TRANNE
 
@@ -109,14 +110,14 @@ print_to_console("false");
 fwrite("log/epe.log",      "programma 1 - step 9/10 - ZIP COMPLETO                          OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 9/10 - ZIP COMPLETO                          OK\n", "UTF-8", "append");
 fddelete("tmp-sge/completo.zip");
-fdzip("tmp-sge/completo.zip", "tmp-sge/da-zippare");
+fdzip("tmp-sge/completo.zip", "tmp-sge/centroservizi");
 labelEnd = label();
 
 //10. CANCELLAZIONE DATI DI APPOGGIO
 
 fwrite("log/epe.log",      "programma 1 - step 10/10 - CANCELLAZIONE DATI DI APPOGGIO       OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 10/10 - CANCELLAZIONE DATI DI APPOGGIO       OK\n", "UTF-8", "append");
-fddelete("tmp-sge/da-zippare/");
+fddelete("tmp-sge/centroservizi/");
 
 //NON CANCELLARE - SHELL SCRIPTS
 
@@ -130,14 +131,14 @@ exit
 
 /*
 script_tcm = 
-cd tmp-sge/da-zippare/TCM-completo
+cd tmp-sge/centroservizi/TCM-completo
 mvn clean install
 exit
 */
 
 /*
 script_cancella_tranne =
-cd tmp-sge/da-zippare/TCM
+cd tmp-sge/centroservizi/TCM
 java -jar jar/tcm-${tcmVers}-jar-with-dependencies.jar preserve ${comuneLower}--${ambienteCompleto}--chronos
 exit
 */

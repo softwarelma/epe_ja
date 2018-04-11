@@ -2,7 +2,7 @@
 
 print_to_console("true");
 echo("PROGRAMMA 2");
-fddelete("log/epe-step.log");
+//fddelete("log/epe-step.log");
 print_to_console("false");
 fwrite("log/epe.log",      "programma 2 - step 1/6 - UNZIP COMPLETO                         OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "PROGRAMMA 2\nprogramma 2 - step 1/6 - UNZIP COMPLETO                         OK\n", "UTF-8", "append");
@@ -14,22 +14,23 @@ fdunzip(echo(zipFolder, "completo.zip"), zipFolder);
 fwrite("log/epe.log",      "programma 2 - step 2/6 - INIZIALIZZAZIONE VARIABILI             OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 2 - step 2/6 - INIZIALIZZAZIONE VARIABILI             OK\n", "UTF-8", "append");
 centroservizi = "tmp-sge/appl/nettuno/centroservizi/";/////////// path assoluto                                         TODO
-	codiceEnte = list_files(echo(zipFolder, "da-zippare/"), "prefix=Default-", "suffix=.properties");
+	codiceEnte = list_files(echo(zipFolder, "centroservizi/"), "prefix=Default-", "suffix=.properties");
 	codiceEnte = list_get_at(codiceEnte, "0");
 	codiceEnte = find_between(codiceEnte, "Default-", ".properties");
 	print_to_console("true");
 	echo("codiceEnte=", codiceEnte);
 	print_to_console("false");
 
-//3. COPIANDO LE RISORSE DA UNZIPPATE
+//3. COPIANDO LE RISORSE UNZIPPATE
 
 fwrite("log/epe.log",      "programma 2 - step 3/6 - COPIANDO LE RISORSE DA UNZIPPATE       OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 2 - step 3/6 - COPIANDO LE RISORSE DA UNZIPPATE       OK\n", "UTF-8", "append");
-fdcopy(echo(zipFolder, "da-zippare/CATENE"), echo(centroservizi, "CATENE/"));
-fdcopy(echo(zipFolder, "da-zippare/jobs"), echo(centroservizi, "SGE/jobs/"));
-fdcopy(echo(zipFolder, "da-zippare/bin"), echo(centroservizi, "SGE/bin/"));
-fdcopy(echo(zipFolder, "da-zippare/TCM"), echo(centroservizi, "TCM/"));
-fdcopy(echo(zipFolder, "da-zippare/Default-", codiceEnte, ".properties"), echo(centroservizi, "SGE/conf/", codiceEnte, "/Default.properties"));
+fdcopy(echo(zipFolder, "centroservizi/CATENE"), echo(centroservizi, "CATENE/"));
+fdcopy(echo(zipFolder, "centroservizi/SGE/jobs"), echo(centroservizi, "SGE/jobs/"));
+fdcopy(echo(zipFolder, "centroservizi/SGE/bin"), echo(centroservizi, "SGE/bin/"));
+fdcopy(echo(zipFolder, "centroservizi/TCM"), echo(centroservizi, "TCM/"));
+fdcopy(echo(zipFolder, "centroservizi/SGE/conf"), echo(centroservizi, "SGE/conf/"));
+//fdcopy(echo(zipFolder, "centroservizi/Default-", codiceEnte, ".properties"), echo(centroservizi, "SGE/conf/", codiceEnte, "/Default.properties"));
 
 //4. ESECUZIONE SQLPLUS
 
@@ -37,7 +38,7 @@ fwrite("log/epe.log",      "programma 2 - step 4/6 - ESECUZIONE SQLPLUS         
 fwrite("log/epe-step.log", "programma 2 - step 4/6 - ESECUZIONE SQLPLUS                     OK\n", "UTF-8", "append");
 script_sqlplus = import_comment("script_sqlplus");
 print_to_console("true");
-//exec_shell(script_sqlplus);
+exec_shell(script_sqlplus);
 echo(script_sqlplus);
 print_to_console("false");
 //sqlplus &CHRONOS_USR./&CHRONOS_PWD.@&SID. 
@@ -53,7 +54,7 @@ fwrite("log/epe-step.log", "programma 2 - step 5/6 - UPLOAD IN POST DEI FILE PAR
 fwrite("log/epe.log",      "programma 2 - step 6/6 - CANCELLAZIONE DATI DI APPOGGIO         OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 2 - step 6/6 - CANCELLAZIONE DATI DI APPOGGIO         OK\n", "UTF-8", "append");
 print_to_console("true");
-fddelete(echo(zipFolder, "da-zippare/"));
+fddelete(echo(zipFolder, "centroservizi/"));
 fddelete(echo(zipFolder, "completo.zip"));
 print_to_console("false");
 
@@ -63,11 +64,11 @@ print_to_console("false");
 script_sqlplus =
 sqlplus sge_master/sge_master@H223_REGGIOEMILIA_LAB_PLUTO
 
-insert into aaa (id, text) values (2, sysdate)
+insert into aaa (id, text) values ((select max(id)+1 from aaa), sysdate);
 
-commit
+commit;
 
-exit
+exit;
 
 exit
 */

@@ -1,1 +1,1112 @@
-20180411-153526 INFO: hw!
+20180411-182133 INFO: PROGRAMMA 1
+programma 1 - step 1/10 - INPUTS                                OK
+20180411-182134 INFO: Versione delle catene da scaricare (es. 3.0.9): 
+20180411-182139 INFO: Username SVN: 
+20180411-182141 INFO: Password SVN: 
+20180411-182141 INFO: Nome del file di properties senza estenzione 
+	(es. A182-Alessandria-test o F205-Milano-coll-innovazione): 
+programma 1 - step 3/10 - SVN: DOWNLOAD DEL TAG                 OK
+programma 1 - step 4/10 - COPIANDO LE RISORSE DA ZIPPARE        OK
+programma 1 - step 5/10 - BUILD TCM                             OK
+bash: cannot set terminal process group (2108): Inappropriate ioctl for device
+bash: no job control in this shell
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ cd tmp-sge/centroservizi/TCM-completo
+<ries/utils/epe/tmp-sge/centroservizi/TCM-completo$ mvn clean install
+exit
+exit
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for it.eng.tributi:tcm:jar:1.6.0-SNAPSHOT
+[WARNING] 'version' contains an expression but should be a constant. @ it.eng.tributi:tcm:${it.eng.tributi.tcm.version}, /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/pom.xml, line 15, column 14
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-compiler-plugin is missing. @ it.eng.tributi:tcm:${it.eng.tributi.tcm.version}, /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/pom.xml, line 109, column 21
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-resources-plugin is missing. @ it.eng.tributi:tcm:${it.eng.tributi.tcm.version}, /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/pom.xml, line 119, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building TCM 1.6.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+exit
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ tcm ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-MappingFile) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 12 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-MappingFile/dtd) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-target/FileIn) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-run) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 62 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-conf) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 31 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-epe) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ tcm ---
+exit
+[INFO] Compiling 122 source files to /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/target/classes
+exit
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ tcm ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ tcm ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ tcm ---
+exit
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ tcm ---
+[INFO] Building jar: /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/target/tcm-1.6.0-SNAPSHOT.jar
+exit
+[INFO] --- maven-assembly-plugin:2.2-beta-5:single (create-jar) @ tcm ---
+exit
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/slf4j/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.slf4j/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/logging/ already added, skipping
+[INFO] org/apache/logging/log4j/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.logging.log4j/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] com/ already added, skipping
+[INFO] javax/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] com/sun/ already added, skipping
+[INFO] javax/ already added, skipping
+[INFO] javax/mail/ already added, skipping
+[INFO] javax/mail/event/ already added, skipping
+[INFO] javax/mail/internet/ already added, skipping
+[INFO] javax/mail/util/ already added, skipping
+[INFO] javax/mail/search/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] javax/mail/Session$6.class already added, skipping
+[INFO] javax/mail/MessageAware.class already added, skipping
+[INFO] javax/mail/MethodNotSupportedException.class already added, skipping
+[INFO] javax/mail/Session.class already added, skipping
+[INFO] javax/mail/FolderClosedException.class already added, skipping
+[INFO] javax/mail/Folder.class already added, skipping
+[INFO] javax/mail/FetchProfile$Item.class already added, skipping
+[INFO] javax/mail/QuotaAwareStore.class already added, skipping
+[INFO] javax/mail/SendFailedException.class already added, skipping
+[INFO] javax/mail/Session$7.class already added, skipping
+[INFO] javax/mail/MessageContext.class already added, skipping
+[INFO] javax/mail/URLName.class already added, skipping
+[INFO] javax/mail/Flags$Flag.class already added, skipping
+[INFO] javax/mail/Address.class already added, skipping
+[INFO] javax/mail/IllegalWriteException.class already added, skipping
+[INFO] javax/mail/BodyPart.class already added, skipping
+[INFO] javax/mail/EventQueue$QueueElement.class already added, skipping
+[INFO] javax/mail/Store.class already added, skipping
+[INFO] javax/mail/Authenticator.class already added, skipping
+[INFO] javax/mail/UIDFolder$FetchProfileItem.class already added, skipping
+[INFO] javax/mail/FolderNotFoundException.class already added, skipping
+[INFO] javax/mail/Session$4.class already added, skipping
+[INFO] javax/mail/Message$RecipientType.class already added, skipping
+[INFO] javax/mail/ReadOnlyFolderException.class already added, skipping
+[INFO] javax/mail/FetchProfile.class already added, skipping
+[INFO] javax/mail/Flags.class already added, skipping
+[INFO] javax/mail/Provider.class already added, skipping
+[INFO] javax/mail/event/TransportListener.class already added, skipping
+[INFO] javax/mail/event/MessageChangedListener.class already added, skipping
+[INFO] javax/mail/event/ConnectionEvent.class already added, skipping
+[INFO] javax/mail/event/StoreListener.class already added, skipping
+[INFO] javax/mail/event/FolderAdapter.class already added, skipping
+[INFO] javax/mail/event/StoreEvent.class already added, skipping
+[INFO] javax/mail/event/MessageCountAdapter.class already added, skipping
+[INFO] javax/mail/event/TransportAdapter.class already added, skipping
+[INFO] javax/mail/event/MessageCountEvent.class already added, skipping
+[INFO] javax/mail/event/MessageChangedEvent.class already added, skipping
+[INFO] javax/mail/event/TransportEvent.class already added, skipping
+[INFO] javax/mail/event/ConnectionAdapter.class already added, skipping
+[INFO] javax/mail/event/FolderEvent.class already added, skipping
+[INFO] javax/mail/event/MessageCountListener.class already added, skipping
+[INFO] javax/mail/event/ConnectionListener.class already added, skipping
+[INFO] javax/mail/event/FolderListener.class already added, skipping
+[INFO] javax/mail/event/MailEvent.class already added, skipping
+[INFO] javax/mail/Session$5.class already added, skipping
+[INFO] javax/mail/Quota$Resource.class already added, skipping
+[INFO] javax/mail/EventQueue$TerminatorEvent.class already added, skipping
+[INFO] javax/mail/Message.class already added, skipping
+[INFO] javax/mail/EventQueue.class already added, skipping
+[INFO] javax/mail/MailSessionDefinition.class already added, skipping
+[INFO] javax/mail/MessagingException.class already added, skipping
+[INFO] javax/mail/Session$2.class already added, skipping
+[INFO] javax/mail/Version.class already added, skipping
+[INFO] javax/mail/Header.class already added, skipping
+[INFO] javax/mail/MultipartDataSource.class already added, skipping
+[INFO] javax/mail/Quota.class already added, skipping
+[INFO] javax/mail/Session$3.class already added, skipping
+[INFO] javax/mail/AuthenticationFailedException.class already added, skipping
+[INFO] javax/mail/NoSuchProviderException.class already added, skipping
+[INFO] javax/mail/internet/AddressException.class already added, skipping
+[INFO] javax/mail/internet/MimeMessage.class already added, skipping
+[INFO] javax/mail/internet/MimeBodyPart$MimePartDataHandler.class already added, skipping
+[INFO] javax/mail/internet/NewsAddress.class already added, skipping
+[INFO] javax/mail/internet/InternetHeaders$InternetHeader.class already added, skipping
+[INFO] javax/mail/internet/MimeMultipart.class already added, skipping
+[INFO] javax/mail/internet/ParameterList.class already added, skipping
+[INFO] javax/mail/internet/MimeUtility.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$ParamEnum.class already added, skipping
+[INFO] javax/mail/internet/MimePart.class already added, skipping
+[INFO] javax/mail/internet/HeaderTokenizer$Token.class already added, skipping
+[INFO] javax/mail/internet/MimeBodyPart$EncodedFileDataSource.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$1.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$Value.class already added, skipping
+[INFO] javax/mail/internet/UniqueValue.class already added, skipping
+[INFO] javax/mail/internet/AsciiOutputStream.class already added, skipping
+[INFO] javax/mail/internet/InternetHeaders$MatchEnum.class already added, skipping
+[INFO] javax/mail/internet/PreencodedMimeBodyPart.class already added, skipping
+[INFO] javax/mail/internet/ContentDisposition.class already added, skipping
+[INFO] javax/mail/internet/ContentType.class already added, skipping
+[INFO] javax/mail/internet/InternetHeaders.class already added, skipping
+[INFO] javax/mail/internet/SharedInputStream.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$ToStringBuffer.class already added, skipping
+[INFO] javax/mail/internet/MimeUtility$1NullInputStream.class already added, skipping
+[INFO] javax/mail/internet/HeaderTokenizer.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$MultiValue.class already added, skipping
+[INFO] javax/mail/internet/ParseException.class already added, skipping
+[INFO] javax/mail/internet/MimeMessage$RecipientType.class already added, skipping
+[INFO] javax/mail/internet/MailDateParser.class already added, skipping
+[INFO] javax/mail/internet/MimePartDataSource.class already added, skipping
+[INFO] javax/mail/internet/MailDateFormat.class already added, skipping
+[INFO] javax/mail/internet/InternetAddress.class already added, skipping
+[INFO] javax/mail/internet/MimeBodyPart.class already added, skipping
+[INFO] javax/mail/Service.class already added, skipping
+[INFO] javax/mail/EncodingAware.class already added, skipping
+[INFO] javax/mail/MessageRemovedException.class already added, skipping
+[INFO] javax/mail/MailSessionDefinitions.class already added, skipping
+[INFO] javax/mail/PasswordAuthentication.class already added, skipping
+[INFO] javax/mail/util/ByteArrayDataSource.class already added, skipping
+[INFO] javax/mail/util/ByteArrayDataSource$DSByteArrayOutputStream.class already added, skipping
+[INFO] javax/mail/util/SharedByteArrayInputStream.class already added, skipping
+[INFO] javax/mail/util/SharedFileInputStream$SharedFile.class already added, skipping
+[INFO] javax/mail/util/SharedFileInputStream.class already added, skipping
+[INFO] javax/mail/search/StringTerm.class already added, skipping
+[INFO] javax/mail/search/AndTerm.class already added, skipping
+[INFO] javax/mail/search/OrTerm.class already added, skipping
+[INFO] javax/mail/search/RecipientTerm.class already added, skipping
+[INFO] javax/mail/search/MessageIDTerm.class already added, skipping
+[INFO] javax/mail/search/ReceivedDateTerm.class already added, skipping
+[INFO] javax/mail/search/HeaderTerm.class already added, skipping
+[INFO] javax/mail/search/SubjectTerm.class already added, skipping
+[INFO] javax/mail/search/AddressTerm.class already added, skipping
+[INFO] javax/mail/search/SizeTerm.class already added, skipping
+[INFO] javax/mail/search/MessageNumberTerm.class already added, skipping
+[INFO] javax/mail/search/DateTerm.class already added, skipping
+[INFO] javax/mail/search/FromStringTerm.class already added, skipping
+[INFO] javax/mail/search/NotTerm.class already added, skipping
+[INFO] javax/mail/search/BodyTerm.class already added, skipping
+[INFO] javax/mail/search/RecipientStringTerm.class already added, skipping
+[INFO] javax/mail/search/AddressStringTerm.class already added, skipping
+[INFO] javax/mail/search/SearchTerm.class already added, skipping
+[INFO] javax/mail/search/ComparisonTerm.class already added, skipping
+[INFO] javax/mail/search/IntegerComparisonTerm.class already added, skipping
+[INFO] javax/mail/search/SentDateTerm.class already added, skipping
+[INFO] javax/mail/search/FlagTerm.class already added, skipping
+[INFO] javax/mail/search/FromTerm.class already added, skipping
+[INFO] javax/mail/search/SearchException.class already added, skipping
+[INFO] javax/mail/Transport.class already added, skipping
+[INFO] javax/mail/Provider$Type.class already added, skipping
+[INFO] javax/mail/StreamLoader.class already added, skipping
+[INFO] javax/mail/Multipart.class already added, skipping
+[INFO] javax/mail/StoreClosedException.class already added, skipping
+[INFO] javax/mail/Session$1.class already added, skipping
+[INFO] javax/mail/Part.class already added, skipping
+[INFO] javax/mail/UIDFolder.class already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.commons/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/java.sql.Driver already added, skipping
+[INFO] com/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/DEPENDENCIES already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] com/ already added, skipping
+[INFO] com/sun/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] com/ already added, skipping
+[INFO] com/sun/ already added, skipping
+[INFO] com/sun/xml/ already added, skipping
+[INFO] com/sun/xml/bind/ already added, skipping
+[INFO] com/sun/xml/bind/api/ already added, skipping
+[INFO] com/sun/xml/bind/marshaller/ already added, skipping
+[INFO] com/sun/xml/bind/unmarshaller/ already added, skipping
+[INFO] com/sun/xml/bind/util/ already added, skipping
+[INFO] com/sun/xml/bind/v2/ already added, skipping
+[INFO] com/sun/xml/bind/v2/model/ already added, skipping
+[INFO] com/sun/xml/bind/v2/model/annotation/ already added, skipping
+[INFO] com/sun/xml/bind/v2/model/impl/ already added, skipping
+[INFO] com/sun/xml/bind/v2/runtime/ already added, skipping
+[INFO] com/sun/xml/bind/v2/runtime/unmarshaller/ already added, skipping
+[INFO] com/sun/xml/bind/v2/schemagen/ already added, skipping
+[INFO] com/sun/xml/bind/v2/util/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.glassfish.jaxb/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/maven/com.sun.xml.bind/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/DEPENDENCIES already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.camel/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/org/ already added, skipping
+[INFO] META-INF/services/org/apache/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/component.properties already added, skipping
+[INFO] META-INF/services/org/apache/camel/component/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/camel/ already added, skipping
+[INFO] org/apache/camel/component/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/DEPENDENCIES already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.camel/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/org/ already added, skipping
+[INFO] META-INF/services/org/apache/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/TypeConverter already added, skipping
+[INFO] META-INF/services/org/apache/camel/component.properties already added, skipping
+[INFO] META-INF/services/org/apache/camel/component/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/language.properties already added, skipping
+[INFO] META-INF/services/org/apache/camel/language/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/camel/ already added, skipping
+[INFO] org/apache/camel/component/ already added, skipping
+[INFO] org/apache/camel/language/ already added, skipping
+[INFO] org/apache/camel/util/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/poi/ already added, skipping
+[INFO] org/apache/poi/dev/ already added, skipping
+[INFO] org/apache/poi/poifs/ already added, skipping
+[INFO] org/apache/poi/poifs/crypt/ already added, skipping
+[INFO] org/apache/poi/ss/ already added, skipping
+[INFO] org/apache/poi/ss/usermodel/ already added, skipping
+[INFO] org/apache/poi/util/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] schemaorg_apache_xmlbeans/ already added, skipping
+[INFO] schemaorg_apache_xmlbeans/element/ already added, skipping
+[INFO] schemaorg_apache_xmlbeans/system/ already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/Location.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/ReferenceResolver.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLEvent.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLInputStream.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLName.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLStreamException.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/utils/NestedThrowable$Util.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/utils/NestedThrowable.class already added, skipping
+[INFO] META-INF/INDEX.LIST already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] javax/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/java.sql.Driver already added, skipping
+[INFO] org/ already added, skipping
+[INFO] Building jar: /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/target/tcm-1.6.0-SNAPSHOT/jar/tcm-1.6.0-SNAPSHOT-jar-with-dependencies.jar
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/slf4j/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.slf4j/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/logging/ already added, skipping
+[INFO] org/apache/logging/log4j/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.logging.log4j/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] com/ already added, skipping
+[INFO] javax/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] com/sun/ already added, skipping
+[INFO] javax/ already added, skipping
+[INFO] javax/mail/ already added, skipping
+[INFO] javax/mail/event/ already added, skipping
+[INFO] javax/mail/internet/ already added, skipping
+[INFO] javax/mail/util/ already added, skipping
+[INFO] javax/mail/search/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] javax/mail/Session$6.class already added, skipping
+[INFO] javax/mail/MessageAware.class already added, skipping
+[INFO] javax/mail/MethodNotSupportedException.class already added, skipping
+[INFO] javax/mail/Session.class already added, skipping
+[INFO] javax/mail/FolderClosedException.class already added, skipping
+[INFO] javax/mail/Folder.class already added, skipping
+[INFO] javax/mail/FetchProfile$Item.class already added, skipping
+[INFO] javax/mail/QuotaAwareStore.class already added, skipping
+[INFO] javax/mail/SendFailedException.class already added, skipping
+[INFO] javax/mail/Session$7.class already added, skipping
+[INFO] javax/mail/MessageContext.class already added, skipping
+[INFO] javax/mail/URLName.class already added, skipping
+[INFO] javax/mail/Flags$Flag.class already added, skipping
+[INFO] javax/mail/Address.class already added, skipping
+[INFO] javax/mail/IllegalWriteException.class already added, skipping
+[INFO] javax/mail/BodyPart.class already added, skipping
+[INFO] javax/mail/EventQueue$QueueElement.class already added, skipping
+[INFO] javax/mail/Store.class already added, skipping
+[INFO] javax/mail/Authenticator.class already added, skipping
+[INFO] javax/mail/UIDFolder$FetchProfileItem.class already added, skipping
+[INFO] javax/mail/FolderNotFoundException.class already added, skipping
+[INFO] javax/mail/Session$4.class already added, skipping
+[INFO] javax/mail/Message$RecipientType.class already added, skipping
+[INFO] javax/mail/ReadOnlyFolderException.class already added, skipping
+[INFO] javax/mail/FetchProfile.class already added, skipping
+[INFO] javax/mail/Flags.class already added, skipping
+[INFO] javax/mail/Provider.class already added, skipping
+[INFO] javax/mail/event/TransportListener.class already added, skipping
+[INFO] javax/mail/event/MessageChangedListener.class already added, skipping
+[INFO] javax/mail/event/ConnectionEvent.class already added, skipping
+[INFO] javax/mail/event/StoreListener.class already added, skipping
+[INFO] javax/mail/event/FolderAdapter.class already added, skipping
+[INFO] javax/mail/event/StoreEvent.class already added, skipping
+[INFO] javax/mail/event/MessageCountAdapter.class already added, skipping
+[INFO] javax/mail/event/TransportAdapter.class already added, skipping
+[INFO] javax/mail/event/MessageCountEvent.class already added, skipping
+[INFO] javax/mail/event/MessageChangedEvent.class already added, skipping
+[INFO] javax/mail/event/TransportEvent.class already added, skipping
+[INFO] javax/mail/event/ConnectionAdapter.class already added, skipping
+[INFO] javax/mail/event/FolderEvent.class already added, skipping
+[INFO] javax/mail/event/MessageCountListener.class already added, skipping
+[INFO] javax/mail/event/ConnectionListener.class already added, skipping
+[INFO] javax/mail/event/FolderListener.class already added, skipping
+[INFO] javax/mail/event/MailEvent.class already added, skipping
+[INFO] javax/mail/Session$5.class already added, skipping
+[INFO] javax/mail/Quota$Resource.class already added, skipping
+[INFO] javax/mail/EventQueue$TerminatorEvent.class already added, skipping
+[INFO] javax/mail/Message.class already added, skipping
+[INFO] javax/mail/EventQueue.class already added, skipping
+[INFO] javax/mail/MailSessionDefinition.class already added, skipping
+[INFO] javax/mail/MessagingException.class already added, skipping
+[INFO] javax/mail/Session$2.class already added, skipping
+[INFO] javax/mail/Version.class already added, skipping
+[INFO] javax/mail/Header.class already added, skipping
+[INFO] javax/mail/MultipartDataSource.class already added, skipping
+[INFO] javax/mail/Quota.class already added, skipping
+[INFO] javax/mail/Session$3.class already added, skipping
+[INFO] javax/mail/AuthenticationFailedException.class already added, skipping
+[INFO] javax/mail/NoSuchProviderException.class already added, skipping
+[INFO] javax/mail/internet/AddressException.class already added, skipping
+[INFO] javax/mail/internet/MimeMessage.class already added, skipping
+[INFO] javax/mail/internet/MimeBodyPart$MimePartDataHandler.class already added, skipping
+[INFO] javax/mail/internet/NewsAddress.class already added, skipping
+[INFO] javax/mail/internet/InternetHeaders$InternetHeader.class already added, skipping
+[INFO] javax/mail/internet/MimeMultipart.class already added, skipping
+[INFO] javax/mail/internet/ParameterList.class already added, skipping
+[INFO] javax/mail/internet/MimeUtility.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$ParamEnum.class already added, skipping
+[INFO] javax/mail/internet/MimePart.class already added, skipping
+[INFO] javax/mail/internet/HeaderTokenizer$Token.class already added, skipping
+[INFO] javax/mail/internet/MimeBodyPart$EncodedFileDataSource.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$1.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$Value.class already added, skipping
+[INFO] javax/mail/internet/UniqueValue.class already added, skipping
+[INFO] javax/mail/internet/AsciiOutputStream.class already added, skipping
+[INFO] javax/mail/internet/InternetHeaders$MatchEnum.class already added, skipping
+[INFO] javax/mail/internet/PreencodedMimeBodyPart.class already added, skipping
+[INFO] javax/mail/internet/ContentDisposition.class already added, skipping
+[INFO] javax/mail/internet/ContentType.class already added, skipping
+[INFO] javax/mail/internet/InternetHeaders.class already added, skipping
+[INFO] javax/mail/internet/SharedInputStream.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$ToStringBuffer.class already added, skipping
+[INFO] javax/mail/internet/MimeUtility$1NullInputStream.class already added, skipping
+[INFO] javax/mail/internet/HeaderTokenizer.class already added, skipping
+[INFO] javax/mail/internet/ParameterList$MultiValue.class already added, skipping
+[INFO] javax/mail/internet/ParseException.class already added, skipping
+[INFO] javax/mail/internet/MimeMessage$RecipientType.class already added, skipping
+[INFO] javax/mail/internet/MailDateParser.class already added, skipping
+[INFO] javax/mail/internet/MimePartDataSource.class already added, skipping
+[INFO] javax/mail/internet/MailDateFormat.class already added, skipping
+[INFO] javax/mail/internet/InternetAddress.class already added, skipping
+[INFO] javax/mail/internet/MimeBodyPart.class already added, skipping
+[INFO] javax/mail/Service.class already added, skipping
+[INFO] javax/mail/EncodingAware.class already added, skipping
+[INFO] javax/mail/MessageRemovedException.class already added, skipping
+[INFO] javax/mail/MailSessionDefinitions.class already added, skipping
+[INFO] javax/mail/PasswordAuthentication.class already added, skipping
+[INFO] javax/mail/util/ByteArrayDataSource.class already added, skipping
+[INFO] javax/mail/util/ByteArrayDataSource$DSByteArrayOutputStream.class already added, skipping
+[INFO] javax/mail/util/SharedByteArrayInputStream.class already added, skipping
+[INFO] javax/mail/util/SharedFileInputStream$SharedFile.class already added, skipping
+[INFO] javax/mail/util/SharedFileInputStream.class already added, skipping
+[INFO] javax/mail/search/StringTerm.class already added, skipping
+[INFO] javax/mail/search/AndTerm.class already added, skipping
+[INFO] javax/mail/search/OrTerm.class already added, skipping
+[INFO] javax/mail/search/RecipientTerm.class already added, skipping
+[INFO] javax/mail/search/MessageIDTerm.class already added, skipping
+[INFO] javax/mail/search/ReceivedDateTerm.class already added, skipping
+[INFO] javax/mail/search/HeaderTerm.class already added, skipping
+[INFO] javax/mail/search/SubjectTerm.class already added, skipping
+[INFO] javax/mail/search/AddressTerm.class already added, skipping
+[INFO] javax/mail/search/SizeTerm.class already added, skipping
+[INFO] javax/mail/search/MessageNumberTerm.class already added, skipping
+[INFO] javax/mail/search/DateTerm.class already added, skipping
+[INFO] javax/mail/search/FromStringTerm.class already added, skipping
+[INFO] javax/mail/search/NotTerm.class already added, skipping
+[INFO] javax/mail/search/BodyTerm.class already added, skipping
+[INFO] javax/mail/search/RecipientStringTerm.class already added, skipping
+[INFO] javax/mail/search/AddressStringTerm.class already added, skipping
+[INFO] javax/mail/search/SearchTerm.class already added, skipping
+[INFO] javax/mail/search/ComparisonTerm.class already added, skipping
+[INFO] javax/mail/search/IntegerComparisonTerm.class already added, skipping
+[INFO] javax/mail/search/SentDateTerm.class already added, skipping
+[INFO] javax/mail/search/FlagTerm.class already added, skipping
+[INFO] javax/mail/search/FromTerm.class already added, skipping
+[INFO] javax/mail/search/SearchException.class already added, skipping
+[INFO] javax/mail/Transport.class already added, skipping
+[INFO] javax/mail/Provider$Type.class already added, skipping
+[INFO] javax/mail/StreamLoader.class already added, skipping
+[INFO] javax/mail/Multipart.class already added, skipping
+[INFO] javax/mail/StoreClosedException.class already added, skipping
+[INFO] javax/mail/Session$1.class already added, skipping
+[INFO] javax/mail/Part.class already added, skipping
+[INFO] javax/mail/UIDFolder.class already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/commons/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.commons/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/services/ already added, skipping
+exit
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/java.sql.Driver already added, skipping
+[INFO] com/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/DEPENDENCIES already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+exit
+[INFO] META-INF/ already added, skipping
+[INFO] com/ already added, skipping
+[INFO] com/sun/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] com/ already added, skipping
+[INFO] com/sun/ already added, skipping
+[INFO] com/sun/xml/ already added, skipping
+[INFO] com/sun/xml/bind/ already added, skipping
+[INFO] com/sun/xml/bind/api/ already added, skipping
+[INFO] com/sun/xml/bind/marshaller/ already added, skipping
+[INFO] com/sun/xml/bind/unmarshaller/ already added, skipping
+[INFO] com/sun/xml/bind/util/ already added, skipping
+[INFO] com/sun/xml/bind/v2/ already added, skipping
+[INFO] com/sun/xml/bind/v2/model/ already added, skipping
+[INFO] com/sun/xml/bind/v2/model/annotation/ already added, skipping
+[INFO] com/sun/xml/bind/v2/model/impl/ already added, skipping
+[INFO] com/sun/xml/bind/v2/runtime/ already added, skipping
+[INFO] com/sun/xml/bind/v2/runtime/unmarshaller/ already added, skipping
+[INFO] com/sun/xml/bind/v2/schemagen/ already added, skipping
+[INFO] com/sun/xml/bind/v2/util/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.glassfish.jaxb/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/maven/com.sun.xml.bind/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/DEPENDENCIES already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.camel/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/org/ already added, skipping
+[INFO] META-INF/services/org/apache/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/component.properties already added, skipping
+[INFO] META-INF/services/org/apache/camel/component/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/camel/ already added, skipping
+[INFO] org/apache/camel/component/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/DEPENDENCIES already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.camel/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/org/ already added, skipping
+[INFO] META-INF/services/org/apache/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/TypeConverter already added, skipping
+[INFO] META-INF/services/org/apache/camel/component.properties already added, skipping
+[INFO] META-INF/services/org/apache/camel/component/ already added, skipping
+[INFO] META-INF/services/org/apache/camel/language.properties already added, skipping
+[INFO] META-INF/services/org/apache/camel/language/ already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/camel/ already added, skipping
+[INFO] org/apache/camel/component/ already added, skipping
+[INFO] org/apache/camel/language/ already added, skipping
+[INFO] org/apache/camel/util/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/spring.schemas already added, skipping
+[INFO] META-INF/spring.handlers already added, skipping
+[INFO] META-INF/spring.tooling already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/springframework/ already added, skipping
+[INFO] META-INF/notice.txt already added, skipping
+[INFO] META-INF/license.txt already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+exit
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/poi/ already added, skipping
+[INFO] org/apache/poi/dev/ already added, skipping
+[INFO] org/apache/poi/poifs/ already added, skipping
+[INFO] org/apache/poi/poifs/crypt/ already added, skipping
+[INFO] org/apache/poi/ss/ already added, skipping
+[INFO] org/apache/poi/ss/usermodel/ already added, skipping
+[INFO] org/apache/poi/util/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] org/ already added, skipping
+exit
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+exit
+[INFO] schemaorg_apache_xmlbeans/element/ already added, skipping
+[INFO] schemaorg_apache_xmlbeans/system/ already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/Location.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/ReferenceResolver.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLEvent.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLInputStream.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLName.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/XMLStreamException.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/utils/NestedThrowable$Util.class already added, skipping
+[INFO] org/apache/xmlbeans/xml/stream/utils/NestedThrowable.class already added, skipping
+[INFO] META-INF/INDEX.LIST already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] javax/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/services/ already added, skipping
+[INFO] META-INF/services/java.sql.Driver already added, skipping
+[INFO] org/ already added, skipping
+exit
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ tcm ---
+[INFO] Installing /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/target/tcm-1.6.0-SNAPSHOT.jar to /org/eng/repository/it/eng/tributi/tcm/1.6.0-SNAPSHOT/tcm-1.6.0-SNAPSHOT.jar
+[INFO] Installing /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/pom.xml to /org/eng/repository/it/eng/tributi/tcm/1.6.0-SNAPSHOT/tcm-1.6.0-SNAPSHOT.pom
+[INFO] Installing /org/company/repositories/utils/epe/tmp-sge/centroservizi/TCM-completo/target/tcm-1.6.0-SNAPSHOT/jar/tcm-1.6.0-SNAPSHOT-jar-with-dependencies.jar to /org/eng/repository/it/eng/tributi/tcm/1.6.0-SNAPSHOT/tcm-1.6.0-SNAPSHOT-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 18.831 s
+[INFO] Finished at: 2018-04-11T18:22:08+02:00
+[INFO] Final Memory: 66M/742M
+[INFO] ------------------------------------------------------------------------
+020180411-182208 INFO: 0
+programma 1 - step 6/10 - CONTROLLI                             OK
+programma 1 - step 7/10 - COPIANDO LA BUILD DEL TCM             OK
+programma 1 - step 8/10 - CANCELLA-TRANNE                       OK
+cd tmp-sge/centroservizi/TCM
+bash: no job control in this shell
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ cd tmp-sge<55:/org/company/repositories/utils/epe$ cd tmp-sge/                                                  centroservizi/TCM
+</repositories/utils/epe/tmp-sge/centroservizi/TCM$ java -jar jar/tcm-1.6.0-SNAPSHOT-jar-with-dependencies.jar preserve alessandria--preprod--chronos
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-bologna--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-modena--prod-vpn--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--moana--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-milano--inno--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--pippo--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-padova--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-milano--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-genova--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--pluto--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--stitch--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--paperino--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-varese--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--topolino--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-modena--prod-nat--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-bologna--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-genova--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--lilo--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-cesena--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-modena--preprod-vpn--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-padova--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-varese--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-cesena--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-reggio-emilia--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-alessandria--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-ancona--prod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-modena--preprod-nat--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-milano--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-reggio-emilia--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-ancona--preprod--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "conf/conf-lab--clarabella--chronos.xml"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--pluto--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-ancona--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-varese--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-alessandria--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-padova--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-alessandria--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-ancona--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-modena--preprod-nat--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--paperino--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-varese--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--moana--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-genova--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-ancona--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-reggio-emilia--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--clarabella--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-milano--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--moana--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-modena--prod-nat--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-modena--preprod-vpn--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-genova--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--stitch--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-genova--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-bologna--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-bologna--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-cesena--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--lilo--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-padova--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-bologna--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-milano--inno--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-modena--preprod-nat--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-reggio-emilia--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-reggio-emilia--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-cesena--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-modena--prod-vpn--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-genova--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-padova--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-cesena--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--pluto--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--pippo--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-bologna--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--stitch--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-modena--prod-vpn--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--paperino--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-varese--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--pippo--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-cesena--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--lilo--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-modena--prod-nat--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-milano--preprod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--topolino--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-milano--prod--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-reggio-emilia--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-lab--clarabella--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-alessandria--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-milano--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-modena--preprod-vpn--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-varese--preprod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-milano--inno--chronos.sh"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-lab--topolino--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "cancella-tranne-padova--prod--chronos.bat"
+2018-04-11 18:22:09 TcmMainShell WARN  Cancellando file "run-ancona--prod--chronos.bat"
+</repositories/utils/epe/tmp-sge/centroservizi/TCM$ exit
+020180411-182210 INFO: 0
+programma 1 - step 9/10 - ZIP COMPLETO                          OK
+programma 1 - step 10/10 - CANCELLAZIONE DATI DI APPOGGIO       OK
+20180411-182214 INFO: PROGRAMMA 2
+programma 2 - step 1/6 - UNZIP COMPLETO                         OK
+programma 2 - step 2/6 - INIZIALIZZAZIONE VARIABILI             OK
+20180411-182215 INFO: codiceEnte=A182
+programma 2 - step 3/6 - COPIANDO LE RISORSE DA UNZIPPATE       OK
+programma 2 - step 4/6 - ESECUZIONE SQLPLUS                     OK
+sqlplus sge_master/sge_master@H223_REGGIOEMILIA_LAB_PLUTO
+bash: no job control in this shell
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ sqlplus sg<55:/org/company/repositories/utils/epe$ sqlplus sge                                                  _master/sge_master@H223_R<es/utils/epe$ sqlplus sge_master/sge_master@H223_RE                                                  GGIOEMILIA_LAB_PLUTO
+sqlplus: command not found
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ 
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ insert into aaa (id, text) values ((select max(id)+1 from aaa), sysdate);
+bash: syntax error near unexpected token `('
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ 
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ commit;
+commit: command not found
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ 
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/utils/epe$ exit
+12720180411-182218 INFO: 127
+20180411-182218 INFO: sqlplus sge_master/sge_master@H223_REGGIOEMILIA_LAB_PLUTO
+
+insert into aaa (id, text) values ((select max(id)+1 from aaa), sysdate);
+
+commit;
+
+exit;
+
+exit
+programma 2 - step 5/6 - UPLOAD IN POST DEI FILE PAR            OK
+programma 2 - step 6/6 - CANCELLAZIONE DATI DI APPOGGIO         OK
+20180411-182218 INFO: tmp-sge/centroservizi/
+20180411-182218 INFO: Deleted: tmp-sge/centroservizi/

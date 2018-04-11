@@ -108,7 +108,7 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
                 }
 
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                 }
             }
@@ -165,7 +165,7 @@ public final class EpeGenericFinalExec_shell extends EpeGenericAbstract {
                 }
 
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                 }
             }
