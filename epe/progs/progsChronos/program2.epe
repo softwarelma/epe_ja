@@ -69,11 +69,9 @@ print_to_console("false");
 
 /*
 script_sqlplus =
-sqlplus sge_master/sge_master@H223_REGGIOEMILIA_LAB_PLUTO
+SET SERVEROUTPUT ON
 
-insert into aaa (id, text) values ((select max(id)+1 from aaa), sysdate);
-
-commit;
+sqlplus @INSTALL_Chronos_Update.sql
 
 exit;
 
