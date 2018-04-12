@@ -15,7 +15,7 @@
     <artifactId>epe</artifactId>
     <version>${com.softwarelma.epe.version}</version>
     <name>EPE</name>
-    <description>Elma Program Executer</description>
+    <description>Elma Program Executor</description>
 
     <dependencies>
 
