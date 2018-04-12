@@ -27,6 +27,8 @@ propFile = import("ambiente");
 fwrite("log/epe.log",      "programma 1 - step 2/10 - INIZIALIZZAZIONE VARIABILI            OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 2/10 - INIZIALIZZAZIONE VARIABILI            OK\n", "UTF-8", "append");
 labelInitVars = label();
+pathJava8Bin = "";
+pathJava8Bin = clean_dir_name(pathJava8Bin);
 urlCatene = echo("http://svn-tributi-bologna.bo.eng.it/svn/tributi/Progetti/ELISA/ACSOR/CATENE_CHRONOS_SGE/tags/", version);
 arrayPropFile = split(propFile, "\-");
 codiceEnte = list_get_at(arrayPropFile, "0");
@@ -68,6 +70,9 @@ fdcopy(propFilePath, echo("tmp-sge/centroservizi/Default-", codiceEnte, ".proper
 fwrite("log/epe.log",      "programma 1 - step 5/10 - BUILD TCM                             OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 5/10 - BUILD TCM                             OK\n", "UTF-8", "append");
 script_tcm = import_comment("script_tcm");
+exportJavaHome = echo(decode(is_windows(), "true", "set", "export"), " JAVA_HOME=", replace(pathJava8Bin, "/bin/", ""));
+exportJavaHome = decode(size(pathJava8Bin), "0", "", exportJavaHome);
+script_tcm = replace(script_tcm, "exportJavaHome", exportJavaHome, "true");
 print_to_console("true");
 exec_shell(script_tcm);
 print_to_console("false");
@@ -101,6 +106,7 @@ script_cancella_tranne = import_comment("script_cancella_tranne");
 script_cancella_tranne = replace(script_cancella_tranne, "tcmVers", tcmVers, "true");
 script_cancella_tranne = replace(script_cancella_tranne, "comuneLower", comuneLower, "true");
 script_cancella_tranne = replace(script_cancella_tranne, "ambienteCompleto", ambienteCompleto, "true");
+script_cancella_tranne = replace(script_cancella_tranne, "pathJava8Bin", pathJava8Bin, "true");
 print_to_console("true");
 exec_shell(script_cancella_tranne);
 print_to_console("false");
@@ -131,6 +137,7 @@ exit
 
 /*
 script_tcm = 
+${exportJavaHome}
 cd tmp-sge/centroservizi/TCM-completo
 mvn clean install
 exit
@@ -139,6 +146,6 @@ exit
 /*
 script_cancella_tranne =
 cd tmp-sge/centroservizi/TCM
-java -jar jar/tcm-${tcmVers}-jar-with-dependencies.jar preserve ${comuneLower}--${ambienteCompleto}--chronos
+${pathJava8Bin}java -jar jar/tcm-${tcmVers}-jar-with-dependencies.jar preserve ${comuneLower}--${ambienteCompleto}--chronos
 exit
 */
