@@ -13,7 +13,7 @@ version = read_line("Versione delle catene da scaricare (es. 3.0.9): ", "*", "",
 usernameSvn = read_line("Username SVN: ", "*", "", "true", "true");
 passwordSvn = read_line("Password SVN: ", "*", "", "true", "true", "true");
 propFile = read_line("Nome del file di properties senza estenzione 
-	(es. A182-Alessandria-test o F205-Milano-coll-innovazione): ", "*", "", "true", "true");
+	(es. H223-ReggioEmilia-test o F205-Milano-coll-innovazione): ", "*", "", "true", "true");
 goto(labelInitVars);
 
 labelManualMode = label();
