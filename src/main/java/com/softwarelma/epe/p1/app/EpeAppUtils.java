@@ -429,12 +429,11 @@ public abstract class EpeAppUtils {
 
     public static Map.Entry<String, String> retrieveKeyAndValue(String fullprop) throws EpeAppException {
         checkEmpty("fullprop", fullprop);
-        String[] array = fullprop.split("=");
-        checkRange(array.length, 2, 2, false, false,
-                "fullprop not valid \"" + fullprop + "\", should be like key=value");
-        checkEmpty("key", array[0]);
-        checkNull("value", array[1]);
-        Map.Entry<String, String> keyValue = new AbstractMap.SimpleEntry<>(array[0], array[1]);
+        if (!fullprop.contains("="))
+            throw new EpeAppException("fullprop not valid \"" + fullprop + "\", should be like key=value");
+        String key = fullprop.substring(0, fullprop.indexOf("="));
+        String value = fullprop.substring(fullprop.indexOf("=") + 1);
+        Map.Entry<String, String> keyValue = new AbstractMap.SimpleEntry<>(key, value);
         return keyValue;
     }
 
@@ -475,7 +474,8 @@ public abstract class EpeAppUtils {
         checkEmpty("format", format);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format.trim());
         return simpleDateFormat.format(new Date());
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format.trim());
+        // DateTimeFormatter formatter =
+        // DateTimeFormatter.ofPattern(format.trim());
         // return LocalDateTime.now().format(formatter);
     }
 
