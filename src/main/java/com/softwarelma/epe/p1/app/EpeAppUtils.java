@@ -374,6 +374,38 @@ public abstract class EpeAppUtils {
         return param == null || param.isEmpty();
     }
 
+    /**
+     * it must be negative
+     */
+    public static void checkNegative(int param) throws EpeAppException {
+        if (param >= 0)
+            throw new EpeAppException("Expected < 0, found: " + param);
+    }
+
+    /**
+     * it must be negative
+     */
+    public static void checkNotNegative(int param) throws EpeAppException {
+        if (param < 0)
+            throw new EpeAppException("Expected >= 0, found: " + param);
+    }
+
+    /**
+     * it must be positive
+     */
+    public static void checkPositive(int param) throws EpeAppException {
+        if (param <= 0)
+            throw new EpeAppException("Expected > 0, found: " + param);
+    }
+
+    /**
+     * it must be not positive
+     */
+    public static void checkNotPositive(int param) throws EpeAppException {
+        if (param > 0)
+            throw new EpeAppException("Expected <= 0, found: " + param);
+    }
+
     public static boolean isEmpty(String param) {
         return param == null || param.isEmpty();
     }
