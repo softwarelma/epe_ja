@@ -301,6 +301,24 @@ public abstract class EpeAppUtils {
         }
     }
 
+    public static <T> void checkNullListContent(String paramName, List<T> paramValue) throws EpeAppException {
+        checkNull(paramName, paramValue);
+
+        for (int i = 0; i < paramValue.size(); i++) {
+            T t = paramValue.get(i);
+            checkNull(paramName + "[" + i + "]", t);
+        }
+    }
+
+    public static <T> void checkEmptyListContent(String paramName, List<T> paramValue) throws EpeAppException {
+        checkEmptyList(paramName, paramValue, "The param ", " cannot be empty");
+
+        for (int i = 0; i < paramValue.size(); i++) {
+            T t = paramValue.get(i);
+            checkEmpty(paramName + "[" + i + "]", t);
+        }
+    }
+
     public static <T> void checkEmptyList(String paramName, List<T> paramValue) throws EpeAppException {
         checkEmptyList(paramName, paramValue, "The param ", " cannot be empty");
     }
@@ -350,6 +368,10 @@ public abstract class EpeAppUtils {
 
     public static <T> boolean isEmptyArray(T[] param) throws EpeAppException {
         return param == null || param.length == 0;
+    }
+
+    public static <T> boolean isEmptyList(List<T> param) throws EpeAppException {
+        return param == null || param.isEmpty();
     }
 
     public static boolean isEmpty(String param) {
