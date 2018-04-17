@@ -28,38 +28,46 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
                 + "in any order and respecting the keys of the properties:\n\"" + PROP_PREFIX + "=some prefix\", "
                 + "\"" + PROP_CONTAINED + "=some contained string\", \"" + PROP_SUFFIX + "=some suffix\".";
         String dirName = getStringAt(listExecResult, 0, postMessage);
+        String prefixContainedOrSuffix1 = getStringAt(listExecResult, 1, postMessage, null);
+        String prefixContainedOrSuffix2 = getStringAt(listExecResult, 2, postMessage, null);
+        String prefixContainedOrSuffix3 = getStringAt(listExecResult, 3, postMessage, null);
+        List<String> list = listFiles(dirName, prefixContainedOrSuffix1, prefixContainedOrSuffix2,
+                prefixContainedOrSuffix3);
+        log(execParams, list);
+        return createResult(list);
+    }
+
+    public static List<String> listFiles(String dirName) throws EpeAppException {
+        return listFiles(dirName, null, null, null);
+    }
+
+    public static List<String> listFiles(String dirName, String prefixContainedOrSuffix1,
+            String prefixContainedOrSuffix2, String prefixContainedOrSuffix3) throws EpeAppException {
+        String[] prefixContainedAndSuffix = retrievePrefixContainedAndSuffix(prefixContainedOrSuffix1,
+                prefixContainedOrSuffix2, prefixContainedOrSuffix3);
+        return listFiles(dirName, prefixContainedAndSuffix);
+    }
+
+    public static List<String> listFiles(String dirName, String[] prefixContainedAndSuffix) throws EpeAppException {
         File dir = new File(dirName);
         EpeAppUtils.checkDir(dir);
-
-        String str1 = getStringAt(listExecResult, 1, postMessage, null);
-        String str2 = getStringAt(listExecResult, 2, postMessage, null);
-        String str3 = getStringAt(listExecResult, 3, postMessage, null);
-        String[] prefixContainedAndSuffix = retrievePrefixContainedAndSuffix(str1, str2, str3);
         String prefix = prefixContainedAndSuffix[0];
         String contained = prefixContainedAndSuffix[1];
         String suffix = prefixContainedAndSuffix[2];
-
         List<String> list = new ArrayList<>();
         String[] listFileName = dir.list();
 
         for (String fileName : listFileName) {
-            if (!EpeAppUtils.isEmpty(prefix) && !fileName.startsWith(prefix)) {
+            if (!EpeAppUtils.isEmpty(prefix) && !fileName.startsWith(prefix))
                 continue;
-            }
-
-            if (!EpeAppUtils.isEmpty(contained) && !fileName.contains(contained)) {
+            if (!EpeAppUtils.isEmpty(contained) && !fileName.contains(contained))
                 continue;
-            }
-
-            if (!EpeAppUtils.isEmpty(suffix) && !fileName.endsWith(suffix)) {
+            if (!EpeAppUtils.isEmpty(suffix) && !fileName.endsWith(suffix))
                 continue;
-            }
-
             list.add(fileName);
         }
 
-        log(execParams, list);
-        return createResult(list);
+        return list;
     }
 
     public static String[] retrievePrefixContainedAndSuffix(String str1, String str2, String str3)
@@ -73,10 +81,8 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
 
     private static void retrievePrefixContainedOrSuffixByStr(String str, String[] prefixContainedAndSuffix)
             throws EpeAppException {
-        if (EpeAppUtils.isEmpty(str)) {
+        if (EpeAppUtils.isEmpty(str))
             return;
-        }
-
         Map.Entry<String, String> filePathAndLast = EpeAppUtils.retrieveKeyAndValue(str);
 
         if (filePathAndLast.getKey().equals(PROP_PREFIX)) {

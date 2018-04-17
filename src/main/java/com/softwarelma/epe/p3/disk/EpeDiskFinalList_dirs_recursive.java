@@ -21,6 +21,12 @@ public final class EpeDiskFinalList_dirs_recursive extends EpeDiskAbstract {
     public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
         String postMessage = "list_dirs_recursive, expected dir name.";
         String dirName = getStringAt(listExecResult, 0, postMessage);
+        List<String> listRet = listDirsRecursive(dirName);
+        log(execParams, listRet);
+        return createResult(listRet);
+    }
+
+    public static List<String> listDirsRecursive(String dirName) throws EpeAppException {
         dirName = EpeAppUtils.cleanDirName(dirName);
         File dir = new File(dirName);
         EpeAppUtils.checkDir(dir);
@@ -32,12 +38,12 @@ public final class EpeDiskFinalList_dirs_recursive extends EpeDiskAbstract {
         }
 
         List<String> listRet = new ArrayList<>();
-        this.listDirsRecursive(listSource, listRet);
-        log(execParams, listRet);
-        return createResult(listRet);
+        listDirsRecursiveFromSource(listSource, listRet);
+        return listRet;
     }
 
-    private void listDirsRecursive(List<String> listSource, List<String> listRet) throws EpeAppException {
+    public static void listDirsRecursiveFromSource(List<String> listSource, List<String> listRet)
+            throws EpeAppException {
         while (true) {
             if (listSource.isEmpty()) {
                 break;
