@@ -1,2 +1,3 @@
 print_to_console("true");
 echo("hw!");
+echo(sys_get_prop("user.dir"));
