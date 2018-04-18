@@ -35,6 +35,8 @@ public final class EpeDiskFinalList_files_recursive extends EpeDiskAbstract {
             listRet.addAll(listFile);
         }
 
+        listFile = EpeDiskFinalList_files.listFiles(dirName);
+        listRet.addAll(listFile);
         return listRet;
     }
 
