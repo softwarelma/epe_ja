@@ -2,6 +2,7 @@ package com.softwarelma.epe.p3.disk;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -39,6 +40,7 @@ public final class EpeDiskFinalList_dirs_recursive extends EpeDiskAbstract {
 
         List<String> listRet = new ArrayList<>();
         listDirsRecursiveFromSource(listSource, listRet);
+        Collections.sort(listRet);
         return listRet;
     }
 

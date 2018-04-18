@@ -1,9 +1,11 @@
 package com.softwarelma.epe.p3.disk;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppUtils;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -25,19 +27,27 @@ public final class EpeDiskFinalList_files_recursive extends EpeDiskAbstract {
     }
 
     public static List<String> listFilesRecursive(String dirName) throws EpeAppException {
+        dirName = EpeAppUtils.cleanDirName(dirName);
         List<String> listDir = EpeDiskFinalList_dirs_recursive.listDirsRecursive(dirName);
         List<String> listRet = new ArrayList<>();
-        List<String> listFile;
 
         for (String dir : listDir) {
-            listFile = EpeDiskFinalList_files.listFiles(dir);
             listRet.add(dir);
-            listRet.addAll(listFile);
+            addOnlyFileChilds(dir, listRet);
         }
 
-        listFile = EpeDiskFinalList_files.listFiles(dirName);
-        listRet.addAll(listFile);
+        addOnlyFileChilds(dirName, listRet);
         return listRet;
+    }
+
+    public static void addOnlyFileChilds(String dirName, List<String> listRet) throws EpeAppException {
+        dirName = EpeAppUtils.cleanDirName(dirName);
+        List<String> listFile = EpeDiskFinalList_files.listFiles(dirName);
+        for (String file : listFile) {// relative paths
+            file = dirName + file;// absolute path
+            if (new File(file).isFile())
+                listRet.add(file);
+        }
     }
 
 }

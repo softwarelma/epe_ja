@@ -2,6 +2,7 @@ package com.softwarelma.epe.p3.disk;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,7 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
             list.add(fileName);
         }
 
+        Collections.sort(list);
         return list;
     }
 
