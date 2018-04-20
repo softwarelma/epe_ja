@@ -63,7 +63,7 @@ public final class EpeProgFactory {
             Map<String, String> mapComments) throws EpeAppException {
         EpeAppUtils.checkNull("programContent", programContent);
         EpeAppUtils.checkNull("mapNotContainedReplaced", mapNotContainedReplaced);
-        EpeProgParser progParser = new EpeProgParser();
+        EpeProgParser progParser = EpeProgParser.getInstance();
         List<EpeProgSentInterface> listProgSent = progParser.retrieveProgSentList(programContent,
                 mapNotContainedReplaced, mapComments);
         EpeProgInterface prog = new EpeProgDefault(listProgSent);

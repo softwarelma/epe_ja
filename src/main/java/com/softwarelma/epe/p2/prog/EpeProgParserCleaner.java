@@ -1,5 +1,6 @@
 package com.softwarelma.epe.p2.prog;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.softwarelma.epe.p1.app.EpeAppConstants;
@@ -8,7 +9,7 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public final class EpeProgParserCleaner {
 
-    private final EpeProgParserSearch parserSearch;
+    private EpeProgParserSearch parserSearch;
 
     protected EpeProgParserCleaner(EpeProgParserSearch parserSearch) {
         this.parserSearch = parserSearch;
@@ -38,6 +39,22 @@ public final class EpeProgParserCleaner {
         }
     }
 
+    public String cleanComment(String text) throws EpeAppException {
+        Map<String, String> mapComments = new HashMap<>();
+        return this.cleanComment(text, mapComments);
+    }
+
+    public String cleanComment(String text, Map<String, String> mapComments) throws EpeAppException {
+        String text2 = text;
+
+        do {
+            text = text2;
+            text2 = cleanCommentOnce(text, mapComments, false);
+        } while (text2 != null);
+
+        return text;
+    }
+
     private String cleanCommentOrString(String text, Map<String, String> mapNotContainedReplaced,
             Map<String, String> mapComments) throws EpeAppException {
         String text2 = text;
@@ -53,7 +70,7 @@ public final class EpeProgParserCleaner {
             }
 
             if (iscomment) {
-                text2 = cleanCommentOnce(text, mapComments);
+                text2 = cleanCommentOnce(text, mapComments, true);
             } else {
                 text2 = cleanStringOnce(text, notContained, iter++, mapNotContainedReplaced);
             }
@@ -118,7 +135,8 @@ public final class EpeProgParserCleaner {
         return text;
     }
 
-    private String cleanCommentOnce(String text, Map<String, String> mapComments) throws EpeAppException {
+    private String cleanCommentOnce(String text, Map<String, String> mapComments, boolean doLoad)
+            throws EpeAppException {
         int[] posLineComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_LINE, "COMMENT_LINE");
         posLineComment[1] = posLineComment[0] == -1 ? -1 : posLineComment[1] - 1;
         int[] posBlockComment = this.parserSearch.indexOf(text, EpeAppConstants.REGEX_COMMENT_BLOCK, "COMMENT_BLOCK");
@@ -134,8 +152,8 @@ public final class EpeProgParserCleaner {
 
         if (posComment[0] == -1)
             return null;
-
-        this.loadComment(text, posComment, mapComments);
+        if (doLoad)
+            this.loadComment(text, posComment, mapComments);
         text = text.substring(0, posComment[0]) + text.substring(posComment[1], text.length());
         return text;
     }

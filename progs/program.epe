@@ -1,3 +1,5 @@
-print_to_console("true");
 echo("hw!");
-echo(sys_get_prop("user.dir"));
+text = "a /*b*/";
+text = clean_comment(text);
+print_to_console("true");
+echo(text);

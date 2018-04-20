@@ -9,10 +9,15 @@ import com.softwarelma.epe.p1.app.EpeAppUtils;
 
 public final class EpeProgParser {
 
+    private static final EpeProgParser parser = new EpeProgParser();
     private final EpeProgParserCleaner parserCleaner;
     private final EpeProgParserSent parserSent;
 
-    protected EpeProgParser() {
+    public static EpeProgParser getInstance() {
+        return EpeProgParser.parser;
+    }
+
+    private EpeProgParser() {
         EpeProgParserSearch parserSearch = new EpeProgParserSearch();
         this.parserCleaner = new EpeProgParserCleaner(parserSearch);
         this.parserSent = new EpeProgParserSent(parserSearch);
@@ -53,4 +58,11 @@ public final class EpeProgParser {
         return listProgSent;
     }
 
+    public String cleanComment(String text) throws EpeAppException {
+        return this.parserCleaner.cleanComment(text);
+    }
+
+    public String cleanComment(String text, Map<String, String> mapComments) throws EpeAppException {
+        return this.parserCleaner.cleanComment(text, mapComments);
+    }
 }
