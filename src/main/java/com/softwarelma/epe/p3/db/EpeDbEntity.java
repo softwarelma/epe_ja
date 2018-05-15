@@ -140,12 +140,21 @@ public class EpeDbEntity implements Serializable {
         if (value == null || value.toString().isEmpty()) {
             return null;
         } else if (className.equals(String.class.getName())) {
-            return "'" + value.toString() + "'";// TODO replace, injection
+            return getToStringAsVarchar(value.toString());
         } else if (className.equals(Integer.class.getName())) {
             return value.toString();
         } else {
             throw new EpeAppException("Unknown class " + className);
         }
+    }
+
+    /**
+     * replace ' with ''
+     */
+    public static String getToStringAsVarchar(String value) throws EpeAppException {
+        EpeAppUtils.checkNull("value", value);
+        // TODO replace & with && in case of oracle and others
+        return "'" + value.replace("'", "''")/* .replace("&", "&&") */ + "'";
     }
 
     public Object getOrNull(String attribute) throws EpeAppException {
