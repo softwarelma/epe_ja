@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -315,10 +316,12 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
         switch (colType) {
         case "INT":
-            // return "java.lang.Long";
-            return "java.lang.Integer";
+            // see Long
+            return Integer.class.getName();
         case "VARCHAR":
-            return "java.lang.String";
+            return String.class.getName();
+        case "TIMESTAMP":
+            return Timestamp.class.getName();
         default:
             throw new EpeAppException("Unknown colType: " + colType);
         }

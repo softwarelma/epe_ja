@@ -1,6 +1,7 @@
 package com.softwarelma.epe.p3.db;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import com.softwarelma.epe.p1.app.EpeAppConstants;
 import com.softwarelma.epe.p1.app.EpeAppException;
 import com.softwarelma.epe.p1.app.EpeAppUtils;
 
@@ -143,6 +145,11 @@ public class EpeDbEntity implements Serializable {
             return getToStringAsVarchar(value.toString());
         } else if (className.equals(Integer.class.getName())) {
             return value.toString();
+        } else if (className.equals(Timestamp.class.getName())) {
+            // TODO oracle and others
+            String dateStr = EpeAppUtils.retrieveTimestamp(EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT, (Timestamp) value);
+            dateStr = getToStringAsVarchar(dateStr);
+            return "STR_TO_DATE(" + dateStr + ", '%Y%m%d-%H%i%s')";
         } else {
             throw new EpeAppException("Unknown class " + className);
         }
@@ -197,6 +204,8 @@ public class EpeDbEntity implements Serializable {
             } catch (NumberFormatException e) {
                 throw new EpeAppException("Invalid integer \"" + valueStr + "\"");
             }
+        } else if (className.equals(Timestamp.class.getName())) {
+            value = EpeAppUtils.parseTimestamp(EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT, valueStr);
         } else {
             throw new EpeAppException("Unknown class " + className);
         }
