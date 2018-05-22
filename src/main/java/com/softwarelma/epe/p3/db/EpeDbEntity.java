@@ -130,6 +130,9 @@ public class EpeDbEntity implements Serializable {
             return value.toString();
         } else if (className.equals(Integer.class.getName())) {
             return value.toString();
+        } else if (className.equals(Timestamp.class.getName())) {
+            String dateStr = EpeAppUtils.retrieveTimestamp(EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT, (Timestamp) value);
+            return dateStr;
         } else {
             throw new EpeAppException("Unknown class " + className);
         }
@@ -205,7 +208,7 @@ public class EpeDbEntity implements Serializable {
                 throw new EpeAppException("Invalid integer \"" + valueStr + "\"");
             }
         } else if (className.equals(Timestamp.class.getName())) {
-            value = EpeAppUtils.parseTimestamp(EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT, valueStr);
+            value = EpeAppUtils.parseTimestampToTimestamp(EpeAppConstants.TIMESTAMP_DEFAULT_FORMAT, valueStr);
         } else {
             throw new EpeAppException("Unknown class " + className);
         }

@@ -1,6 +1,7 @@
 package com.softwarelma.epe.p1.app;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
@@ -562,13 +563,26 @@ public abstract class EpeAppUtils {
         return Boolean.parseBoolean(str);
     }
 
-    public static Date parseTimestamp(String format, String timestampStr) throws EpeAppException {
+    public static Date parseTimestampToDate(String format, String timestampStr) throws EpeAppException {
         checkEmpty("format", format);
         checkEmpty("timestampStr", timestampStr);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format.trim());
 
         try {
             return simpleDateFormat.parse(timestampStr);
+        } catch (ParseException e) {
+            throw new EpeAppException("Invalid timestamp string " + timestampStr, e);
+        }
+    }
+
+    public static Timestamp parseTimestampToTimestamp(String format, String timestampStr) throws EpeAppException {
+        checkEmpty("format", format);
+        checkEmpty("timestampStr", timestampStr);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format.trim());
+
+        try {
+            Date date = simpleDateFormat.parse(timestampStr);
+            return new Timestamp(date.getTime());
         } catch (ParseException e) {
             throw new EpeAppException("Invalid timestamp string " + timestampStr, e);
         }
