@@ -13,6 +13,18 @@ public abstract class EpeAppConstants {
 
     public static final Map<Long, String> mapThreadIdAndExceptionSuffix = new HashMap<>();
 
+    public static final String COL_ID = "ID";
+    public static final String COL_NAME = "NAME";
+    public static final String COL_CREATED = "CREATED";
+    public static final String COL_UPDATED = "UPDATED";
+    public static final String COL_ID_EWF_APPL = "ID_EWF_APPL";
+    public static final String TAB_EWF_APPL = "EWF_APPL";
+    public static final String TAB_EWF_LOG = "EWF_LOG";
+    public static final String TAB_EWF_COMP = "EWF_COMP";
+    public static final String TAB_EWF_PAGE = "EWF_PAGE";
+    public static final String TAB_EWF_ELEM = "EWF_ELEM";
+    public static final String TAB_EWF_COMP_CONTENT = "EWF_COMP_CONTENT";
+
     // static {
     // listReservedWords.add("null");
     // }

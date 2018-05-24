@@ -3,6 +3,7 @@ package com.softwarelma.epe.p3.db;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,8 +140,12 @@ public class EpeDbEntity implements Serializable {
     }
 
     public String getToStringForDb(String attribute) throws EpeAppException {
-        String className = this.metaData.getClassName(attribute);
         Object value = this.get(attribute);
+        return this.getToStringForDb(attribute, value);
+    }
+
+    public String getToStringForDb(String attribute, Object value) throws EpeAppException {
+        String className = this.metaData.getClassName(attribute);
 
         if (value == null || value.toString().isEmpty()) {
             return null;
@@ -306,7 +311,8 @@ public class EpeDbEntity implements Serializable {
             sep = ", ";
             sb.append(col);
             sb.append(" = ");
-            sb.append(this.getToStringForDb(col));
+            sb.append(col.equals(EpeAppConstants.COL_UPDATED)
+                    ? this.getToStringForDb(col, new Timestamp(new Date().getTime())) : this.getToStringForDb(col));
         }
 
         sb.append(" WHERE id = ");
