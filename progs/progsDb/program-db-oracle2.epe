@@ -1,0 +1,12 @@
+//H223 moana
+ds = db_datasource("jdbc:oracle:thin:@//192.168.31.152:1521/netreg2", "sge_master", "sge_master");
+
+select = "select PRG_DENT as pk_d from dent";
+
+rs = db_select(ds, prop("header=true"), prop("footer=true"), prop("limit=10"), prop("avoiding_classes=java.sql.Clob"), select);
+//rs = list_transpose(rs);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
+
+print_to_console("true");
+echo("\n", rs_smart);
+
