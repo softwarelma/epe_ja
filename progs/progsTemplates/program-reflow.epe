@@ -1,0 +1,3 @@
+content = fread(inputPath);
+content = reflow(content);
+fwrite(outputPath, content, "UTF-8");
