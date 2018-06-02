@@ -21,6 +21,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
+import com.softwarelma.epe.p1.app.EpeAppUtils;
+import com.softwarelma.epe.p2.encodings.EpeEncodings;
 import com.softwarelma.epe.p2.exec.EpeExecParams;
 import com.softwarelma.epe.p2.exec.EpeExecResult;
 
@@ -35,7 +37,6 @@ public class EpeOfficeFinalOffice_write_xlsx extends EpeOfficeAbstract {
         List<List<List<String>>> listListListStr = new ArrayList<>();
         for (int i = 2; i < listExecResult.size(); i++)
             listListListStr.add(getListListStringAt(listExecResult, i, postMessage));
-        // TODO validate lengths
         retrieveAndSaveWorkbook(fileName, listSheet, listListListStr);
         File f = new File(fileName);
         if (!f.exists() || !f.isFile())
@@ -57,7 +58,7 @@ public class EpeOfficeFinalOffice_write_xlsx extends EpeOfficeAbstract {
             step = "fileOut.toByteArray";
             byte[] arrayByte = fileOut.toByteArray();
             step = "arrayByte to file";
-            // TODO save the file
+            new EpeEncodings().write(arrayByte, fileName);
         } catch (IOException e) {
             throw new EpeAppException("On step: " + step, e);
         }
@@ -65,6 +66,7 @@ public class EpeOfficeFinalOffice_write_xlsx extends EpeOfficeAbstract {
 
     public static Workbook retrieveWorkbook(List<String> listSheet, List<List<List<String>>> listListListStr)
             throws EpeAppException {
+        EpeAppUtils.checkEquals("listSheet.size", "listListListStr.size", listSheet.size(), listListListStr.size());
         Map<String, List<List<String>>> mapSheetAndListListCell = new HashMap<>();
         for (int i = 0; i < listSheet.size(); i++)
             mapSheetAndListListCell.put(listSheet.get(i), listListListStr.get(i));

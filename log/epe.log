@@ -1,13 +1,12 @@
-20180529-095457 INFO: 
-PK_D
--5521617
--5500031
--5412326
-338359
-338360
-338361
-338362
-338363
-338364
-338365
-
+20180602-130248 INFO: 
+id | name    | id_ewf_appl | description | id_ewf_comp | ordinal
+1  | home    | 28          | Home        | 1           | 1
+3  | comp    | 28          | Comp        | 3           | 3
+4  | page    | 28          | Page        | 4           | 4
+5  | elem    | 28          | Elem        | 5           | 5
+6  | content | 28          | Content     | 6           | 6
+7  | log     | 28          | Log         | 28          | 7
+11 | appl    | 28          | Appl        | 30          | 2
+12 | ???56   | 28          |             | 30          | 
+20180602-130248 INFO: [sheet 1, sheet 2]
+20180602-130248 INFO: created: /home/ellison/Documents/epe.xlsx

@@ -1,4 +1,4 @@
-ds = db_datasource("jdbc:mysql://localhost:3306/ewf", "ewf_usr", "#~[}à1e%|B");
+ds = db_datasource("jdbc:mysql://localhost:3306/ewf", "ewf_usr", "ncqgà1ePáB");
 
 //update = "CREATE TABLE aaa (id int)";
 //update = "INSERT INTO aaa (id) VALUES (1)";
@@ -10,12 +10,12 @@ ds = db_datasource("jdbc:mysql://localhost:3306/ewf", "ewf_usr", "#~[}à1e%|B");
 
 select_1 = "select * from ewf_page";
 
-props = prop("header=true", "limit=200", "result_as_entity=true", "avoiding_classes=java.sql.Clob", "tables=ewf_page");
+props = prop("header=true", "limit=200", "result_as_entity=false", "avoiding_classes=java.sql.Clob", "tables=ewf_page");
 
 rs = db_select(ds, props, select_1);
 
-//rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
 
 print_to_console("true");
-//echo("\n", rs_smart);
+echo("\n", rs_smart);
 

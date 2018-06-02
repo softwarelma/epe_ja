@@ -1,0 +1,9 @@
+ds = db_datasource("jdbc:mysql://localhost:3306/ewf", "ewf_usr", "ncqgà1ePáB");
+select_1 = "select * from ewf_page";
+props = prop("header=true", "limit=200", "result_as_entity=false", "avoiding_classes=java.sql.Clob", "tables=ewf_page");
+rs_1 = db_select(ds, props, select_1);
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs_1);
+print_to_console("true");
+echo("\n", rs_smart);
+
+office_write_xlsx("/home/ellison/Documents/epe.xlsx", echo_to_list("sheet 1", "sheet 2"), rs_1, rs_1);

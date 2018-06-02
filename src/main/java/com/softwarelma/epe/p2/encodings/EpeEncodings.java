@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -31,7 +34,8 @@ public class EpeEncodings {
      */
     public void start(String[] args) throws EpeAppException {
         EpeAppUtils.checkNull("args", args);
-        // this.testDirectory("/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/.camel/", this.getAssertMapForTest());
+        // this.testDirectory("/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/.camel/",
+        // this.getAssertMapForTest());
         // this.testDirectory("/org/company/workspaces/luna-SR2/tcm/FileIn/ENC/.camel/");
     }
 
@@ -244,8 +248,9 @@ public class EpeEncodings {
      * From: http://snippets.dzone.com/posts/show/1335
      *
      * @param filePath
-     *            the name of the file to open. Not sure if it can accept URLs or just filenames. Path handling could be
-     *            better, and buffer sizes are hardcoded
+     *            the name of the file to open. Not sure if it can accept URLs
+     *            or just filenames. Path handling could be better, and buffer
+     *            sizes are hardcoded
      * @return the string
      * @throws Exception
      *             the exception
@@ -303,14 +308,16 @@ public class EpeEncodings {
      * From: http://snippets.dzone.com/posts/show/1335
      *
      * @param filePath
-     *            the name of the file to open. Not sure if it can accept URLs or just filenames. Path handling could be
-     *            better, and buffer sizes are hardcoded
+     *            the name of the file to open. Not sure if it can accept URLs
+     *            or just filenames. Path handling could be better, and buffer
+     *            sizes are hardcoded
      * @return the string
      * @throws Exception
      *             the exception
      */
     public String read(File file) throws Exception {
-        // l'encoding utilizzato dipende da come viene instanziato il file, probabilmente UTF-8
+        // l'encoding utilizzato dipende da come viene instanziato il file,
+        // probabilmente UTF-8
         String fileContent;
         StringBuilder fileData = new StringBuilder(1000);
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -363,6 +370,16 @@ public class EpeEncodings {
         return "\n";
     }
 
+    public void write(byte[] arrayByte, String filePath) throws EpeAppException {
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            fos.write(arrayByte);
+        } catch (FileNotFoundException e) {
+            throw new EpeAppException("write file \"" + filePath + "\"", e);
+        } catch (IOException e) {
+            throw new EpeAppException("write file \"" + filePath + "\"", e);
+        }
+    }
+
     public void write(String content, String filePath, String encoding, boolean append) throws EpeAppException {
         EpeAppUtils.checkNull("content", content);
         EpeAppUtils.checkEmpty("filePath", filePath);
@@ -411,7 +428,8 @@ public class EpeEncodings {
     }
 
     private String getAllChars() {
-        char[] specialChars = new char[] { '\u00C0', '\u00E0', '\u00C1', '\u00E1', // a accentate
+        char[] specialChars = new char[] { '\u00C0', '\u00E0', '\u00C1', '\u00E1', // a
+                                                                                   // accentate
                 '\u00C8', '\u00E8', '\u00C9', '\u00E9', // e accentate
                 '\u00CC', '\u00EC', '\u00CD', '\u00ED', // i accentate
                 '\u00D2', '\u00F2', '\u00D3', '\u00F3', // o accentate
