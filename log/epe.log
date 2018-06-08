@@ -1,1 +1,21 @@
-log
+20180608-105132 INFO: 
+NOME_QUERY | CODICE_ENTE | NOME_SHEET   | TESTO_QUERY       | TMS_ESTRAZIONE
+IMP_I_G9   | H223        | Annullamenti | [oracle.sql.CLOB] | 
+IMP_U_G1   | H223        | Versamenti   | [oracle.sql.CLOB] | 
+IMP_U_G2   | H223        | Riversamenti | [oracle.sql.CLOB] | 
+IMP_A_G1   | H223        | Versamenti   | [oracle.sql.CLOB] | 
+IMP_U_G3   | H223        | Recuperi     | [oracle.sql.CLOB] | 
+IMP_U_G4   | H223        | Anticipi     | [oracle.sql.CLOB] | 
+IMP_U_G5   | H223        | Accrediti    | [oracle.sql.CLOB] | 
+IMP_U_G9   | H223        | Annullamenti | [oracle.sql.CLOB] | 
+IMP_A_G2   | H223        | Riversamenti | [oracle.sql.CLOB] | 
+IMP_A_G3   | H223        | Recuperi     | [oracle.sql.CLOB] | 
+IMP_A_G4   | H223        | Anticipi     | [oracle.sql.CLOB] | 
+IMP_A_G5   | H223        | Accrediti    | [oracle.sql.CLOB] | 
+IMP_A_G9   | H223        | Annullamenti | [oracle.sql.CLOB] | 
+IMP_I_G1   | H223        | Versamenti   | [oracle.sql.CLOB] | 
+IMP_I_G2   | H223        | Riversamenti | [oracle.sql.CLOB] | 
+IMP_I_G3   | H223        | Recuperi     | [oracle.sql.CLOB] | 
+IMP_I_G4   | H223        | Anticipi     | [oracle.sql.CLOB] | 
+IMP_I_G5   | H223        | Accrediti    | [oracle.sql.CLOB] | 
+

@@ -5,6 +5,7 @@ import java.sql.Clob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarelma.epe.p1.app.EpeAppException;
@@ -20,9 +21,52 @@ public final class EpeDbFinalEntity_to_string extends EpeDbAbstract {
         return null;
     }
 
+    public static List<Class<?>> retrieveAndAddInterfaces(List<Class<?>> listClass, Class<?> interfaze)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("interfaze", interfaze);
+        EpeAppUtils.checkEquals("interfaze.isInterface", "true", interfaze.isInterface() + "", "true",
+                "The param \"interfaze\" must be an interface");
+        if (!listClass.contains(interfaze))
+            listClass.add(interfaze);
+        Class<?>[] arrayInterface = interfaze.getInterfaces();
+        for (Class<?> interfaceI : arrayInterface)
+            retrieveAndAddInterfaces(listClass, interfaceI);
+        return listClass;
+    }
+
+    public static List<Class<?>> retrieveSuperClassesAndInterfaces(Class<?> clazz) throws EpeAppException {
+        EpeAppUtils.checkNull("clazz", clazz);
+        List<Class<?>> listClass = new ArrayList<>();
+        Class<?>[] arrayInterface;
+        if (clazz.isInterface())
+            return retrieveAndAddInterfaces(listClass, clazz);
+
+        while (clazz != null) {
+            listClass.add(clazz);
+            arrayInterface = clazz.getInterfaces();
+            for (Class<?> interfaceI : arrayInterface)
+                retrieveAndAddInterfaces(listClass, interfaceI);
+            clazz = clazz.getSuperclass();
+        }
+
+        return listClass;
+    }
+
+    public static boolean isAvoidingClass(Class<?> clazz, String avoidingClasses) throws EpeAppException {
+        EpeAppUtils.checkNull("clazz", clazz);
+        List<Class<?>> listClass = retrieveSuperClassesAndInterfaces(clazz);
+        for (Class<?> clazzI : listClass)
+            if (avoidingClasses.contains("," + clazzI.getName() + ","))
+                return true;
+        return false;
+    }
+
     public static String toString(String columnName, Object obj, String avoidingClasses) throws EpeAppException {
         EpeAppUtils.checkEmpty("columnName", columnName);
-        avoidingClasses = avoidingClasses == null ? "" : "," + avoidingClasses.trim() + ",";
+        avoidingClasses = avoidingClasses == null ? "" : avoidingClasses.trim();
+        avoidingClasses = avoidingClasses.equals("") ? ""
+                : (avoidingClasses.startsWith(",") ? "" : ",") + avoidingClasses
+                        + (avoidingClasses.endsWith(",") ? "" : ",");
 
         if (obj == null) {
             return "";
@@ -31,7 +75,7 @@ public final class EpeDbFinalEntity_to_string extends EpeDbAbstract {
         Class<?> clazz = obj.getClass();
         String str;
 
-        if (avoidingClasses.contains("," + clazz.getName() + ",")) {
+        if (isAvoidingClass(clazz, avoidingClasses)) {
             return "[" + clazz.getName() + "]";
         }
 
