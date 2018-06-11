@@ -103,11 +103,11 @@ public class EpeOfficeFinalOffice_write_xlsx extends EpeOfficeAbstract {
                 for (int colInd = 0; colInd < listCell.size(); colInd++) {
                     cellValue = listCell.get(colInd);
                     cell = row.createCell(colInd);
-                    cell.setCellValue(cellValue);
+                    cell.setCellValue(cellValue == null ? "" : cellValue);
 
                     if (rowInd == 0) {
                         cell.setCellStyle(stileCellaTestata);
-                        width = cellValue.length();
+                        width = (cellValue + "").length();
                         width *= width < 10 ? 550 : (width < 20 ? 450 : 350);
                         sheet.setColumnWidth(colInd, width);
                     } else {

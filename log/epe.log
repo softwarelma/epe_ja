@@ -1,4 +1,4 @@
-20180608-105132 INFO: 
+20180608-113215 INFO: 
 NOME_QUERY | CODICE_ENTE | NOME_SHEET   | TESTO_QUERY       | TMS_ESTRAZIONE
 IMP_I_G9   | H223        | Annullamenti | [oracle.sql.CLOB] | 
 IMP_U_G1   | H223        | Versamenti   | [oracle.sql.CLOB] | 
