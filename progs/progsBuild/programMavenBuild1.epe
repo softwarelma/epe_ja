@@ -1,22 +1,23 @@
-dir_ini = "/org/company/workspaces/neon-3/acsor-kernel-7.3";
+dir_ini = "/org/company/repositories/npe-nett-174867";                       //TODO
 list_dirs = list_dirs_recursive(dir_ini);
 list_add(list_dirs, dir_ini);
-label = label();
-dir = for(list_dirs);
+index = "1";
+labelDir = label();
+	dir = for(list_dirs);
 	list_files = list_files(dir, "prefix=pom.xml");
-	goto(label, empty(list_files));
+	goto(labelDir, empty(list_files));
 	labelFile = label();
 		file = for(list_files);
 		file_full = echo(dir, "/", file);
+		goto(labelDir, contains(file_full, "/target/"));
 		content = fread(file_full);
+		size = size(content);
 		//content = replace(content, "aaaaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbbbbbbbb");
 		//fwrite(file_full, content, "UTF-8");
 		print_to_console("true");
-		echo("processing: ", file_full);
+		echo(index, ". processing (", size, " chars): ", file_full);
 		//echo(content);
 		print_to_console("false");
+		index = inc(index);
 	goto(labelFile, not(empty(list_files)));
-goto(label, not(empty(list_dirs)));
-labelEnd = label();
-
-
+goto(labelDir, not(empty(list_dirs)));

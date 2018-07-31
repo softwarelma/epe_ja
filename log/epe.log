@@ -1,26 +1,33 @@
-20180613-102404 INFO: 
-NOME_QUERY                      | CODICE_ENTE | NOME_FILE           | NOME_SHEET                                                                                   | TESTO_QUERY       | TMS_ESTRAZIONE
-IMP_U_G5                        | H223        |                     | Accrediti                                                                                    | [oracle.sql.CLOB] | 
-IMP_U_G9                        | H223        |                     | Annullamenti                                                                                 | [oracle.sql.CLOB] | 
-IMP_A_G2                        | H223        |                     | Riversamenti                                                                                 | [oracle.sql.CLOB] | 
-IMP_A_G3                        | H223        |                     | Recuperi                                                                                     | [oracle.sql.CLOB] | 
-IMP_A_G4                        | H223        |                     | Anticipi                                                                                     | [oracle.sql.CLOB] | 
-IMP_A_G5                        | H223        |                     | Accrediti                                                                                    | [oracle.sql.CLOB] | 
-IMP_A_G9                        | H223        |                     | Annullamenti                                                                                 | [oracle.sql.CLOB] | 
-ICI_IMU_TASI_importi_versamenti | H223        |                     | Complessivo,Imposta,Imposta_Destinazione,Imposta_Destinazione_Anno,Imposta_Dest_Anno_Tributo | [oracle.sql.CLOB] | 
-EXP_I_U_G1_abipri               | H223        | ICI_IMU_TASI_abipri | Abitazione principale                                                                        | [oracle.sql.CLOB] | 
-EXP_I_U_G1_abipri_CF            | H223        | ICI_IMU_TASI_abipri | Nro_CF                                                                                       | [oracle.sql.CLOB] | 
-EXP_I_U_G1_CF                   | H223        | ICI_IMU_TASI_RSU_CF | Versamenti_I_U                                                                               | [oracle.sql.CLOB] | 
-EXP_A_G1_CF                     | H223        | ICI_IMU_TASI_RSU_CF | Versamenti_A                                                                                 | [oracle.sql.CLOB] | 
-IMP_I_G2                        | H223        |                     | Riversamenti                                                                                 | [oracle.sql.CLOB] | 
-IMP_I_G3                        | H223        |                     | Recuperi                                                                                     | [oracle.sql.CLOB] | 
-IMP_I_G1                        | H223        |                     | Versamenti                                                                                   | [oracle.sql.CLOB] | 
-IMP_I_G4                        | H223        |                     | Anticipi                                                                                     | [oracle.sql.CLOB] | 
-IMP_I_G5                        | H223        |                     | Accrediti                                                                                    | [oracle.sql.CLOB] | 
-IMP_I_G9                        | H223        |                     | Annullamenti                                                                                 | [oracle.sql.CLOB] | 
-IMP_U_G1                        | H223        |                     | Versamenti                                                                                   | [oracle.sql.CLOB] | 
-IMP_U_G2                        | H223        |                     | Riversamenti                                                                                 | [oracle.sql.CLOB] | 
-IMP_A_G1                        | H223        |                     | Versamenti                                                                                   | [oracle.sql.CLOB] | 
-IMP_U_G3                        | H223        |                     | Recuperi                                                                                     | [oracle.sql.CLOB] | 
-IMP_U_G4                        | H223        |                     | Anticipi                                                                                     | [oracle.sql.CLOB] | 
-
+20180731-190150 INFO: 1. processing (1273 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/pom.xml
+20180731-190150 INFO: 2. processing (10945 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/NettunoPomForWebAndContainer/pom.xml
+20180731-190150 INFO: 3. processing (12346 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/pom.xml
+20180731-190150 INFO: 4. processing (5252 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-impl-edit/pom.xml
+20180731-190150 INFO: 5. processing (6717 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-impl-kernel/pom.xml
+20180731-190150 INFO: 6. processing (3835 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-rest/pom.xml
+20180731-190150 INFO: 7. processing (4663 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-service-edit/pom.xml
+20180731-190150 INFO: 8. processing (5766 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-service-kernel/pom.xml
+20180731-190150 INFO: 9. processing (2730 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-web-edit/pom.xml
+20180731-190150 INFO: 10. processing (2128 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-kernel-edit/acsor-web-kernel/pom.xml
+20180731-190150 INFO: 11. processing (3039 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-nettuno/pom.xml
+20180731-190150 INFO: 12. processing (3534 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-nettuno/acsor-impl-nettuno/pom.xml
+20180731-190150 INFO: 13. processing (7183 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-nettuno/acsor-service-nettuno/pom.xml
+20180731-190150 INFO: 14. processing (8849 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-nettuno/acsor-web-nettuno/pom.xml
+20180731-190150 INFO: 15. processing (1447 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/acsor-nettuno/dynamicPropertiesNettuno/pom.xml
+20180731-190150 INFO: 16. processing (5863 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/pom.xml
+20180731-190150 INFO: 17. processing (6425 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/nettuno-common-imu-container/pom.xml
+20180731-190150 INFO: 18. processing (10261 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/nettuno-comp-imu-container/pom.xml
+20180731-190150 INFO: 19. processing (12509 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/nettuno-cross/pom.xml
+20180731-190150 INFO: 20. processing (2191 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/nettuno-cross-ear/pom.xml
+20180731-190150 INFO: 21. processing (12523 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/nettuno-imu/pom.xml
+20180731-190150 INFO: 22. processing (6956 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-imu-container/nettuno-services-imu-container/pom.xml
+20180731-190150 INFO: 23. processing (4337 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-tares-container/pom.xml
+20180731-190150 INFO: 24. processing (6659 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-tares-container/nettuno-common-tares-container/pom.xml
+20180731-190150 INFO: 25. processing (11470 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-tares-container/nettuno-comp-tares-container/pom.xml
+20180731-190150 INFO: 26. processing (7136 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-tares-container/nettuno-services-tares-container/pom.xml
+20180731-190150 INFO: 27. processing (16117 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-tares-container/nettuno-tares/pom.xml
+20180731-190150 INFO: 28. processing (2673 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettuno-tares-container/nettuno-tares-ear/pom.xml
+20180731-190150 INFO: 29. processing (935 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettunoSolrCore/pom.xml
+20180731-190150 INFO: 30. processing (2507 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettunoSolrCore/cruscotto-importi-dovuti/pom.xml
+20180731-190150 INFO: 31. processing (1942 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/nettunoSolrPlugin/pom.xml
+20180731-190150 INFO: 32. processing (1713 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/protocolloWS/pom.xml
+20180731-190150 INFO: 33. processing (24944 chars): /home/ellison/Downloads/epe/programBuild-source/org/company/repositories/npe-nett-174867/sge/pom.xml

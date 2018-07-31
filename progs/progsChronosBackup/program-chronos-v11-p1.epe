@@ -79,19 +79,15 @@ print_to_console("false");
 
 //6. CONTROLLI
 
-log = fread("log/epe.log");
-success = contains(log, "[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------");
-goto(labelKo, not(success));
-error = contains(log, "[INFO] No sources to compile");
-goto(labelOk, not(error));
-labelKo = label();
-fwrite("log/epe.log",      "programma 1 - step 6/10 - CONTROLLI                             KO\n", "UTF-8", "append");
-fwrite("log/epe-step.log", "programma 1 - step 6/10 - CONTROLLI                             KO\n", "UTF-8", "append");
-goto(labelProgTerminato);
-labelOk = label();
 fwrite("log/epe.log",      "programma 1 - step 6/10 - CONTROLLI                             OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 6/10 - CONTROLLI                             OK\n", "UTF-8", "append");
+log = fread("log/epe.log");
+success = contains(log, "[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------");
+goto(labelEnd, not(success));
+error = contains(log, "[INFO] No sources to compile");
+goto(labelEnd, error);
 
 //7. COPIANDO LA BUILD DEL TCM
 
@@ -128,9 +124,6 @@ labelEnd = label();
 fwrite("log/epe.log",      "programma 1 - step 10/10 - CANCELLAZIONE DATI DI APPOGGIO       OK\n", "UTF-8", "append");
 fwrite("log/epe-step.log", "programma 1 - step 10/10 - CANCELLAZIONE DATI DI APPOGGIO       OK\n", "UTF-8", "append");
 fddelete("tmp-sge/centroservizi/");
-labelProgTerminato = label();
-fwrite("log/epe.log",      "programma 1 - terminato\n", "UTF-8", "append");
-fwrite("log/epe-step.log", "programma 1 - terminato\n", "UTF-8", "append");
 
 //NON CANCELLARE - SHELL SCRIPTS
 
