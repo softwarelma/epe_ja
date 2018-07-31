@@ -20,6 +20,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
         String sourceFilename = getStringAt(listExecResult, 0, postMessage);
         String destinationFilename = getStringAt(listExecResult, 1, postMessage);
         doFdCopy(sourceFilename, destinationFilename);
+        log(execParams, "fdcopy from \"" + sourceFilename + "\"\n\tto \"" + destinationFilename + "\"");
         return createEmptyResult();
     }
 
@@ -31,7 +32,7 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
             File fileDestination = new File(destinationFilename);
 
             if (!fileOrigin.exists()) {
-                throw new EpeAppException("fcopy from \"" + sourceFilename + "\" does not exist");
+                throw new EpeAppException("fdcopy from \"" + sourceFilename + "\" does not exist");
             }
 
             if (fileOrigin.isDirectory()) {
@@ -40,13 +41,13 @@ public final class EpeDiskFinalFdcopy extends EpeDiskAbstract {
                     FileUtils.copyDirectory(fileOrigin, fileDestination, true);
                 } else if (fileDestination.isFile()) {
                     // existing file
-                    throw new EpeAppException("fcopy to \"" + destinationFilename + "\" is not a directory");
+                    throw new EpeAppException("fdcopy to \"" + destinationFilename + "\" is not a directory");
                 } else if (destinationFilename.endsWith("/")) {
                     // new dir
                     FileUtils.copyDirectory(fileOrigin, fileDestination, true);
                 } else {
                     // new file
-                    throw new EpeAppException("fcopy to \"" + destinationFilename + "\" is not a directory");
+                    throw new EpeAppException("fdcopy to \"" + destinationFilename + "\" is not a directory");
                 }
             } else if (fileOrigin.isFile()) {
                 if (fileDestination.isDirectory()) {

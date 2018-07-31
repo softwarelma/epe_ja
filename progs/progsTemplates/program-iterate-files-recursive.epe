@@ -1,0 +1,16 @@
+dir_ini = "/org/company/repositories/npe-nett-174867";                       //TODO
+list_files = list_files_recursive(dir_ini, "prefix=pom.xml");
+index = "1";
+labelFile = label();
+	file = for(list_files);
+	goto(labelFile, contains(file, "/target/"));
+	content = fread(file);
+	size = size(content);
+	//content = replace(content, "aaaaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbbbbbbbb");
+	//fwrite(file, content, "UTF-8");
+	print_to_console("true");
+	echo(index, ". processing (", size, " chars): ", file);
+	//echo(content);
+	print_to_console("false");
+	index = inc(index);
+goto(labelFile, not(empty(list_files)));

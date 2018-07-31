@@ -49,23 +49,33 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
         return listFiles(dirName, prefixContainedAndSuffix);
     }
 
-    public static List<String> listFiles(String dirName, String[] prefixContainedAndSuffix) throws EpeAppException {
-        File dir = new File(dirName);
-        EpeAppUtils.checkDir(dir);
+    public static boolean isValidFileOrDir(String dirOrFileName, String[] prefixContainedAndSuffix)
+            throws EpeAppException {
+        EpeAppUtils.checkNull("dirOrFileName", dirOrFileName);
+        dirOrFileName = EpeAppUtils.cleanFilename(dirOrFileName);
+        dirOrFileName = dirOrFileName.endsWith("/") ? dirOrFileName.substring(0, dirOrFileName.length() - 1)
+                : dirOrFileName;
         String prefix = prefixContainedAndSuffix[0];
         String contained = prefixContainedAndSuffix[1];
         String suffix = prefixContainedAndSuffix[2];
+        if (!EpeAppUtils.isEmpty(prefix) && !dirOrFileName.startsWith(prefix))
+            return false;
+        if (!EpeAppUtils.isEmpty(contained) && !dirOrFileName.contains(contained))
+            return false;
+        if (!EpeAppUtils.isEmpty(suffix) && !dirOrFileName.endsWith(suffix))
+            return false;
+        return true;
+    }
+
+    public static List<String> listFiles(String dirName, String[] prefixContainedAndSuffix) throws EpeAppException {
+        File dir = new File(dirName);
+        EpeAppUtils.checkDir(dir);
         List<String> list = new ArrayList<>();
         String[] listFileName = dir.list();
 
         for (String fileName : listFileName) {
-            if (!EpeAppUtils.isEmpty(prefix) && !fileName.startsWith(prefix))
-                continue;
-            if (!EpeAppUtils.isEmpty(contained) && !fileName.contains(contained))
-                continue;
-            if (!EpeAppUtils.isEmpty(suffix) && !fileName.endsWith(suffix))
-                continue;
-            list.add(fileName);
+            if (isValidFileOrDir(fileName, prefixContainedAndSuffix))
+                list.add(fileName);
         }
 
         Collections.sort(list);

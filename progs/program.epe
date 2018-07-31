@@ -1,5 +1,3 @@
-echo("hw!");
-text = "a /*b*/";
-text = clean_comment(text);
+decode = decode(n, null, "null", "not null");
 print_to_console("true");
-echo(text);
+echo(decode);
