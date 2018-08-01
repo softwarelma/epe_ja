@@ -24,7 +24,7 @@ goto(labelFile, not(empty(list_files)));
 
 script = import_comment("script");
 script = replace(script, "dir_ini", dir_ini, "true");
-script = replace(script, "java_home", decode(java_home, null, "", "null", "", echo("export JAVA_HOME=", java_home), "true");
+script = replace(script, "java_home", decode(java_home, null, "", "null", "", echo("export JAVA_HOME=", java_home)), "true");
 exec_shell(script);
 
 fdcopy(dir_temp, dir_ini);
