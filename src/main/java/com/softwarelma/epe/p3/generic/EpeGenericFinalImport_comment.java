@@ -15,7 +15,7 @@ public final class EpeGenericFinalImport_comment extends EpeGenericAbstract {
         String key = getStringAt(listExecResult, 0, postMessage);
         String value = execParams.getGlobalParams().getMapComments().get(key);
         EpeAppUtils.checkNull("value", value);
-        execParams.getGlobalParams().getMapComments().remove(key);
+        // execParams.getGlobalParams().getMapComments().remove(key);
         log(execParams, "importing comment: " + key + "=" + value);
         return createResult(value);
     }

@@ -1,8 +1,10 @@
 dir_ini = "/home/ellison/Downloads/epe/npe-nett-174867-source";                       //TODO
 dir_temp = "/home/ellison/Downloads/epe/npe-nett-174867-dest";                       //TODO
 java_home = "/org/sun/java/java7/1.7.0_79";                                      //TODO
+new_version = "9.0.4";                                                        //TODO
 
 list_files = list_files_recursive(dir_ini, "prefix=pom.xml");
+init = "true";
 index = "1";
 labelFile = label();
 	file_source = for(list_files);
@@ -16,8 +18,14 @@ labelFile = label();
 	//echo(content);
 	print_to_console("false");
 	fdcopy(file_source, file_dest);
-	content = replace(content, "SEGNAPOSTO_VERSIONE_UNICA_POM", "9.0.3");
+	content = replace(content, "SEGNAPOSTO_VERSIONE_UNICA_POM", new_version);
 	//content = replace(content, "DEV-SNAPSHOT", "SEGNAPOSTO_VERSIONE_UNICA_POM");
+
+	goto(labelWriteFile, equals(init, "false"));
+	modules = find_between(content, "<modules>", "</modules>", "<!--c-->");
+	content = replace(content, modules, "");
+
+	labelWriteFile = label();
 	fwrite(file_source, content, "UTF-8");
 	index = inc(index);
 goto(labelFile, not(empty(list_files)));
@@ -29,6 +37,12 @@ exec_shell(script);
 
 fdcopy(dir_temp, dir_ini);
 
+goto(labelDelete, equals(init, "false"));
+init = "false";
+list_files = list_files_recursive(dir_ini, "prefix=pom.xml");
+goto(labelFile);
+
+labelDelete = label();
 fddelete(dir_temp);
 
 log = fread("log/epe.log");

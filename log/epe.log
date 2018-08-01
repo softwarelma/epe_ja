@@ -1,1 +1,204 @@
-20180801-150548 INFO: null
+20180803-170603 INFO: 1. processing (10945 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/NettunoPomForWebAndContainer/pom.xml
+20180803-170603 INFO: 2. processing (12346 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/pom.xml
+20180803-170603 INFO: 3. processing (5252 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-impl-edit/pom.xml
+20180803-170603 INFO: 4. processing (6717 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-impl-kernel/pom.xml
+20180803-170603 INFO: 5. processing (3835 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-rest/pom.xml
+20180803-170603 INFO: 6. processing (4663 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-service-edit/pom.xml
+20180803-170603 INFO: 7. processing (5766 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-service-kernel/pom.xml
+20180803-170603 INFO: 8. processing (2730 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-web-edit/pom.xml
+20180803-170603 INFO: 9. processing (2128 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-web-kernel/pom.xml
+20180803-170603 INFO: 10. processing (3039 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/pom.xml
+20180803-170603 INFO: 11. processing (3534 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/acsor-impl-nettuno/pom.xml
+20180803-170603 INFO: 12. processing (7183 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/acsor-service-nettuno/pom.xml
+20180803-170603 INFO: 13. processing (8849 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/acsor-web-nettuno/pom.xml
+20180803-170603 INFO: 14. processing (1447 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/dynamicPropertiesNettuno/pom.xml
+20180803-170603 INFO: 15. processing (5863 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/pom.xml
+20180803-170603 INFO: 16. processing (6425 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-common-imu-container/pom.xml
+20180803-170603 INFO: 17. processing (10261 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-comp-imu-container/pom.xml
+20180803-170603 INFO: 18. processing (12509 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-cross/pom.xml
+20180803-170603 INFO: 19. processing (2191 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-cross-ear/pom.xml
+20180803-170603 INFO: 20. processing (12523 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-imu/pom.xml
+20180803-170603 INFO: 21. processing (6956 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-services-imu-container/pom.xml
+20180803-170603 INFO: 22. processing (4337 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/pom.xml
+20180803-170603 INFO: 23. processing (6659 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-common-tares-container/pom.xml
+20180803-170603 INFO: 24. processing (11470 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-comp-tares-container/pom.xml
+20180803-170603 INFO: 25. processing (7136 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-services-tares-container/pom.xml
+20180803-170603 INFO: 26. processing (16117 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-tares/pom.xml
+20180803-170603 INFO: 27. processing (2673 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-tares-ear/pom.xml
+20180803-170603 INFO: 28. processing (935 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettunoSolrCore/pom.xml
+20180803-170603 INFO: 29. processing (2507 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettunoSolrCore/cruscotto-importi-dovuti/pom.xml
+20180803-170603 INFO: 30. processing (1942 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettunoSolrPlugin/pom.xml
+20180803-170603 INFO: 31. processing (1713 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/protocolloWS/pom.xml
+20180803-170603 INFO: 32. processing (24944 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/sge/pom.xml
+20180803-170603 INFO: 33. processing (1012 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/pom.xml
+bash: cannot set terminal process group (1812): Inappropriate ioctl for device
+bash: no job control in this shell
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/epe$ cd /home/ellison/Downloads/epe/npe-nett-174867-source
+ellison@ellison-LIFEBOOK-A555:~/Downloads/epe/npe-nett-174867-source$ export JAVA_HOME=/org/sun/java/java7/1.7.0_79
+ellison@ellison-LIFEBOOK-A555:~/Downloads/epe/npe-nett-174867-source$ echo $JAVA_HOME
+/org/sun/java/java7/1.7.0_79
+ellison@ellison-LIFEBOOK-A555:~/Downloads/epe/npe-nett-174867-source$ mvn clean install
+exit
+exit
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for it.eng.municipia.prodotti:NettunoPonteErcole:pom:9.0.4
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-war-plugin is missing. @ it.eng.municipia.prodotti.nettuno.pom:NettunoPomForWebAndContainer:1.0.0, /org/eng/repository/it/eng/municipia/prodotti/nettuno/pom/NettunoPomForWebAndContainer/1.0.0/NettunoPomForWebAndContainer-1.0.0.pom, line 130, column 14
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building NettunoPonteErcole 9.0.4
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ NettunoPonteErcole ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ NettunoPonteErcole ---
+[INFO] Installing /home/ellison/Downloads/epe/npe-nett-174867-source/pom.xml to /org/eng/repository/it/eng/municipia/prodotti/NettunoPonteErcole/9.0.4/NettunoPonteErcole-9.0.4.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.794 s
+[INFO] Finished at: 2018-08-03T17:06:07+02:00
+020180803-170608 INFO: 34. processing (10945 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/NettunoPomForWebAndContainer/pom.xml
+20180803-170608 INFO: 35. processing (12346 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/pom.xml
+20180803-170608 INFO: 36. processing (5252 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-impl-edit/pom.xml
+20180803-170608 INFO: 37. processing (6717 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-impl-kernel/pom.xml
+20180803-170608 INFO: 38. processing (3835 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-rest/pom.xml
+20180803-170608 INFO: 39. processing (4663 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-service-edit/pom.xml
+20180803-170608 INFO: 40. processing (5766 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-service-kernel/pom.xml
+20180803-170608 INFO: 41. processing (2730 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-web-edit/pom.xml
+20180803-170608 INFO: 42. processing (2128 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-kernel-edit/acsor-web-kernel/pom.xml
+20180803-170608 INFO: 43. processing (3039 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/pom.xml
+20180803-170608 INFO: 44. processing (3534 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/acsor-impl-nettuno/pom.xml
+20180803-170608 INFO: 45. processing (7183 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/acsor-service-nettuno/pom.xml
+20180803-170608 INFO: 46. processing (8849 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/acsor-web-nettuno/pom.xml
+20180803-170608 INFO: 47. processing (1447 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/acsor-nettuno/dynamicPropertiesNettuno/pom.xml
+20180803-170608 INFO: 48. processing (5863 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/pom.xml
+20180803-170608 INFO: 49. processing (6425 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-common-imu-container/pom.xml
+20180803-170608 INFO: 50. processing (10261 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-comp-imu-container/pom.xml
+20180803-170608 INFO: 51. processing (12509 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-cross/pom.xml
+20180803-170608 INFO: 52. processing (2191 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-cross-ear/pom.xml
+20180803-170608 INFO: 53. processing (12523 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-imu/pom.xml
+20180803-170608 INFO: 54. processing (6956 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-imu-container/nettuno-services-imu-container/pom.xml
+20180803-170608 INFO: 55. processing (4337 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/pom.xml
+20180803-170608 INFO: 56. processing (6659 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-common-tares-container/pom.xml
+20180803-170608 INFO: 57. processing (11470 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-comp-tares-container/pom.xml
+20180803-170608 INFO: 58. processing (7136 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-services-tares-container/pom.xml
+20180803-170608 INFO: 59. processing (16117 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-tares/pom.xml
+20180803-170608 INFO: 60. processing (2673 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettuno-tares-container/nettuno-tares-ear/pom.xml
+20180803-170608 INFO: 61. processing (935 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettunoSolrCore/pom.xml
+20180803-170608 INFO: 62. processing (2507 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettunoSolrCore/cruscotto-importi-dovuti/pom.xml
+20180803-170608 INFO: 63. processing (1942 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/nettunoSolrPlugin/pom.xml
+20180803-170608 INFO: 64. processing (1713 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/protocolloWS/pom.xml
+20180803-170608 INFO: 65. processing (24944 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/sge/pom.xml
+20180803-170608 INFO: 66. processing (1012 chars): /home/ellison/Downloads/epe/npe-nett-174867-source/pom.xml
+cd /home/ellison/Downloads/epe/npe-nett-174867-source
+bash: no job control in this shell
+ellison@ellison-LIFEBOOK-A555:/org/company/repositories/epe$ cd /home/ellison<55:/org/company/repositories/epe$ cd /home/ellison/                                                  Downloads/epe/npe-nett-17<es/epe$ cd /home/ellison/Downloads/epe/npe-nett-174                                                  867-source
+ellison@ellison-LIFEBOOK-A555:~/Downloads/epe/npe-nett-174867-source$ export JAVA_HOME=/org/sun/java/java7/1.7.0_79
+ellison@ellison-LIFEBOOK-A555:~/Downloads/epe/npe-nett-174867-source$ echo $JAVA_HOME
+/org/sun/java/java7/1.7.0_79
+ellison@ellison-LIFEBOOK-A555:~/Downloads/epe/npe-nett-174867-source$ mvn clean install
+exit
+exit
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for it.eng.tributi.prodotti.nettuno:sge:war:9.0.4
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-resources-plugin is missing. @ it.eng.tributi.prodotti.nettuno:sge:[unknown-version], /home/ellison/Downloads/epe/npe-nett-174867-source/sge/pom.xml, line 443, column 12
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for it.eng.municipia.prodotti:NettunoPonteErcole:pom:9.0.4
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-war-plugin is missing. @ it.eng.municipia.prodotti.nettuno.pom:NettunoPomForWebAndContainer:1.0.0, /org/eng/repository/it/eng/municipia/prodotti/nettuno/pom/NettunoPomForWebAndContainer/1.0.0/NettunoPomForWebAndContainer-1.0.0.pom, line 130, column 14
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] NettunoPonteErcole
+[INFO] sge
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building NettunoPonteErcole 9.0.4
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ NettunoPonteErcole ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ NettunoPonteErcole ---
+[INFO] Installing /home/ellison/Downloads/epe/npe-nett-174867-source/pom.xml to /org/eng/repository/it/eng/municipia/prodotti/NettunoPonteErcole/9.0.4/NettunoPonteErcole-9.0.4.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building sge 9.0.4
+[INFO] ------------------------------------------------------------------------
+exit
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ sge ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ sge ---
+[INFO] Using 'ISO-8859-1' encoding to copy filtered resources.
+[INFO] Copying 124 resources
+exit
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-resources-to-wtp_filteredWebapp) @ sge ---
+[INFO] Using 'ISO-8859-1' encoding to copy filtered resources.
+[INFO] Copying 124 resources
+[INFO] Copying 13 resources
+[INFO] Copying 9 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-webresources-to-wtp_filteredWebapp) @ sge ---
+[INFO] Using 'ISO-8859-1' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ellison/Downloads/epe/npe-nett-174867-source/sge/_maven/server/_standard/webResources
+[INFO] skip non existing resourceDirectory /home/ellison/Downloads/epe/npe-nett-174867-source/sge/_maven/server/_standard/webResources
+[INFO] Copying 7 resources
+[INFO] Copying 0 resource
+[INFO] skip non existing resourceDirectory /home/ellison/Downloads/epe/npe-nett-174867-source/sge/_maven/customizations/_standard/webResources
+[INFO] skip non existing resourceDirectory /home/ellison/Downloads/epe/npe-nett-174867-source/sge/_maven/customizations/_standard/webResources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-no-liferay-to-wtp_filteredWebapp) @ sge ---
+[INFO] Using 'ISO-8859-1' encoding to copy filtered resources.
+[INFO] Copying 131 resources
+[INFO] Copying 13 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.3:compile (default-compile) @ sge ---
+exit
+[INFO] Compiling 937 source files to /home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/classes
+exit
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ sge ---
+[INFO] Using 'ISO-8859-1' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ellison/Downloads/epe/npe-nett-174867-source/sge/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.3:testCompile (default-testCompile) @ sge ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ sge ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-war-plugin:2.1.1:war (default-war) @ sge ---
+exit
+[INFO] Assembling webapp [sge] in [/home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/sge]
+[INFO] Processing war project
+[INFO] Copying webapp webResources [/home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/wtp_filteredWebapp_no_liferay] to [/home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/sge]
+[INFO] Copying webapp webResources [/home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/wtp_filteredWebapp_no_liferay] to [/home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/sge]
+[INFO] Copying webapp resources [/home/ellison/Downloads/epe/npe-nett-174867-source/sge/src/main/webapp]
+exit
+exit
+exit
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ sge ---
+[INFO] No primary artifact to install, installing attached artifacts instead.
+[INFO] Installing /home/ellison/Downloads/epe/npe-nett-174867-source/sge/pom.xml to /org/eng/repository/it/eng/tributi/prodotti/nettuno/sge/9.0.4/sge-9.0.4.pom
+[INFO] Installing /home/ellison/Downloads/epe/npe-nett-174867-source/sge/target/sge-install-_standard-no-liferay.war to /org/eng/repository/it/eng/tributi/prodotti/nettuno/sge/9.0.4/sge-9.0.4-install-_standard-no-liferay.war
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] NettunoPonteErcole ................................. SUCCESS [  0.423 s]
+[INFO] sge ................................................ SUCCESS [ 25.093 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 25.735 s
+[INFO] Finished at: 2018-08-03T17:06:37+02:00
+020180803-170637 INFO: ------------------------------------------------------------------------
+20180803-170637 INFO: ---------------------- BUILD FINITA CORRETTAMENTE ----------------------
+20180803-170637 INFO: ------------------------------------------------------------------------
