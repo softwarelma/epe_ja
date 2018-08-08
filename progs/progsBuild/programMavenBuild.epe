@@ -1,6 +1,6 @@
 dir_ini = "/home/ellison/Downloads/epe/npe-nett-174867-source";                       //TODO
 dir_temp = "/home/ellison/Downloads/epe/npe-nett-174867-dest";                       //TODO
-java_home = "/org/sun/java/java7/1.7.0_79";                                      //TODO
+java_home = "/org/sun/java/java7/1.7.0_79";                                      //TODO non obbligatorio
 new_version = "9.0.4";                                                        //TODO
 
 list_files = list_files_recursive(dir_ini, "prefix=pom.xml");
