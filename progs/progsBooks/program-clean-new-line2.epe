@@ -1,0 +1,10 @@
+//filename = read_line("Filename: ", "*", "", "true", "true");
+filename = "C:\Users\guillermo.ellison\Downloads\Cameron Julia - El Camino Del Artista.txt";
+text = fread(filename);
+arrayLine = split(text, "\n");
+labelFor = label();
+	line = for(arrayLine);
+	print_to_console("true");
+	echo(line);
+	print_to_console("false");
+goto(labelFor, not(empty(arrayLine)));

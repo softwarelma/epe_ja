@@ -1,4 +1,5 @@
-text = fread("/home/ellison/Downloads/Xavier Francisco Candido - El Consolador - Emmanuel.txt");
+filename = read_line("Filename: ", "*", "", "true", "true");
+text = fread(filename);
 ind = "1";
 labelFile = label();
 	textPre = text;
