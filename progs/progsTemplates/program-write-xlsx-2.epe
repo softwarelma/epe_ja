@@ -1,0 +1,6 @@
+rs_1 = echo_to_list_list(echo_to_list("a asdlk", "b lsllk"), echo_to_list("c", "d"), echo_to_list("e", "f alsl asfasl ssa asjfsa asljsalf aslfj asflsjja  l"));
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs_1);
+print_to_console("true");
+echo("\n", rs_smart);
+office_write_xlsx("C:/Users/guillermo.ellison/Downloads/xls/epe.xlsx", echo_to_list("sheet 1"), rs_1);
+//office_write_xlsx("C:/Users/guillermo.ellison/Downloads/xls/epe.xlsx", echo_to_list("sheet 1", "sheet 2"), rs_1, rs_1);

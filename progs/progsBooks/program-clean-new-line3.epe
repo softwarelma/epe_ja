@@ -1,5 +1,5 @@
 //filename = read_line("Filename: ", "*", "", "true", "true");
-filename = "C:\Users\guillermo.ellison\Downloads\Cameron Julia - El Camino Del Artista.txt";
+filename = "C:\Users\guillermo.ellison\Downloads\Guida da Idea a Startup - Startup Geeks.txt";
 text = echo_clean_new_line(prop("cutting_length=75"), fread(filename));
 print_to_console("true");
 echo(text);
