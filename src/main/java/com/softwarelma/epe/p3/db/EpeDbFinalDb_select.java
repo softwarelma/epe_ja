@@ -311,6 +311,8 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 			return String.class.getName();
 		case "TIMESTAMP":
 			return Timestamp.class.getName();
+		case "DATETIME":
+			return Timestamp.class.getName();
 		default:
 			throw new EpeAppException("Unknown colType: " + colType);
 		}
