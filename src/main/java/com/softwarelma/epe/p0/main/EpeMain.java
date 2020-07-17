@@ -6,24 +6,26 @@ import com.softwarelma.epe.p2.exec.EpeExecResult;
 
 public class EpeMain {
 
-    public static void main(String[] args) {
-        start(args);
-    }
+	public static void main(String[] args) {
+		start(args);
+	}
 
-    public static EpeExecResult start(String[] args) {
-        EpeExecResult result = null;
-
-        try {
-            result = new EpeApp().start(args);
-        } catch (Exception e) {
-            if (!(e instanceof EpeAppException)) {
-                new EpeAppException("main", e);
-            }
-
-            System.exit(0);
-        }
-
-        return result;
-    }
+	public static EpeExecResult start(String[] args) {
+		EpeExecResult result = null;
+		try {
+			result = new EpeApp().start(args);
+		} catch (Exception e) {
+			if (!(e instanceof EpeAppException))
+				new EpeAppException("main", e);
+			e.printStackTrace();
+			System.exit(0);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (e.getCause() != null)
+				e.getCause().printStackTrace();
+			System.exit(0);
+		}
+		return result;
+	}
 
 }

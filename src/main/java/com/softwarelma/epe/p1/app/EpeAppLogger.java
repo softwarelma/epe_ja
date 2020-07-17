@@ -68,7 +68,7 @@ public abstract class EpeAppLogger {
         }
 
         if (!messageAsIs) {
-            message = message == null || message.isEmpty() ? "Message not found" : message;
+            message = message == null /*|| message.isEmpty()*/ ? "Message not found" : message;
             message = retrieveMessageWithThreadExceptionSuffix(message, t);
             message = timestamp + " " + level + ": " + message;
         }

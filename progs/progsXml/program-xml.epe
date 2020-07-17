@@ -1,0 +1,45 @@
+content = xml_read_site(
+	"https://reciprocalsystem.org/books/uom",
+	"https://reciprocalsystem.org/books/uom/preface",
+	"https://reciprocalsystem.org/books/uom/01-introduction",
+	"https://reciprocalsystem.org/books/uom/02-galaxies",
+	"https://reciprocalsystem.org/books/uom/03-globular-clusters",
+	"https://reciprocalsystem.org/books/uom/04-the-giant-star-cycle",
+	"https://reciprocalsystem.org/books/uom/05-the-later-cycles",
+	"https://reciprocalsystem.org/books/uom/06-the-dwarf-star-cycle",
+	"https://reciprocalsystem.org/books/uom/07-binary-and-multiple-stars",
+	"https://reciprocalsystem.org/books/uom/08-evolution-globular-cluster-stars",
+	"https://reciprocalsystem.org/books/uom/09-gas-and-dust-clouds",
+	"https://reciprocalsystem.org/books/uom/10-evolution-galactic-stars",
+	"https://reciprocalsystem.org/books/uom/11-planetary-nebulae",
+	"https://reciprocalsystem.org/books/uom/12-ordinary-white-dwarfs",
+	"https://reciprocalsystem.org/books/uom/13-the-cataclysmic-variables",
+	"https://reciprocalsystem.org/books/uom/14-limits",
+	"https://reciprocalsystem.org/books/uom/15-the-intermediate-regions",
+	"https://reciprocalsystem.org/books/uom/16-type-ii-supernovae",
+	"https://reciprocalsystem.org/books/uom/17-pulsars",
+	"https://reciprocalsystem.org/books/uom/18-radiative-processes",
+	"https://reciprocalsystem.org/books/uom/19-x-ray-emission",
+	"https://reciprocalsystem.org/books/uom/20-the-quasar-situation",
+	"https://reciprocalsystem.org/books/uom/21-quasar-theory",
+	"https://reciprocalsystem.org/books/uom/22-verification",
+	"https://reciprocalsystem.org/books/uom/23-quasar-redshifts",
+	"https://reciprocalsystem.org/books/uom/24-evolution-of-quasars",
+	"https://reciprocalsystem.org/books/uom/25-the-quasar-populations",
+	"https://reciprocalsystem.org/books/uom/26-radio-galaxies",
+	"https://reciprocalsystem.org/books/uom/27-pre-quasar-phenomena",
+	"https://reciprocalsystem.org/books/uom/28-inter-sector-relations",
+	"https://reciprocalsystem.org/books/uom/29-the-non-existent-universe",
+	"https://reciprocalsystem.org/books/uom/30-cosmology",
+	"https://reciprocalsystem.org/books/uom/31-implications",
+	"https://reciprocalsystem.org/books/uom/references"
+);
+content = find_between(content, "<div class=\"tex2jax_process\">", "</div>");
+content = join(content, "\n");
+
+text = fread("C:\Users\guillermo.ellison\Documents\dewey\dewey-template.html");
+text = replace(text, "${content_for_template}", content);
+fwrite(echo("C:\Users\guillermo.ellison\Documents\dewey\dewey.html"), text, print_default_encoding());
+
+print_to_console("true");
+echo(text);

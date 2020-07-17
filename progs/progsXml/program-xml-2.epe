@@ -1,0 +1,35 @@
+content = xml_read_site(
+	"https://reciprocalsystem.org/books/nbm",
+	"https://reciprocalsystem.org/books/nbm/preface",
+	"https://reciprocalsystem.org/books/nbm/01-background",
+	"https://reciprocalsystem.org/books/nbm/02-a-universe-of-motion",
+	"https://reciprocalsystem.org/books/nbm/03-reference-systems",
+	"https://reciprocalsystem.org/books/nbm/04-radiation",
+	"https://reciprocalsystem.org/books/nbm/05-gravitation",
+	"https://reciprocalsystem.org/books/nbm/06-the-reciprocal-relation",
+	"https://reciprocalsystem.org/books/nbm/07-high-speed-motion",
+	"https://reciprocalsystem.org/books/nbm/08-motion-in-time",
+	"https://reciprocalsystem.org/books/nbm/09-rotational-combinations",
+	"https://reciprocalsystem.org/books/nbm/10-atoms",
+	"https://reciprocalsystem.org/books/nbm/11-sub-atomic-particles",
+	"https://reciprocalsystem.org/books/nbm/12-basic-mathematical-relations",
+	"https://reciprocalsystem.org/books/nbm/13-physical-constants",
+	"https://reciprocalsystem.org/books/nbm/14-cosmic-elements",
+	"https://reciprocalsystem.org/books/nbm/15-cosmic-ray-decay",
+	"https://reciprocalsystem.org/books/nbm/16-cosmic-atom-building",
+	"https://reciprocalsystem.org/books/nbm/17-some-speculations",
+	"https://reciprocalsystem.org/books/nbm/18-simple-compounds",
+	"https://reciprocalsystem.org/books/nbm/19-complex-compounds",
+	"https://reciprocalsystem.org/books/nbm/20-chain-compounds",
+	"https://reciprocalsystem.org/books/nbm/21-ring-compounds",
+	"https://reciprocalsystem.org/books/nbm/references"
+);
+content = find_between(content, "<div class=\"tex2jax_process\">", "</div>");
+content = join(content, "\n");
+
+text = fread("C:\Users\guillermo.ellison\Documents\dewey\dewey-template.html");
+text = replace(text, "${content_for_template}", content);
+fwrite(echo("C:\Users\guillermo.ellison\Documents\dewey\dewey.html"), text, print_default_encoding());
+
+print_to_console("true");
+echo(text);
