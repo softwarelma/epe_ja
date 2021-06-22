@@ -161,33 +161,8 @@ public class EpeEncodings {
         Map<String, String> mapAssert = new HashMap<>();
         mapAssert.put("IMUTASI.A944.A201214.P0004.RUN", "UTF-8");
         mapAssert.put("IMUTASI.A944.A201415.P0003.run", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201415.P0003-1-dich", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201314.P0003.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201415.P0002-corretto-id-dich-ripetuto-tolto-indice-15063015231538279.RUN",
-                "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201415.P0005.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201214.P0003.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201415.P0004.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201415.P0001.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201314.P0005.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.H223.A201415.P0001.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.A944.A201314.P0004.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.H223.A201415.P0002.RUN", "UTF-8");
-        mapAssert.put("IMUTASI.F205.A201415.P0007.RUN", "UTF-8");
-
         mapAssert.put("IMUTASI.A944.A201415.P0002.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201214.P0001-223-dichiarazioni.RUN", "ISO-8859-15");
         mapAssert.put("IMUTASI.A944.A201314.P0002-ISO-8859-1.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201516.P0002-no-utf-no-iso--DESTINATI ESCLUSIVAMENTE-2.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.F205.A201214.P0001.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201516.P0002-no-utf-no-iso--DESTINATI ESCLUSIVAMENTE.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201415.P0002-corretto-id-dich-ripetuto.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201214.P0002-accento.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201214.P0001-220-dichiarazioni-tolti-indici-14120120443249657-e-"
-                + "14112709410347139-e-14112110583940191.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.A944.A201314.P0001-145-dichiarazioni.RUN", "ISO-8859-15");
-        mapAssert.put("IMUTASI.F205.A201516.P0001.RUN", "ISO-8859-15");
-
         return mapAssert;
     }
 
@@ -203,46 +178,41 @@ public class EpeEncodings {
         return directory.isDirectory() ? directory : null;
     }
 
-    public EpeEncodingsResponse readGuessing(String filePath) throws EpeAppException {
-        EpeAppUtils.checkNull("filePath", filePath);
-        filePath = this.cleanPath(filePath);
-        EpeEncodingsResponse responseUtf = read(filePath, EpeAppConstants.ENCODING_UTF_8);
-        SimpleEntry<Character, Integer> cUtf = validateChars(responseUtf.getFileContent());
+	public EpeEncodingsResponse readGuessing(String filePath) throws EpeAppException {
+		EpeAppUtils.checkNull("filePath", filePath);
+		filePath = this.cleanPath(filePath);
+		EpeEncodingsResponse responseUtf = read(filePath, EpeAppConstants.ENCODING_UTF_8);
+		EpeEncodingsResponse responseIso = read(filePath, EpeAppConstants.ENCODING_ISO_8859_15);
+		return this.readGuessingByUtfOrIso(responseUtf, responseIso);
+	}
 
-        if (cUtf == null) {
-            return responseUtf;
-        }
+	public EpeEncodingsResponse readGuessingByContent(String fileContent) throws EpeAppException {
+		EpeEncodingsResponse responseUtf = this.readByContent(fileContent, EpeAppConstants.ENCODING_UTF_8);
+		EpeEncodingsResponse responseIso = this.readByContent(fileContent, EpeAppConstants.ENCODING_ISO_8859_15);
+		return this.readGuessingByUtfOrIso(responseUtf, responseIso);
+	}
 
-        EpeEncodingsResponse responseIso = read(filePath, EpeAppConstants.ENCODING_ISO_8859_15);
-        SimpleEntry<Character, Integer> cIso = validateChars(responseIso.getFileContent());
-
-        if (cIso == null) {
-            return responseIso;
-        }
-
-        String warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey() + "\" (int val "
-                + ((int) cUtf.getKey()) + ")";
-        responseUtf.getListWarning().add(warn);
-        responseIso.getListWarning().add(warn);
-        warn = "Carattere sconosciuto " + EpeAppConstants.ENCODING_ISO_8859_15 + " \"" + cIso.getKey() + "\" (int val "
-                + ((int) cIso.getKey()) + ")";
-        responseUtf.getListWarning().add(warn);
-        responseIso.getListWarning().add(warn);
-
-        if (cUtf.getKey() == 65533 && cIso.getKey() != 65533) {
-            return responseIso;
-        }
-
-        if (cUtf.getKey() != 65533 && cIso.getKey() == 65533) {
-            return responseUtf;
-        }
-
-        if (cUtf.getValue() >= cIso.getValue()) {
-            return responseUtf;
-        }
-
-        return responseIso;
-    }
+	public EpeEncodingsResponse readGuessingByUtfOrIso(EpeEncodingsResponse responseUtf, EpeEncodingsResponse responseIso) throws EpeAppException {
+		SimpleEntry<Character, Integer> cUtf = validateChars(responseUtf.getFileContent());
+		if (cUtf == null)
+			return responseUtf;
+		SimpleEntry<Character, Integer> cIso = validateChars(responseIso.getFileContent());
+		if (cIso == null)
+			return responseIso;
+		String warn = "Unknown character " + EpeAppConstants.ENCODING_UTF_8 + " \"" + cUtf.getKey() + "\" (int val " + ((int) cUtf.getKey()) + ")";
+		responseUtf.getListWarning().add(warn);
+		responseIso.getListWarning().add(warn);
+		warn = "Unknown character " + EpeAppConstants.ENCODING_ISO_8859_15 + " \"" + cIso.getKey() + "\" (int val " + ((int) cIso.getKey()) + ")";
+		responseUtf.getListWarning().add(warn);
+		responseIso.getListWarning().add(warn);
+		if (cUtf.getKey() == 65533 && cIso.getKey() != 65533)
+			return responseIso;
+		if (cUtf.getKey() != 65533 && cIso.getKey() == 65533)
+			return responseUtf;
+		if (cUtf.getValue() >= cIso.getValue())
+			return responseUtf;
+		return responseIso;
+	}
 
     /**
      * From: http://snippets.dzone.com/posts/show/1335
@@ -260,49 +230,44 @@ public class EpeEncodings {
         EpeAppUtils.checkEmpty("encoding", encoding);
         filePath = this.cleanPath(filePath);
         File file = new File(filePath);
-
-        if (!file.exists()) {
+        if (!file.exists()) 
             throw new EpeAppException("read, file \"" + filePath + "\" does not exist");
-        }
-
-        if (!file.isFile()) {
+        if (!file.isFile()) 
             throw new EpeAppException("read, file \"" + filePath + "\" is not a file");
-        }
-
         String fileContent;
         StringBuilder fileData = new StringBuilder(1000);
         BufferedReader reader;
         FileInputStream fis = null;
-
         try {
             fis = new FileInputStream(filePath);
             InputStreamReader isr = new InputStreamReader(fis, encoding);
             reader = new BufferedReader(isr);
-
             char[] buf = new char[1024];
             int numRead;
             String readData;
-
             while ((numRead = reader.read(buf)) != -1) {
                 readData = String.valueOf(buf, 0, numRead);
                 fileData.append(readData);
                 buf = new char[1024];
             }
-
             fis.close();
             reader.close();
             fileContent = fileData.toString();
-
-            EpeEncodingsResponse response = new EpeEncodingsResponse();
-            response.setCrlf(this.guessCrlf(fileContent));
-            fileContent = this.cleanContent(fileContent);
-            response.setFileContent(fileContent);
-            response.setEncoding(encoding);
-            return response;
+            return this.readByContent(fileContent, encoding);
         } catch (Exception e) {
             throw new EpeAppException("reading file \"" + filePath + "\", encoding " + encoding, e);
         }
     }
+    
+    public EpeEncodingsResponse readByContent(String fileContent, String encoding) throws EpeAppException {
+        EpeEncodingsResponse response = new EpeEncodingsResponse();
+        response.setCrlf(this.guessCrlf(fileContent));
+        fileContent = this.cleanContent(fileContent);
+        response.setFileContent(fileContent);
+        response.setEncoding(encoding);
+        return response;
+    }
+
 
     /**
      * From: http://snippets.dzone.com/posts/show/1335
