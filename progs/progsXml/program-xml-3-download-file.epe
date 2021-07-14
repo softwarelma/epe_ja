@@ -1,0 +1,15 @@
+//print_to_console("true");
+
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3A5e3bb8b2-536f-4af2-940a-b59e771618c1");
+/*content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3Ad2061d88-e546-4dff-bdd2-db855d2bfa27");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3Ad2087d16-8915-4a41-8270-32825b2d03e5");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3Aee5390b9-13d5-45e1-be02-0119b9436304");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3Afe18937d-f5ef-486e-85cb-f4a23d7c7105");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3Acd23525a-7e13-4b11-99c9-1d8224e9e3b0");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3A38b2b52b-4762-45c8-b5ba-2b75befce23f");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3A6569552f-e687-400d-8da0-1c12f5ccc22f");
+content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3A279b7f65-4c3d-47dd-b1c5-4b3501556cdb");*/
+//content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3A3545bb52-6e00-46e2-a90e-7ffd8230975d");
+//content = xml_read_site("https://dataportal.lifewatchitaly.eu:8443/metacat/d1/mn/v2/object/urn%3Auuid%3A679f3075-66cc-4cbc-9386-dec67b4ac8f0");
+
+//echo("<BEGIN>", content, "<END>");
