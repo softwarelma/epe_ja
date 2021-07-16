@@ -72,7 +72,11 @@ public final class EpeDiskFinalList_files extends EpeDiskAbstract {
 			return false;
 		if (!EpeAppUtils.isEmpty(suffixNoExtension)) {
 			int ind = dirOrFileName.lastIndexOf('.');
-			if (ind > -1 && !dirOrFileName.substring(0, ind).endsWith(suffixNoExtension)) {
+			if (ind > -1) {
+				if (!dirOrFileName.substring(0, ind).endsWith(suffixNoExtension)) {
+					return false;
+				}
+			} else {
 				return false;
 			}
 		}
