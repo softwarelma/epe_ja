@@ -1,0 +1,22 @@
+ds = db_datasource("jdbc:mysql://localhost:3306/grej?serverTimezone=UTC", "grej", "ncqgà1ePáB");
+
+//update = "CREATE TABLE aaa (id int)";
+//update = "DROP TABLE aaa";
+
+//update = "INSERT INTO a (idg, idp, idc, usr, vs1) VALUES (7, 7, 7, 'usr1', 'val2')";
+//update = "UPDATE a SET vs1 = 'val1' WHERE id = 11";
+//update = "DELETE FROM a WHERE id = 11";
+//print_to_console("true");
+//db_update(ds, update);
+
+select_1 = "select * from a";
+
+props = prop("header=true", "limit=200", "result_as_entity=false", "avoiding_classes=java.sql.Clob", "tables=a");
+
+rs = db_select(ds, props, select_1);
+
+rs_smart = print_separator_smart(prop("col_suffix=| "), rs);
+
+print_to_console("true");
+echo("\n", rs_smart);
+

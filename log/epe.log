@@ -1,16 +1,6 @@
-20180807-170410 INFO: read, file "/org/company/repositories/epe/progs/progsBuild/programMavenBuild3.epe" does not existcom.softwarelma.epe.p1.app.EpeAppException: read, file "/org/company/repositories/epe/progs/progsBuild/programMavenBuild3.epe" does not exist
-	at com.softwarelma.epe.p2.encodings.EpeEncodings.read(EpeEncodings.java:265)
-	at com.softwarelma.epe.p2.encodings.EpeEncodings.readGuessing(EpeEncodings.java:209)
-	at com.softwarelma.epe.p2.prog.EpeProgFactory.initFromProgramPath(EpeProgFactory.java:54)
-	at com.softwarelma.epe.p2.prog.EpeProgFactory.getInstanceFromProgramPath(EpeProgFactory.java:18)
-	at com.softwarelma.epe.p1.app.EpeApp.startByProgram(EpeApp.java:223)
-	at com.softwarelma.epe.p1.app.EpeApp.start(EpeApp.java:127)
-	at com.softwarelma.epe.p0.main.EpeMain.start(EpeMain.java:17)
-	at com.softwarelma.epe.p0.main.EpeMain.main(EpeMain.java:10)
-20180807-170410 INFO: Wrong file /org/company/repositories/epe/progs/progsBuild/programMavenBuild3.epecom.softwarelma.epe.p1.app.EpeAppException: Wrong file /org/company/repositories/epe/progs/progsBuild/programMavenBuild3.epe
-	at com.softwarelma.epe.p2.prog.EpeProgFactory.initFromProgramPath(EpeProgFactory.java:56)
-	at com.softwarelma.epe.p2.prog.EpeProgFactory.getInstanceFromProgramPath(EpeProgFactory.java:18)
-	at com.softwarelma.epe.p1.app.EpeApp.startByProgram(EpeApp.java:223)
-	at com.softwarelma.epe.p1.app.EpeApp.start(EpeApp.java:127)
-	at com.softwarelma.epe.p0.main.EpeMain.start(EpeMain.java:17)
-	at com.softwarelma.epe.p0.main.EpeMain.main(EpeMain.java:10)
+20220208-175555 INFO: 
+a asdlk | b lsllk
+c       | d
+e       | f alsl asfasl ssa asjfsa asljsalf aslfj asflsjja  l
+20220208-175555 INFO: [sheet 1]
+20220208-175556 INFO: created: C:/Users/guillermo.ellison/Downloads/xls/epe.xlsx
