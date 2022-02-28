@@ -1,3 +1,11 @@
 ds = db_datasource("jdbc:mysql://localhost:3306/db_deayer?serverTimezone=UTC", "usr_deayer", "***");
-update = "insert into usr (vc_username, vc_password, vc_email) values ('u', 'p', 'e')";
-db_update(ds, update);
+
+//update = "insert into usr (vc_username, vc_password, vc_email) values ('u', 'p', 'e')";
+//db_update(ds, update);
+
+props = prop("header=true", "result_as_entity=false", "tables=usr");
+select = "select * from usr where vc_username = 'u1' and vc_password = 'p'";
+rs = db_select(ds, props, select);
+rs = print_separator_smart(prop("col_suffix=| "), rs);
+print_to_console("true");
+echo("\n", rs);

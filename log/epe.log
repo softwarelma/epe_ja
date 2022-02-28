@@ -1,6 +1,3 @@
-20220208-175555 INFO: 
-a asdlk | b lsllk
-c       | d
-e       | f alsl asfasl ssa asjfsa asljsalf aslfj asflsjja  l
-20220208-175555 INFO: [sheet 1]
-20220208-175556 INFO: created: C:/Users/guillermo.ellison/Downloads/xls/epe.xlsx
+20220227-091416 INFO: 
+id | ts_ins         | ts_upd         | vc_username | vc_password | vc_email
+15 | 20220219141428 | 20220219141428 | u1          | p           | e

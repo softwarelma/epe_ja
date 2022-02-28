@@ -26,8 +26,13 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 	public static final String PROP_FOOTER = "footer";
 	public static final String PROP_LIMIT = "limit";
 	public static final String PROP_RESULT_AS_ENTITY = "result_as_entity";
-	public static final int PROP_LIMIT_DEFAULT = 10;
 	public static final String PROP_AVOIDING_CLASSES = "avoiding_classes";
+
+	public static final String PROP_HEADER_DEFAULT = "false";
+	public static final String PROP_FOOTER_DEFAULT = "false";
+	public static final String PROP_LIMIT_DEFAULT = "200";
+	public static final String PROP_RESULT_AS_ENTITY_DEFAULT = "false";
+	public static final String PROP_AVOIDING_CLASSES_DEFAULT = "java.sql.Clob,java.sql.NClob,java.sql.Blob";
 
 	// comma-separated, eg "tables=t1" or "tables=t1,t2"
 	public static final String PROP_TABLES = "tables";
@@ -36,18 +41,18 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 	public EpeExecResult doFunc(EpeExecParams execParams, List<EpeExecResult> listExecResult) throws EpeAppException {
 		String postMessage = "db_select, expected the data source and the select.";
 		DataSource dataSource = getDataSourceAt(listExecResult, 0, postMessage);
-		String limitStr = retrievePropValueOrNull("db_select", listExecResult, PROP_LIMIT);
-		String avoidingClasses = retrievePropValueOrNull("db_select", listExecResult, PROP_AVOIDING_CLASSES);
+		String limitStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_LIMIT, PROP_LIMIT_DEFAULT);
+		String avoidingClasses = retrievePropValueOrDefault("db_select", listExecResult, PROP_AVOIDING_CLASSES, PROP_AVOIDING_CLASSES_DEFAULT);
 
-		String headerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_HEADER, "false");
+		String headerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_HEADER, PROP_HEADER_DEFAULT);
 		EpeAppUtils.checkContains(new String[] { "true", "false" }, "header", headerStr);
 		boolean header = headerStr.equals("true");
 
-		String footerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_FOOTER, "false");
+		String footerStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_FOOTER, PROP_FOOTER_DEFAULT);
 		EpeAppUtils.checkContains(new String[] { "true", "false" }, "footer", footerStr);
 		boolean footer = footerStr.equals("true");
 
-		String resultAsEntityStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_RESULT_AS_ENTITY, "false");
+		String resultAsEntityStr = retrievePropValueOrDefault("db_select", listExecResult, PROP_RESULT_AS_ENTITY, PROP_RESULT_AS_ENTITY_DEFAULT);
 		boolean resultAsEntity = EpeAppUtils.parseBoolean(resultAsEntityStr);
 
 		if (resultAsEntity) {
@@ -122,6 +127,11 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 		return arrayTable;
 	}
 
+	public static void readQueryAsString(DataSource dataSource, String select, List<List<String>> listListStr) throws EpeAppException {
+		readQueryAsString(dataSource, select, PROP_LIMIT_DEFAULT, PROP_AVOIDING_CLASSES_DEFAULT, listListStr, Boolean.getBoolean(PROP_HEADER_DEFAULT),
+				Boolean.getBoolean(PROP_FOOTER_DEFAULT));
+	}
+
 	public static void readQueryAsString(DataSource dataSource, String select, String limitStr, String avoidingClasses, List<List<String>> listListStr,
 			boolean header, boolean footer) throws EpeAppException {
 		EpeAppUtils.checkNull("dataSource", dataSource);
@@ -165,9 +175,9 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 
 		try {
 			limit = Integer.parseInt(limitStr);
-			limit = limit < 1 || limit > 99999 ? PROP_LIMIT_DEFAULT : limit;
+			limit = limit < 1 || limit > 99999 ? Integer.valueOf(PROP_LIMIT_DEFAULT) : limit;
 		} catch (NumberFormatException e) {
-			limit = PROP_LIMIT_DEFAULT;
+			limit = Integer.valueOf(PROP_LIMIT_DEFAULT);
 		}
 
 		if (dataSourceClassName.endsWith(".OracleDataSource")) {
