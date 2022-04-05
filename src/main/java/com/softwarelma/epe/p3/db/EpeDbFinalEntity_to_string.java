@@ -82,6 +82,8 @@ public final class EpeDbFinalEntity_to_string extends EpeDbAbstract {
 			str = ((BigDecimal) obj).toPlainString();
 		} else if (obj instanceof Integer) {
 			str = ((Integer) obj).toString();
+		} else if (obj instanceof Boolean) {
+			str = ((Boolean) obj).toString();
 		} else if (obj instanceof Timestamp) {
 			Timestamp ts = (Timestamp) obj;
 			str = new SimpleDateFormat("yyyyMMddHHmmss").format(ts);

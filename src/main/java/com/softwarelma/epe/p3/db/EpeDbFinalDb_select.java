@@ -148,6 +148,11 @@ public final class EpeDbFinalDb_select extends EpeDbAbstract {
 		}
 	}
 
+	public static EpeDbMetaDataEntity readQueryAsEntity(DataSource dataSource, String select, String table, List<EpeDbEntity> listEntity)
+			throws EpeAppException {
+		return readQueryAsEntity(dataSource, select, table, PROP_LIMIT_DEFAULT, listEntity);
+	}
+
 	public static EpeDbMetaDataEntity readQueryAsEntity(DataSource dataSource, String select, String table, String limitStr, List<EpeDbEntity> listEntity)
 			throws EpeAppException {
 		EpeAppUtils.checkNull("dataSource", dataSource);
