@@ -1,0 +1,5 @@
+print_to_console("true");
+//fileName = "C:\develop\workspaces\eclipse-jee-2021-12-R-win32-x86_64\\traprange-master\_Docs\enel\TSO Notification with quantity and codes - all.pdf";
+fileName = "C:\develop\workspaces\eclipse-jee-2021-12-R-win32-x86_64\\traprange-master\_Docs\enel\TSO Notification with quantity and codes - postponed.pdf";
+fileContent = read_pdf(fileName);
+echo("fileName: \"", fileName, "\", fileContent:\n\n", fileContent);
